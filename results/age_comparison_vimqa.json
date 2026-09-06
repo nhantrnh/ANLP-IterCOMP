@@ -1,0 +1,36 @@
+{
+ "config": {
+  "eval": "results/vimqa_full_7b.json",
+  "also": "results/vimqa_200.json",
+  "method": "itercomp",
+  "out": "results/age_comparison_vimqa.json"
+ },
+ "n_total": 1003,
+ "method": "itercomp",
+ "groups": {
+  "age": {
+   "n": 98,
+   "pct_of_set": 9.770687936191425,
+   "pct_f1_zero": 44.89795918367347,
+   "mean_f1": 55.10204081632653
+  },
+  "rest": {
+   "n": 905,
+   "pct_of_set": 90.22931206380858,
+   "pct_f1_zero": 37.12707182320442,
+   "mean_f1": 50.87391908912899
+  }
+ },
+ "compare": {
+  "age": {
+   "n": 38,
+   "pct_f1_zero": 92.10526315789474,
+   "mean_f1": 5.473684210526316
+  },
+  "rest": {
+   "n": 162,
+   "pct_f1_zero": 51.23456790123457,
+   "mean_f1": 29.376736841311143
+  }
+ }
+}

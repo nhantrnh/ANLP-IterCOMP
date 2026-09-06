@@ -1,0 +1,53 @@
+# Dữ liệu và kết quả — sinh lại được, xem README
+data/
+results/
+cache/
+repos/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# LaTeX
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.synctex.gz
+
+# macOS
+.DS_Store
+
+# API key — không bao giờ commit
+.env
+.env.*
+!.env.example
+
+# log chạy tạm, results/log_*.txt đã lưu đủ
+note.md
+
+# Gói nộp bài — dựng lại được từ repo, không cần theo dõi
+*.zip
+
+# Đề cương paper tiếp theo — tài liệu nội bộ, không đẩy lên git
+PROPOSAL.md
+
+# LaTeX build artifacts — .bbl GIỮ LẠI vì máy không chắc có bibtex
+report_en/*.aux
+report_en/*.log
+# pdflatex ghi texput.log ra thư mục HIỆN TẠI khi chạy không có tên file,
+# nên nó rơi vào gốc repo chứ không phải report_en/
+texput.log
+report_en/*.out
+report_en/*.blg
+report_en/*.synctex.gz
+report_en/*.fdb_latexmk
+report_en/*.fls
+
+# Bộ skill Claude Code — công cụ cá nhân, không thuộc bài nộp
+skills/
+
+# Bản hội nghị — không thuộc bài nộp môn học
+paper_submission/

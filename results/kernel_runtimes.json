@@ -1,0 +1,25 @@
+{
+  "note": "Wall-clock đo từ log Kaggle. Sinh bởi scripts/kernel_runtimes.py — đừng sửa tay, và đừng gõ số giờ trực tiếp vào .tex.",
+  "per_kernel_hours": {
+    "itercomp-gpu-tasks-567": 6.58,
+    "itercomp-1c-double": 5.69,
+    "itercomp-damage-500-cpu": 5.66,
+    "itercomp-musique-1500": 5.65,
+    "itercomp-ablation-500": 3.91,
+    "itercomp-hotpotqa-1500": 2.81,
+    "itercomp-2wiki-1500": 2.66,
+    "itercomp-musique-500": 2.34,
+    "itercomp-3datasets": 2.05,
+    "itercomp-musique-k": 1.97,
+    "itercomp-hotpotqa-readers": 1.67,
+    "itercomp-compact": 1.4,
+    "itercomp-damage-vs-f1-7b": 1.0,
+    "itercomp-baselines": 0.81
+  },
+  "gpu_hours_total": 32.9,
+  "cpu_hours_total": 11.4,
+  "cpu_kernels": [
+    "itercomp-1c-double",
+    "itercomp-damage-500-cpu"
+  ]
+}

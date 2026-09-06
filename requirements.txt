@@ -1,0 +1,50 @@
+# Đề tài 32 — IterCOMP: Reasoning-aware Adaptive Prompt Compression
+# Paper: https://aclanthology.org/2026.acl-long.1559/ (không có repo chính thức)
+#
+# Cài:  pip install -r requirements.txt
+# Máy này (macOS/MPS) đã có sẵn: torch 2.12.1, transformers 4.45.2, pandas, pyarrow, openai
+
+# --- Compressor (baseline chính) ---
+llmlingua>=0.2.2            # microsoft/LLMLingua — v1 / LongLLMLingua / LLMLingua-2
+
+# --- Core ---
+torch>=2.0                  # đã có 2.12.1
+transformers>=4.40          # đã có 4.45.2
+accelerate>=0.30            # cần cho device_map khi load model lớn
+
+# --- Data ---
+pandas>=2.0                 # đã có 3.0.3
+pyarrow>=14.0               # đọc parquet — đã có 22.0.0
+datasets>=2.19              # nếu muốn load trực tiếp từ HF hub
+
+# --- LLM cho bước answerability + follow-up question ---
+openai>=1.40                # đã có 1.109.1 — dùng cho GPT-4o-mini
+# google-genai>=0.3         # bỏ comment nếu dùng Gemini free tier thay OpenAI
+
+# --- Chấm điểm ---
+rank-bm25>=0.2.2            # baseline BM25 trong ablation scorer
+numpy>=1.24                 # percentile_filter (công thức 5)
+huggingface-hub>=0.23       # tải sparse head của bge-m3 (w_lex)
+sentencepiece>=0.2          # tokenizer của bge-m3 (XLM-R)
+
+# --- Metric ---
+# EM/F1 tự implement trong eval.py (theo script chuẩn HotpotQA) — không cần thêm lib
+tiktoken>=0.7               # đếm token để tính compression ratio
+
+# --- Tiện ---
+tqdm>=4.66
+python-dotenv>=1.0          # đọc API key từ .env
+
+# --- Chỉ cần khi chạy mô hình đọc 7B trên GPU ---
+# bitsandbytes KHÔNG có bản Windows chính thức và không dùng được trên
+# macOS/MPS. Bỏ qua nếu chạy CPU hoặc reader nhỏ; chỉ cài khi dùng --load-4bit.
+# bitsandbytes>=0.43        # lượng tử hoá 4-bit cho reader 7B/8B trên CUDA
+
+# Tuỳ chọn: bge-m3 chạy nhanh hơn qua FlagEmbedding. Repo có nhánh lùi về
+# transformers thuần nên KHÔNG cài vẫn chạy được — nhưng bản 1.4.0 ném
+# TypeError vì kwarg `dtype`, nên nhánh lùi mới là nhánh thường chạy.
+# scorer.py in cảnh báo khi phải lùi, để biết mình đang ở nhánh nào.
+FlagEmbedding
+
+# RECOMP-extractive dùng bộ mã hoá dạng sentence-transformers
+sentence-transformers

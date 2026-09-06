@@ -1,0 +1,45 @@
+{
+  "config": {
+    "dataset": "musique",
+    "limit": 200,
+    "llm": "hf",
+    "reader": "hf",
+    "reader_model": "Qwen/Qwen2.5-7B-Instruct",
+    "load_4bit": true,
+    "scorer": "dual",
+    "encoder": "BAAI/bge-m3",
+    "lam": 0.6,
+    "only": "percentile=90,percentile=93,percentile=96,percentile=97",
+    "out": "results/ablation_musique200_k.json"
+  },
+  "table": {
+    "percentile=90.0": {
+      "ratio": 0.32966928782165006,
+      "iters": 3.14,
+      "segments": 6.28,
+      "em": 15.0,
+      "f1": 26.65485347985348
+    },
+    "percentile=93.0": {
+      "ratio": 0.28718692169041654,
+      "iters": 3.195,
+      "segments": 5.43,
+      "em": 15.0,
+      "f1": 26.321520146520147
+    },
+    "percentile=96.0": {
+      "ratio": 0.1604764465094577,
+      "iters": 3.0,
+      "segments": 3.0,
+      "em": 18.0,
+      "f1": 29.04262404262404
+    },
+    "percentile=97.5": {
+      "ratio": 0.1604764465094577,
+      "iters": 3.0,
+      "segments": 3.0,
+      "em": 18.0,
+      "f1": 29.04262404262404
+    }
+  }
+}
