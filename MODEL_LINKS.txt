@@ -1,64 +1,25 @@
-================================================================
-ĐỀ TÀI 32 - MÔ HÌNH SỬ DỤNG
-================================================================
+ĐỀ TÀI 32 — MÔ HÌNH SỬ DỤNG
 
-KHÔNG CÓ MÔ HÌNH TỰ HUẤN LUYỆN.
+KHÔNG CÓ MÔ HÌNH TỰ HUẤN LUYỆN. IterCOMP là phương pháp training-free —
+không finetune, mọi checkpoint dùng ở trạng thái đóng băng. Vì vậy không có
+file trọng số để nộp, chỉ có đường dẫn tải. Tất cả tự tải từ HuggingFace,
+KHÔNG cần token.
 
-IterCOMP là phương pháp TRAINING-FREE: không finetune, không cập nhật
-tham số nào. Mọi mô hình đều dùng checkpoint công khai ở trạng thái
-đóng băng. Vì vậy không có file trọng số nào để nộp - thay vào đây là
-đường dẫn tải 4 checkpoint mà chương trình gọi tới.
-
-Tất cả tải tự động từ HuggingFace khi chạy, KHÔNG cần token.
-
-----------------------------------------------------------------
-1. ENCODER CHẤM ĐIỂM  (bắt buộc)
-----------------------------------------------------------------
-   BAAI/bge-m3
+1. ENCODER — BAAI/bge-m3
    https://huggingface.co/BAAI/bge-m3
+   Chấm điểm dual-aspect (dense + lexical), frozen. Đa ngữ → dùng được tiếng
+   Việt. ~2,3 GB, chạy được CPU.
 
-   Vai trò: encoder E(·) và projection vector w_lex cho điểm
-   dual-aspect (dense + lexical). Đúng như bài báo gốc quy định,
-   dùng frozen, KHÔNG finetune.
-   Kích thước ~2,3 GB VRAM. Chạy được trên CPU.
-   Đa ngữ - đây là lý do bài báo chọn nó, và cũng là tính chất
-   quyết định cho phần tiếng Việt của đề tài.
+2. READER — Qwen2.5-Instruct (notebook tự chọn cỡ theo VRAM)
+   7B  https://huggingface.co/Qwen/Qwen2.5-7B-Instruct   ← mọi số báo cáo; 4-bit, cần GPU ≥ 12 GB (T4)
+   1.5B https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct  (GPU < 12 GB)
+   0.5B https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct  (chạy thử CPU)
+   Bài báo gốc dùng LLaMA-3-8B (gated) và GPT-3.5-Turbo (đã ngừng); nhóm dùng
+   Qwen2.5-7B vì mở hoàn toàn, cùng bậc năng lực.
 
-----------------------------------------------------------------
-2. MÔ HÌNH ĐỌC (reader M)  - chọn 1 theo VRAM
-----------------------------------------------------------------
-   Qwen/Qwen2.5-7B-Instruct     <- dùng cho MỌI số trong báo cáo
-   https://huggingface.co/Qwen/Qwen2.5-7B-Instruct
-   Nạp 4-bit (bitsandbytes), ~5,5 GB + KV-cache. Cần GPU >= 12 GB (T4).
-
-   Qwen/Qwen2.5-1.5B-Instruct   (khi GPU < 12 GB)
-   https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct
-
-   Qwen/Qwen2.5-0.5B-Instruct   (chạy thử trên CPU)
-   https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct
-
-   Notebook TỰ chọn cỡ theo VRAM thật, không giả định.
-
-   Ghi chú: bài báo gốc dùng LLaMA-3-8B-Instruct và GPT-3.5-Turbo.
-   GPT-3.5-Turbo đã bị OpenAI ngừng cung cấp. LLaMA-3-8B cần xin quyền
-   (gated) tại https://huggingface.co/meta-llama/Meta-Llama-3-8B-Instruct
-   Nhóm dùng Qwen2.5-7B vì mở hoàn toàn và cùng bậc năng lực.
-
-----------------------------------------------------------------
-3. BASELINE NÉN  (để so sánh)
-----------------------------------------------------------------
-   microsoft/llmlingua-2-bert-base-multilingual-cased-meetingbank
+3. BASELINE NÉN — microsoft/llmlingua-2-bert-base-multilingual-cased-meetingbank
    https://huggingface.co/microsoft/llmlingua-2-bert-base-multilingual-cased-meetingbank
+   Nén mức token; bản multilingual nên áp dụng được tiếng Việt.
 
-   Baseline LLMLingua-2 (nén mức token). Bản multilingual, nên áp dụng
-   được cho tiếng Việt.
-
-----------------------------------------------------------------
-LƯU Ý PHIÊN BẢN
-----------------------------------------------------------------
-Phải ghim transformers==4.45.2. Bản 5.x xung đột cứng với llmlingua
-0.2.2 (5.x đòi past_key_values là Cache object, llmlingua lặp
-`for k, v in past_key_values`). 4.45.2 cũng là đúng phiên bản đã sinh
-ra mọi kết quả trong báo cáo. Notebook và requirements.txt đã ghim sẵn.
-
-Chi tiết: README.md mục 2.2 (siêu tham số) và mục 3.1 (cài đặt)
+LƯU Ý: phải ghim transformers==4.45.2 (bản 5.x xung đột llmlingua 0.2.2, và
+4.45.2 là bản đã sinh ra mọi số báo cáo). Notebook + requirements.txt ghim sẵn.

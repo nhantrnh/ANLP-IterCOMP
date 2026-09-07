@@ -1,68 +1,22 @@
-================================================================
-ĐỀ TÀI 32 - ĐƯỜNG DẪN TẢI BỘ DỮ LIỆU
-================================================================
+ĐỀ TÀI 32 — ĐƯỜNG DẪN TẢI BỘ DỮ LIỆU
 
-Không kèm dữ liệu trong bài nộp (tổng 116 MB). Tất cả đều tải công khai
-từ HuggingFace, KHÔNG cần token. Notebook tự tải, không phải làm tay.
+Không kèm dữ liệu trong bài nộp (116 MB). Tất cả công khai trên HuggingFace,
+KHÔNG cần token. Notebook (mục 2) tự tải — không phải thao tác tay.
 
-----------------------------------------------------------------
-1. VimQA (TIẾNG VIỆT - bộ dữ liệu chính của đề tài)
-----------------------------------------------------------------
-   https://huggingface.co/datasets/nguyenlab/vimqa
+BỘ DỮ LIỆU (đều 10 đoạn/câu, trừ MuSiQue 20)
+  VimQA (tiếng Việt, bộ chính)   validation 1.003 câu — mọi số báo cáo dùng bản này
+    https://huggingface.co/datasets/nguyenlab/vimqa
+  2WikiMultiHopQA                dev 12.576 câu
+    https://huggingface.co/datasets/xanhho/2WikiMultihopQA
+  HotpotQA (distractor)          validation 7.405 câu
+    https://huggingface.co/datasets/hotpotqa/hotpot_qa
+  MuSiQue-Ans                    dev 2.417 câu
+    https://huggingface.co/datasets/dgslibisey/MuSiQue
 
-   Multi-hop QA tiếng Việt, 10.047 câu:
-     train      8.041
-     validation 1.003   <- dùng cho mọi kết quả trong báo cáo
-     test       1.003
-   10 đoạn/câu, cùng định dạng HotpotQA.
+VimQA dùng mirror nguyenlab/vimqa vì repo gốc khoá sau EULA; nội dung giống bản gốc.
+Trích dẫn: Le et al. (2022), VimQA, LREC.
 
-   File cần tải:
-     data/train-00000-of-00001.parquet
-     data/validation-00000-of-00001.parquet
-     data/test-00000-of-00001.parquet
-
-   Vì sao dùng mirror nguyenlab/vimqa: repo gốc github.com/vimqa/vimqa
-   bị khoá sau EULA qua email, chỉ công khai 10 dòng demo. Bản
-   SEACrowd/vimqa cùng dữ liệu nhưng cũng yêu cầu xin quyền qua EULA.
-   Mirror này tải trực tiếp được, nội dung giống bản gốc.
-
-   Trích dẫn gốc: Le et al. (2022), VimQA: A Vietnamese Dataset for
-   Advanced Reasoning and Explainable Multi-hop Question Answering. LREC.
-
-----------------------------------------------------------------
-2. Ba bộ tiếng Anh (để đối chứng, tái hiện bài báo gốc)
-----------------------------------------------------------------
-   2WikiMultiHopQA  dev 12.576 câu, 10 đoạn/câu
-   https://huggingface.co/datasets/xanhho/2WikiMultihopQA
-     file: dev.parquet
-
-   HotpotQA (distractor)  validation 7.405 câu, 10 đoạn/câu
-   https://huggingface.co/datasets/hotpotqa/hotpot_qa
-     file: distractor/validation-00000-of-00001.parquet
-
-   MuSiQue-Ans  dev 2.417 câu, 20 đoạn/câu (khó nhất)
-   https://huggingface.co/datasets/dgslibisey/MuSiQue
-     file: musique_ans_v1.0_dev.jsonl
-
-----------------------------------------------------------------
 CÁCH TẢI
-----------------------------------------------------------------
-Cách 1 - notebook tự tải (khuyến nghị):
-   Mở notebooks/colab_reproduce.ipynb, chạy ô mục 2. Không cần thao tác gì.
-
-Cách 2 - chạy local, một lệnh:
-   ./run.sh          (trong source_code/, tự tải rồi chạy đánh giá)
-
-Cách 3 - tải thủ công:
-   cd data
-   dl() { mkdir -p "$(dirname "$2")"; curl -sL -o "$2" \
-          "https://huggingface.co/datasets/$1/resolve/main/$3"; }
-
-   dl nguyenlab/vimqa        vimqa/train.parquet         data/train-00000-of-00001.parquet
-   dl nguyenlab/vimqa        vimqa/validation.parquet    data/validation-00000-of-00001.parquet
-   dl nguyenlab/vimqa        vimqa/test.parquet          data/test-00000-of-00001.parquet
-   dl xanhho/2WikiMultihopQA 2wiki/dev.parquet           dev.parquet
-   dl hotpotqa/hotpot_qa     hotpotqa/validation.parquet distractor/validation-00000-of-00001.parquet
-   dl dgslibisey/MuSiQue     musique/dev.jsonl           musique_ans_v1.0_dev.jsonl
-
-Chi tiết: README.md mục 3.2
+  Khuyến nghị: mở notebook, chạy ô mục 2 (tự tải).
+  Local:       ./run.sh (tự tải rồi chạy đánh giá).
+  Thủ công:    xem README.md mục 4.
