@@ -41,7 +41,9 @@ Báo cáo dùng định dạng ACL chính thức ([acl-org/acl-style-files](http
 │   ├── scripts/        run_eval.py (bảng chính), ablation, EXP-1/2, …
 │   ├── results/        Kết quả JSON backing mọi con số trong báo cáo
 │   ├── requirements.txt · run.sh
-├── notebooks/          colab_reproduce.ipynb (nộp) + kernel GPU từng thí nghiệm
+├── notebooks/
+│   ├── colab_reproduce.ipynb   notebook nộp (đủ 8 phần, Colab/Kaggle)
+│   └── kaggle/                 15 kernel GPU của từng thí nghiệm
 ```
 
 ## 3. Chạy nhanh
@@ -121,4 +123,4 @@ F1$^*$ (chuẩn hoá boolean), reader Qwen2.5-7B 4-bit — bảng đầy đủ �
 
 - Greedy decoding → **kết quả tất định**; chạy lại cùng cấu hình cho cùng số.
 - Mọi con số trong báo cáo truy nguồn về `src/results/` (JSON đầy đủ per-row).
-- Thực nghiệm GPU chạy trên Kaggle T4; kernel lưu ở `notebooks/`.
+- Thực nghiệm GPU chạy trên Kaggle T4; kernel lưu ở `notebooks/kaggle/`.

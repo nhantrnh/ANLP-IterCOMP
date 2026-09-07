@@ -21,7 +21,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # để chạy đ�
 import sys
 from pathlib import Path
 
-DATA = Path(__file__).resolve().parents[1] / "data"
+from itercomp import DATA  # dùng chung một nguồn path với run_eval (gốc repo /data)
 # Model multilingual (có tiếng Việt). Bản bert-base nhẹ hơn xlm-roberta-large.
 COMPRESSOR = "microsoft/llmlingua-2-bert-base-multilingual-cased-meetingbank"
 
