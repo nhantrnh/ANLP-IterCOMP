@@ -1,0 +1,168 @@
+{
+  "config": {
+    "dataset": "vimqa",
+    "limit": 20,
+    "llm": "mock",
+    "reader": null,
+    "scorer": "dual",
+    "encoder": "BAAI/bge-m3",
+    "lam": 0.5,
+    "out": "CK/results/ablation_vimqa_scorers.json"
+  },
+  "table": {
+    "max_iter=1": {
+      "ratio": 0.3747183141624436,
+      "iters": 1.0,
+      "segments": 12.9,
+      "em": null,
+      "f1": null
+    },
+    "max_iter=2": {
+      "ratio": 0.3747183141624436,
+      "iters": 1.0,
+      "segments": 12.9,
+      "em": null,
+      "f1": null
+    },
+    "max_iter=3": {
+      "ratio": 0.3747183141624436,
+      "iters": 1.0,
+      "segments": 12.9,
+      "em": null,
+      "f1": null
+    },
+    "max_iter=4": {
+      "ratio": 0.3747183141624436,
+      "iters": 1.0,
+      "segments": 12.9,
+      "em": null,
+      "f1": null
+    },
+    "percentile=50.0": {
+      "ratio": 0.5832505607639558,
+      "iters": 1.0,
+      "segments": 21.3,
+      "em": null,
+      "f1": null
+    },
+    "percentile=70.0": {
+      "ratio": 0.3747183141624436,
+      "iters": 1.0,
+      "segments": 12.9,
+      "em": null,
+      "f1": null
+    },
+    "percentile=90.0": {
+      "ratio": 0.13788462842511012,
+      "iters": 1.0,
+      "segments": 4.6,
+      "em": null,
+      "f1": null
+    },
+    "top_k=1": {
+      "ratio": 0.07091276828711258,
+      "iters": 2.0,
+      "segments": 2.0,
+      "em": null,
+      "f1": null
+    },
+    "top_k=2": {
+      "ratio": 0.0720536442928922,
+      "iters": 1.0,
+      "segments": 2.0,
+      "em": null,
+      "f1": null
+    },
+    "top_k=3": {
+      "ratio": 0.10594551694052187,
+      "iters": 1.0,
+      "segments": 3.0,
+      "em": null,
+      "f1": null
+    },
+    "scorer=bm25": {
+      "ratio": 0.49923669941832455,
+      "iters": 1.0,
+      "segments": 16.5,
+      "em": null,
+      "f1": null
+    },
+    "scorer=dense": {
+      "ratio": 0.37103172084256275,
+      "iters": 1.0,
+      "segments": 12.9,
+      "em": null,
+      "f1": null
+    },
+    "scorer=lexical": {
+      "ratio": 0.3746685337003751,
+      "iters": 1.0,
+      "segments": 12.9,
+      "em": null,
+      "f1": null
+    },
+    "scorer=dual": {
+      "ratio": 0.3747183141624436,
+      "iters": 1.0,
+      "segments": 12.9,
+      "em": null,
+      "f1": null
+    },
+    "lambda=0.0": {
+      "ratio": 0.3746685337003751,
+      "iters": 1.0,
+      "segments": 12.9,
+      "em": null,
+      "f1": null
+    },
+    "lambda=0.3": {
+      "ratio": 0.37510976183596767,
+      "iters": 1.0,
+      "segments": 12.9,
+      "em": null,
+      "f1": null
+    },
+    "lambda=0.5": {
+      "ratio": 0.3747183141624436,
+      "iters": 1.0,
+      "segments": 12.9,
+      "em": null,
+      "f1": null
+    },
+    "lambda=0.7": {
+      "ratio": 0.3712909371018815,
+      "iters": 1.0,
+      "segments": 12.9,
+      "em": null,
+      "f1": null
+    },
+    "lambda=1.0": {
+      "ratio": 0.37103172084256275,
+      "iters": 1.0,
+      "segments": 12.9,
+      "em": null,
+      "f1": null
+    },
+    "no-answerability": {
+      "ratio": 0.8560446752056905,
+      "iters": 4.0,
+      "segments": 32.5,
+      "em": null,
+      "f1": null
+    },
+    "no-followup": {
+      "ratio": 0.3747183141624436,
+      "iters": 1.0,
+      "segments": 12.9,
+      "em": null,
+      "f1": null
+    },
+    "no-both": {
+      "ratio": 0.8639156034207168,
+      "iters": 4.0,
+      "segments": 32.5,
+      "em": null,
+      "f1": null
+    }
+  }
+}

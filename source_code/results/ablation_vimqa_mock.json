@@ -1,0 +1,74 @@
+{
+  "config": {
+    "dataset": "vimqa",
+    "limit": 30,
+    "llm": "mock",
+    "reader": null,
+    "out": "CK/results/ablation_vimqa_mock.json"
+  },
+  "table": {
+    "max_iter=1": {
+      "ratio": 0.08277701509099125,
+      "iters": 1.0,
+      "segments": 2.0,
+      "em": null,
+      "f1": null
+    },
+    "max_iter=2": {
+      "ratio": 0.08277701509099125,
+      "iters": 1.0,
+      "segments": 2.0,
+      "em": null,
+      "f1": null
+    },
+    "max_iter=3": {
+      "ratio": 0.08277701509099125,
+      "iters": 1.0,
+      "segments": 2.0,
+      "em": null,
+      "f1": null
+    },
+    "max_iter=4": {
+      "ratio": 0.08277701509099125,
+      "iters": 1.0,
+      "segments": 2.0,
+      "em": null,
+      "f1": null
+    },
+    "top_k=1": {
+      "ratio": 0.08984404830655958,
+      "iters": 2.0,
+      "segments": 2.0,
+      "em": null,
+      "f1": null
+    },
+    "top_k=3": {
+      "ratio": 0.12231575804217097,
+      "iters": 1.0,
+      "segments": 3.0,
+      "em": null,
+      "f1": null
+    },
+    "no-answerability": {
+      "ratio": 0.293115282461608,
+      "iters": 4.0,
+      "segments": 8.0,
+      "em": null,
+      "f1": null
+    },
+    "no-followup": {
+      "ratio": 0.08277701509099125,
+      "iters": 1.0,
+      "segments": 2.0,
+      "em": null,
+      "f1": null
+    },
+    "no-both (BM25 thuần)": {
+      "ratio": 0.3021936301467783,
+      "iters": 4.0,
+      "segments": 8.0,
+      "em": null,
+      "f1": null
+    }
+  }
+}

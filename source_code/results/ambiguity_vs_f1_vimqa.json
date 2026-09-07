@@ -1,0 +1,37 @@
+{
+  "config": {
+    "eval_json": "/Users/nhantt/Downloads/MS_HCMUS/Study/HP2/NLP/CK/results/vimqa_full_7b.json",
+    "out": "results/ambiguity_vs_f1_vimqa.json"
+  },
+  "n_homograph_groups": 761,
+  "summary": {
+    "raw": {
+      "rho": 0.12615392132971429,
+      "ci_lo": 0.06727633671607904,
+      "ci_hi": 0.18661389915499862,
+      "mean_density": 0.7572645813411131,
+      "mean_f1": 46.86615393594177
+    },
+    "oracle": {
+      "rho": 0.03604161243564313,
+      "ci_lo": -0.026269897447262183,
+      "ci_hi": 0.09725588151305399,
+      "mean_density": 0.7572645813411131,
+      "mean_f1": 61.03055075176362
+    },
+    "llmlingua2": {
+      "rho": 0.03734563869885784,
+      "ci_lo": -0.024868821957271418,
+      "ci_hi": 0.09932782820819899,
+      "mean_density": 0.7572645813411131,
+      "mean_f1": 35.30881714896671
+    },
+    "itercomp": {
+      "rho": 0.07615397495577655,
+      "ci_lo": 0.012909848440956126,
+      "ci_hi": 0.13842281100120765,
+      "mean_density": 0.7572645813411131,
+      "mean_f1": 51.28703566865577
+    }
+  }
+}

@@ -1,0 +1,18 @@
+[
+ {
+  "llm": "mock",
+  "iters": 1.0,
+  "ratio": 0.1418838496339845,
+  "why": {
+   "answerable": 10
+  }
+ },
+ {
+  "llm": "hf",
+  "iters": 1.4,
+  "ratio": 0.1874071461196241,
+  "why": {
+   "answerable": 10
+  }
+ }
+]

@@ -1,0 +1,690 @@
+{
+  "config": {
+    "dataset": "vimqa",
+    "limit": 20,
+    "reader": "hf",
+    "reader_model": "Qwen/Qwen2.5-0.5B-Instruct",
+    "methods": "none,oracle,llmlingua2,itercomp",
+    "itercomp_llm": "mock",
+    "rate": 0.33,
+    "max_iter": 4,
+    "scorer": "dual",
+    "encoder": "BAAI/bge-m3",
+    "lam": 0.5,
+    "percentile": 70.0,
+    "top_k": null,
+    "out": "CK/results/vimqa_20_hf.json"
+  },
+  "summary": {
+    "none": {
+      "em": 5.0,
+      "f1": 30.557736881266294,
+      "avg_tokens": 1254.35,
+      "ratio": 1.0,
+      "sec_per_q": 2.4721915245056154
+    },
+    "oracle": {
+      "em": 10.0,
+      "f1": 23.852864167995747,
+      "avg_tokens": 58.25,
+      "ratio": 0.04643839438753139,
+      "sec_per_q": 0.4324291944503784
+    },
+    "llmlingua2": {
+      "em": 5.0,
+      "f1": 20.585561497326204,
+      "avg_tokens": 401.85,
+      "ratio": 0.3203651293498625,
+      "sec_per_q": 1.9111653685569763
+    },
+    "itercomp": {
+      "em": 0.0,
+      "f1": 11.476767676767675,
+      "avg_tokens": 470.5,
+      "ratio": 0.3750946705464982,
+      "sec_per_q": 2.6695099115371703
+    }
+  },
+  "per_row": [
+    {
+      "question": "Diego Maradona nhỏ tuổi hơn Rutherford B. Hayes phải không?",
+      "gold": "đúng",
+      "type": "bridge",
+      "orig_tokens": 1068,
+      "methods": {
+        "none": {
+          "pred": "small",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1068
+        },
+        "oracle": {
+          "pred": "tôi không thể trả lời câu hỏi này vì tôi không có thông tin về sự khác biệt giữa Diego Maradona và Rutherford B. Hayes. Tôi chỉ biết họ là hai người nổi tiếng trong lịch sử bóng đá và chính trị",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 79
+        },
+        "llmlingua2": {
+          "pred": "chưa chia sẻ",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 336
+        },
+        "itercomp": {
+          "pred": "tức là",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 405
+        }
+      }
+    },
+    {
+      "question": "Tên núi Lang Biang ở Lạc Dương, Lâm Đồng được giải thích bằng huyền thoại nào",
+      "gold": "chàng K’lang và nàng H'biang",
+      "type": "bridge",
+      "orig_tokens": 971,
+      "methods": {
+        "none": {
+          "pred": "Lang Biang",
+          "em": 0.0,
+          "f1": 0.4444444444444445,
+          "tokens": 971
+        },
+        "oracle": {
+          "pred": "Lang Biang",
+          "em": 0.0,
+          "f1": 0.4444444444444445,
+          "tokens": 41
+        },
+        "llmlingua2": {
+          "pred": "Lóng Biang",
+          "em": 0.0,
+          "f1": 0.22222222222222224,
+          "tokens": 302
+        },
+        "itercomp": {
+          "pred": "Lang Biang",
+          "em": 0.0,
+          "f1": 0.4444444444444445,
+          "tokens": 411
+        }
+      }
+    },
+    {
+      "question": "Album phòng thu đầu tay của Billie Eilish được phát hành vào ngày nào?",
+      "gold": "ngày 29 tháng 3 năm 2019 ",
+      "type": "bridge",
+      "orig_tokens": 1848,
+      "methods": {
+        "none": {
+          "pred": "29 tháng 3 năm 2019",
+          "em": 0.0,
+          "f1": 0.9090909090909091,
+          "tokens": 1848
+        },
+        "oracle": {
+          "pred": "29 tháng 3 năm 2019",
+          "em": 0.0,
+          "f1": 0.9090909090909091,
+          "tokens": 53
+        },
+        "llmlingua2": {
+          "pred": "29 tháng 3 2019",
+          "em": 0.0,
+          "f1": 0.8,
+          "tokens": 611
+        },
+        "itercomp": {
+          "pred": "29 tháng 3 năm 2019",
+          "em": 0.0,
+          "f1": 0.9090909090909091,
+          "tokens": 709
+        }
+      }
+    },
+    {
+      "question": "Spin-off dành cho người lớn của Ecstasy năm 2010 là trò chơi thứ mấy trong lịch sử phát hành của Key?",
+      "gold": "thứ tám",
+      "type": "bridge",
+      "orig_tokens": 2048,
+      "methods": {
+        "none": {
+          "pred": "thứ 7",
+          "em": 0.0,
+          "f1": 0.5,
+          "tokens": 2048
+        },
+        "oracle": {
+          "pred": "Tứ",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 59
+        },
+        "llmlingua2": {
+          "pred": "Tứ thứ bảy",
+          "em": 0.0,
+          "f1": 0.4,
+          "tokens": 648
+        },
+        "itercomp": {
+          "pred": "Tổng hợp câu trả lời:",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 721
+        }
+      }
+    },
+    {
+      "question": "Triều Tiên nằm ở khu vực nào",
+      "gold": "Triều Tiên nằm trên bán đảo Triều Tiên tại đông bắc châu Á.",
+      "type": "bridge",
+      "orig_tokens": 618,
+      "methods": {
+        "none": {
+          "pred": "bán đảo Triều Tiên",
+          "em": 0.0,
+          "f1": 0.47058823529411764,
+          "tokens": 618
+        },
+        "oracle": {
+          "pred": "khu vực Đông Bắc châu Á",
+          "em": 0.0,
+          "f1": 0.42105263157894735,
+          "tokens": 15
+        },
+        "llmlingua2": {
+          "pred": "Khu vực Đông Á",
+          "em": 0.0,
+          "f1": 0.23529411764705882,
+          "tokens": 193
+        },
+        "itercomp": {
+          "pred": "southeast Asia",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 274
+        }
+      }
+    },
+    {
+      "question": "Ozzy Osbourne được ghi danh vào bảo tàng Đại sảnh Danh vọng Rock and Roll nằm ở bờ hồ Erie phải không?",
+      "gold": "đúng",
+      "type": "bridge",
+      "orig_tokens": 1338,
+      "methods": {
+        "none": {
+          "pred": "Dựa trên ngữ cảnh, Ozzy Osbourne được ghi danh vào Đại sảnh Danh vọng Rock and Roll ở bờ hồ Erie tại Cleveland, Ohio, Hoa Kỳ",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1338
+        },
+        "oracle": {
+          "pred": "bờ hồ Erie",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 85
+        },
+        "llmlingua2": {
+          "pred": "Đại sảnh Rock and Roll Đại lộ Danh vọng Hollywood",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 438
+        },
+        "itercomp": {
+          "pred": "Yes",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 474
+        }
+      }
+    },
+    {
+      "question": "Thành phố nơi ban nhạc The Chicks sáng lập lớn thứ mấy tại Hoa Kỳ?",
+      "gold": "9",
+      "type": "bridge",
+      "orig_tokens": 1673,
+      "methods": {
+        "none": {
+          "pred": "thứ 14",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1673
+        },
+        "oracle": {
+          "pred": "Thành phố nơi ban nhạc The Chicks sáng lập lớn thứ 9 tại Hoa Kỳ",
+          "em": 0.0,
+          "f1": 0.13333333333333333,
+          "tokens": 37
+        },
+        "llmlingua2": {
+          "pred": "thứ 9",
+          "em": 0.0,
+          "f1": 0.6666666666666666,
+          "tokens": 544
+        },
+        "itercomp": {
+          "pred": "Thành phố lớn thứ mấy tại Hoa Kỳ: Dallas",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 565
+        }
+      }
+    },
+    {
+      "question": "Ca khúc Johnny B. Goode của Chuck Berry trở thành bản hit phổ biến trong cả cộng đồng người da màu lẫn da trắng phải không?",
+      "gold": "đúng",
+      "type": "bridge",
+      "orig_tokens": 1331,
+      "methods": {
+        "none": {
+          "pred": "Yes",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1331
+        },
+        "oracle": {
+          "pred": "từ năm 1958",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 118
+        },
+        "llmlingua2": {
+          "pred": "Ca khúc Johnny B. Goode của Chuck Berry trở thành bản hit phổ biến trong cả cộng đồng người da màu lẫn da trắng",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 444
+        },
+        "itercomp": {
+          "pred": "Yes",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 490
+        }
+      }
+    },
+    {
+      "question": "Diện tích của Châu Phi là bao nhiêu",
+      "gold": "khoảng 30.221.532 km2 ( 11.668.599 mi2 ) bao gồm cả các đảo cận kề thì nó chiếm 20,4% tổng diện tích đất đai của Trái Đất",
+      "type": "bridge",
+      "orig_tokens": 666,
+      "methods": {
+        "none": {
+          "pred": "30.221.532 km²",
+          "em": 0.0,
+          "f1": 0.18181818181818182,
+          "tokens": 666
+        },
+        "oracle": {
+          "pred": "30.221.532 km²",
+          "em": 0.0,
+          "f1": 0.18181818181818182,
+          "tokens": 34
+        },
+        "llmlingua2": {
+          "pred": "30. 221. 532 km²",
+          "em": 0.0,
+          "f1": 0.18181818181818182,
+          "tokens": 214
+        },
+        "itercomp": {
+          "pred": "30.221.532 km²",
+          "em": 0.0,
+          "f1": 0.18181818181818182,
+          "tokens": 211
+        }
+      }
+    },
+    {
+      "question": "Ban nhạc có sản phẩm nổi tiếng nhất là đĩa đơn đầu năm 2003 có bao nhiêu thành viên?",
+      "gold": "2",
+      "type": "bridge",
+      "orig_tokens": 2035,
+      "methods": {
+        "none": {
+          "pred": "2",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 2035
+        },
+        "oracle": {
+          "pred": "2",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 76
+        },
+        "llmlingua2": {
+          "pred": "tổng cộng 5",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 695
+        },
+        "itercomp": {
+          "pred": "Về phần này, câu trả lời đúng là 3",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 826
+        }
+      }
+    },
+    {
+      "question": "Mạch chỉnh lưu có thể sử dụng ở đâu",
+      "gold": "trong các bộ nguồn cung cấp dòng điện một chiều , hoặc trong các mạch tách sóng tín hiệu vô tuyến điện trong các thiết bị vô tuyến",
+      "type": "bridge",
+      "orig_tokens": 1121,
+      "methods": {
+        "none": {
+          "pred": "Mạch chỉnh lưu có thể sử dụng trong các bộ nguồn cung cấp dòng điện một chiều hoặc trong các mạch tách sóng tín hiệu vô tuyến",
+          "em": 0.0,
+          "f1": 0.7407407407407407,
+          "tokens": 1121
+        },
+        "oracle": {
+          "pred": "Cầu dẫn sóng tín hiệu",
+          "em": 0.0,
+          "f1": 0.18750000000000003,
+          "tokens": 38
+        },
+        "llmlingua2": {
+          "pred": "Bán dẫn",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 345
+        },
+        "itercomp": {
+          "pred": "Bán đảo Jutland",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 421
+        }
+      }
+    },
+    {
+      "question": "Cha của Ingrid Bergman là người của quốc gia nằm ở Bắc Âu phải không?",
+      "gold": "không",
+      "type": "bridge",
+      "orig_tokens": 1310,
+      "methods": {
+        "none": {
+          "pred": "Thứ hai",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1310
+        },
+        "oracle": {
+          "pred": "Đức",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 96
+        },
+        "llmlingua2": {
+          "pred": "Thụy Điển",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 406
+        },
+        "itercomp": {
+          "pred": "Thụy Điển",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 551
+        }
+      }
+    },
+    {
+      "question": "Zalo được sử dụng ở đất nước nào",
+      "gold": "Việt Nam, Hoa Kỳ, Myanmar, Nhật Bản, Đài Loan, Hàn Quốc, Malaysia, Ả Rập Xê Út, Angola, Sri Lanka, Cộng hòa Séc, Nga.",
+      "type": "bridge",
+      "orig_tokens": 518,
+      "methods": {
+        "none": {
+          "pred": "Vietnam",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 518
+        },
+        "oracle": {
+          "pred": "Việt Nam",
+          "em": 0.0,
+          "f1": 0.16,
+          "tokens": 51
+        },
+        "llmlingua2": {
+          "pred": "Quảng Ngãi",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 157
+        },
+        "itercomp": {
+          "pred": "Đài Loan",
+          "em": 0.0,
+          "f1": 0.16,
+          "tokens": 216
+        }
+      }
+    },
+    {
+      "question": "Đội bóng mà Roberto Firmino chơi vị trí tiền đạo thuộc thành phố London phải không?",
+      "gold": "không",
+      "type": "bridge",
+      "orig_tokens": 1001,
+      "methods": {
+        "none": {
+          "pred": "Theo ngữ cảnh, Roberto Firmino chơi vị trí tiền đạo cho câu lạc bộ bóng đá Anh Liverpool và đội tuyển Brasil. Do đó, đội bóng mà Roberto Firmino chơi vị trí tiền đạo thuộc thành phố London là Liverpool",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1001
+        },
+        "oracle": {
+          "pred": "Anh ấy chơi vị trí tiền đạo cho Liverpool",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 60
+        },
+        "llmlingua2": {
+          "pred": "Quốc tịch: Ý",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 310
+        },
+        "itercomp": {
+          "pred": "Liverpool",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 319
+        }
+      }
+    },
+    {
+      "question": "Người sở hữu Sony/ATV Music Publishing được mệnh danh là gì?",
+      "gold": "Ông hoàng nhạc pop",
+      "type": "bridge",
+      "orig_tokens": 1065,
+      "methods": {
+        "none": {
+          "pred": "Sony/ATV Music Publishing",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1065
+        },
+        "oracle": {
+          "pred": "Ông hoàng nhạc pop",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 58
+        },
+        "llmlingua2": {
+          "pred": "Sony / ATV Music Publishing được mệnh danh là tập đoàn nhạc đa quốc gia",
+          "em": 0.0,
+          "f1": 0.11111111111111112,
+          "tokens": 315
+        },
+        "itercomp": {
+          "pred": "Sony/ATV Music Publishing",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 340
+        }
+      }
+    },
+    {
+      "question": "Hàn Mạc Tử sinh năm mấy",
+      "gold": "22 tháng 9 năm 1912",
+      "type": "bridge",
+      "orig_tokens": 658,
+      "methods": {
+        "none": {
+          "pred": "1912",
+          "em": 0.0,
+          "f1": 0.33333333333333337,
+          "tokens": 658
+        },
+        "oracle": {
+          "pred": "22",
+          "em": 0.0,
+          "f1": 0.33333333333333337,
+          "tokens": 52
+        },
+        "llmlingua2": {
+          "pred": "22",
+          "em": 0.0,
+          "f1": 0.33333333333333337,
+          "tokens": 201
+        },
+        "itercomp": {
+          "pred": "22",
+          "em": 0.0,
+          "f1": 0.33333333333333337,
+          "tokens": 239
+        }
+      }
+    },
+    {
+      "question": "Album có bài hát Pennyroyal Tea là album phòng thu thứ mấy của ban nhạc rock người Mỹ Nirvana?",
+      "gold": "ba",
+      "type": "bridge",
+      "orig_tokens": 1549,
+      "methods": {
+        "none": {
+          "pred": "Album Pennyroyal Tea là bài hát của ban nhạc rock người Mỹ Nirvana, album phòng thu thứ hai của họ",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1549
+        },
+        "oracle": {
+          "pred": "chủ đề: album phòng thu thứ mấy của ban nhạc rock người Mỹ Nirvana",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 49
+        },
+        "llmlingua2": {
+          "pred": "thứ bảy",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 502
+        },
+        "itercomp": {
+          "pred": "thirty-one",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 514
+        }
+      }
+    },
+    {
+      "question": "Đội tuyển thành công nhất European Champion Clubs' Cup cũng từng giành được bảy chức vô địch thế giới cấp câu lạc bộ phải không?",
+      "gold": "đúng",
+      "type": "bridge",
+      "orig_tokens": 2162,
+      "methods": {
+        "none": {
+          "pred": "lạc bộ châu Âu duy nhất vô địch cả hai giải đấu quốc tế. Câu lạc bộ này cũng là đội bóng đầu tiên vô địch UEFA Champions League và UEFA Europa League trong lịch sử của Đức. Câu lạc bộ này cũng là",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 2162
+        },
+        "oracle": {
+          "pred": "Đội tuyển thành công nhất European Champion Clubs' Cup đã giành được bảy chức vô địch thế giới cấp câu lạc bộ",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 67
+        },
+        "llmlingua2": {
+          "pred": "chín",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 706
+        },
+        "itercomp": {
+          "pred": "chín",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 923
+        }
+      }
+    },
+    {
+      "question": "Câu lạc bộ nào James Milner từng chơi có trụ sở tại Swindon, Wiltshire, Anh?",
+      "gold": "Swindon Town F.C.",
+      "type": "bridge",
+      "orig_tokens": 1313,
+      "methods": {
+        "none": {
+          "pred": "Swindon Town",
+          "em": 0.0,
+          "f1": 0.6666666666666666,
+          "tokens": 1313
+        },
+        "oracle": {
+          "pred": "Leeds United",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 43
+        },
+        "llmlingua2": {
+          "pred": "Swindon Town F. C",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 431
+        },
+        "itercomp": {
+          "pred": "Newcastle United",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 506
+        }
+      }
+    },
+    {
+      "question": "Quần đảo Cát Bà nằm ở đâu",
+      "gold": "ở phía nam vịnh Hạ Long , ngoài khơi thành phố Hải Phòng và tỉnh Quảng Ninh",
+      "type": "bridge",
+      "orig_tokens": 794,
+      "methods": {
+        "none": {
+          "pred": "Quần đảo Cát Bà nằm ở phía nam vịnh Hạ Long, ngoài khơi thành phố Hải Phòng và tỉnh Quảng Ninh",
+          "em": 0.0,
+          "f1": 0.8648648648648648,
+          "tokens": 794
+        },
+        "oracle": {
+          "pred": "năm",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 54
+        },
+        "llmlingua2": {
+          "pred": "Quần đảo Cát Bà nằm ở Việt Nam",
+          "em": 0.0,
+          "f1": 0.16666666666666666,
+          "tokens": 239
+        },
+        "itercomp": {
+          "pred": "Quần đảo Cát Bà nằm ở ngoài khơi bờ biển Nam Bộ Việt Nam",
+          "em": 0.0,
+          "f1": 0.26666666666666666,
+          "tokens": 295
+        }
+      }
+    }
+  ]
+}

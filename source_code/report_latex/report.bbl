@@ -1,0 +1,156 @@
+\begin{thebibliography}{20}
+\providecommand{\natexlab}[1]{#1}
+
+\bibitem[{Ahia et~al.(2023)Ahia, Kumar, Gonen, Kasai, Mortensen, Smith, and
+  Tsvetkov}]{ahia2023allcost}
+Orevaoghene Ahia, Sachin Kumar, Hila Gonen, Jungo Kasai, David Mortensen,
+  Noah~A. Smith, and Yulia Tsvetkov. 2023.
+\newblock \href {https://aclanthology.org/2023.emnlp-main.614/} {Do all
+  languages cost the same? tokenization in the era of commercial language
+  models}.
+\newblock In \emph{Proceedings of EMNLP}.
+
+\bibitem[{Chen et~al.(2024)Chen, Xiao, Zhang, Luo, Lian, and
+  Liu}]{chen2024bgem3}
+Jianlv Chen, Shitao Xiao, Peitian Zhang, Kun Luo, Defu Lian, and Zheng Liu.
+  2024.
+\newblock \href {https://aclanthology.org/2024.findings-acl.137/}
+  {{M3-Embedding}: Multi-linguality, multi-functionality, multi-granularity
+  text embeddings through self-knowledge distillation}.
+\newblock In \emph{Findings of ACL}.
+
+\bibitem[{Deutsch et~al.(2025)Deutsch, Briakou, Caswell, Finkelstein, Galilee,
+  Juraska, Kovacs, Lee, Rudder, and Freitag}]{deutsch2025wmt24pp}
+Daniel Deutsch, Eleftheria Briakou, Isaac Caswell, Mara Finkelstein, Rebecca
+  Galilee, Juraj Juraska, Geza Kovacs, Alison Lee, Jason Rudder, and Markus
+  Freitag. 2025.
+\newblock \href {https://huggingface.co/datasets/google/wmt24pp} {{WMT24++}:
+  Expanding the language coverage of {WMT24} to 55 languages and dialects}.
+\newblock In \emph{Proceedings of WMT}.
+
+\bibitem[{Jiang et~al.(2023)Jiang, Wu, Lin, Yang, and Qiu}]{jiang2023llmlingua}
+Huiqiang Jiang, Qianhui Wu, Chin-Yew Lin, Yuqing Yang, and Lili Qiu. 2023.
+\newblock \href {https://aclanthology.org/2023.emnlp-main.825/} {{LLMLingua}:
+  Compressing prompts for accelerated inference of large language models}.
+\newblock In \emph{Proceedings of EMNLP}.
+
+\bibitem[{Jiang et~al.(2024)Jiang, Wu, Luo, Li, Lin, Yang, and
+  Qiu}]{jiang2024longllmlingua}
+Huiqiang Jiang, Qianhui Wu, Xufang Luo, Dongsheng Li, Chin-Yew Lin, Yuqing
+  Yang, and Lili Qiu. 2024.
+\newblock \href {https://aclanthology.org/2024.acl-long.91/} {{LongLLMLingua}:
+  Accelerating and enhancing llms in long context scenarios via prompt
+  compression}.
+\newblock In \emph{Proceedings of ACL}.
+
+\bibitem[{Kamalloo et~al.(2023)Kamalloo, Dziri, Clarke, and
+  Rafiei}]{kamalloo2023evaluating}
+Ehsan Kamalloo, Nouha Dziri, Charles Clarke, and Davood Rafiei. 2023.
+\newblock \href {https://aclanthology.org/2023.acl-long.307/} {Evaluating
+  open-domain question answering in the era of large language models}.
+\newblock In \emph{Proceedings of ACL}.
+
+\bibitem[{Le et~al.(2022)Le, Nguyen, Le~Thanh, and Nguyen}]{le2022vimqa}
+Khang Le, Hien Nguyen, Tung Le~Thanh, and Minh Nguyen. 2022.
+\newblock \href {https://aclanthology.org/2022.lrec-1.700/} {{VIMQA}: A
+  vietnamese dataset for advanced reasoning and explainable multi-hop question
+  answering}.
+\newblock In \emph{Proceedings of LREC}.
+
+\bibitem[{Lewis et~al.(2020)Lewis, Perez, Piktus, Petroni, Karpukhin, Goyal,
+  K{\"u}ttler, Lewis, Yih, Rockt{\"a}schel, Riedel, and Kiela}]{lewis2020rag}
+Patrick Lewis, Ethan Perez, Aleksandra Piktus, Fabio Petroni, Vladimir
+  Karpukhin, Naman Goyal, Heinrich K{\"u}ttler, Mike Lewis, Wen-tau Yih, Tim
+  Rockt{\"a}schel, Sebastian Riedel, and Douwe Kiela. 2020.
+\newblock Retrieval-augmented generation for knowledge-intensive {NLP} tasks.
+\newblock In \emph{Proceedings of NeurIPS}.
+
+\bibitem[{Li et~al.(2023)Li, Dong, Guerin, and Lin}]{li2023selectivecontext}
+Yucheng Li, Bo~Dong, Frank Guerin, and Chenghua Lin. 2023.
+\newblock \href {https://aclanthology.org/2023.emnlp-main.391/} {Compressing
+  context to enhance inference efficiency of large language models}.
+\newblock In \emph{Proceedings of EMNLP}.
+
+\bibitem[{Li et~al.(2025)Li, Liu, Su, and Collier}]{li2025promptcompression}
+Zongqian Li, Yinhong Liu, Yixuan Su, and Nigel Collier. 2025.
+\newblock \href {https://aclanthology.org/2025.naacl-long.368/} {Prompt
+  compression for large language models: A survey}.
+\newblock In \emph{Proceedings of NAACL}.
+
+\bibitem[{Marchisio et~al.(2024)Marchisio, Ko, Bérard, Dehaze, and
+  Ruder}]{marchisio2024confusion}
+Kelly Marchisio, Wei-Yin Ko, Alexandre Bérard, Théo Dehaze, and Sebastian
+  Ruder. 2024.
+\newblock \href {https://aclanthology.org/2024.emnlp-main.380/} {Understanding
+  and mitigating language confusion in {LLM}s}.
+\newblock In \emph{Proceedings of EMNLP}.
+
+\bibitem[{Nguyen and Nguyen(2020)}]{nguyen2020phobert}
+Dat~Quoc Nguyen and Anh~Tuan Nguyen. 2020.
+\newblock \href {https://aclanthology.org/2020.findings-emnlp.92/} {{PhoBERT}:
+  Pre-trained language models for vietnamese}.
+\newblock In \emph{Findings of EMNLP}.
+
+\bibitem[{Pan et~al.(2024)Pan, Wu, Jiang, Xia, Luo, Zhang, Lin, R{\"u}hle,
+  Yang, Lin, Zhao, Qiu, and Zhang}]{pan2024llmlingua2}
+Zhuoshi Pan, Qianhui Wu, Huiqiang Jiang, Menglin Xia, Xufang Luo, Jue Zhang,
+  Qingwei Lin, Victor R{\"u}hle, Yuqing Yang, Chin-Yew Lin, H.~Vicky Zhao, Lili
+  Qiu, and Dongmei Zhang. 2024.
+\newblock \href {https://aclanthology.org/2024.findings-acl.57/}
+  {{LLMLingua-2}: Data distillation for efficient and faithful task-agnostic
+  prompt compression}.
+\newblock In \emph{Findings of ACL}.
+
+\bibitem[{Petrov et~al.(2023)Petrov, La~Malfa, Torr, and
+  Bibi}]{petrov2023tokenizers}
+Aleksandar Petrov, Emanuele La~Malfa, Philip Torr, and Adel Bibi. 2023.
+\newblock Language model tokenizers introduce unfairness between languages.
+\newblock In \emph{Advances in Neural Information Processing Systems
+  (NeurIPS)}.
+
+\bibitem[{Pham et~al.(2026)Pham, Luu, Nguyen, Nguyen, and
+  Nguyen}]{pham2026vnmteb}
+Loc Pham, Tung Luu, Thu~Vo Nguyen, Minh Nguyen, and Truong~Son Nguyen. 2026.
+\newblock \href {https://aclanthology.org/2026.findings-eacl.86/} {{VN-MTEB}:
+  Vietnamese massive text embedding benchmark}.
+\newblock In \emph{Findings of EACL}.
+
+\bibitem[{Phan et~al.(2022)Phan, Tran, Nguyen, and Trinh}]{phan2022vit5}
+Long Phan, Hieu Tran, Hieu Nguyen, and Trieu~H. Trinh. 2022.
+\newblock \href {https://aclanthology.org/2022.naacl-srw.18/} {{ViT5}:
+  Pretrained text-to-text transformer for vietnamese language generation}.
+\newblock In \emph{Proceedings of NAACL Student Research Workshop}.
+
+\bibitem[{Press et~al.(2023)Press, Zhang, Min, Schmidt, Smith, and
+  Lewis}]{press2023selfask}
+Ofir Press, Muru Zhang, Sewon Min, Ludwig Schmidt, Noah~A. Smith, and Mike
+  Lewis. 2023.
+\newblock \href {https://aclanthology.org/2023.findings-emnlp.378/} {Measuring
+  and narrowing the compositionality gap in language models}.
+\newblock In \emph{Findings of EMNLP}.
+
+\bibitem[{Trivedi et~al.(2023)Trivedi, Balasubramanian, Khot, and
+  Sabharwal}]{trivedi2023ircot}
+Harsh Trivedi, Niranjan Balasubramanian, Tushar Khot, and Ashish Sabharwal.
+  2023.
+\newblock \href {https://aclanthology.org/2023.acl-long.557/} {Interleaving
+  retrieval with chain-of-thought reasoning for knowledge-intensive multi-step
+  questions}.
+\newblock In \emph{Proceedings of ACL}.
+
+\bibitem[{Xu et~al.(2024)Xu, Shi, and Choi}]{xu2024recomp}
+Fangyuan Xu, Weijia Shi, and Eunsol Choi. 2024.
+\newblock \href {https://openreview.net/forum?id=mlJLVigNHp} {{RECOMP}:
+  Improving retrieval-augmented lms with context compression and selective
+  augmentation}.
+\newblock In \emph{Proceedings of ICLR}.
+
+\bibitem[{Yun and Kim(2026)}]{yun2026itercomp}
+Jungmin Yun and Youngbin Kim. 2026.
+\newblock \href {https://aclanthology.org/2026.acl-long.1559/} {{IterCOMP}:
+  Reasoning-aware adaptive prompt compression for multi-hop question
+  answering}.
+\newblock In \emph{Proceedings of the 62nd Annual Meeting of the Association
+  for Computational Linguistics (ACL)}, San Diego, California.
+
+\end{thebibliography}

@@ -1,0 +1,2259 @@
+{
+  "config": {
+    "dataset": "musique",
+    "limit": 50,
+    "reader": "hf",
+    "reader_model": "Qwen/Qwen2.5-7B-Instruct",
+    "load_4bit": true,
+    "methods": "raw,oracle,llmlingua2,itercomp",
+    "itercomp_llm": "hf",
+    "rate": 0.33,
+    "max_iter": 5,
+    "scorer": "dual",
+    "encoder": "BAAI/bge-m3",
+    "lam": 0.6,
+    "percentile": null,
+    "top_k": null,
+    "out": "results/musique_50_7b.json"
+  },
+  "summary": {
+    "raw": {
+      "em": 14.0,
+      "f1": 32.84761904761905,
+      "em_norm": 14.0,
+      "f1_norm": 32.84761904761905,
+      "avg_tokens": 1485.5,
+      "ratio": 1.0,
+      "sec_per_q": 3.898365077972412
+    },
+    "oracle": {
+      "em": 40.0,
+      "f1": 57.04761904761906,
+      "em_norm": 40.0,
+      "f1_norm": 57.04761904761906,
+      "avg_tokens": 133.96,
+      "ratio": 0.090178391114103,
+      "sec_per_q": 0.7467739248275757
+    },
+    "llmlingua2": {
+      "em": 6.0,
+      "f1": 13.514285714285712,
+      "em_norm": 6.0,
+      "f1_norm": 13.514285714285712,
+      "avg_tokens": 340.64,
+      "ratio": 0.22930999663412993,
+      "sec_per_q": 1.5705231380462648
+    },
+    "itercomp": {
+      "em": 20.0,
+      "f1": 35.114285714285714,
+      "em_norm": 20.0,
+      "f1_norm": 35.114285714285714,
+      "avg_tokens": 478.0,
+      "ratio": 0.32177717940087514,
+      "sec_per_q": 11.2631507062912
+    }
+  },
+  "per_row": [
+    {
+      "question": "Who is the spouse of the Green performer?",
+      "gold": "Miquette Giraudy",
+      "type": "musique",
+      "orig_tokens": 1442,
+      "methods": {
+        "raw": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 1442
+        },
+        "oracle": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 153
+        },
+        "llmlingua2": {
+          "pred": "Victor Willis",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "Victor Willis",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 336
+        },
+        "itercomp": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 574
+        }
+      }
+    },
+    {
+      "question": "Who founded the company that distributed the film UHF?",
+      "gold": "Mike Medavoy",
+      "type": "musique",
+      "orig_tokens": 1339,
+      "methods": {
+        "raw": {
+          "pred": "Kevin Smith",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "Kevin Smith",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 1339
+        },
+        "oracle": {
+          "pred": "Orion Pictures",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "Orion Pictures",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 146
+        },
+        "llmlingua2": {
+          "pred": "Orion Pictures",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "Orion Pictures",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 310
+        },
+        "itercomp": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 558
+        }
+      }
+    },
+    {
+      "question": "What administrative territorial entity is the owner of Ciudad Deportiva located?",
+      "gold": "Tamaulipas",
+      "type": "musique",
+      "orig_tokens": 2002,
+      "methods": {
+        "raw": {
+          "pred": "Nuevo Laredo Municipality",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "Nuevo Laredo Municipality",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 2002
+        },
+        "oracle": {
+          "pred": "Nuevo Laredo Municipality",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "Nuevo Laredo Municipality",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 195
+        },
+        "llmlingua2": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 431
+        },
+        "itercomp": {
+          "pred": "Nuevo Laredo Municipality",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "Nuevo Laredo Municipality",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 401
+        }
+      }
+    },
+    {
+      "question": "Where is Ulrich Walter's employer headquartered?",
+      "gold": "Cologne",
+      "type": "musique",
+      "orig_tokens": 1454,
+      "methods": {
+        "raw": {
+          "pred": "German Aerospace Center",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "German Aerospace Center",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 1454
+        },
+        "oracle": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 103
+        },
+        "llmlingua2": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 341
+        },
+        "itercomp": {
+          "pred": "German Aerospace Center",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "German Aerospace Center",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 671
+        }
+      }
+    },
+    {
+      "question": "Which company owns the manufacturer of Learjet 60?",
+      "gold": "Bombardier Inc.",
+      "type": "musique",
+      "orig_tokens": 1419,
+      "methods": {
+        "raw": {
+          "pred": "Bombardier Aerospace",
+          "em": 0.0,
+          "f1": 0.5,
+          "pred_norm": "Bombardier Aerospace",
+          "em_norm": 0.0,
+          "f1_norm": 0.5,
+          "tokens": 1419
+        },
+        "oracle": {
+          "pred": "Bombardier Aerospace",
+          "em": 0.0,
+          "f1": 0.5,
+          "pred_norm": "Bombardier Aerospace",
+          "em_norm": 0.0,
+          "f1_norm": 0.5,
+          "tokens": 121
+        },
+        "llmlingua2": {
+          "pred": "Bombardier Aerospace",
+          "em": 0.0,
+          "f1": 0.5,
+          "pred_norm": "Bombardier Aerospace",
+          "em_norm": 0.0,
+          "f1_norm": 0.5,
+          "tokens": 328
+        },
+        "itercomp": {
+          "pred": "Bombardier Aerospace",
+          "em": 0.0,
+          "f1": 0.5,
+          "pred_norm": "Bombardier Aerospace",
+          "em_norm": 0.0,
+          "f1_norm": 0.5,
+          "tokens": 388
+        }
+      }
+    },
+    {
+      "question": "Who is the child of Caroline LeRoy's spouse?",
+      "gold": "Fletcher Webster",
+      "type": "musique",
+      "orig_tokens": 1390,
+      "methods": {
+        "raw": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 1390
+        },
+        "oracle": {
+          "pred": "Fletcher Webster",
+          "em": 1.0,
+          "f1": 1.0,
+          "pred_norm": "Fletcher Webster",
+          "em_norm": 1.0,
+          "f1_norm": 1.0,
+          "tokens": 186
+        },
+        "llmlingua2": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 323
+        },
+        "itercomp": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 672
+        }
+      }
+    },
+    {
+      "question": "Who is the grandmother of Philippe, Duke of Orléans?",
+      "gold": "Marie de' Medici",
+      "type": "musique",
+      "orig_tokens": 1518,
+      "methods": {
+        "raw": {
+          "pred": "Anne of Austria",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "Anne of Austria",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 1518
+        },
+        "oracle": {
+          "pred": "Marie de' Medici",
+          "em": 1.0,
+          "f1": 1.0,
+          "pred_norm": "Marie de' Medici",
+          "em_norm": 1.0,
+          "f1_norm": 1.0,
+          "tokens": 186
+        },
+        "llmlingua2": {
+          "pred": "Marie Anne de Bourbon",
+          "em": 0.0,
+          "f1": 0.5714285714285715,
+          "pred_norm": "Marie Anne de Bourbon",
+          "em_norm": 0.0,
+          "f1_norm": 0.5714285714285715,
+          "tokens": 338
+        },
+        "itercomp": {
+          "pred": "Anne of Austria",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "Anne of Austria",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 639
+        }
+      }
+    },
+    {
+      "question": "What is the goal of the group that European Movement Germany is a member of?",
+      "gold": "European integration",
+      "type": "musique",
+      "orig_tokens": 1024,
+      "methods": {
+        "raw": {
+          "pred": "promoting European integration",
+          "em": 0.0,
+          "f1": 0.8,
+          "pred_norm": "promoting European integration",
+          "em_norm": 0.0,
+          "f1_norm": 0.8,
+          "tokens": 1024
+        },
+        "oracle": {
+          "pred": "promoting European integration",
+          "em": 0.0,
+          "f1": 0.8,
+          "pred_norm": "promoting European integration",
+          "em_norm": 0.0,
+          "f1_norm": 0.8,
+          "tokens": 58
+        },
+        "llmlingua2": {
+          "pred": "European Movement International",
+          "em": 0.0,
+          "f1": 0.4,
+          "pred_norm": "European Movement International",
+          "em_norm": 0.0,
+          "f1_norm": 0.4,
+          "tokens": 257
+        },
+        "itercomp": {
+          "pred": "promoting European integration",
+          "em": 0.0,
+          "f1": 0.8,
+          "pred_norm": "promoting European integration",
+          "em_norm": 0.0,
+          "f1_norm": 0.8,
+          "tokens": 58
+        }
+      }
+    },
+    {
+      "question": "What company succeeded the owner of Empire Sports Network?",
+      "gold": "Time Warner Cable",
+      "type": "musique",
+      "orig_tokens": 2081,
+      "methods": {
+        "raw": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 2081
+        },
+        "oracle": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 127
+        },
+        "llmlingua2": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 518
+        },
+        "itercomp": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 1012
+        }
+      }
+    },
+    {
+      "question": "What province shares a border with the province where Lago District is located?",
+      "gold": "Cabo Delgado Province",
+      "type": "musique",
+      "orig_tokens": 1565,
+      "methods": {
+        "raw": {
+          "pred": "Niassa Province",
+          "em": 0.0,
+          "f1": 0.4,
+          "pred_norm": "Niassa Province",
+          "em_norm": 0.0,
+          "f1_norm": 0.4,
+          "tokens": 1565
+        },
+        "oracle": {
+          "pred": "Niassa Province",
+          "em": 0.0,
+          "f1": 0.4,
+          "pred_norm": "Niassa Province",
+          "em_norm": 0.0,
+          "f1_norm": 0.4,
+          "tokens": 105
+        },
+        "llmlingua2": {
+          "pred": "Niassa",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "Niassa",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 285
+        },
+        "itercomp": {
+          "pred": "Niassa Province",
+          "em": 0.0,
+          "f1": 0.4,
+          "pred_norm": "Niassa Province",
+          "em_norm": 0.0,
+          "f1_norm": 0.4,
+          "tokens": 73
+        }
+      }
+    },
+    {
+      "question": "What league does the team that plays in Stadio Ciro Vigorito play for?",
+      "gold": "Lega Pro Prima Divisione",
+      "type": "musique",
+      "orig_tokens": 1186,
+      "methods": {
+        "raw": {
+          "pred": "Lega Pro",
+          "em": 0.0,
+          "f1": 0.6666666666666666,
+          "pred_norm": "Lega Pro",
+          "em_norm": 0.0,
+          "f1_norm": 0.6666666666666666,
+          "tokens": 1186
+        },
+        "oracle": {
+          "pred": "Lega Pro",
+          "em": 0.0,
+          "f1": 0.6666666666666666,
+          "pred_norm": "Lega Pro",
+          "em_norm": 0.0,
+          "f1_norm": 0.6666666666666666,
+          "tokens": 72
+        },
+        "llmlingua2": {
+          "pred": "Serie D",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "Serie D",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 267
+        },
+        "itercomp": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 135
+        }
+      }
+    },
+    {
+      "question": "What is a notable work written by the author of The Timothy files?",
+      "gold": "Anderson Tapes",
+      "type": "musique",
+      "orig_tokens": 1653,
+      "methods": {
+        "raw": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 1653
+        },
+        "oracle": {
+          "pred": "The Anderson Tapes",
+          "em": 1.0,
+          "f1": 1.0,
+          "pred_norm": "The Anderson Tapes",
+          "em_norm": 1.0,
+          "f1_norm": 1.0,
+          "tokens": 211
+        },
+        "llmlingua2": {
+          "pred": "Timothy Cone",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "Timothy Cone",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 376
+        },
+        "itercomp": {
+          "pred": "Lawrence Sanders' The Anderson Tapes",
+          "em": 0.0,
+          "f1": 0.6666666666666666,
+          "pred_norm": "Lawrence Sanders' The Anderson Tapes",
+          "em_norm": 0.0,
+          "f1_norm": 0.6666666666666666,
+          "tokens": 288
+        }
+      }
+    },
+    {
+      "question": "In which borough was Callum McManaman born?",
+      "gold": "Knowsley",
+      "type": "musique",
+      "orig_tokens": 1871,
+      "methods": {
+        "raw": {
+          "pred": "Knowsley",
+          "em": 1.0,
+          "f1": 1.0,
+          "pred_norm": "Knowsley",
+          "em_norm": 1.0,
+          "f1_norm": 1.0,
+          "tokens": 1871
+        },
+        "oracle": {
+          "pred": "Knowsley",
+          "em": 1.0,
+          "f1": 1.0,
+          "pred_norm": "Knowsley",
+          "em_norm": 1.0,
+          "f1_norm": 1.0,
+          "tokens": 109
+        },
+        "llmlingua2": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 421
+        },
+        "itercomp": {
+          "pred": "Whiston",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "Whiston",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 184
+        }
+      }
+    },
+    {
+      "question": "What other county does the county where Imperial is located share a border with?",
+      "gold": "Crockett County",
+      "type": "musique",
+      "orig_tokens": 1757,
+      "methods": {
+        "raw": {
+          "pred": "Pecos County",
+          "em": 0.0,
+          "f1": 0.5,
+          "pred_norm": "Pecos County",
+          "em_norm": 0.0,
+          "f1_norm": 0.5,
+          "tokens": 1757
+        },
+        "oracle": {
+          "pred": "Crockett County",
+          "em": 1.0,
+          "f1": 1.0,
+          "pred_norm": "Crockett County",
+          "em_norm": 1.0,
+          "f1_norm": 1.0,
+          "tokens": 100
+        },
+        "llmlingua2": {
+          "pred": "Pecos",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "Pecos",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 386
+        },
+        "itercomp": {
+          "pred": "Pecos County",
+          "em": 0.0,
+          "f1": 0.5,
+          "pred_norm": "Pecos County",
+          "em_norm": 0.0,
+          "f1_norm": 0.5,
+          "tokens": 736
+        }
+      }
+    },
+    {
+      "question": "In what county is William W. Blair's birthplace located?",
+      "gold": "Orleans County",
+      "type": "musique",
+      "orig_tokens": 1852,
+      "methods": {
+        "raw": {
+          "pred": "Orleans",
+          "em": 0.0,
+          "f1": 0.6666666666666666,
+          "pred_norm": "Orleans",
+          "em_norm": 0.0,
+          "f1_norm": 0.6666666666666666,
+          "tokens": 1852
+        },
+        "oracle": {
+          "pred": "Orleans County",
+          "em": 1.0,
+          "f1": 1.0,
+          "pred_norm": "Orleans County",
+          "em_norm": 1.0,
+          "f1_norm": 1.0,
+          "tokens": 91
+        },
+        "llmlingua2": {
+          "pred": "LaSalle County",
+          "em": 0.0,
+          "f1": 0.5,
+          "pred_norm": "LaSalle County",
+          "em_norm": 0.0,
+          "f1_norm": 0.5,
+          "tokens": 437
+        },
+        "itercomp": {
+          "pred": "Holley County",
+          "em": 0.0,
+          "f1": 0.5,
+          "pred_norm": "Holley County",
+          "em_norm": 0.0,
+          "f1_norm": 0.5,
+          "tokens": 105
+        }
+      }
+    },
+    {
+      "question": "What award did the author of The Red Tree receive?",
+      "gold": "Academy Award for Best Animated Short Film",
+      "type": "musique",
+      "orig_tokens": 1706,
+      "methods": {
+        "raw": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 1706
+        },
+        "oracle": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 101
+        },
+        "llmlingua2": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 402
+        },
+        "itercomp": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 980
+        }
+      }
+    },
+    {
+      "question": "Where was Tyler MacDuff's child educated?",
+      "gold": "Blair High School",
+      "type": "musique",
+      "orig_tokens": 1682,
+      "methods": {
+        "raw": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 1682
+        },
+        "oracle": {
+          "pred": "Blair International Baccalaureate School",
+          "em": 0.0,
+          "f1": 0.5714285714285715,
+          "pred_norm": "Blair International Baccalaureate School",
+          "em_norm": 0.0,
+          "f1_norm": 0.5714285714285715,
+          "tokens": 140
+        },
+        "llmlingua2": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 398
+        },
+        "itercomp": {
+          "pred": "Blair International Baccalaureate School",
+          "em": 0.0,
+          "f1": 0.5714285714285715,
+          "pred_norm": "Blair International Baccalaureate School",
+          "em_norm": 0.0,
+          "f1_norm": 0.5714285714285715,
+          "tokens": 262
+        }
+      }
+    },
+    {
+      "question": "Who is the spouse of the Rabbit Hole's producer?",
+      "gold": "Keith Urban",
+      "type": "musique",
+      "orig_tokens": 1689,
+      "methods": {
+        "raw": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 1689
+        },
+        "oracle": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 230
+        },
+        "llmlingua2": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 378
+        },
+        "itercomp": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 933
+        }
+      }
+    },
+    {
+      "question": "Who is the child of Sigrid Eskilsdotter's child?",
+      "gold": "Svante Stensson Sture",
+      "type": "musique",
+      "orig_tokens": 1703,
+      "methods": {
+        "raw": {
+          "pred": "Christina Gyllenstierna",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "Christina Gyllenstierna",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 1703
+        },
+        "oracle": {
+          "pred": "Christina Gyllenstierna",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "Christina Gyllenstierna",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 138
+        },
+        "llmlingua2": {
+          "pred": "Christina Gyllenstierna",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "Christina Gyllenstierna",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 397
+        },
+        "itercomp": {
+          "pred": "Christina Gyllenstierna",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "Christina Gyllenstierna",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 725
+        }
+      }
+    },
+    {
+      "question": "In which county is Kimbrough Memorial Stadium located?",
+      "gold": "Randall County",
+      "type": "musique",
+      "orig_tokens": 1753,
+      "methods": {
+        "raw": {
+          "pred": "Canyon",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "Canyon",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 1753
+        },
+        "oracle": {
+          "pred": "Randall",
+          "em": 0.0,
+          "f1": 0.6666666666666666,
+          "pred_norm": "Randall",
+          "em_norm": 0.0,
+          "f1_norm": 0.6666666666666666,
+          "tokens": 160
+        },
+        "llmlingua2": {
+          "pred": "Canyon",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "Canyon",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 393
+        },
+        "itercomp": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 138
+        }
+      }
+    },
+    {
+      "question": "What record label is the performer of Almost Made Ya signed to?",
+      "gold": "Derrty Entertainment",
+      "type": "musique",
+      "orig_tokens": 1107,
+      "methods": {
+        "raw": {
+          "pred": "Universal Records",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "Universal Records",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 1107
+        },
+        "oracle": {
+          "pred": "Universal Records",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "Universal Records",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 181
+        },
+        "llmlingua2": {
+          "pred": "Universal Records",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "Universal Records",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 280
+        },
+        "itercomp": {
+          "pred": "Universal Records",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "Universal Records",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 598
+        }
+      }
+    },
+    {
+      "question": "Where was the author of Hannibal and Scipio educated at?",
+      "gold": "Exeter College",
+      "type": "musique",
+      "orig_tokens": 1294,
+      "methods": {
+        "raw": {
+          "pred": "Exeter College, Oxford",
+          "em": 0.0,
+          "f1": 0.8,
+          "pred_norm": "Exeter College, Oxford",
+          "em_norm": 0.0,
+          "f1_norm": 0.8,
+          "tokens": 1294
+        },
+        "oracle": {
+          "pred": "Exeter College, Oxford",
+          "em": 0.0,
+          "f1": 0.8,
+          "pred_norm": "Exeter College, Oxford",
+          "em_norm": 0.0,
+          "f1_norm": 0.8,
+          "tokens": 154
+        },
+        "llmlingua2": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 291
+        },
+        "itercomp": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 732
+        }
+      }
+    },
+    {
+      "question": "In which county is Southern Maryland Electric Cooperative headquartered?",
+      "gold": "Charles County",
+      "type": "musique",
+      "orig_tokens": 1040,
+      "methods": {
+        "raw": {
+          "pred": "Charles County",
+          "em": 1.0,
+          "f1": 1.0,
+          "pred_norm": "Charles County",
+          "em_norm": 1.0,
+          "f1_norm": 1.0,
+          "tokens": 1040
+        },
+        "oracle": {
+          "pred": "Charles",
+          "em": 0.0,
+          "f1": 0.6666666666666666,
+          "pred_norm": "Charles",
+          "em_norm": 0.0,
+          "f1_norm": 0.6666666666666666,
+          "tokens": 99
+        },
+        "llmlingua2": {
+          "pred": "Calvert",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "Calvert",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 235
+        },
+        "itercomp": {
+          "pred": "Hughesville",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "Hughesville",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 152
+        }
+      }
+    },
+    {
+      "question": "Who is the child of the Victim of Romance performer?",
+      "gold": "Chynna Phillips",
+      "type": "musique",
+      "orig_tokens": 1715,
+      "methods": {
+        "raw": {
+          "pred": "Michelle Phillips",
+          "em": 0.0,
+          "f1": 0.5,
+          "pred_norm": "Michelle Phillips",
+          "em_norm": 0.0,
+          "f1_norm": 0.5,
+          "tokens": 1715
+        },
+        "oracle": {
+          "pred": "Michelle Phillips",
+          "em": 0.0,
+          "f1": 0.5,
+          "pred_norm": "Michelle Phillips",
+          "em_norm": 0.0,
+          "f1_norm": 0.5,
+          "tokens": 92
+        },
+        "llmlingua2": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 369
+        },
+        "itercomp": {
+          "pred": "Michelle Phillips",
+          "em": 0.0,
+          "f1": 0.5,
+          "pred_norm": "Michelle Phillips",
+          "em_norm": 0.0,
+          "f1_norm": 0.5,
+          "tokens": 906
+        }
+      }
+    },
+    {
+      "question": "What county was Tim Dubois born in?",
+      "gold": "McDonald County",
+      "type": "musique",
+      "orig_tokens": 1870,
+      "methods": {
+        "raw": {
+          "pred": "Southwest County",
+          "em": 0.0,
+          "f1": 0.5,
+          "pred_norm": "Southwest County",
+          "em_norm": 0.0,
+          "f1_norm": 0.5,
+          "tokens": 1870
+        },
+        "oracle": {
+          "pred": "McDonald County",
+          "em": 1.0,
+          "f1": 1.0,
+          "pred_norm": "McDonald County",
+          "em_norm": 1.0,
+          "f1_norm": 1.0,
+          "tokens": 139
+        },
+        "llmlingua2": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 437
+        },
+        "itercomp": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 110
+        }
+      }
+    },
+    {
+      "question": "What record label did the person who is part of The Bruce Lee Band start?",
+      "gold": "Asian Man Records",
+      "type": "musique",
+      "orig_tokens": 1139,
+      "methods": {
+        "raw": {
+          "pred": "Asian Man Records",
+          "em": 1.0,
+          "f1": 1.0,
+          "pred_norm": "Asian Man Records",
+          "em_norm": 1.0,
+          "f1_norm": 1.0,
+          "tokens": 1139
+        },
+        "oracle": {
+          "pred": "Asian Man Records",
+          "em": 1.0,
+          "f1": 1.0,
+          "pred_norm": "Asian Man Records",
+          "em_norm": 1.0,
+          "f1_norm": 1.0,
+          "tokens": 81
+        },
+        "llmlingua2": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 282
+        },
+        "itercomp": {
+          "pred": "Asian Man Records",
+          "em": 1.0,
+          "f1": 1.0,
+          "pred_norm": "Asian Man Records",
+          "em_norm": 1.0,
+          "f1_norm": 1.0,
+          "tokens": 81
+        }
+      }
+    },
+    {
+      "question": "What is another notable work made by the author of Miss Sara Sampson?",
+      "gold": "Emilia Galotti",
+      "type": "musique",
+      "orig_tokens": 1666,
+      "methods": {
+        "raw": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 1666
+        },
+        "oracle": {
+          "pred": "Emilia Galotti",
+          "em": 1.0,
+          "f1": 1.0,
+          "pred_norm": "Emilia Galotti",
+          "em_norm": 1.0,
+          "f1_norm": 1.0,
+          "tokens": 179
+        },
+        "llmlingua2": {
+          "pred": "Gotthold Ephraim Lessing",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "Gotthold Ephraim Lessing",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 358
+        },
+        "itercomp": {
+          "pred": "Emilia Galotti",
+          "em": 1.0,
+          "f1": 1.0,
+          "pred_norm": "Emilia Galotti",
+          "em_norm": 1.0,
+          "f1_norm": 1.0,
+          "tokens": 293
+        }
+      }
+    },
+    {
+      "question": "What instrument is played by the person from The Blackout All-Stars?",
+      "gold": "conga",
+      "type": "musique",
+      "orig_tokens": 1910,
+      "methods": {
+        "raw": {
+          "pred": "drums",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "drums",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 1910
+        },
+        "oracle": {
+          "pred": "conga",
+          "em": 1.0,
+          "f1": 1.0,
+          "pred_norm": "conga",
+          "em_norm": 1.0,
+          "f1_norm": 1.0,
+          "tokens": 148
+        },
+        "llmlingua2": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 452
+        },
+        "itercomp": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 970
+        }
+      }
+    },
+    {
+      "question": "What is the seat of the county where Van Hook Township is located?",
+      "gold": "Stanley",
+      "type": "musique",
+      "orig_tokens": 1180,
+      "methods": {
+        "raw": {
+          "pred": "Mountrail County",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "Mountrail County",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 1180
+        },
+        "oracle": {
+          "pred": "Stanley",
+          "em": 1.0,
+          "f1": 1.0,
+          "pred_norm": "Stanley",
+          "em_norm": 1.0,
+          "f1_norm": 1.0,
+          "tokens": 111
+        },
+        "llmlingua2": {
+          "pred": "Brown County",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "Brown County",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 271
+        },
+        "itercomp": {
+          "pred": "Stanley",
+          "em": 1.0,
+          "f1": 1.0,
+          "pred_norm": "Stanley",
+          "em_norm": 1.0,
+          "f1_norm": 1.0,
+          "tokens": 238
+        }
+      }
+    },
+    {
+      "question": "Who is the father of Edward Baring, 1st Baron Revelstoke's father?",
+      "gold": "Sir Francis Baring, 1st Baronet",
+      "type": "musique",
+      "orig_tokens": 1448,
+      "methods": {
+        "raw": {
+          "pred": "Henry Baring",
+          "em": 0.0,
+          "f1": 0.28571428571428575,
+          "pred_norm": "Henry Baring",
+          "em_norm": 0.0,
+          "f1_norm": 0.28571428571428575,
+          "tokens": 1448
+        },
+        "oracle": {
+          "pred": "Henry Baring",
+          "em": 0.0,
+          "f1": 0.28571428571428575,
+          "pred_norm": "Henry Baring",
+          "em_norm": 0.0,
+          "f1_norm": 0.28571428571428575,
+          "tokens": 233
+        },
+        "llmlingua2": {
+          "pred": "Henry Baring",
+          "em": 0.0,
+          "f1": 0.28571428571428575,
+          "pred_norm": "Henry Baring",
+          "em_norm": 0.0,
+          "f1_norm": 0.28571428571428575,
+          "tokens": 328
+        },
+        "itercomp": {
+          "pred": "Henry Baring",
+          "em": 0.0,
+          "f1": 0.28571428571428575,
+          "pred_norm": "Henry Baring",
+          "em_norm": 0.0,
+          "f1_norm": 0.28571428571428575,
+          "tokens": 751
+        }
+      }
+    },
+    {
+      "question": "What group was the performer of Be the One a member of?",
+      "gold": "Jackson 5",
+      "type": "musique",
+      "orig_tokens": 1545,
+      "methods": {
+        "raw": {
+          "pred": "Jackie Jackson",
+          "em": 0.0,
+          "f1": 0.5,
+          "pred_norm": "Jackie Jackson",
+          "em_norm": 0.0,
+          "f1_norm": 0.5,
+          "tokens": 1545
+        },
+        "oracle": {
+          "pred": "The Jackson 5",
+          "em": 1.0,
+          "f1": 1.0,
+          "pred_norm": "The Jackson 5",
+          "em_norm": 1.0,
+          "f1_norm": 1.0,
+          "tokens": 69
+        },
+        "llmlingua2": {
+          "pred": "Jackie Jackson",
+          "em": 0.0,
+          "f1": 0.5,
+          "pred_norm": "Jackie Jackson",
+          "em_norm": 0.0,
+          "f1_norm": 0.5,
+          "tokens": 361
+        },
+        "itercomp": {
+          "pred": "Jackie Jackson",
+          "em": 0.0,
+          "f1": 0.5,
+          "pred_norm": "Jackie Jackson",
+          "em_norm": 0.0,
+          "f1_norm": 0.5,
+          "tokens": 778
+        }
+      }
+    },
+    {
+      "question": "Who is the lead singer of the band performing Bang Bang Rock & Roll?",
+      "gold": "Eddie Argos",
+      "type": "musique",
+      "orig_tokens": 1362,
+      "methods": {
+        "raw": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 1362
+        },
+        "oracle": {
+          "pred": "Eddie Argos",
+          "em": 1.0,
+          "f1": 1.0,
+          "pred_norm": "Eddie Argos",
+          "em_norm": 1.0,
+          "f1_norm": 1.0,
+          "tokens": 52
+        },
+        "llmlingua2": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 315
+        },
+        "itercomp": {
+          "pred": "Eddie Argos",
+          "em": 1.0,
+          "f1": 1.0,
+          "pred_norm": "Eddie Argos",
+          "em_norm": 1.0,
+          "f1_norm": 1.0,
+          "tokens": 646
+        }
+      }
+    },
+    {
+      "question": "What is the network which National Cycle Route 57 is part of an example of?",
+      "gold": "national cycling route network",
+      "type": "musique",
+      "orig_tokens": 970,
+      "methods": {
+        "raw": {
+          "pred": "National Cycle Network",
+          "em": 0.0,
+          "f1": 0.5714285714285715,
+          "pred_norm": "National Cycle Network",
+          "em_norm": 0.0,
+          "f1_norm": 0.5714285714285715,
+          "tokens": 970
+        },
+        "oracle": {
+          "pred": "national cycling route network",
+          "em": 1.0,
+          "f1": 1.0,
+          "pred_norm": "national cycling route network",
+          "em_norm": 1.0,
+          "f1_norm": 1.0,
+          "tokens": 104
+        },
+        "llmlingua2": {
+          "pred": "bicycle touring",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "bicycle touring",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 223
+        },
+        "itercomp": {
+          "pred": "national cycling route network",
+          "em": 1.0,
+          "f1": 1.0,
+          "pred_norm": "national cycling route network",
+          "em_norm": 1.0,
+          "f1_norm": 1.0,
+          "tokens": 104
+        }
+      }
+    },
+    {
+      "question": "Who is the spouse of the child of Peter Andreas Heiberg?",
+      "gold": "Johanne Luise Heiberg",
+      "type": "musique",
+      "orig_tokens": 1338,
+      "methods": {
+        "raw": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 1338
+        },
+        "oracle": {
+          "pred": "Johan Ludvig Heiberg",
+          "em": 0.0,
+          "f1": 0.3333333333333333,
+          "pred_norm": "Johan Ludvig Heiberg",
+          "em_norm": 0.0,
+          "f1_norm": 0.3333333333333333,
+          "tokens": 123
+        },
+        "llmlingua2": {
+          "pred": "Johanne Luise Heiberg",
+          "em": 1.0,
+          "f1": 1.0,
+          "pred_norm": "Johanne Luise Heiberg",
+          "em_norm": 1.0,
+          "f1_norm": 1.0,
+          "tokens": 345
+        },
+        "itercomp": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 636
+        }
+      }
+    },
+    {
+      "question": "The Unwinding author volunteered for which organisation?",
+      "gold": "Peace Corps",
+      "type": "musique",
+      "orig_tokens": 1272,
+      "methods": {
+        "raw": {
+          "pred": "Peace Corps",
+          "em": 1.0,
+          "f1": 1.0,
+          "pred_norm": "Peace Corps",
+          "em_norm": 1.0,
+          "f1_norm": 1.0,
+          "tokens": 1272
+        },
+        "oracle": {
+          "pred": "Peace Corps",
+          "em": 1.0,
+          "f1": 1.0,
+          "pred_norm": "Peace Corps",
+          "em_norm": 1.0,
+          "f1_norm": 1.0,
+          "tokens": 293
+        },
+        "llmlingua2": {
+          "pred": "Peace Corps",
+          "em": 1.0,
+          "f1": 1.0,
+          "pred_norm": "Peace Corps",
+          "em_norm": 1.0,
+          "f1_norm": 1.0,
+          "tokens": 287
+        },
+        "itercomp": {
+          "pred": "Peace Corps",
+          "em": 1.0,
+          "f1": 1.0,
+          "pred_norm": "Peace Corps",
+          "em_norm": 1.0,
+          "f1_norm": 1.0,
+          "tokens": 293
+        }
+      }
+    },
+    {
+      "question": "What is the capital of the county that Pine Springs is located in?",
+      "gold": "Van Horn",
+      "type": "musique",
+      "orig_tokens": 1364,
+      "methods": {
+        "raw": {
+          "pred": "Van Horn",
+          "em": 1.0,
+          "f1": 1.0,
+          "pred_norm": "Van Horn",
+          "em_norm": 1.0,
+          "f1_norm": 1.0,
+          "tokens": 1364
+        },
+        "oracle": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 110
+        },
+        "llmlingua2": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 302
+        },
+        "itercomp": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 260
+        }
+      }
+    },
+    {
+      "question": "What district is the headquarter of Julia's House located?",
+      "gold": "East Dorset",
+      "type": "musique",
+      "orig_tokens": 1358,
+      "methods": {
+        "raw": {
+          "pred": "Corfe Mullen",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "Corfe Mullen",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 1358
+        },
+        "oracle": {
+          "pred": "East Dorset",
+          "em": 1.0,
+          "f1": 1.0,
+          "pred_norm": "East Dorset",
+          "em_norm": 1.0,
+          "f1_norm": 1.0,
+          "tokens": 149
+        },
+        "llmlingua2": {
+          "pred": "Corfe Mullen",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "Corfe Mullen",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 309
+        },
+        "itercomp": {
+          "pred": "East Dorset",
+          "em": 1.0,
+          "f1": 1.0,
+          "pred_norm": "East Dorset",
+          "em_norm": 1.0,
+          "f1_norm": 1.0,
+          "tokens": 233
+        }
+      }
+    },
+    {
+      "question": "Who is the spouse of Young Man Luther's author?",
+      "gold": "Joan Erikson",
+      "type": "musique",
+      "orig_tokens": 1254,
+      "methods": {
+        "raw": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 1254
+        },
+        "oracle": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 120
+        },
+        "llmlingua2": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 303
+        },
+        "itercomp": {
+          "pred": "Erikson",
+          "em": 0.0,
+          "f1": 0.6666666666666666,
+          "pred_norm": "Erikson",
+          "em_norm": 0.0,
+          "f1_norm": 0.6666666666666666,
+          "tokens": 672
+        }
+      }
+    },
+    {
+      "question": "What record label did the performer of The Place and the Time belong to?",
+      "gold": "Columbia Records",
+      "type": "musique",
+      "orig_tokens": 886,
+      "methods": {
+        "raw": {
+          "pred": "Sundazed Records",
+          "em": 0.0,
+          "f1": 0.5,
+          "pred_norm": "Sundazed Records",
+          "em_norm": 0.0,
+          "f1_norm": 0.5,
+          "tokens": 886
+        },
+        "oracle": {
+          "pred": "Sundazed Records",
+          "em": 0.0,
+          "f1": 0.5,
+          "pred_norm": "Sundazed Records",
+          "em_norm": 0.0,
+          "f1_norm": 0.5,
+          "tokens": 113
+        },
+        "llmlingua2": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 215
+        },
+        "itercomp": {
+          "pred": "Sundazed Records",
+          "em": 0.0,
+          "f1": 0.5,
+          "pred_norm": "Sundazed Records",
+          "em_norm": 0.0,
+          "f1_norm": 0.5,
+          "tokens": 432
+        }
+      }
+    },
+    {
+      "question": "Who is the child of the person who followed Tihomir of Serbia?",
+      "gold": "Saint Sava",
+      "type": "musique",
+      "orig_tokens": 1135,
+      "methods": {
+        "raw": {
+          "pred": "Stracimir Zavidović",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "Stracimir Zavidović",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 1135
+        },
+        "oracle": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 191
+        },
+        "llmlingua2": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 236
+        },
+        "itercomp": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 680
+        }
+      }
+    },
+    {
+      "question": "What team was Anna Benson's husband on?",
+      "gold": "Pittsburgh Pirates",
+      "type": "musique",
+      "orig_tokens": 1688,
+      "methods": {
+        "raw": {
+          "pred": "Kris Benson",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "Kris Benson",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 1688
+        },
+        "oracle": {
+          "pred": "Pittsburgh Pirates",
+          "em": 1.0,
+          "f1": 1.0,
+          "pred_norm": "Pittsburgh Pirates",
+          "em_norm": 1.0,
+          "f1_norm": 1.0,
+          "tokens": 118
+        },
+        "llmlingua2": {
+          "pred": "New Orleans VooDoo",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "New Orleans VooDoo",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 409
+        },
+        "itercomp": {
+          "pred": "Kris Benson",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "Kris Benson",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 715
+        }
+      }
+    },
+    {
+      "question": "What place does the administrative territorial entity that Juba is located in share a border with?",
+      "gold": "Eastern Equatoria",
+      "type": "musique",
+      "orig_tokens": 1796,
+      "methods": {
+        "raw": {
+          "pred": "Central Equatoria state",
+          "em": 0.0,
+          "f1": 0.4,
+          "pred_norm": "Central Equatoria state",
+          "em_norm": 0.0,
+          "f1_norm": 0.4,
+          "tokens": 1796
+        },
+        "oracle": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 50
+        },
+        "llmlingua2": {
+          "pred": "South Sudan",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "South Sudan",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 383
+        },
+        "itercomp": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 681
+        }
+      }
+    },
+    {
+      "question": "Where was the spouse of Frances Tupper born?",
+      "gold": "Amherst",
+      "type": "musique",
+      "orig_tokens": 1411,
+      "methods": {
+        "raw": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 1411
+        },
+        "oracle": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 120
+        },
+        "llmlingua2": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 351
+        },
+        "itercomp": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 750
+        }
+      }
+    },
+    {
+      "question": "Who founded the political party of Dimuthu Bandara Abayakoon?",
+      "gold": "Rohana Wijeweera",
+      "type": "musique",
+      "orig_tokens": 1108,
+      "methods": {
+        "raw": {
+          "pred": "Janatha Vimukthi Peramuna",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "Janatha Vimukthi Peramuna",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 1108
+        },
+        "oracle": {
+          "pred": "Rohana Wijeweera",
+          "em": 1.0,
+          "f1": 1.0,
+          "pred_norm": "Rohana Wijeweera",
+          "em_norm": 1.0,
+          "f1_norm": 1.0,
+          "tokens": 103
+        },
+        "llmlingua2": {
+          "pred": "Janatha Vimukthi Peramuna",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "Janatha Vimukthi Peramuna",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 260
+        },
+        "itercomp": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 209
+        }
+      }
+    },
+    {
+      "question": "Bancroft's county borders what county?",
+      "gold": "Haliburton County",
+      "type": "musique",
+      "orig_tokens": 1817,
+      "methods": {
+        "raw": {
+          "pred": "Hastings County",
+          "em": 0.0,
+          "f1": 0.5,
+          "pred_norm": "Hastings County",
+          "em_norm": 0.0,
+          "f1_norm": 0.5,
+          "tokens": 1817
+        },
+        "oracle": {
+          "pred": "Hastings County",
+          "em": 0.0,
+          "f1": 0.5,
+          "pred_norm": "Hastings County",
+          "em_norm": 0.0,
+          "f1_norm": 0.5,
+          "tokens": 110
+        },
+        "llmlingua2": {
+          "pred": "North Hastings",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "North Hastings",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 401
+        },
+        "itercomp": {
+          "pred": "Hastings County",
+          "em": 0.0,
+          "f1": 0.5,
+          "pred_norm": "Hastings County",
+          "em_norm": 0.0,
+          "f1_norm": 0.5,
+          "tokens": 923
+        }
+      }
+    },
+    {
+      "question": "In which county is Mark Dismore's birthplace located?",
+      "gold": "Hancock County",
+      "type": "musique",
+      "orig_tokens": 1984,
+      "methods": {
+        "raw": {
+          "pred": "Hancock County",
+          "em": 1.0,
+          "f1": 1.0,
+          "pred_norm": "Hancock County",
+          "em_norm": 1.0,
+          "f1_norm": 1.0,
+          "tokens": 1984
+        },
+        "oracle": {
+          "pred": "Hancock",
+          "em": 0.0,
+          "f1": 0.6666666666666666,
+          "pred_norm": "Hancock",
+          "em_norm": 0.0,
+          "f1_norm": 0.6666666666666666,
+          "tokens": 319
+        },
+        "llmlingua2": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 474
+        },
+        "itercomp": {
+          "pred": "Hancock County",
+          "em": 1.0,
+          "f1": 1.0,
+          "pred_norm": "Hancock County",
+          "em_norm": 1.0,
+          "f1_norm": 1.0,
+          "tokens": 408
+        }
+      }
+    },
+    {
+      "question": "Who was the sibling of Nannina de' Medici?",
+      "gold": "Giuliano de' Medici",
+      "type": "musique",
+      "orig_tokens": 1151,
+      "methods": {
+        "raw": {
+          "pred": "Lorenzo de' Medici",
+          "em": 0.0,
+          "f1": 0.6666666666666666,
+          "pred_norm": "Lorenzo de' Medici",
+          "em_norm": 0.0,
+          "f1_norm": 0.6666666666666666,
+          "tokens": 1151
+        },
+        "oracle": {
+          "pred": "Lorenzo de' Medici",
+          "em": 0.0,
+          "f1": 0.6666666666666666,
+          "pred_norm": "Lorenzo de' Medici",
+          "em_norm": 0.0,
+          "f1_norm": 0.6666666666666666,
+          "tokens": 118
+        },
+        "llmlingua2": {
+          "pred": "Lorenzo de Medici",
+          "em": 0.0,
+          "f1": 0.6666666666666666,
+          "pred_norm": "Lorenzo de Medici",
+          "em_norm": 0.0,
+          "f1_norm": 0.6666666666666666,
+          "tokens": 275
+        },
+        "itercomp": {
+          "pred": "Lorenzo de' Medici",
+          "em": 0.0,
+          "f1": 0.6666666666666666,
+          "pred_norm": "Lorenzo de' Medici",
+          "em_norm": 0.0,
+          "f1_norm": 0.6666666666666666,
+          "tokens": 95
+        }
+      }
+    },
+    {
+      "question": "What county is the NRHEG High School located in?",
+      "gold": "Waseca County",
+      "type": "musique",
+      "orig_tokens": 1572,
+      "methods": {
+        "raw": {
+          "pred": "Waseca County",
+          "em": 1.0,
+          "f1": 1.0,
+          "pred_norm": "Waseca County",
+          "em_norm": 1.0,
+          "f1_norm": 1.0,
+          "tokens": 1572
+        },
+        "oracle": {
+          "pred": "Waseca County",
+          "em": 1.0,
+          "f1": 1.0,
+          "pred_norm": "Waseca County",
+          "em_norm": 1.0,
+          "f1_norm": 1.0,
+          "tokens": 89
+        },
+        "llmlingua2": {
+          "pred": "Waseca County",
+          "em": 1.0,
+          "f1": 1.0,
+          "pred_norm": "Waseca County",
+          "em_norm": 1.0,
+          "f1_norm": 1.0,
+          "tokens": 338
+        },
+        "itercomp": {
+          "pred": "Waseca County",
+          "em": 1.0,
+          "f1": 1.0,
+          "pred_norm": "Waseca County",
+          "em_norm": 1.0,
+          "f1_norm": 1.0,
+          "tokens": 89
+        }
+      }
+    },
+    {
+      "question": "What league does the team that occupies the Rabat Ajax Football Ground belong to?",
+      "gold": "Maltese Premier League",
+      "type": "musique",
+      "orig_tokens": 1023,
+      "methods": {
+        "raw": {
+          "pred": "Maltese football league",
+          "em": 0.0,
+          "f1": 0.6666666666666666,
+          "pred_norm": "Maltese football league",
+          "em_norm": 0.0,
+          "f1_norm": 0.6666666666666666,
+          "tokens": 1023
+        },
+        "oracle": {
+          "pred": "Maltese Premier League",
+          "em": 1.0,
+          "f1": 1.0,
+          "pred_norm": "Maltese Premier League",
+          "em_norm": 1.0,
+          "f1_norm": 1.0,
+          "tokens": 90
+        },
+        "llmlingua2": {
+          "pred": "Maltese F. C",
+          "em": 0.0,
+          "f1": 0.3333333333333333,
+          "pred_norm": "Maltese F. C",
+          "em_norm": 0.0,
+          "f1_norm": 0.3333333333333333,
+          "tokens": 224
+        },
+        "itercomp": {
+          "pred": "Maltese Premier League",
+          "em": 1.0,
+          "f1": 1.0,
+          "pred_norm": "Maltese Premier League",
+          "em_norm": 1.0,
+          "f1_norm": 1.0,
+          "tokens": 90
+        }
+      }
+    },
+    {
+      "question": "Who was married to the star of No Escape?",
+      "gold": "John Profumo",
+      "type": "musique",
+      "orig_tokens": 1786,
+      "methods": {
+        "raw": {
+          "pred": "Valerie Hobson",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "Valerie Hobson",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 1786
+        },
+        "oracle": {
+          "pred": "Valerie Hobson",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "Valerie Hobson",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 108
+        },
+        "llmlingua2": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 396
+        },
+        "itercomp": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "pred_norm": "unknown",
+          "em_norm": 0.0,
+          "f1_norm": 0.0,
+          "tokens": 843
+        }
+      }
+    }
+  ]
+}

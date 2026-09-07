@@ -1,0 +1,1650 @@
+{
+  "config": {
+    "dataset": "musique",
+    "limit": 50,
+    "reader": "hf",
+    "reader_model": "Qwen/Qwen2.5-0.5B-Instruct",
+    "methods": "raw,oracle,llmlingua2,itercomp",
+    "itercomp_llm": "mock",
+    "rate": 0.33,
+    "max_iter": 5,
+    "scorer": "dual",
+    "encoder": "BAAI/bge-m3",
+    "lam": 0.6,
+    "percentile": null,
+    "top_k": null,
+    "out": "CK/results/musique_50_hf05b.json"
+  },
+  "summary": {
+    "raw": {
+      "em": 0.0,
+      "f1": 10.834920634920636,
+      "avg_tokens": 1485.5,
+      "ratio": 1.0,
+      "sec_per_q": 3.9449602937698365
+    },
+    "oracle": {
+      "em": 24.0,
+      "f1": 42.000288600288606,
+      "avg_tokens": 133.96,
+      "ratio": 0.090178391114103,
+      "sec_per_q": 0.5169900417327881
+    },
+    "llmlingua2": {
+      "em": 2.0,
+      "f1": 9.393859649122806,
+      "avg_tokens": 340.64,
+      "ratio": 0.22930999663412993,
+      "sec_per_q": 1.9365733671188354
+    },
+    "itercomp": {
+      "em": 6.0,
+      "f1": 17.52554112554112,
+      "avg_tokens": 145.4,
+      "ratio": 0.09787950185122854,
+      "sec_per_q": 4.518833198547363
+    }
+  },
+  "per_row": [
+    {
+      "question": "Who is the spouse of the Green performer?",
+      "gold": "Miquette Giraudy",
+      "type": "musique",
+      "orig_tokens": 1442,
+      "methods": {
+        "raw": {
+          "pred": "Norm Nixon",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1442
+        },
+        "oracle": {
+          "pred": "Steve",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 153
+        },
+        "llmlingua2": {
+          "pred": "Debbie Allen",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 336
+        },
+        "itercomp": {
+          "pred": "Jennifer Garner",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 186
+        }
+      }
+    },
+    {
+      "question": "Who founded the company that distributed the film UHF?",
+      "gold": "Mike Medavoy",
+      "type": "musique",
+      "orig_tokens": 1339,
+      "methods": {
+        "raw": {
+          "pred": "Kevin Smith",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1339
+        },
+        "oracle": {
+          "pred": "Orion Pictures",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 146
+        },
+        "llmlingua2": {
+          "pred": "Kevin Smith",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 310
+        },
+        "itercomp": {
+          "pred": "Amblin Entertainment",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 160
+        }
+      }
+    },
+    {
+      "question": "What administrative territorial entity is the owner of Ciudad Deportiva located?",
+      "gold": "Tamaulipas",
+      "type": "musique",
+      "orig_tokens": 2002,
+      "methods": {
+        "raw": {
+          "pred": "The owner of Ciudad Deportiva is the Municipality of Nuevo Laredo",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 2002
+        },
+        "oracle": {
+          "pred": "The owner of Ciudad Deportiva is Nuevo Laredo Municipality",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 195
+        },
+        "llmlingua2": {
+          "pred": "Ciudad Deportiva is the owner of Ciudad Deportiva located",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 431
+        },
+        "itercomp": {
+          "pred": "Mexico",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 120
+        }
+      }
+    },
+    {
+      "question": "Where is Ulrich Walter's employer headquartered?",
+      "gold": "Cologne",
+      "type": "musique",
+      "orig_tokens": 1454,
+      "methods": {
+        "raw": {
+          "pred": "New Haven, Connecticut",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1454
+        },
+        "oracle": {
+          "pred": "Germany",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 103
+        },
+        "llmlingua2": {
+          "pred": "Almoghs Campus",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 341
+        },
+        "itercomp": {
+          "pred": "Cork",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 158
+        }
+      }
+    },
+    {
+      "question": "Which company owns the manufacturer of Learjet 60?",
+      "gold": "Bombardier Inc.",
+      "type": "musique",
+      "orig_tokens": 1419,
+      "methods": {
+        "raw": {
+          "pred": "Electromotive Corporation",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1419
+        },
+        "oracle": {
+          "pred": "Bombardier Inc",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 121
+        },
+        "llmlingua2": {
+          "pred": "Learjet 60 is manufactured by Wagner Manufacturing Company",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 328
+        },
+        "itercomp": {
+          "pred": "Aerojet",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 120
+        }
+      }
+    },
+    {
+      "question": "Who is the child of Caroline LeRoy's spouse?",
+      "gold": "Fletcher Webster",
+      "type": "musique",
+      "orig_tokens": 1390,
+      "methods": {
+        "raw": {
+          "pred": "Marvin Waitforit Eriksen",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1390
+        },
+        "oracle": {
+          "pred": "Daniel Webster",
+          "em": 0.0,
+          "f1": 0.5,
+          "tokens": 186
+        },
+        "llmlingua2": {
+          "pred": "Pierre Paul Leroy",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 323
+        },
+        "itercomp": {
+          "pred": "Herman LeRoy",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 218
+        }
+      }
+    },
+    {
+      "question": "Who is the grandmother of Philippe, Duke of Orléans?",
+      "gold": "Marie de' Medici",
+      "type": "musique",
+      "orig_tokens": 1518,
+      "methods": {
+        "raw": {
+          "pred": "Marie Amalie of Bourbon-Sicilies",
+          "em": 0.0,
+          "f1": 0.25,
+          "tokens": 1518
+        },
+        "oracle": {
+          "pred": "Anne of Austria",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 186
+        },
+        "llmlingua2": {
+          "pred": "Anna",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 338
+        },
+        "itercomp": {
+          "pred": "Anne of Austria",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 347
+        }
+      }
+    },
+    {
+      "question": "What is the goal of the group that European Movement Germany is a member of?",
+      "gold": "European integration",
+      "type": "musique",
+      "orig_tokens": 1024,
+      "methods": {
+        "raw": {
+          "pred": "The goal of the European Movement Germany is to promote European integration",
+          "em": 0.0,
+          "f1": 0.33333333333333337,
+          "tokens": 1024
+        },
+        "oracle": {
+          "pred": "promoting European integration",
+          "em": 0.0,
+          "f1": 0.8,
+          "tokens": 58
+        },
+        "llmlingua2": {
+          "pred": "European Integration",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 257
+        },
+        "itercomp": {
+          "pred": "promoting European integration",
+          "em": 0.0,
+          "f1": 0.8,
+          "tokens": 58
+        }
+      }
+    },
+    {
+      "question": "What company succeeded the owner of Empire Sports Network?",
+      "gold": "Time Warner Cable",
+      "type": "musique",
+      "orig_tokens": 2081,
+      "methods": {
+        "raw": {
+          "pred": "Comcast Sports Southwest",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 2081
+        },
+        "oracle": {
+          "pred": "Windjammer Communications",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 127
+        },
+        "llmlingua2": {
+          "pred": "Comcast Sports Southwest",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 518
+        },
+        "itercomp": {
+          "pred": "Adelphia Communications Corporation",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 162
+        }
+      }
+    },
+    {
+      "question": "What province shares a border with the province where Lago District is located?",
+      "gold": "Cabo Delgado Province",
+      "type": "musique",
+      "orig_tokens": 1565,
+      "methods": {
+        "raw": {
+          "pred": "Chuvash Republic",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1565
+        },
+        "oracle": {
+          "pred": "north-western",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 105
+        },
+        "llmlingua2": {
+          "pred": "Kazakhstan",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 285
+        },
+        "itercomp": {
+          "pred": "north-western Mozambique",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 73
+        }
+      }
+    },
+    {
+      "question": "What league does the team that plays in Stadio Ciro Vigorito play for?",
+      "gold": "Lega Pro Prima Divisione",
+      "type": "musique",
+      "orig_tokens": 1186,
+      "methods": {
+        "raw": {
+          "pred": "Serie D",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1186
+        },
+        "oracle": {
+          "pred": "Benevento Calcio",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 72
+        },
+        "llmlingua2": {
+          "pred": "Serie D",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 267
+        },
+        "itercomp": {
+          "pred": "football",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 135
+        }
+      }
+    },
+    {
+      "question": "What is a notable work written by the author of The Timothy files?",
+      "gold": "Anderson Tapes",
+      "type": "musique",
+      "orig_tokens": 1653,
+      "methods": {
+        "raw": {
+          "pred": "\"The Timothy Files\" is a 1987 best-selling work of fiction by Lawrence Sanders",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1653
+        },
+        "oracle": {
+          "pred": "The Timothy Files",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 211
+        },
+        "llmlingua2": {
+          "pred": "Timothy Files",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 376
+        },
+        "itercomp": {
+          "pred": "\"The Two Hoots\" series",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 136
+        }
+      }
+    },
+    {
+      "question": "In which borough was Callum McManaman born?",
+      "gold": "Knowsley",
+      "type": "musique",
+      "orig_tokens": 1871,
+      "methods": {
+        "raw": {
+          "pred": "Whiston, Merseyside",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1871
+        },
+        "oracle": {
+          "pred": "Knowsley",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 109
+        },
+        "llmlingua2": {
+          "pred": "Newark",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 421
+        },
+        "itercomp": {
+          "pred": "Whiston",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 184
+        }
+      }
+    },
+    {
+      "question": "What other county does the county where Imperial is located share a border with?",
+      "gold": "Crockett County",
+      "type": "musique",
+      "orig_tokens": 1757,
+      "methods": {
+        "raw": {
+          "pred": "The county where Imperial is located shares a border with El Salvador",
+          "em": 0.0,
+          "f1": 0.16666666666666669,
+          "tokens": 1757
+        },
+        "oracle": {
+          "pred": "Pecos County",
+          "em": 0.0,
+          "f1": 0.5,
+          "tokens": 100
+        },
+        "llmlingua2": {
+          "pred": "Texas",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 386
+        },
+        "itercomp": {
+          "pred": "Alaska",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 164
+        }
+      }
+    },
+    {
+      "question": "In what county is William W. Blair's birthplace located?",
+      "gold": "Orleans County",
+      "type": "musique",
+      "orig_tokens": 1852,
+      "methods": {
+        "raw": {
+          "pred": "New York",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1852
+        },
+        "oracle": {
+          "pred": "Holley",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 91
+        },
+        "llmlingua2": {
+          "pred": "New South Wales",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 437
+        },
+        "itercomp": {
+          "pred": "New York",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 105
+        }
+      }
+    },
+    {
+      "question": "What award did the author of The Red Tree receive?",
+      "gold": "Academy Award for Best Animated Short Film",
+      "type": "musique",
+      "orig_tokens": 1706,
+      "methods": {
+        "raw": {
+          "pred": "The Red Tree (2001), written and illustrated by Shaun Tan, is a picture book that presents a fragmented journey through a dark world. The illustrations are surreal. The text is sparse and matches the dark illustrations. The author of",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1706
+        },
+        "oracle": {
+          "pred": "Academy Award for Best Animated Short Film",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 101
+        },
+        "llmlingua2": {
+          "pred": "The author of \"The Red Tree\" received the Pulitzer Prize for Fiction",
+          "em": 0.0,
+          "f1": 0.125,
+          "tokens": 402
+        },
+        "itercomp": {
+          "pred": "The Red Tree (2001) was awarded the Red Ochre Award",
+          "em": 0.0,
+          "f1": 0.13333333333333333,
+          "tokens": 75
+        }
+      }
+    },
+    {
+      "question": "Where was Tyler MacDuff's child educated?",
+      "gold": "Blair High School",
+      "type": "musique",
+      "orig_tokens": 1682,
+      "methods": {
+        "raw": {
+          "pred": "Blair International Baccalaureate School",
+          "em": 0.0,
+          "f1": 0.5714285714285715,
+          "tokens": 1682
+        },
+        "oracle": {
+          "pred": "Blair International Baccalaureate School",
+          "em": 0.0,
+          "f1": 0.5714285714285715,
+          "tokens": 140
+        },
+        "llmlingua2": {
+          "pred": "Prestigious private school",
+          "em": 0.0,
+          "f1": 0.3333333333333333,
+          "tokens": 398
+        },
+        "itercomp": {
+          "pred": "Blair International Baccalaureate School",
+          "em": 0.0,
+          "f1": 0.5714285714285715,
+          "tokens": 140
+        }
+      }
+    },
+    {
+      "question": "Who is the spouse of the Rabbit Hole's producer?",
+      "gold": "Keith Urban",
+      "type": "musique",
+      "orig_tokens": 1689,
+      "methods": {
+        "raw": {
+          "pred": "Nicole Kidman",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1689
+        },
+        "oracle": {
+          "pred": "Nicole Kidman",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 230
+        },
+        "llmlingua2": {
+          "pred": "Ingrid",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 378
+        },
+        "itercomp": {
+          "pred": "Nicole Kidman",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 260
+        }
+      }
+    },
+    {
+      "question": "Who is the child of Sigrid Eskilsdotter's child?",
+      "gold": "Svante Stensson Sture",
+      "type": "musique",
+      "orig_tokens": 1703,
+      "methods": {
+        "raw": {
+          "pred": "Sigrid Eskilsdotter's child is her son, Andrew William Barclay",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1703
+        },
+        "oracle": {
+          "pred": "Ture Pedersson Bielke",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 138
+        },
+        "llmlingua2": {
+          "pred": "Sigrid Sture",
+          "em": 0.0,
+          "f1": 0.4,
+          "tokens": 397
+        },
+        "itercomp": {
+          "pred": "Ture Pedersson Bielke",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 138
+        }
+      }
+    },
+    {
+      "question": "In which county is Kimbrough Memorial Stadium located?",
+      "gold": "Randall County",
+      "type": "musique",
+      "orig_tokens": 1753,
+      "methods": {
+        "raw": {
+          "pred": "Kimbrough Memorial Stadium is located in Canyon, Texas",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1753
+        },
+        "oracle": {
+          "pred": "Randall County",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 160
+        },
+        "llmlingua2": {
+          "pred": "Canyon",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 393
+        },
+        "itercomp": {
+          "pred": "Canyon County",
+          "em": 0.0,
+          "f1": 0.5,
+          "tokens": 138
+        }
+      }
+    },
+    {
+      "question": "What record label is the performer of Almost Made Ya signed to?",
+      "gold": "Derrty Entertainment",
+      "type": "musique",
+      "orig_tokens": 1107,
+      "methods": {
+        "raw": {
+          "pred": "Roxy Recordings",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1107
+        },
+        "oracle": {
+          "pred": "Derrty Entertainment and Universal Records",
+          "em": 0.0,
+          "f1": 0.5714285714285715,
+          "tokens": 181
+        },
+        "llmlingua2": {
+          "pred": "Universal Music Group",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 280
+        },
+        "itercomp": {
+          "pred": "Delicious Deli Records",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 191
+        }
+      }
+    },
+    {
+      "question": "Where was the author of Hannibal and Scipio educated at?",
+      "gold": "Exeter College",
+      "type": "musique",
+      "orig_tokens": 1294,
+      "methods": {
+        "raw": {
+          "pred": "Exeter College, Oxford",
+          "em": 0.0,
+          "f1": 0.8,
+          "tokens": 1294
+        },
+        "oracle": {
+          "pred": "Exeter College, Oxford",
+          "em": 0.0,
+          "f1": 0.8,
+          "tokens": 154
+        },
+        "llmlingua2": {
+          "pred": "Oxford",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 291
+        },
+        "itercomp": {
+          "pred": "Scotland",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 128
+        }
+      }
+    },
+    {
+      "question": "In which county is Southern Maryland Electric Cooperative headquartered?",
+      "gold": "Charles County",
+      "type": "musique",
+      "orig_tokens": 1040,
+      "methods": {
+        "raw": {
+          "pred": "Madhepura",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1040
+        },
+        "oracle": {
+          "pred": "Calvert",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 99
+        },
+        "llmlingua2": {
+          "pred": "Southern Maryland Electric Cooperative headquarters is in Calvert, Charles, Prince George's, and St. Mary's counties",
+          "em": 0.0,
+          "f1": 0.10526315789473684,
+          "tokens": 235
+        },
+        "itercomp": {
+          "pred": "Hughesville",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 152
+        }
+      }
+    },
+    {
+      "question": "Who is the child of the Victim of Romance performer?",
+      "gold": "Chynna Phillips",
+      "type": "musique",
+      "orig_tokens": 1715,
+      "methods": {
+        "raw": {
+          "pred": "Michelle Phillips",
+          "em": 0.0,
+          "f1": 0.5,
+          "tokens": 1715
+        },
+        "oracle": {
+          "pred": "Michelle Phillips",
+          "em": 0.0,
+          "f1": 0.5,
+          "tokens": 92
+        },
+        "llmlingua2": {
+          "pred": "Michelle Phillips",
+          "em": 0.0,
+          "f1": 0.5,
+          "tokens": 369
+        },
+        "itercomp": {
+          "pred": "The child of the Victim of Romance performer is Michelle Phillips",
+          "em": 0.0,
+          "f1": 0.1818181818181818,
+          "tokens": 204
+        }
+      }
+    },
+    {
+      "question": "What county was Tim Dubois born in?",
+      "gold": "McDonald County",
+      "type": "musique",
+      "orig_tokens": 1870,
+      "methods": {
+        "raw": {
+          "pred": "Missouri",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1870
+        },
+        "oracle": {
+          "pred": "Missouri",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 139
+        },
+        "llmlingua2": {
+          "pred": "Missouri",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 437
+        },
+        "itercomp": {
+          "pred": "Southwest City",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 110
+        }
+      }
+    },
+    {
+      "question": "What record label did the person who is part of The Bruce Lee Band start?",
+      "gold": "Asian Man Records",
+      "type": "musique",
+      "orig_tokens": 1139,
+      "methods": {
+        "raw": {
+          "pred": "PIAS Recordings",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1139
+        },
+        "oracle": {
+          "pred": "Asian Man Records",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 81
+        },
+        "llmlingua2": {
+          "pred": "RCA Records",
+          "em": 0.0,
+          "f1": 0.4,
+          "tokens": 282
+        },
+        "itercomp": {
+          "pred": "Asian Man Records",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 81
+        }
+      }
+    },
+    {
+      "question": "What is another notable work made by the author of Miss Sara Sampson?",
+      "gold": "Emilia Galotti",
+      "type": "musique",
+      "orig_tokens": 1666,
+      "methods": {
+        "raw": {
+          "pred": "Another notable work made by the author of Miss Sara Sampson is \"The Celestine Prophecy,\" a novel by the American author, lecturer, screenwriter, and film producer James Redfield",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1666
+        },
+        "oracle": {
+          "pred": "Another notable work made by the author of Miss Sara Sampson is \"The Merchant of Venice.\"",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 179
+        },
+        "llmlingua2": {
+          "pred": "Sister Evangelina Call",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 358
+        },
+        "itercomp": {
+          "pred": "The other notable work made by the author of Miss Sara Sampson is \"A Doll's House,\" written by Henrik Ibsen",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 182
+        }
+      }
+    },
+    {
+      "question": "What instrument is played by the person from The Blackout All-Stars?",
+      "gold": "conga",
+      "type": "musique",
+      "orig_tokens": 1910,
+      "methods": {
+        "raw": {
+          "pred": "Phonograph record",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1910
+        },
+        "oracle": {
+          "pred": "Tito Nieves",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 148
+        },
+        "llmlingua2": {
+          "pred": "flutes",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 452
+        },
+        "itercomp": {
+          "pred": "guitar",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 188
+        }
+      }
+    },
+    {
+      "question": "What is the seat of the county where Van Hook Township is located?",
+      "gold": "Stanley",
+      "type": "musique",
+      "orig_tokens": 1180,
+      "methods": {
+        "raw": {
+          "pred": "The seat of the county where Van Hook Township is located is Mountrail County, North Dakota",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1180
+        },
+        "oracle": {
+          "pred": "The seat of the county where Van Hook Township is located is Mountrail County",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 111
+        },
+        "llmlingua2": {
+          "pred": "Van Hook Township, Mountrail, North",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 271
+        },
+        "itercomp": {
+          "pred": "Mountrail County",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 88
+        }
+      }
+    },
+    {
+      "question": "Who is the father of Edward Baring, 1st Baron Revelstoke's father?",
+      "gold": "Sir Francis Baring, 1st Baronet",
+      "type": "musique",
+      "orig_tokens": 1448,
+      "methods": {
+        "raw": {
+          "pred": "Henry Baring",
+          "em": 0.0,
+          "f1": 0.28571428571428575,
+          "tokens": 1448
+        },
+        "oracle": {
+          "pred": "Edward Baring, 1st Baron Revelstoke's father was Henry Baring",
+          "em": 0.0,
+          "f1": 0.26666666666666666,
+          "tokens": 233
+        },
+        "llmlingua2": {
+          "pred": "Alexander",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 328
+        },
+        "itercomp": {
+          "pred": "Edward Baring, 1st Baron Revelstoke's father was Henry Baring",
+          "em": 0.0,
+          "f1": 0.26666666666666666,
+          "tokens": 233
+        }
+      }
+    },
+    {
+      "question": "What group was the performer of Be the One a member of?",
+      "gold": "Jackson 5",
+      "type": "musique",
+      "orig_tokens": 1545,
+      "methods": {
+        "raw": {
+          "pred": "The performer of Be the One was Jackie Jackson",
+          "em": 0.0,
+          "f1": 0.22222222222222224,
+          "tokens": 1545
+        },
+        "oracle": {
+          "pred": "The performer of Be the One was Jackie Jackson",
+          "em": 0.0,
+          "f1": 0.22222222222222224,
+          "tokens": 69
+        },
+        "llmlingua2": {
+          "pred": "The performer of \"Be the One\" was a member of Imaginary Cuckold",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 361
+        },
+        "itercomp": {
+          "pred": "The performer of Be the One was a member of Unexploded",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 90
+        }
+      }
+    },
+    {
+      "question": "Who is the lead singer of the band performing Bang Bang Rock & Roll?",
+      "gold": "Eddie Argos",
+      "type": "musique",
+      "orig_tokens": 1362,
+      "methods": {
+        "raw": {
+          "pred": "Kevin Sussman",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1362
+        },
+        "oracle": {
+          "pred": "Eddie Argos",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 52
+        },
+        "llmlingua2": {
+          "pred": "Art Brut",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 315
+        },
+        "itercomp": {
+          "pred": "Katrina Kaif",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 118
+        }
+      }
+    },
+    {
+      "question": "What is the network which National Cycle Route 57 is part of an example of?",
+      "gold": "national cycling route network",
+      "type": "musique",
+      "orig_tokens": 970,
+      "methods": {
+        "raw": {
+          "pred": "National Cycle Network",
+          "em": 0.0,
+          "f1": 0.5714285714285715,
+          "tokens": 970
+        },
+        "oracle": {
+          "pred": "National Cycle Network",
+          "em": 0.0,
+          "f1": 0.5714285714285715,
+          "tokens": 104
+        },
+        "llmlingua2": {
+          "pred": "National Cycle Route 57",
+          "em": 0.0,
+          "f1": 0.5,
+          "tokens": 223
+        },
+        "itercomp": {
+          "pred": "National Cycle Network",
+          "em": 0.0,
+          "f1": 0.5714285714285715,
+          "tokens": 104
+        }
+      }
+    },
+    {
+      "question": "Who is the spouse of the child of Peter Andreas Heiberg?",
+      "gold": "Johanne Luise Heiberg",
+      "type": "musique",
+      "orig_tokens": 1338,
+      "methods": {
+        "raw": {
+          "pred": "Margareta von Ascheberg",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1338
+        },
+        "oracle": {
+          "pred": "Johanne Luise Heiberg",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 123
+        },
+        "llmlingua2": {
+          "pred": "Marshall Eriksen",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 345
+        },
+        "itercomp": {
+          "pred": "Johanne Luise Heiberg",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 123
+        }
+      }
+    },
+    {
+      "question": "The Unwinding author volunteered for which organisation?",
+      "gold": "Peace Corps",
+      "type": "musique",
+      "orig_tokens": 1272,
+      "methods": {
+        "raw": {
+          "pred": "The Unwinding author volunteered for the American journalist George Packer",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1272
+        },
+        "oracle": {
+          "pred": "The Unwinding author volunteered for the Peace Corps",
+          "em": 0.0,
+          "f1": 0.5,
+          "tokens": 293
+        },
+        "llmlingua2": {
+          "pred": "Unwinding",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 287
+        },
+        "itercomp": {
+          "pred": "The Unwinding author volunteered for the Peace Corps",
+          "em": 0.0,
+          "f1": 0.5,
+          "tokens": 293
+        }
+      }
+    },
+    {
+      "question": "What is the capital of the county that Pine Springs is located in?",
+      "gold": "Van Horn",
+      "type": "musique",
+      "orig_tokens": 1364,
+      "methods": {
+        "raw": {
+          "pred": "Târnăveni",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1364
+        },
+        "oracle": {
+          "pred": "Van Horn",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 110
+        },
+        "llmlingua2": {
+          "pred": "Dicsőszentmárton",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 302
+        },
+        "itercomp": {
+          "pred": "Culberson County",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 126
+        }
+      }
+    },
+    {
+      "question": "What district is the headquarter of Julia's House located?",
+      "gold": "East Dorset",
+      "type": "musique",
+      "orig_tokens": 1358,
+      "methods": {
+        "raw": {
+          "pred": "Dordrecht",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1358
+        },
+        "oracle": {
+          "pred": "East Dorset",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 149
+        },
+        "llmlingua2": {
+          "pred": "Pangi Territory",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 309
+        },
+        "itercomp": {
+          "pred": "Fowler",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 128
+        }
+      }
+    },
+    {
+      "question": "Who is the spouse of Young Man Luther's author?",
+      "gold": "Joan Erikson",
+      "type": "musique",
+      "orig_tokens": 1254,
+      "methods": {
+        "raw": {
+          "pred": "Erik Erikson",
+          "em": 0.0,
+          "f1": 0.5,
+          "tokens": 1254
+        },
+        "oracle": {
+          "pred": "Unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 120
+        },
+        "llmlingua2": {
+          "pred": "Elisabeth Luther",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 303
+        },
+        "itercomp": {
+          "pred": "Katharina von Bora",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 100
+        }
+      }
+    },
+    {
+      "question": "What record label did the performer of The Place and the Time belong to?",
+      "gold": "Columbia Records",
+      "type": "musique",
+      "orig_tokens": 886,
+      "methods": {
+        "raw": {
+          "pred": "Sundazed Records",
+          "em": 0.0,
+          "f1": 0.5,
+          "tokens": 886
+        },
+        "oracle": {
+          "pred": "Sundazed Records",
+          "em": 0.0,
+          "f1": 0.5,
+          "tokens": 113
+        },
+        "llmlingua2": {
+          "pred": "Atlantic",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 215
+        },
+        "itercomp": {
+          "pred": "Sundazed Records",
+          "em": 0.0,
+          "f1": 0.5,
+          "tokens": 117
+        }
+      }
+    },
+    {
+      "question": "Who is the child of the person who followed Tihomir of Serbia?",
+      "gold": "Saint Sava",
+      "type": "musique",
+      "orig_tokens": 1135,
+      "methods": {
+        "raw": {
+          "pred": "Mita Reljin",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1135
+        },
+        "oracle": {
+          "pred": "Stracimir",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 191
+        },
+        "llmlingua2": {
+          "pred": "Mita",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 236
+        },
+        "itercomp": {
+          "pred": "Stracimir",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 197
+        }
+      }
+    },
+    {
+      "question": "What team was Anna Benson's husband on?",
+      "gold": "Pittsburgh Pirates",
+      "type": "musique",
+      "orig_tokens": 1688,
+      "methods": {
+        "raw": {
+          "pred": "The team that Anna Benson's husband was on was the TV series Soap",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1688
+        },
+        "oracle": {
+          "pred": "Pittsburgh Pirates",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 118
+        },
+        "llmlingua2": {
+          "pred": "model",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 409
+        },
+        "itercomp": {
+          "pred": "Major League Baseball",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 57
+        }
+      }
+    },
+    {
+      "question": "What place does the administrative territorial entity that Juba is located in share a border with?",
+      "gold": "Eastern Equatoria",
+      "type": "musique",
+      "orig_tokens": 1796,
+      "methods": {
+        "raw": {
+          "pred": "The administrative territorial entity that Juba is located in shares a border with Tanzania",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1796
+        },
+        "oracle": {
+          "pred": "Central Equatoria",
+          "em": 0.0,
+          "f1": 0.5,
+          "tokens": 50
+        },
+        "llmlingua2": {
+          "pred": "Alaskan",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 383
+        },
+        "itercomp": {
+          "pred": "Misraq Welega Zone",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 107
+        }
+      }
+    },
+    {
+      "question": "Where was the spouse of Frances Tupper born?",
+      "gold": "Amherst",
+      "type": "musique",
+      "orig_tokens": 1411,
+      "methods": {
+        "raw": {
+          "pred": "Vallet",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1411
+        },
+        "oracle": {
+          "pred": "Nova Scotia",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 120
+        },
+        "llmlingua2": {
+          "pred": "Cumberland",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 351
+        },
+        "itercomp": {
+          "pred": "Easton, Massachusetts",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 141
+        }
+      }
+    },
+    {
+      "question": "Who founded the political party of Dimuthu Bandara Abayakoon?",
+      "gold": "Rohana Wijeweera",
+      "type": "musique",
+      "orig_tokens": 1108,
+      "methods": {
+        "raw": {
+          "pred": "Dimuthu Bandara Abayakoon founded the Sri Lankan politician, belonging to the Janatha Vimukthi Peramuna",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1108
+        },
+        "oracle": {
+          "pred": "Dimuthu Bandara Abayakoon founded the political party of Rohana Wijeweera",
+          "em": 0.0,
+          "f1": 0.3636363636363636,
+          "tokens": 103
+        },
+        "llmlingua2": {
+          "pred": "Dimuthu Bandara Abayakoon founded the political party of Sri Lankan Marxist politician, leader Janatha Vimukthi Peramuna",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 260
+        },
+        "itercomp": {
+          "pred": "Leabua Jonathan",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 89
+        }
+      }
+    },
+    {
+      "question": "Bancroft's county borders what county?",
+      "gold": "Haliburton County",
+      "type": "musique",
+      "orig_tokens": 1817,
+      "methods": {
+        "raw": {
+          "pred": "Bancroft's county borders Hastings County",
+          "em": 0.0,
+          "f1": 0.25,
+          "tokens": 1817
+        },
+        "oracle": {
+          "pred": "Hastings County",
+          "em": 0.0,
+          "f1": 0.5,
+          "tokens": 110
+        },
+        "llmlingua2": {
+          "pred": "Bancroft's county is located in the course of the **Highlands** river",
+          "em": 0.0,
+          "f1": 0.16666666666666669,
+          "tokens": 401
+        },
+        "itercomp": {
+          "pred": "Hastings County",
+          "em": 0.0,
+          "f1": 0.5,
+          "tokens": 127
+        }
+      }
+    },
+    {
+      "question": "In which county is Mark Dismore's birthplace located?",
+      "gold": "Hancock County",
+      "type": "musique",
+      "orig_tokens": 1984,
+      "methods": {
+        "raw": {
+          "pred": "Greenfield, Indiana",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1984
+        },
+        "oracle": {
+          "pred": "Hancock County",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 319
+        },
+        "llmlingua2": {
+          "pred": "American citizenship",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 474
+        },
+        "itercomp": {
+          "pred": "Greenfield",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 316
+        }
+      }
+    },
+    {
+      "question": "Who was the sibling of Nannina de' Medici?",
+      "gold": "Giuliano de' Medici",
+      "type": "musique",
+      "orig_tokens": 1151,
+      "methods": {
+        "raw": {
+          "pred": "Nannina de' Medici's brother was Luca de' Medici",
+          "em": 0.0,
+          "f1": 0.3333333333333333,
+          "tokens": 1151
+        },
+        "oracle": {
+          "pred": "Lucrezia de' Medici",
+          "em": 0.0,
+          "f1": 0.6666666666666666,
+          "tokens": 118
+        },
+        "llmlingua2": {
+          "pred": "Pietro de' Medici",
+          "em": 0.0,
+          "f1": 0.6666666666666666,
+          "tokens": 275
+        },
+        "itercomp": {
+          "pred": "Maria Maddalena de' Medici",
+          "em": 0.0,
+          "f1": 0.5714285714285715,
+          "tokens": 95
+        }
+      }
+    },
+    {
+      "question": "What county is the NRHEG High School located in?",
+      "gold": "Waseca County",
+      "type": "musique",
+      "orig_tokens": 1572,
+      "methods": {
+        "raw": {
+          "pred": "Minnesota",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1572
+        },
+        "oracle": {
+          "pred": "Waseca County",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 89
+        },
+        "llmlingua2": {
+          "pred": "Northeast",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 338
+        },
+        "itercomp": {
+          "pred": "Waseca County",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 89
+        }
+      }
+    },
+    {
+      "question": "What league does the team that occupies the Rabat Ajax Football Ground belong to?",
+      "gold": "Maltese Premier League",
+      "type": "musique",
+      "orig_tokens": 1023,
+      "methods": {
+        "raw": {
+          "pred": "The team that occupies the Rabat Ajax Football Ground belongs to the Scottish Football League",
+          "em": 0.0,
+          "f1": 0.13333333333333333,
+          "tokens": 1023
+        },
+        "oracle": {
+          "pred": "Maltsele Premier League",
+          "em": 0.0,
+          "f1": 0.6666666666666666,
+          "tokens": 90
+        },
+        "llmlingua2": {
+          "pred": "League",
+          "em": 0.0,
+          "f1": 0.5,
+          "tokens": 224
+        },
+        "itercomp": {
+          "pred": "Maltsele Premier League",
+          "em": 0.0,
+          "f1": 0.6666666666666666,
+          "tokens": 90
+        }
+      }
+    },
+    {
+      "question": "Who was married to the star of No Escape?",
+      "gold": "John Profumo",
+      "type": "musique",
+      "orig_tokens": 1786,
+      "methods": {
+        "raw": {
+          "pred": "Valerie Hobson",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1786
+        },
+        "oracle": {
+          "pred": "Valerie Hobson",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 108
+        },
+        "llmlingua2": {
+          "pred": "Kendra",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 396
+        },
+        "itercomp": {
+          "pred": "Debra Hill",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 129
+        }
+      }
+    }
+  ]
+}

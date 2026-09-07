@@ -1,0 +1,1650 @@
+{
+  "config": {
+    "dataset": "vimqa",
+    "limit": 50,
+    "reader": "hf",
+    "reader_model": "Qwen/Qwen2.5-0.5B-Instruct",
+    "methods": "raw,oracle,llmlingua2,itercomp",
+    "itercomp_llm": "mock",
+    "rate": 0.33,
+    "max_iter": 5,
+    "scorer": "dual",
+    "encoder": "BAAI/bge-m3",
+    "lam": 0.6,
+    "percentile": null,
+    "top_k": null,
+    "out": "CK/results/vimqa_50_hf05b_dual.json"
+  },
+  "summary": {
+    "raw": {
+      "em": 6.0,
+      "f1": 22.466850996262757,
+      "avg_tokens": 1125.56,
+      "ratio": 1.0,
+      "sec_per_q": 2.4158323669433592
+    },
+    "oracle": {
+      "em": 10.0,
+      "f1": 27.274651192158093,
+      "avg_tokens": 64.5,
+      "ratio": 0.05730480827321511,
+      "sec_per_q": 0.4289772415161133
+    },
+    "llmlingua2": {
+      "em": 2.0,
+      "f1": 12.986605551311431,
+      "avg_tokens": 359.04,
+      "ratio": 0.3189878815878318,
+      "sec_per_q": 1.693163228034973
+    },
+    "itercomp": {
+      "em": 8.0,
+      "f1": 18.996282234389646,
+      "avg_tokens": 149.42,
+      "ratio": 0.1327516969330822,
+      "sec_per_q": 2.4855055093765257
+    }
+  },
+  "per_row": [
+    {
+      "question": "Diego Maradona nhỏ tuổi hơn Rutherford B. Hayes phải không?",
+      "gold": "đúng",
+      "type": "bridge",
+      "orig_tokens": 1068,
+      "methods": {
+        "raw": {
+          "pred": "small",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1068
+        },
+        "oracle": {
+          "pred": "tôi không thể trả lời câu hỏi này vì tôi không có thông tin về sự khác biệt giữa Diego Maradona và Rutherford B. Hayes. Tôi chỉ biết họ là hai người nổi tiếng trong lịch sử bóng đá và chính trị",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 79
+        },
+        "llmlingua2": {
+          "pred": "chưa chia sẻ",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 336
+        },
+        "itercomp": {
+          "pred": "tức là yes",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 168
+        }
+      }
+    },
+    {
+      "question": "Tên núi Lang Biang ở Lạc Dương, Lâm Đồng được giải thích bằng huyền thoại nào",
+      "gold": "chàng K’lang và nàng H'biang",
+      "type": "bridge",
+      "orig_tokens": 971,
+      "methods": {
+        "raw": {
+          "pred": "Lang Biang",
+          "em": 0.0,
+          "f1": 0.4444444444444445,
+          "tokens": 971
+        },
+        "oracle": {
+          "pred": "Lang Biang",
+          "em": 0.0,
+          "f1": 0.4444444444444445,
+          "tokens": 41
+        },
+        "llmlingua2": {
+          "pred": "Lóng Biang",
+          "em": 0.0,
+          "f1": 0.22222222222222224,
+          "tokens": 302
+        },
+        "itercomp": {
+          "pred": "người K'ho",
+          "em": 0.0,
+          "f1": 0.2,
+          "tokens": 207
+        }
+      }
+    },
+    {
+      "question": "Album phòng thu đầu tay của Billie Eilish được phát hành vào ngày nào?",
+      "gold": "ngày 29 tháng 3 năm 2019 ",
+      "type": "bridge",
+      "orig_tokens": 1848,
+      "methods": {
+        "raw": {
+          "pred": "29 tháng 3 năm 2019",
+          "em": 0.0,
+          "f1": 0.9090909090909091,
+          "tokens": 1848
+        },
+        "oracle": {
+          "pred": "29 tháng 3 năm 2019",
+          "em": 0.0,
+          "f1": 0.9090909090909091,
+          "tokens": 53
+        },
+        "llmlingua2": {
+          "pred": "29 tháng 3 2019",
+          "em": 0.0,
+          "f1": 0.8,
+          "tokens": 611
+        },
+        "itercomp": {
+          "pred": "2019",
+          "em": 0.0,
+          "f1": 0.2857142857142857,
+          "tokens": 201
+        }
+      }
+    },
+    {
+      "question": "Spin-off dành cho người lớn của Ecstasy năm 2010 là trò chơi thứ mấy trong lịch sử phát hành của Key?",
+      "gold": "thứ tám",
+      "type": "bridge",
+      "orig_tokens": 2048,
+      "methods": {
+        "raw": {
+          "pred": "thứ 7",
+          "em": 0.0,
+          "f1": 0.5,
+          "tokens": 2048
+        },
+        "oracle": {
+          "pred": "Tứ",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 59
+        },
+        "llmlingua2": {
+          "pred": "Tứ thứ bảy",
+          "em": 0.0,
+          "f1": 0.4,
+          "tokens": 648
+        },
+        "itercomp": {
+          "pred": "Spin-off dành cho người lớn của Ecstasy năm 2010 là trò chơi thứ 7 trong lịch sử phát hành của Key",
+          "em": 0.0,
+          "f1": 0.08333333333333334,
+          "tokens": 256
+        }
+      }
+    },
+    {
+      "question": "Triều Tiên nằm ở khu vực nào",
+      "gold": "Triều Tiên nằm trên bán đảo Triều Tiên tại đông bắc châu Á.",
+      "type": "bridge",
+      "orig_tokens": 618,
+      "methods": {
+        "raw": {
+          "pred": "bán đảo Triều Tiên",
+          "em": 0.0,
+          "f1": 0.47058823529411764,
+          "tokens": 618
+        },
+        "oracle": {
+          "pred": "khu vực Đông Bắc châu Á",
+          "em": 0.0,
+          "f1": 0.42105263157894735,
+          "tokens": 15
+        },
+        "llmlingua2": {
+          "pred": "Khu vực Đông Á",
+          "em": 0.0,
+          "f1": 0.23529411764705882,
+          "tokens": 193
+        },
+        "itercomp": {
+          "pred": "bán đảo Triều Tiên",
+          "em": 0.0,
+          "f1": 0.47058823529411764,
+          "tokens": 124
+        }
+      }
+    },
+    {
+      "question": "Ozzy Osbourne được ghi danh vào bảo tàng Đại sảnh Danh vọng Rock and Roll nằm ở bờ hồ Erie phải không?",
+      "gold": "đúng",
+      "type": "bridge",
+      "orig_tokens": 1338,
+      "methods": {
+        "raw": {
+          "pred": "Dựa trên ngữ cảnh, Ozzy Osbourne được ghi danh vào Đại sảnh Danh vọng Rock and Roll ở bờ hồ Erie tại Cleveland, Ohio, Hoa Kỳ",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1338
+        },
+        "oracle": {
+          "pred": "bờ hồ Erie",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 85
+        },
+        "llmlingua2": {
+          "pred": "Đại sảnh Rock and Roll Đại lộ Danh vọng Hollywood",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 438
+        },
+        "itercomp": {
+          "pred": "bờ hồ Erie",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 144
+        }
+      }
+    },
+    {
+      "question": "Thành phố nơi ban nhạc The Chicks sáng lập lớn thứ mấy tại Hoa Kỳ?",
+      "gold": "9",
+      "type": "bridge",
+      "orig_tokens": 1673,
+      "methods": {
+        "raw": {
+          "pred": "thứ 14",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1673
+        },
+        "oracle": {
+          "pred": "Thành phố nơi ban nhạc The Chicks sáng lập lớn thứ 9 tại Hoa Kỳ",
+          "em": 0.0,
+          "f1": 0.13333333333333333,
+          "tokens": 37
+        },
+        "llmlingua2": {
+          "pred": "thứ 9",
+          "em": 0.0,
+          "f1": 0.6666666666666666,
+          "tokens": 544
+        },
+        "itercomp": {
+          "pred": "thứ ba",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 211
+        }
+      }
+    },
+    {
+      "question": "Ca khúc Johnny B. Goode của Chuck Berry trở thành bản hit phổ biến trong cả cộng đồng người da màu lẫn da trắng phải không?",
+      "gold": "đúng",
+      "type": "bridge",
+      "orig_tokens": 1331,
+      "methods": {
+        "raw": {
+          "pred": "Yes",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1331
+        },
+        "oracle": {
+          "pred": "từ năm 1958",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 118
+        },
+        "llmlingua2": {
+          "pred": "Ca khúc Johnny B. Goode của Chuck Berry trở thành bản hit phổ biến trong cả cộng đồng người da màu lẫn da trắng",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 444
+        },
+        "itercomp": {
+          "pred": "Yes",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 172
+        }
+      }
+    },
+    {
+      "question": "Diện tích của Châu Phi là bao nhiêu",
+      "gold": "khoảng 30.221.532 km2 ( 11.668.599 mi2 ) bao gồm cả các đảo cận kề thì nó chiếm 20,4% tổng diện tích đất đai của Trái Đất",
+      "type": "bridge",
+      "orig_tokens": 666,
+      "methods": {
+        "raw": {
+          "pred": "30.221.532 km²",
+          "em": 0.0,
+          "f1": 0.18181818181818182,
+          "tokens": 666
+        },
+        "oracle": {
+          "pred": "30.221.532 km²",
+          "em": 0.0,
+          "f1": 0.18181818181818182,
+          "tokens": 34
+        },
+        "llmlingua2": {
+          "pred": "30. 221. 532 km²",
+          "em": 0.0,
+          "f1": 0.18181818181818182,
+          "tokens": 214
+        },
+        "itercomp": {
+          "pred": "30.221.532 km²",
+          "em": 0.0,
+          "f1": 0.18181818181818182,
+          "tokens": 67
+        }
+      }
+    },
+    {
+      "question": "Ban nhạc có sản phẩm nổi tiếng nhất là đĩa đơn đầu năm 2003 có bao nhiêu thành viên?",
+      "gold": "2",
+      "type": "bridge",
+      "orig_tokens": 2035,
+      "methods": {
+        "raw": {
+          "pred": "2",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 2035
+        },
+        "oracle": {
+          "pred": "2",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 76
+        },
+        "llmlingua2": {
+          "pred": "tổng cộng 5",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 695
+        },
+        "itercomp": {
+          "pred": "3",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 306
+        }
+      }
+    },
+    {
+      "question": "Mạch chỉnh lưu có thể sử dụng ở đâu",
+      "gold": "trong các bộ nguồn cung cấp dòng điện một chiều , hoặc trong các mạch tách sóng tín hiệu vô tuyến điện trong các thiết bị vô tuyến",
+      "type": "bridge",
+      "orig_tokens": 1121,
+      "methods": {
+        "raw": {
+          "pred": "Mạch chỉnh lưu có thể sử dụng trong các bộ nguồn cung cấp dòng điện một chiều hoặc trong các mạch tách sóng tín hiệu vô tuyến",
+          "em": 0.0,
+          "f1": 0.7407407407407407,
+          "tokens": 1121
+        },
+        "oracle": {
+          "pred": "Cầu dẫn sóng tín hiệu",
+          "em": 0.0,
+          "f1": 0.18750000000000003,
+          "tokens": 38
+        },
+        "llmlingua2": {
+          "pred": "Bán dẫn",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 345
+        },
+        "itercomp": {
+          "pred": "Thị trường điện thoại di động",
+          "em": 0.0,
+          "f1": 0.06060606060606061,
+          "tokens": 149
+        }
+      }
+    },
+    {
+      "question": "Cha của Ingrid Bergman là người của quốc gia nằm ở Bắc Âu phải không?",
+      "gold": "không",
+      "type": "bridge",
+      "orig_tokens": 1310,
+      "methods": {
+        "raw": {
+          "pred": "Thứ hai",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1310
+        },
+        "oracle": {
+          "pred": "Đức",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 96
+        },
+        "llmlingua2": {
+          "pred": "Thụy Điển",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 406
+        },
+        "itercomp": {
+          "pred": "Thụy Điển",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 167
+        }
+      }
+    },
+    {
+      "question": "Zalo được sử dụng ở đất nước nào",
+      "gold": "Việt Nam, Hoa Kỳ, Myanmar, Nhật Bản, Đài Loan, Hàn Quốc, Malaysia, Ả Rập Xê Út, Angola, Sri Lanka, Cộng hòa Séc, Nga.",
+      "type": "bridge",
+      "orig_tokens": 518,
+      "methods": {
+        "raw": {
+          "pred": "Vietnam",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 518
+        },
+        "oracle": {
+          "pred": "Việt Nam",
+          "em": 0.0,
+          "f1": 0.16,
+          "tokens": 51
+        },
+        "llmlingua2": {
+          "pred": "Quảng Ngãi",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 157
+        },
+        "itercomp": {
+          "pred": "Vietnam",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 74
+        }
+      }
+    },
+    {
+      "question": "Đội bóng mà Roberto Firmino chơi vị trí tiền đạo thuộc thành phố London phải không?",
+      "gold": "không",
+      "type": "bridge",
+      "orig_tokens": 1001,
+      "methods": {
+        "raw": {
+          "pred": "Theo ngữ cảnh, Roberto Firmino chơi vị trí tiền đạo cho câu lạc bộ bóng đá Anh Liverpool và đội tuyển Brasil. Do đó, đội bóng mà Roberto Firmino chơi vị trí tiền đạo thuộc thành phố London là Liverpool",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1001
+        },
+        "oracle": {
+          "pred": "Anh ấy chơi vị trí tiền đạo cho Liverpool",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 60
+        },
+        "llmlingua2": {
+          "pred": "Quốc tịch: Ý",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 310
+        },
+        "itercomp": {
+          "pred": "Anh là cầu thủ có thể chơi bất kỳ vị trí nào trên hàng công từ tiền đạo cắm, tiền đạo hộ công, tiền vệ công",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 127
+        }
+      }
+    },
+    {
+      "question": "Người sở hữu Sony/ATV Music Publishing được mệnh danh là gì?",
+      "gold": "Ông hoàng nhạc pop",
+      "type": "bridge",
+      "orig_tokens": 1065,
+      "methods": {
+        "raw": {
+          "pred": "Sony/ATV Music Publishing",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1065
+        },
+        "oracle": {
+          "pred": "Ông hoàng nhạc pop",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 58
+        },
+        "llmlingua2": {
+          "pred": "Sony / ATV Music Publishing được mệnh danh là tập đoàn nhạc đa quốc gia",
+          "em": 0.0,
+          "f1": 0.11111111111111112,
+          "tokens": 315
+        },
+        "itercomp": {
+          "pred": "Sony Entertainment",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 109
+        }
+      }
+    },
+    {
+      "question": "Hàn Mạc Tử sinh năm mấy",
+      "gold": "22 tháng 9 năm 1912",
+      "type": "bridge",
+      "orig_tokens": 658,
+      "methods": {
+        "raw": {
+          "pred": "1912",
+          "em": 0.0,
+          "f1": 0.33333333333333337,
+          "tokens": 658
+        },
+        "oracle": {
+          "pred": "22",
+          "em": 0.0,
+          "f1": 0.33333333333333337,
+          "tokens": 52
+        },
+        "llmlingua2": {
+          "pred": "22",
+          "em": 0.0,
+          "f1": 0.33333333333333337,
+          "tokens": 201
+        },
+        "itercomp": {
+          "pred": "22",
+          "em": 0.0,
+          "f1": 0.33333333333333337,
+          "tokens": 91
+        }
+      }
+    },
+    {
+      "question": "Album có bài hát Pennyroyal Tea là album phòng thu thứ mấy của ban nhạc rock người Mỹ Nirvana?",
+      "gold": "ba",
+      "type": "bridge",
+      "orig_tokens": 1549,
+      "methods": {
+        "raw": {
+          "pred": "Album Pennyroyal Tea là bài hát của ban nhạc rock người Mỹ Nirvana, album phòng thu thứ hai của họ",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1549
+        },
+        "oracle": {
+          "pred": "chủ đề: album phòng thu thứ mấy của ban nhạc rock người Mỹ Nirvana",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 49
+        },
+        "llmlingua2": {
+          "pred": "thứ bảy",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 502
+        },
+        "itercomp": {
+          "pred": "thứ chín",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 164
+        }
+      }
+    },
+    {
+      "question": "Đội tuyển thành công nhất European Champion Clubs' Cup cũng từng giành được bảy chức vô địch thế giới cấp câu lạc bộ phải không?",
+      "gold": "đúng",
+      "type": "bridge",
+      "orig_tokens": 2162,
+      "methods": {
+        "raw": {
+          "pred": "lạc bộ châu Âu duy nhất vô địch cả hai giải đấu quốc tế. Câu lạc bộ này cũng là đội bóng đầu tiên vô địch UEFA Champions League và UEFA Europa League trong lịch sử của Đức. Câu lạc bộ này cũng là",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 2162
+        },
+        "oracle": {
+          "pred": "Đội tuyển thành công nhất European Champion Clubs' Cup đã giành được bảy chức vô địch thế giới cấp câu lạc bộ",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 67
+        },
+        "llmlingua2": {
+          "pred": "chín",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 706
+        },
+        "itercomp": {
+          "pred": "Yes",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 305
+        }
+      }
+    },
+    {
+      "question": "Câu lạc bộ nào James Milner từng chơi có trụ sở tại Swindon, Wiltshire, Anh?",
+      "gold": "Swindon Town F.C.",
+      "type": "bridge",
+      "orig_tokens": 1313,
+      "methods": {
+        "raw": {
+          "pred": "Swindon Town",
+          "em": 0.0,
+          "f1": 0.6666666666666666,
+          "tokens": 1313
+        },
+        "oracle": {
+          "pred": "Leeds United",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 43
+        },
+        "llmlingua2": {
+          "pred": "Swindon Town F. C",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 431
+        },
+        "itercomp": {
+          "pred": "Swindon Town F.C",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 158
+        }
+      }
+    },
+    {
+      "question": "Quần đảo Cát Bà nằm ở đâu",
+      "gold": "ở phía nam vịnh Hạ Long , ngoài khơi thành phố Hải Phòng và tỉnh Quảng Ninh",
+      "type": "bridge",
+      "orig_tokens": 794,
+      "methods": {
+        "raw": {
+          "pred": "Quần đảo Cát Bà nằm ở phía nam vịnh Hạ Long, ngoài khơi thành phố Hải Phòng và tỉnh Quảng Ninh",
+          "em": 0.0,
+          "f1": 0.8648648648648648,
+          "tokens": 794
+        },
+        "oracle": {
+          "pred": "năm",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 54
+        },
+        "llmlingua2": {
+          "pred": "Quần đảo Cát Bà nằm ở Việt Nam",
+          "em": 0.0,
+          "f1": 0.16666666666666666,
+          "tokens": 239
+        },
+        "itercomp": {
+          "pred": "quần đảo Cát Bà nằm ở phía nam vịnh Hạ Long",
+          "em": 0.0,
+          "f1": 0.4444444444444444,
+          "tokens": 114
+        }
+      }
+    },
+    {
+      "question": "mini-album thứ ba của nhóm T-ara được dự định phát hành vào ngày 18 tháng 11 đúng không ?",
+      "gold": "đúng",
+      "type": "bridge",
+      "orig_tokens": 1085,
+      "methods": {
+        "raw": {
+          "pred": "Yes",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1085
+        },
+        "oracle": {
+          "pred": "tôi trả lời đúng",
+          "em": 0.0,
+          "f1": 0.4,
+          "tokens": 101
+        },
+        "llmlingua2": {
+          "pred": "Yes",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 358
+        },
+        "itercomp": {
+          "pred": "Yes",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 148
+        }
+      }
+    },
+    {
+      "question": "Quốc gia của câu lạc bộ Newcastle United F.C. có biên giới trên bộ với các quốc gia nào?",
+      "gold": "Scotland và Wales",
+      "type": "bridge",
+      "orig_tokens": 999,
+      "methods": {
+        "raw": {
+          "pred": "Quốc gia của câu lạc bộ Newcastle United F.C. là Anh",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 999
+        },
+        "oracle": {
+          "pred": "Scotland",
+          "em": 0.0,
+          "f1": 0.5,
+          "tokens": 54
+        },
+        "llmlingua2": {
+          "pred": "Bắc Ireland",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 327
+        },
+        "itercomp": {
+          "pred": "Scotland",
+          "em": 0.0,
+          "f1": 0.5,
+          "tokens": 107
+        }
+      }
+    },
+    {
+      "question": "Album có bài hát So Happy I Could Die phát hành vào ngày nào?",
+      "gold": "ngày 18 tháng 11 năm 2009 ",
+      "type": "bridge",
+      "orig_tokens": 1418,
+      "methods": {
+        "raw": {
+          "pred": "Tháng 4 năm 1994",
+          "em": 0.0,
+          "f1": 0.4,
+          "tokens": 1418
+        },
+        "oracle": {
+          "pred": "18 tháng 11 năm 2009",
+          "em": 0.0,
+          "f1": 0.9090909090909091,
+          "tokens": 85
+        },
+        "llmlingua2": {
+          "pred": "tháng 4",
+          "em": 0.0,
+          "f1": 0.25,
+          "tokens": 449
+        },
+        "itercomp": {
+          "pred": "30 tháng 8",
+          "em": 0.0,
+          "f1": 0.2222222222222222,
+          "tokens": 176
+        }
+      }
+    },
+    {
+      "question": "Zbigniew Boniek lớn tuổi hơn Divock Origi phải không?",
+      "gold": "đúng",
+      "type": "bridge",
+      "orig_tokens": 606,
+      "methods": {
+        "raw": {
+          "pred": "Người lớn tuổi hơn",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 606
+        },
+        "oracle": {
+          "pred": "người)bắczuongiao",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 70
+        },
+        "llmlingua2": {
+          "pred": "Người lớn hơn",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 188
+        },
+        "itercomp": {
+          "pred": "người)bắczuongiao",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 70
+        }
+      }
+    },
+    {
+      "question": "Nguyễn Hữu Cảnh là người ở địa phương nào",
+      "gold": "thôn Phước Long, xã Chương Tín, huyện Phong Lộc (nay là xã Vạn Ninh, huyện Quảng Ninh, tỉnh Quảng Bình)",
+      "type": "bridge",
+      "orig_tokens": 596,
+      "methods": {
+        "raw": {
+          "pred": "Hòa Tiến",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 596
+        },
+        "oracle": {
+          "pred": "Xã Vạn Ninh",
+          "em": 0.0,
+          "f1": 0.2608695652173913,
+          "tokens": 42
+        },
+        "llmlingua2": {
+          "pred": "Địa điểm: Ottawa, Tuần Lễ Cảnh Sát, thủ đô Canada",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 168
+        },
+        "itercomp": {
+          "pred": "Xã Vạn Ninh",
+          "em": 0.0,
+          "f1": 0.2608695652173913,
+          "tokens": 52
+        }
+      }
+    },
+    {
+      "question": "Đội tuyển bóng đá đất nước mà Leonardo Bonucci đang chơi giành được bao nhiêu chức vô địch Euro?",
+      "gold": "2",
+      "type": "bridge",
+      "orig_tokens": 1215,
+      "methods": {
+        "raw": {
+          "pred": "1",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1215
+        },
+        "oracle": {
+          "pred": "2",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 61
+        },
+        "llmlingua2": {
+          "pred": "1",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 394
+        },
+        "itercomp": {
+          "pred": "2",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 208
+        }
+      }
+    },
+    {
+      "question": "Tiếng nào nhân viên phục vụ công viên Hong Kong Disneyland có thể nói còn gọi là Việt ngữ?",
+      "gold": "Tiếng Quảng Đông",
+      "type": "bridge",
+      "orig_tokens": 920,
+      "methods": {
+        "raw": {
+          "pred": "Tiếng Quảng Đông",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 920
+        },
+        "oracle": {
+          "pred": "Quang Đông",
+          "em": 0.0,
+          "f1": 0.4,
+          "tokens": 73
+        },
+        "llmlingua2": {
+          "pred": "Quản lý công viên Hong Kong Disneyland có thể nói tiếng Anh",
+          "em": 0.0,
+          "f1": 0.13333333333333333,
+          "tokens": 297
+        },
+        "itercomp": {
+          "pred": "Quan Thoại",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 83
+        }
+      }
+    },
+    {
+      "question": "Ngôi sao cùng thời Joan Crawford - Norma Shearer là nghệ sĩ người Mỹ gốc Canana phải không?",
+      "gold": "đúng",
+      "type": "bridge",
+      "orig_tokens": 1158,
+      "methods": {
+        "raw": {
+          "pred": "Người Mỹ gốc Canaan",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1158
+        },
+        "oracle": {
+          "pred": "Người Mỹ gốc Canaan",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 55
+        },
+        "llmlingua2": {
+          "pred": "Người Mỹ gốc Canaan",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 360
+        },
+        "itercomp": {
+          "pred": "Người Mỹ gốc Canaan",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 111
+        }
+      }
+    },
+    {
+      "question": "Đại dương có đảo quốc New Zealand có diện tích bao nhiêu?",
+      "gold": "165,25 triệu km2 (63,8 triệu dặm2)",
+      "type": "bridge",
+      "orig_tokens": 928,
+      "methods": {
+        "raw": {
+          "pred": "5,250,000 km²",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 928
+        },
+        "oracle": {
+          "pred": "165,25",
+          "em": 0.0,
+          "f1": 0.4,
+          "tokens": 84
+        },
+        "llmlingua2": {
+          "pred": "106.400.000 km²",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 294
+        },
+        "itercomp": {
+          "pred": "106.400.000 km²",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 121
+        }
+      }
+    },
+    {
+      "question": "Tử Cấm Thành nằm ở đâu",
+      "gold": "nằm ngay giữa trung tâm thành phố Bắc Kinh",
+      "type": "bridge",
+      "orig_tokens": 819,
+      "methods": {
+        "raw": {
+          "pred": "Bắc Kinh",
+          "em": 0.0,
+          "f1": 0.3636363636363636,
+          "tokens": 819
+        },
+        "oracle": {
+          "pred": "Tử Cấm Thành nằm trong trung tâm thành phố Bắc Kinh",
+          "em": 0.0,
+          "f1": 0.7000000000000001,
+          "tokens": 47
+        },
+        "llmlingua2": {
+          "pred": "Tử Cấm Thành nằm ở Hà Nội",
+          "em": 0.0,
+          "f1": 0.25,
+          "tokens": 255
+        },
+        "itercomp": {
+          "pred": "Bắc Kinh",
+          "em": 0.0,
+          "f1": 0.3636363636363636,
+          "tokens": 120
+        }
+      }
+    },
+    {
+      "question": "Đội bóng Inter Milan mà Serie A sở hữu có trụ sở tại Milano, Lombardia phải không?",
+      "gold": "đúng",
+      "type": "bridge",
+      "orig_tokens": 1375,
+      "methods": {
+        "raw": {
+          "pred": "Yes",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1375
+        },
+        "oracle": {
+          "pred": "Yes",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 119
+        },
+        "llmlingua2": {
+          "pred": "Yes",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 439
+        },
+        "itercomp": {
+          "pred": "Inter Milan",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 238
+        }
+      }
+    },
+    {
+      "question": "Đội bóng nào Edgar Davids từng chơi có biểu tượng là hình chú gà trống đứng trên hình quả bóng?",
+      "gold": "Tottenham Hotspur F.C.",
+      "type": "bridge",
+      "orig_tokens": 1104,
+      "methods": {
+        "raw": {
+          "pred": "Manchester United",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1104
+        },
+        "oracle": {
+          "pred": "Tottenham Hotspur F.C",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 54
+        },
+        "llmlingua2": {
+          "pred": "Manchester City",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 350
+        },
+        "itercomp": {
+          "pred": "Tottenham Hotspur F.C",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 126
+        }
+      }
+    },
+    {
+      "question": "Justified/Stripped Tour là chuyến lưu diễn lần thứ mấy của Christina Aguilera ?",
+      "gold": "thứ hai",
+      "type": "bridge",
+      "orig_tokens": 817,
+      "methods": {
+        "raw": {
+          "pred": "Thứ ba",
+          "em": 0.0,
+          "f1": 0.5,
+          "tokens": 817
+        },
+        "oracle": {
+          "pred": "Trong chuyến lưu diễn thứ 3 của Christina Aguilera",
+          "em": 0.0,
+          "f1": 0.1818181818181818,
+          "tokens": 60
+        },
+        "llmlingua2": {
+          "pred": "Justified",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 266
+        },
+        "itercomp": {
+          "pred": "Thứ ba",
+          "em": 0.0,
+          "f1": 0.5,
+          "tokens": 97
+        }
+      }
+    },
+    {
+      "question": "Tập truyện Ron Weasley xuất hiện lần đầu tiên là cuốn thứ mấy trong loạt tiểu thuyết Harry Potter?",
+      "gold": "đầu",
+      "type": "bridge",
+      "orig_tokens": 1156,
+      "methods": {
+        "raw": {
+          "pred": "Tập truyện Ron Weasley xuất hiện lần đầu tiên là cuốn thứ 2 trong loạt tiểu thuyết Harry Potter",
+          "em": 0.0,
+          "f1": 0.1,
+          "tokens": 1156
+        },
+        "oracle": {
+          "pred": "trong Harry Potter và hòn đá phù thủy",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 65
+        },
+        "llmlingua2": {
+          "pred": "tập truyện Ron Weasley xuất hiện lần đầu tiên là cuốn thứ 3 trong loạt tiểu thuyết Harry Potter",
+          "em": 0.0,
+          "f1": 0.1,
+          "tokens": 357
+        },
+        "itercomp": {
+          "pred": "1",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 142
+        }
+      }
+    },
+    {
+      "question": "Hà Nội có bao nhiêu đơn vị hành chính",
+      "gold": "Hà Nội hiện có 30 đơn vị hành chính cấp huyện – gồm 12 quận , 17 huyện , 1 thị xã – và 584 đơn vị hành chính cấp xã",
+      "type": "bridge",
+      "orig_tokens": 549,
+      "methods": {
+        "raw": {
+          "pred": "30",
+          "em": 0.0,
+          "f1": 0.07142857142857142,
+          "tokens": 549
+        },
+        "oracle": {
+          "pred": "30",
+          "em": 0.0,
+          "f1": 0.07142857142857142,
+          "tokens": 58
+        },
+        "llmlingua2": {
+          "pred": "12",
+          "em": 0.0,
+          "f1": 0.07142857142857142,
+          "tokens": 176
+        },
+        "itercomp": {
+          "pred": "30",
+          "em": 0.0,
+          "f1": 0.07142857142857142,
+          "tokens": 100
+        }
+      }
+    },
+    {
+      "question": "Andriy Mykolayovych Shevchenko nhỏ tuổi hơn Jordan Henderson phải không?",
+      "gold": "không",
+      "type": "bridge",
+      "orig_tokens": 628,
+      "methods": {
+        "raw": {
+          "pred": "Đúng, Andriy Mykolayovych Shevchenko nhỏ tuổi hơn Jordan Henderson",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 628
+        },
+        "oracle": {
+          "pred": "small",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 76
+        },
+        "llmlingua2": {
+          "pred": "Andriy Mykolayovych Shevchenko nhỏ tuổi hơn Jordan Henderson",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 207
+        },
+        "itercomp": {
+          "pred": "small",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 87
+        }
+      }
+    },
+    {
+      "question": "BBC Two được phát sóng ở đâu là thuộc địa Hoàng gia Anh Quốc?",
+      "gold": "Quần đảo Eo Biển",
+      "type": "bridge",
+      "orig_tokens": 1434,
+      "methods": {
+        "raw": {
+          "pred": "Luân Đôn",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1434
+        },
+        "oracle": {
+          "pred": "Vương quốc Anh",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 77
+        },
+        "llmlingua2": {
+          "pred": "Vương quốc Anh",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 444
+        },
+        "itercomp": {
+          "pred": "Quân quốc Anh",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 172
+        }
+      }
+    },
+    {
+      "question": "Đội bóng nào Danny Drinkwater từng thi đấu còn được biết đến là The Foxes?",
+      "gold": "Leicester City F.C.",
+      "type": "bridge",
+      "orig_tokens": 1277,
+      "methods": {
+        "raw": {
+          "pred": "Manchester United",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1277
+        },
+        "oracle": {
+          "pred": "The Foxes",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 107
+        },
+        "llmlingua2": {
+          "pred": "Manchester United",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 418
+        },
+        "itercomp": {
+          "pred": "Reading",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 228
+        }
+      }
+    },
+    {
+      "question": "Giải thưởng nào Roger D. Kornberg nhận được có tên tiếng Anh là Eli Lilly Award in Biological Chemistry?",
+      "gold": "Giải Eli Lilly về Hóa Sinh",
+      "type": "bridge",
+      "orig_tokens": 1232,
+      "methods": {
+        "raw": {
+          "pred": "Eli Lilly Award in Biological Chemistry",
+          "em": 0.0,
+          "f1": 0.3333333333333333,
+          "tokens": 1232
+        },
+        "oracle": {
+          "pred": "Eli Lilly Award in Biological Chemistry",
+          "em": 0.0,
+          "f1": 0.3333333333333333,
+          "tokens": 107
+        },
+        "llmlingua2": {
+          "pred": "Eli Lilly Award in Biological Chemistry",
+          "em": 0.0,
+          "f1": 0.3333333333333333,
+          "tokens": 396
+        },
+        "itercomp": {
+          "pred": "Eli Lilly Award in Biological Chemistry",
+          "em": 0.0,
+          "f1": 0.3333333333333333,
+          "tokens": 168
+        }
+      }
+    },
+    {
+      "question": "Tổng thống đầu tiên trong lịch sử Mỹ là ai",
+      "gold": "George Washington,",
+      "type": "bridge",
+      "orig_tokens": 998,
+      "methods": {
+        "raw": {
+          "pred": "George Washington",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 998
+        },
+        "oracle": {
+          "pred": "George Washington",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 32
+        },
+        "llmlingua2": {
+          "pred": "William Henry Harrison",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 315
+        },
+        "itercomp": {
+          "pred": "George Washington",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 162
+        }
+      }
+    },
+    {
+      "question": "Câu lạc bộ mà Roberto Firmino chơi vị trí tiền đạo thuộc thành phố London phải không?",
+      "gold": "không",
+      "type": "bridge",
+      "orig_tokens": 1155,
+      "methods": {
+        "raw": {
+          "pred": "Liverpool",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1155
+        },
+        "oracle": {
+          "pred": "Anh ấy chơi vị trí tiền đạo cho câu lạc bộ bóng đá Anh Liverpool",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 60
+        },
+        "llmlingua2": {
+          "pred": "Manchester United",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 377
+        },
+        "itercomp": {
+          "pred": "Anh là cầu thủ có thể chơi bất kỳ vị trí nào trên hàng công từ tiền đạo cắm, tiền đạo hộ công, tiền vệ công",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 133
+        }
+      }
+    },
+    {
+      "question": "Sân vận động bị Tottenham Hotspur thay thế đã từng là sân nhà của Tottenham Hotspur F.C. từ năm nào đến năm nào?",
+      "gold": "năm 1899 đến năm 2017",
+      "type": "bridge",
+      "orig_tokens": 1573,
+      "methods": {
+        "raw": {
+          "pred": "1899 - 2017",
+          "em": 0.0,
+          "f1": 0.5714285714285715,
+          "tokens": 1573
+        },
+        "oracle": {
+          "pred": "Sân vận động bị Tottenham Hotspur thay thế đã từng là sân nhà của Tottenham Hotspur F.C. từ năm 1899 đến năm 2017",
+          "em": 0.0,
+          "f1": 0.3448275862068966,
+          "tokens": 50
+        },
+        "llmlingua2": {
+          "pred": "1899-2017",
+          "em": 0.0,
+          "f1": 0.5714285714285715,
+          "tokens": 497
+        },
+        "itercomp": {
+          "pred": "1899 - 2017",
+          "em": 0.0,
+          "f1": 0.5714285714285715,
+          "tokens": 160
+        }
+      }
+    },
+    {
+      "question": "Anders Lindegaard lớn tuổi hơn Hong Myeong-bo phải không?",
+      "gold": "không",
+      "type": "bridge",
+      "orig_tokens": 1071,
+      "methods": {
+        "raw": {
+          "pred": "Anders Lindegaard lớn tuổi hơn Hong Myeong-bo 16 năm",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1071
+        },
+        "oracle": {
+          "pred": "Lớn tuổi hơn",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 71
+        },
+        "llmlingua2": {
+          "pred": "Anders Lindegaard lớn tuổi hơn Hong Myeong-bo 13 tháng 4 1984",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 355
+        },
+        "itercomp": {
+          "pred": "Lớn tuổi hơn",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 129
+        }
+      }
+    },
+    {
+      "question": "Quốc gia của Alfred Werner nằm tại châu lục nào?",
+      "gold": "Châu Âu",
+      "type": "bridge",
+      "orig_tokens": 768,
+      "methods": {
+        "raw": {
+          "pred": "Quốc gia của Alfred Werner nằm tại châu lục Á",
+          "em": 0.0,
+          "f1": 0.16666666666666669,
+          "tokens": 768
+        },
+        "oracle": {
+          "pred": "Thụy Sĩ",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 42
+        },
+        "llmlingua2": {
+          "pred": "Thụy Sĩ",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 237
+        },
+        "itercomp": {
+          "pred": "Thụy Sỹ",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 79
+        }
+      }
+    },
+    {
+      "question": "Steven Weinberg cùng với Sheldon Lee Glashow được trao giải Nobel Vật lý sinh năm 1933 phải không?",
+      "gold": "không",
+      "type": "bridge",
+      "orig_tokens": 1219,
+      "methods": {
+        "raw": {
+          "pred": "1979",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1219
+        },
+        "oracle": {
+          "pred": "người Mỹ",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 66
+        },
+        "llmlingua2": {
+          "pred": "Người được trao giải Nobel Vật lý sinh năm 1933 là Sheldon Lee Glashow",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 382
+        },
+        "itercomp": {
+          "pred": "1933",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 158
+        }
+      }
+    },
+    {
+      "question": "Michel Platini nhỏ tuổi hơn Bill Withers phải không?",
+      "gold": "đúng",
+      "type": "bridge",
+      "orig_tokens": 705,
+      "methods": {
+        "raw": {
+          "pred": "Người lớn hơn",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 705
+        },
+        "oracle": {
+          "pred": "người ta",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 97
+        },
+        "llmlingua2": {
+          "pred": "tôi chưa biết",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 228
+        },
+        "itercomp": {
+          "pred": "người ta",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 97
+        }
+      }
+    },
+    {
+      "question": "Đất nước của Joan Baez bao gồm bao nhiêu đặc khu liên bang?",
+      "gold": "1",
+      "type": "bridge",
+      "orig_tokens": 1207,
+      "methods": {
+        "raw": {
+          "pred": "4.494.047 km2",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1207
+        },
+        "oracle": {
+          "pred": "48",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 96
+        },
+        "llmlingua2": {
+          "pred": "48",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 365
+        },
+        "itercomp": {
+          "pred": "48",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 150
+        }
+      }
+    },
+    {
+      "question": "Lyndon B. Johnson lớn tuổi hơn Jean Harlow phải không?",
+      "gold": "đúng",
+      "type": "bridge",
+      "orig_tokens": 1300,
+      "methods": {
+        "raw": {
+          "pred": "Lớn tuổi hơn",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1300
+        },
+        "oracle": {
+          "pred": "Larger than",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 73
+        },
+        "llmlingua2": {
+          "pred": "Lớn tuổi hơn",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 419
+        },
+        "itercomp": {
+          "pred": "Lớn tuổi hơn",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 227
+        }
+      }
+    },
+    {
+      "question": "Nơi nào được sử dụng làm ranh giới giữa Triều Tiên và Hàn Quốc",
+      "gold": "làng Panmunjeon (Bàn Môn điếm),",
+      "type": "bridge",
+      "orig_tokens": 829,
+      "methods": {
+        "raw": {
+          "pred": "bán đảo Triều Tiên",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 829
+        },
+        "oracle": {
+          "pred": "Bàn Môn điếm",
+          "em": 0.0,
+          "f1": 0.7499999999999999,
+          "tokens": 30
+        },
+        "llmlingua2": {
+          "pred": "Bán Triều Tiên",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 265
+        },
+        "itercomp": {
+          "pred": "Khu phi quân sự",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 142
+        }
+      }
+    },
+    {
+      "question": "Vương Tuấn Khải là ai",
+      "gold": "là nam ca sĩ , diễn viên Trung Quốc , thành viên nhóm nhạc Trung Quốc TFBOYS",
+      "type": "bridge",
+      "orig_tokens": 1050,
+      "methods": {
+        "raw": {
+          "pred": "Vương Tuấn Khải là nam ca sĩ, diễn viên Trung Quốc",
+          "em": 0.0,
+          "f1": 0.6153846153846153,
+          "tokens": 1050
+        },
+        "oracle": {
+          "pred": "Vương Tuấn Khải là nam ca sĩ, diễn viên Trung Quốc",
+          "em": 0.0,
+          "f1": 0.6153846153846153,
+          "tokens": 48
+        },
+        "llmlingua2": {
+          "pred": "Vương Tuấn Khải là nam ca sĩ, diễn viên, thành nhạc TFBOYS",
+          "em": 0.0,
+          "f1": 0.6666666666666665,
+          "tokens": 332
+        },
+        "itercomp": {
+          "pred": "Vương Tuấn Khải là nam ca sĩ, diễn viên Trung Quốc",
+          "em": 0.0,
+          "f1": 0.6153846153846153,
+          "tokens": 166
+        }
+      }
+    }
+  ]
+}

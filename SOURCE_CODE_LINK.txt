@@ -1,0 +1,48 @@
+================================================================
+ĐỀ TÀI 32 - ĐƯỜNG DẪN KHO MÃ NGUỒN
+================================================================
+
+    https://github.com/nhantrnh/ANLP-IterCOMP
+
+Repo công khai, clone trực tiếp không cần đăng nhập:
+
+    git clone https://github.com/nhantrnh/ANLP-IterCOMP
+
+Nhánh chính: main
+Commit tương ứng bài nộp này: 6ec032247b5c9fbac9270f6adfe660993651ea46
+
+----------------------------------------------------------------
+QUAN HỆ VỚI THƯ MỤC source_code/ TRONG GÓI NỘP
+----------------------------------------------------------------
+Mã nguồn đã được nộp kèm trong thư mục source_code/ nên KHÔNG cần
+clone repo mới chạy được. Repo là bản đầy đủ, có thêm:
+
+  results/          Kết quả thô các lần chạy (12 MB)
+  notebooks/kaggle/ 15 notebook Kaggle cho từng thí nghiệm GPU
+  tests/            36 test tính chất + hồi quy
+  report_en/        Nguồn LaTeX của báo cáo
+
+Cây thư mục trong repo so với gói nộp:
+
+  repo                          gói nộp
+  ----------------------------  --------------------------------
+  src/                          source_code/src/
+  scripts/                      source_code/scripts/
+  research/                     source_code/research/
+  requirements.txt              source_code/requirements.txt
+  run.sh                        source_code/run.sh
+  report_en/report.pdf          report.pdf
+  report_en/ (còn lại)          source_code/report_latex/
+  notebooks/colab_reproduce.ipynb   notebooks/colab_reproduce.ipynb
+
+----------------------------------------------------------------
+CÁCH CHẠY
+----------------------------------------------------------------
+Xem README.md (Mục 3). Tóm tắt:
+
+  Notebook Colab/Kaggle:  notebooks/colab_reproduce.ipynb  (Mục 3.3.4)
+  Local, một lệnh:        cd source_code && ./run.sh       (Mục 3.0)
+  Local, thủ công:        Mục 3.1 - 3.3 (có hướng dẫn riêng cho Windows)
+
+Dữ liệu: DATASET_LINKS.txt
+Mô hình: MODEL_LINKS.txt

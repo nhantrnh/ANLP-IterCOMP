@@ -1,0 +1,13 @@
+{
+  "_source": "Do tren 200 ngu canh VimQA thuc te dung trong bai (khong phai WMT24++)",
+  "n_contexts": 200,
+  "mean_tokens_per_context": {
+    "regex_w": 1109.6,
+    "cl100k_base": 2364.0,
+    "o200k_base": 1537.7
+  },
+  "ratio_vs_regex_w": {
+    "cl100k_base": 2.13,
+    "o200k_base": 1.39
+  }
+}

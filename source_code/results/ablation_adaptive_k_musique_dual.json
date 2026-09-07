@@ -1,0 +1,43 @@
+{
+  "config": {
+    "dataset": "musique",
+    "limit": 200,
+    "scorer": "dual",
+    "k_min": 70.0,
+    "k_max": 95.0,
+    "out": "results/ablation_adaptive_k_musique_dual.json"
+  },
+  "k_stats": {
+    "mean": 72.94131611746704,
+    "sd": 1.3512036018208684,
+    "min": 70.19377077412517,
+    "max": 78.68144733079394,
+    "n_unique": 51
+  },
+  "k_by_hop": {
+    "2": 72.94131611746704
+  },
+  "tradeoff": {
+    "adaptive": {
+      "kept": 5.78,
+      "ratio": 0.30260403214313053
+    },
+    "k=70": {
+      "kept": 6,
+      "ratio": 0.31414345327047605
+    },
+    "k=80": {
+      "kept": 4,
+      "ratio": 0.2113298971668742
+    },
+    "k=90": {
+      "kept": 2,
+      "ratio": 0.10584936223822523
+    },
+    "k=95": {
+      "kept": 1,
+      "ratio": 0.05073759618299672
+    }
+  },
+  "matched_fixed_k": 70.0
+}

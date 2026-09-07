@@ -1,0 +1,1650 @@
+{
+  "config": {
+    "dataset": "hotpotqa",
+    "limit": 50,
+    "reader": "hf",
+    "reader_model": "Qwen/Qwen2.5-0.5B-Instruct",
+    "methods": "raw,oracle,llmlingua2,itercomp",
+    "itercomp_llm": "mock",
+    "rate": 0.33,
+    "max_iter": 5,
+    "scorer": "dual",
+    "encoder": "BAAI/bge-m3",
+    "lam": 0.6,
+    "percentile": null,
+    "top_k": null,
+    "out": "CK/results/hotpotqa_50_hf05b.json"
+  },
+  "summary": {
+    "raw": {
+      "em": 26.0,
+      "f1": 33.47599067599067,
+      "avg_tokens": 1042.26,
+      "ratio": 1.0,
+      "sec_per_q": 2.3521109676361083
+    },
+    "oracle": {
+      "em": 40.0,
+      "f1": 47.1,
+      "avg_tokens": 68.68,
+      "ratio": 0.06589526605645424,
+      "sec_per_q": 0.3667769145965576
+    },
+    "llmlingua2": {
+      "em": 16.0,
+      "f1": 24.609523809523807,
+      "avg_tokens": 248.3,
+      "ratio": 0.23823230288027938,
+      "sec_per_q": 1.5863289213180543
+    },
+    "itercomp": {
+      "em": 24.0,
+      "f1": 29.238095238095237,
+      "avg_tokens": 138.28,
+      "ratio": 0.13267322932857445,
+      "sec_per_q": 3.2669770240783693
+    }
+  },
+  "per_row": [
+    {
+      "question": "Were Scott Derrickson and Ed Wood of the same nationality?",
+      "gold": "yes",
+      "type": "comparison",
+      "orig_tokens": 770,
+      "methods": {
+        "raw": {
+          "pred": "American",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 770
+        },
+        "oracle": {
+          "pred": "American",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 36
+        },
+        "llmlingua2": {
+          "pred": "Scott Derrickson is American, while Ed Wood is American as well",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 170
+        },
+        "itercomp": {
+          "pred": "American",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 78
+        }
+      }
+    },
+    {
+      "question": "What government position was held by the woman who portrayed Corliss Archer in the film Kiss and Tell?",
+      "gold": "Chief of Protocol",
+      "type": "bridge",
+      "orig_tokens": 847,
+      "methods": {
+        "raw": {
+          "pred": "Secretary of State for Constitutional Affairs",
+          "em": 0.0,
+          "f1": 0.2222222222222222,
+          "tokens": 847
+        },
+        "oracle": {
+          "pred": "Chief of Protocol",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 88
+        },
+        "llmlingua2": {
+          "pred": "Secretary of State for Constitutional Affairs",
+          "em": 0.0,
+          "f1": 0.2222222222222222,
+          "tokens": 194
+        },
+        "itercomp": {
+          "pred": "Shirley Temple",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 82
+        }
+      }
+    },
+    {
+      "question": "What science fantasy young adult series, told in first person, has a set of companion books narrating the stories of enslaved worlds and alien species?",
+      "gold": "Animorphs",
+      "type": "bridge",
+      "orig_tokens": 1070,
+      "methods": {
+        "raw": {
+          "pred": "Animorphs",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 1070
+        },
+        "oracle": {
+          "pred": "Animorphs",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 169
+        },
+        "llmlingua2": {
+          "pred": "Chicken House",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 236
+        },
+        "itercomp": {
+          "pred": "Animorphs",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 127
+        }
+      }
+    },
+    {
+      "question": "Are the Laleli Mosque and Esma Sultan Mansion located in the same neighborhood?",
+      "gold": "no",
+      "type": "comparison",
+      "orig_tokens": 602,
+      "methods": {
+        "raw": {
+          "pred": "Yes",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 602
+        },
+        "oracle": {
+          "pred": "Yes",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 68
+        },
+        "llmlingua2": {
+          "pred": "no",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 140
+        },
+        "itercomp": {
+          "pred": "Yes",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 102
+        }
+      }
+    },
+    {
+      "question": "The director of the romantic comedy \"Big Stone Gap\" is based in what New York city?",
+      "gold": "Greenwich Village, New York City",
+      "type": "bridge",
+      "orig_tokens": 964,
+      "methods": {
+        "raw": {
+          "pred": "Donna Gigliotti",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 964
+        },
+        "oracle": {
+          "pred": "New York City",
+          "em": 0.0,
+          "f1": 0.7499999999999999,
+          "tokens": 62
+        },
+        "llmlingua2": {
+          "pred": "New York",
+          "em": 0.0,
+          "f1": 0.5714285714285715,
+          "tokens": 221
+        },
+        "itercomp": {
+          "pred": "Donna Gigliotti",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 177
+        }
+      }
+    },
+    {
+      "question": "2014 S/S is the debut album of a South Korean boy group that was formed by who?",
+      "gold": "YG Entertainment",
+      "type": "bridge",
+      "orig_tokens": 871,
+      "methods": {
+        "raw": {
+          "pred": "South Korean boy group WINNER",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 871
+        },
+        "oracle": {
+          "pred": "YG Entertainment",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 40
+        },
+        "llmlingua2": {
+          "pred": "YG Entertainment",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 215
+        },
+        "itercomp": {
+          "pred": "WINNER",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 110
+        }
+      }
+    },
+    {
+      "question": "Who was known by his stage name Aladin and helped organizations improve their performance as a consultant?",
+      "gold": "Eenasul Fateh",
+      "type": "bridge",
+      "orig_tokens": 1285,
+      "methods": {
+        "raw": {
+          "pred": "Eenasul Fateh",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 1285
+        },
+        "oracle": {
+          "pred": "Aladin",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 66
+        },
+        "llmlingua2": {
+          "pred": "Indriati Iskak",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 312
+        },
+        "itercomp": {
+          "pred": "Aladin",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 203
+        }
+      }
+    },
+    {
+      "question": "The arena where the Lewiston Maineiacs played their home games can seat how many people?",
+      "gold": "3,677 seated",
+      "type": "bridge",
+      "orig_tokens": 2285,
+      "methods": {
+        "raw": {
+          "pred": "Maineiacs won the Presidents Cup in 2007, becoming the first team in the US to do so.  The league finished tied for third in the Eastern Division with the Syracuse Crunches and the Rochester Red Wings",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 2285
+        },
+        "oracle": {
+          "pred": "4,000",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 46
+        },
+        "llmlingua2": {
+          "pred": "800",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 544
+        },
+        "itercomp": {
+          "pred": "1,400",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 190
+        }
+      }
+    },
+    {
+      "question": "Who is older, Annie Morton or Terry Richardson?",
+      "gold": "Terry Richardson",
+      "type": "bridge",
+      "orig_tokens": 890,
+      "methods": {
+        "raw": {
+          "pred": "Annie Morton is older than Terry Richardson",
+          "em": 0.0,
+          "f1": 0.4444444444444445,
+          "tokens": 890
+        },
+        "oracle": {
+          "pred": "Annie Morton",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 93
+        },
+        "llmlingua2": {
+          "pred": "Terry Richardson is older than Annie Morton",
+          "em": 0.0,
+          "f1": 0.4444444444444445,
+          "tokens": 204
+        },
+        "itercomp": {
+          "pred": "Annie Morton",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 108
+        }
+      }
+    },
+    {
+      "question": "Are Local H and For Against both from the United States?",
+      "gold": "yes",
+      "type": "comparison",
+      "orig_tokens": 973,
+      "methods": {
+        "raw": {
+          "pred": "Yes",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 973
+        },
+        "oracle": {
+          "pred": "Yes",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 49
+        },
+        "llmlingua2": {
+          "pred": "Local H and For Against are both from the United States",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 224
+        },
+        "itercomp": {
+          "pred": "Yes",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 113
+        }
+      }
+    },
+    {
+      "question": "What is the name of the fight song of the university whose main campus is in Lawrence, Kansas and whose branch campuses are in the Kansas City metropolitan area?",
+      "gold": "Kansas Song",
+      "type": "bridge",
+      "orig_tokens": 1299,
+      "methods": {
+        "raw": {
+          "pred": "Downtown Kansas City",
+          "em": 0.0,
+          "f1": 0.4,
+          "tokens": 1299
+        },
+        "oracle": {
+          "pred": "Kansas Song",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 72
+        },
+        "llmlingua2": {
+          "pred": "University of Kansas",
+          "em": 0.0,
+          "f1": 0.4,
+          "tokens": 311
+        },
+        "itercomp": {
+          "pred": "University of Kansas' fight song is Kansas Song (We're From Kansas)",
+          "em": 0.0,
+          "f1": 0.2857142857142857,
+          "tokens": 151
+        }
+      }
+    },
+    {
+      "question": "What screenwriter with credits for \"Evolution\" co-wrote a film starring Nicolas Cage and Téa Leoni?",
+      "gold": "David Weissman",
+      "type": "bridge",
+      "orig_tokens": 838,
+      "methods": {
+        "raw": {
+          "pred": "Niccolò Valenti",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 838
+        },
+        "oracle": {
+          "pred": "David Weissman",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 58
+        },
+        "llmlingua2": {
+          "pred": "David Weissman",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 201
+        },
+        "itercomp": {
+          "pred": "Brett Ratner",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 114
+        }
+      }
+    },
+    {
+      "question": "What year did Guns N Roses perform a promo for a movie starring Arnold Schwarzenegger as a former New York Police detective?",
+      "gold": "1999",
+      "type": "bridge",
+      "orig_tokens": 1048,
+      "methods": {
+        "raw": {
+          "pred": "1999",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 1048
+        },
+        "oracle": {
+          "pred": "2000",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 108
+        },
+        "llmlingua2": {
+          "pred": "1994",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 241
+        },
+        "itercomp": {
+          "pred": "1986",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 138
+        }
+      }
+    },
+    {
+      "question": "Are Random House Tower and 888 7th Avenue both used for real estate?",
+      "gold": "no",
+      "type": "comparison",
+      "orig_tokens": 2165,
+      "methods": {
+        "raw": {
+          "pred": "Yes",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 2165
+        },
+        "oracle": {
+          "pred": "Yes",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 55
+        },
+        "llmlingua2": {
+          "pred": "yes",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 516
+        },
+        "itercomp": {
+          "pred": "Yes",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 180
+        }
+      }
+    },
+    {
+      "question": "The football manager who recruited David Beckham managed Manchester United during what timeframe?",
+      "gold": "from 1986 to 2013",
+      "type": "bridge",
+      "orig_tokens": 694,
+      "methods": {
+        "raw": {
+          "pred": "1945-1969",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 694
+        },
+        "oracle": {
+          "pred": "1995-96",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 99
+        },
+        "llmlingua2": {
+          "pred": "1996-1997",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 157
+        },
+        "itercomp": {
+          "pred": "between 1903-1912",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 118
+        }
+      }
+    },
+    {
+      "question": "Brown State Fishing Lake is in a country that has a population of how many inhabitants ?",
+      "gold": "9,984",
+      "type": "bridge",
+      "orig_tokens": 1161,
+      "methods": {
+        "raw": {
+          "pred": "The population of Brown State Fishing Lake is 9,984",
+          "em": 0.0,
+          "f1": 0.3636363636363636,
+          "tokens": 1161
+        },
+        "oracle": {
+          "pred": "5,978",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 45
+        },
+        "llmlingua2": {
+          "pred": "sixty-five",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 250
+        },
+        "itercomp": {
+          "pred": "13,000",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 156
+        }
+      }
+    },
+    {
+      "question": "The Vermont Catamounts men's soccer team currently competes in a conference that was formerly known as what from 1988 to 1996?",
+      "gold": "the North Atlantic Conference",
+      "type": "bridge",
+      "orig_tokens": 951,
+      "methods": {
+        "raw": {
+          "pred": "America East Conference",
+          "em": 0.0,
+          "f1": 0.3333333333333333,
+          "tokens": 951
+        },
+        "oracle": {
+          "pred": "America East Conference",
+          "em": 0.0,
+          "f1": 0.3333333333333333,
+          "tokens": 67
+        },
+        "llmlingua2": {
+          "pred": "America East Conference",
+          "em": 0.0,
+          "f1": 0.3333333333333333,
+          "tokens": 236
+        },
+        "itercomp": {
+          "pred": "America East Conference",
+          "em": 0.0,
+          "f1": 0.3333333333333333,
+          "tokens": 129
+        }
+      }
+    },
+    {
+      "question": "Are Giuseppe Verdi and Ambroise Thomas both Opera composers ?",
+      "gold": "yes",
+      "type": "comparison",
+      "orig_tokens": 844,
+      "methods": {
+        "raw": {
+          "pred": "Yes",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 844
+        },
+        "oracle": {
+          "pred": "Yes",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 60
+        },
+        "llmlingua2": {
+          "pred": "Yes",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 195
+        },
+        "itercomp": {
+          "pred": "Yes",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 149
+        }
+      }
+    },
+    {
+      "question": "Roger O. Egeberg was Assistant Secretary for Health and Scientific Affairs during the administration of a president that served during what years?",
+      "gold": "1969 until 1974",
+      "type": "bridge",
+      "orig_tokens": 1192,
+      "methods": {
+        "raw": {
+          "pred": "The year during which Roger O. Egeberg served as Assistant Secretary for Health and Scientific Affairs was 1993",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1192
+        },
+        "oracle": {
+          "pred": "The year Richard Nixon served as President",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 83
+        },
+        "llmlingua2": {
+          "pred": "The year in which Roger O. Egeberg was Assistant Secretary for Health and Scientific Affairs is 1993",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 281
+        },
+        "itercomp": {
+          "pred": "The year the president served during which the administration had Assistant Secretary for Health and Scientific Affairs?",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 201
+        }
+      }
+    },
+    {
+      "question": "Which writer was from England, Henry Roth or Robert Erskine Childers?",
+      "gold": "Robert Erskine Childers DSC",
+      "type": "comparison",
+      "orig_tokens": 621,
+      "methods": {
+        "raw": {
+          "pred": "Henry Roth",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 621
+        },
+        "oracle": {
+          "pred": "Henry Roth",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 65
+        },
+        "llmlingua2": {
+          "pred": "Henry Roth",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 160
+        },
+        "itercomp": {
+          "pred": "Henry Roth",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 123
+        }
+      }
+    },
+    {
+      "question": "Which other Mexican Formula One race car driver has held the podium besides the Force India driver born in 1990?",
+      "gold": "Pedro Rodríguez",
+      "type": "bridge",
+      "orig_tokens": 861,
+      "methods": {
+        "raw": {
+          "pred": "Sergio Pérez",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 861
+        },
+        "oracle": {
+          "pred": "Pedro Rodríguez",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 71
+        },
+        "llmlingua2": {
+          "pred": "Michael Lewis",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 198
+        },
+        "itercomp": {
+          "pred": "Checo Pérez",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 113
+        }
+      }
+    },
+    {
+      "question": "This singer of A Rather Blustery Day also voiced what hedgehog?",
+      "gold": "Sonic",
+      "type": "bridge",
+      "orig_tokens": 1053,
+      "methods": {
+        "raw": {
+          "pred": "Jim Cummings voiced Tigger",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1053
+        },
+        "oracle": {
+          "pred": "Dr. Robotnik",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 39
+        },
+        "llmlingua2": {
+          "pred": "Tails",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 261
+        },
+        "itercomp": {
+          "pred": "Miles \"Tails\" Prower",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 106
+        }
+      }
+    },
+    {
+      "question": "Aside from the Apple Remote, what other device can control the program Apple Remote was originally designed to interact with?",
+      "gold": "keyboard function keys",
+      "type": "bridge",
+      "orig_tokens": 1331,
+      "methods": {
+        "raw": {
+          "pred": "TV",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1331
+        },
+        "oracle": {
+          "pred": "iSight iMac G5",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 134
+        },
+        "llmlingua2": {
+          "pred": "wireless",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 336
+        },
+        "itercomp": {
+          "pred": "Front Row media program",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 181
+        }
+      }
+    },
+    {
+      "question": "Which performance act has a higher instrument to person ratio, Badly Drawn Boy or Wolf Alice? ",
+      "gold": "Badly Drawn Boy",
+      "type": "comparison",
+      "orig_tokens": 709,
+      "methods": {
+        "raw": {
+          "pred": "Wolf Alice",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 709
+        },
+        "oracle": {
+          "pred": "Wolf Alice",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 53
+        },
+        "llmlingua2": {
+          "pred": "Badly Drawn Boy",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 171
+        },
+        "itercomp": {
+          "pred": "Wolf Alice",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 106
+        }
+      }
+    },
+    {
+      "question": "What was the father of Kasper Schmeichel voted to be by the IFFHS in 1992?",
+      "gold": "World's Best Goalkeeper",
+      "type": "bridge",
+      "orig_tokens": 800,
+      "methods": {
+        "raw": {
+          "pred": "Peter Schmeichel",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 800
+        },
+        "oracle": {
+          "pred": "Peter Schmeichel",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 80
+        },
+        "llmlingua2": {
+          "pred": "Hermannsburg",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 200
+        },
+        "itercomp": {
+          "pred": "Peter Schmeichel",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 117
+        }
+      }
+    },
+    {
+      "question": "Who was the writer of These Boots Are Made for Walkin' and who died in 2007?",
+      "gold": "Barton Lee Hazlewood",
+      "type": "bridge",
+      "orig_tokens": 787,
+      "methods": {
+        "raw": {
+          "pred": "Lee Hazlewood, who wrote \"These Boots Are Made for Walkin'\"",
+          "em": 0.0,
+          "f1": 0.30769230769230765,
+          "tokens": 787
+        },
+        "oracle": {
+          "pred": "Lee Hazlewood",
+          "em": 0.0,
+          "f1": 0.8,
+          "tokens": 68
+        },
+        "llmlingua2": {
+          "pred": "These Boots Are Made for Walkin' was written by Frank Sinatra. He died on June 21, 2003",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 185
+        },
+        "itercomp": {
+          "pred": "Lee Hazlewood died in 2007",
+          "em": 0.0,
+          "f1": 0.5,
+          "tokens": 121
+        }
+      }
+    },
+    {
+      "question": "The 2011–12 VCU Rams men's basketball team, led by third year head coach Shaka Smart, represented Virginia Commonwealth University which was founded in what year?",
+      "gold": "1838",
+      "type": "bridge",
+      "orig_tokens": 1308,
+      "methods": {
+        "raw": {
+          "pred": "1968",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1308
+        },
+        "oracle": {
+          "pred": "1838",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 55
+        },
+        "llmlingua2": {
+          "pred": "Virginia Commonwealth University",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 332
+        },
+        "itercomp": {
+          "pred": "1838",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 221
+        }
+      }
+    },
+    {
+      "question": "Are both Dictyosperma, and Huernia described as a genus?",
+      "gold": "yes",
+      "type": "comparison",
+      "orig_tokens": 239,
+      "methods": {
+        "raw": {
+          "pred": "Yes",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 239
+        },
+        "oracle": {
+          "pred": "Yes",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 50
+        },
+        "llmlingua2": {
+          "pred": "Yes",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 52
+        },
+        "itercomp": {
+          "pred": "Yes",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 50
+        }
+      }
+    },
+    {
+      "question": "Kaiser Ventures corporation was founded by an American industrialist who became known as the father of modern American shipbuilding?",
+      "gold": "Henry J. Kaiser",
+      "type": "bridge",
+      "orig_tokens": 866,
+      "methods": {
+        "raw": {
+          "pred": "Henry J. Kaiser",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 866
+        },
+        "oracle": {
+          "pred": "Henry J. Kaiser",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 72
+        },
+        "llmlingua2": {
+          "pred": "Henry J. Kaiser",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 201
+        },
+        "itercomp": {
+          "pred": "Henry J. Kaiser",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 141
+        }
+      }
+    },
+    {
+      "question": "What is the name for the adventure in \"Tunnels and Trolls\", a game designed by Ken St. Andre?",
+      "gold": "Arena of Khazan",
+      "type": "bridge",
+      "orig_tokens": 828,
+      "methods": {
+        "raw": {
+          "pred": "Arena of Khazan",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 828
+        },
+        "oracle": {
+          "pred": "Arena of Khazan",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 47
+        },
+        "llmlingua2": {
+          "pred": "Flying Buffalo",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 188
+        },
+        "itercomp": {
+          "pred": "Tunnels & Trolls",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 121
+        }
+      }
+    },
+    {
+      "question": "When was Poison's album \"Shut Up, Make Love\" released?",
+      "gold": "2000",
+      "type": "bridge",
+      "orig_tokens": 1016,
+      "methods": {
+        "raw": {
+          "pred": "2000",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 1016
+        },
+        "oracle": {
+          "pred": "2000",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 58
+        },
+        "llmlingua2": {
+          "pred": "March 14, 2000",
+          "em": 0.0,
+          "f1": 0.5,
+          "tokens": 257
+        },
+        "itercomp": {
+          "pred": "March 14, 2000",
+          "em": 0.0,
+          "f1": 0.5,
+          "tokens": 119
+        }
+      }
+    },
+    {
+      "question": "Hayden is a singer-songwriter from Canada, but where does Buck-Tick hail from?",
+      "gold": "Fujioka, Gunma",
+      "type": "comparison",
+      "orig_tokens": 774,
+      "methods": {
+        "raw": {
+          "pred": "central and southern Alberta",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 774
+        },
+        "oracle": {
+          "pred": "Thornhill, Ontario",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 40
+        },
+        "llmlingua2": {
+          "pred": "Canada",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 176
+        },
+        "itercomp": {
+          "pred": "Thornhill, Ontario",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 97
+        }
+      }
+    },
+    {
+      "question": "Which  French ace pilot and adventurer fly L'Oiseau Blanc",
+      "gold": "Charles Eugène",
+      "type": "bridge",
+      "orig_tokens": 834,
+      "methods": {
+        "raw": {
+          "pred": "Charles Nungesser",
+          "em": 0.0,
+          "f1": 0.5,
+          "tokens": 834
+        },
+        "oracle": {
+          "pred": "Charles Nungesser",
+          "em": 0.0,
+          "f1": 0.5,
+          "tokens": 52
+        },
+        "llmlingua2": {
+          "pred": "Charles Nungesser",
+          "em": 0.0,
+          "f1": 0.5,
+          "tokens": 201
+        },
+        "itercomp": {
+          "pred": "Charles Nungesser",
+          "em": 0.0,
+          "f1": 0.5,
+          "tokens": 118
+        }
+      }
+    },
+    {
+      "question": "Are Freakonomics and In the Realm of the Hackers both American documentaries?",
+      "gold": "no",
+      "type": "comparison",
+      "orig_tokens": 1172,
+      "methods": {
+        "raw": {
+          "pred": "Yes",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1172
+        },
+        "oracle": {
+          "pred": "Yes",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 73
+        },
+        "llmlingua2": {
+          "pred": "American",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 272
+        },
+        "itercomp": {
+          "pred": "Yes",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 191
+        }
+      }
+    },
+    {
+      "question": "Which band, Letters to Cleo or Screaming Trees, had more members?",
+      "gold": "Letters to Cleo",
+      "type": "comparison",
+      "orig_tokens": 990,
+      "methods": {
+        "raw": {
+          "pred": "Letters to Cleo had more members",
+          "em": 0.0,
+          "f1": 0.6666666666666666,
+          "tokens": 990
+        },
+        "oracle": {
+          "pred": "Letters to Cleo",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 103
+        },
+        "llmlingua2": {
+          "pred": "Screaming Trees",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 240
+        },
+        "itercomp": {
+          "pred": "Letters to Cleo",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 129
+        }
+      }
+    },
+    {
+      "question": "Alexander Kerensky was defeated and destroyed by the Bolsheviks in the course of a civil war that ended when ?",
+      "gold": "October 1922",
+      "type": "bridge",
+      "orig_tokens": 1289,
+      "methods": {
+        "raw": {
+          "pred": "The civil war that ended when Alexander Kerensky was defeated and destroyed by the Bolsheviks was the Russian Civil War",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1289
+        },
+        "oracle": {
+          "pred": "The Bolsheviks were defeated and destroyed by the Russian Civil War",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 92
+        },
+        "llmlingua2": {
+          "pred": "November 1917",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 312
+        },
+        "itercomp": {
+          "pred": "The Bolsheviks were defeated and destroyed by the civil war that ended when the Russian Civil War began",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 216
+        }
+      }
+    },
+    {
+      "question": "Seven Brief Lessons on Physics was written by an Italian physicist that has worked in France since what year?",
+      "gold": "2000",
+      "type": "bridge",
+      "orig_tokens": 841,
+      "methods": {
+        "raw": {
+          "pred": "French",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 841
+        },
+        "oracle": {
+          "pred": "French",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 49
+        },
+        "llmlingua2": {
+          "pred": "French",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 205
+        },
+        "itercomp": {
+          "pred": "French",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 90
+        }
+      }
+    },
+    {
+      "question": "The Livesey Hal War Memorial commemorates the fallen of which war, that had over 60 million casualties?",
+      "gold": "World War II",
+      "type": "bridge",
+      "orig_tokens": 741,
+      "methods": {
+        "raw": {
+          "pred": "World War II",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 741
+        },
+        "oracle": {
+          "pred": "World War II",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 55
+        },
+        "llmlingua2": {
+          "pred": "World War I",
+          "em": 0.0,
+          "f1": 0.6666666666666666,
+          "tokens": 178
+        },
+        "itercomp": {
+          "pred": "World War II",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 89
+        }
+      }
+    },
+    {
+      "question": "Are both Elko Regional Airport and Gerald R. Ford International Airport located in Michigan?",
+      "gold": "no",
+      "type": "comparison",
+      "orig_tokens": 972,
+      "methods": {
+        "raw": {
+          "pred": "yes",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 972
+        },
+        "oracle": {
+          "pred": "Yes",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 60
+        },
+        "llmlingua2": {
+          "pred": "Elko Regional Airport is located in Grand Rapids, Michigan, while Gerald R. Ford International Airport is located in Flint, Michigan",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 259
+        },
+        "itercomp": {
+          "pred": "Yes",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 118
+        }
+      }
+    },
+    {
+      "question": "Ralph Hefferline was a psychology professor at a university that is located in what city?",
+      "gold": "New York City",
+      "type": "bridge",
+      "orig_tokens": 1009,
+      "methods": {
+        "raw": {
+          "pred": "Columbia University",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1009
+        },
+        "oracle": {
+          "pred": "New York City",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 62
+        },
+        "llmlingua2": {
+          "pred": "Ralph Hefferline was a psychology professor at a university that is located in Chicago",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 241
+        },
+        "itercomp": {
+          "pred": "New York City",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 108
+        }
+      }
+    },
+    {
+      "question": "Which dog's ancestors include Gordon and Irish Setters: the Manchester Terrier or the Scotch Collie?",
+      "gold": "Scotch Collie",
+      "type": "comparison",
+      "orig_tokens": 1254,
+      "methods": {
+        "raw": {
+          "pred": "The Manchester Terrier's ancestors include the Gordon and Irish Setters",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1254
+        },
+        "oracle": {
+          "pred": "the Manchester Terrier",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 45
+        },
+        "llmlingua2": {
+          "pred": "Manchester Terrier",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 301
+        },
+        "itercomp": {
+          "pred": "The Manchester Terrier's ancestors include Gordon and Irish Setters",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 106
+        }
+      }
+    },
+    {
+      "question": "Where is the company that Sachin Warrier worked for as a software engineer headquartered? ",
+      "gold": "Mumbai",
+      "type": "bridge",
+      "orig_tokens": 764,
+      "methods": {
+        "raw": {
+          "pred": "Kochi",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 764
+        },
+        "oracle": {
+          "pred": "Mumbai, Maharashtra",
+          "em": 0.0,
+          "f1": 0.6666666666666666,
+          "tokens": 40
+        },
+        "llmlingua2": {
+          "pred": "Mumbai, Maharashtra",
+          "em": 0.0,
+          "f1": 0.6666666666666666,
+          "tokens": 170
+        },
+        "itercomp": {
+          "pred": "Kochi",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 70
+        }
+      }
+    },
+    {
+      "question": "A Japanese manga series based on a 16 year old high school student Ichitaka Seto, is written and illustrated by someone born in what year?",
+      "gold": "1962",
+      "type": "bridge",
+      "orig_tokens": 1151,
+      "methods": {
+        "raw": {
+          "pred": "1992",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1151
+        },
+        "oracle": {
+          "pred": "unknown",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 68
+        },
+        "llmlingua2": {
+          "pred": "1992",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 275
+        },
+        "itercomp": {
+          "pred": "1983",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 208
+        }
+      }
+    },
+    {
+      "question": "The battle in which Giuseppe Arimondi lost his life secured what for Ethiopia?",
+      "gold": "sovereignty",
+      "type": "bridge",
+      "orig_tokens": 1328,
+      "methods": {
+        "raw": {
+          "pred": "Ethiopia's sovereignty",
+          "em": 0.0,
+          "f1": 0.5,
+          "tokens": 1328
+        },
+        "oracle": {
+          "pred": "Ethiopia's sovereignty",
+          "em": 0.0,
+          "f1": 0.5,
+          "tokens": 47
+        },
+        "llmlingua2": {
+          "pred": "Sojurness",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 302
+        },
+        "itercomp": {
+          "pred": "Ethiopia's sovereignty",
+          "em": 0.0,
+          "f1": 0.5,
+          "tokens": 189
+        }
+      }
+    },
+    {
+      "question": "Alfred Balk served as the secretary of the Committee on the Employment of Minority Groups in the News Media under which United States Vice President?",
+      "gold": "Nelson Rockefeller",
+      "type": "bridge",
+      "orig_tokens": 1983,
+      "methods": {
+        "raw": {
+          "pred": "United States",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1983
+        },
+        "oracle": {
+          "pred": "Nelson Rockefeller",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 120
+        },
+        "llmlingua2": {
+          "pred": "Alfred Balk served as the secretary of the Committee on the Employment of Minority Groups in the News Media under President John F. Kennedy",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 480
+        },
+        "itercomp": {
+          "pred": "Victor Chernomyrdin",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 265
+        }
+      }
+    },
+    {
+      "question": "A medieval fortress in Dirleton, East Lothian, Scotland borders on the south side of what coastal area?",
+      "gold": "Yellowcraig",
+      "type": "bridge",
+      "orig_tokens": 699,
+      "methods": {
+        "raw": {
+          "pred": "Forth of Forth Coast",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 699
+        },
+        "oracle": {
+          "pred": "Forth of Forth",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 101
+        },
+        "llmlingua2": {
+          "pred": "Dirleton Castle",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 160
+        },
+        "itercomp": {
+          "pred": "Firth of Forth",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 103
+        }
+      }
+    },
+    {
+      "question": "Who is the writer of this song that was inspired by words on a tombstone and was the first track on the box set Back to Mono?",
+      "gold": "Phil Spector",
+      "type": "bridge",
+      "orig_tokens": 1731,
+      "methods": {
+        "raw": {
+          "pred": "Phil Spector",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 1731
+        },
+        "oracle": {
+          "pred": "Phil Spector",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 107
+        },
+        "llmlingua2": {
+          "pred": "Waylon Jennings",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 446
+        },
+        "itercomp": {
+          "pred": "Phil Spector",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 232
+        }
+      }
+    },
+    {
+      "question": "What type of forum did a former Soviet statesman initiate?",
+      "gold": "Organizations could come together to address global issues",
+      "type": "bridge",
+      "orig_tokens": 1325,
+      "methods": {
+        "raw": {
+          "pred": "The World Summit of Nobel Peace Laureates",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 1325
+        },
+        "oracle": {
+          "pred": "World Summit of Nobel Peace Laureates",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 77
+        },
+        "llmlingua2": {
+          "pred": "Summit of Nobel Peace Laureates",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 334
+        },
+        "itercomp": {
+          "pred": "World Summit of Nobel Peace Laureates",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 178
+        }
+      }
+    },
+    {
+      "question": "Are Ferocactus and Silene both types of plant?",
+      "gold": "yes",
+      "type": "comparison",
+      "orig_tokens": 951,
+      "methods": {
+        "raw": {
+          "pred": "Yes",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 951
+        },
+        "oracle": {
+          "pred": "Yes",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 29
+        },
+        "llmlingua2": {
+          "pred": "Yes",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 196
+        },
+        "itercomp": {
+          "pred": "Yes",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 94
+        }
+      }
+    },
+    {
+      "question": "Which British first-generation jet-powered medium bomber was used in the South West Pacific theatre of World War II?",
+      "gold": "English Electric Canberra",
+      "type": "bridge",
+      "orig_tokens": 1137,
+      "methods": {
+        "raw": {
+          "pred": "English Electric Canberra",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 1137
+        },
+        "oracle": {
+          "pred": "English Electric Canberra",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 58
+        },
+        "llmlingua2": {
+          "pred": "Savoia-Marchetti SM. 79",
+          "em": 0.0,
+          "f1": 0.0,
+          "tokens": 278
+        },
+        "itercomp": {
+          "pred": "English Electric Canberra",
+          "em": 1.0,
+          "f1": 1.0,
+          "tokens": 168
+        }
+      }
+    }
+  ]
+}

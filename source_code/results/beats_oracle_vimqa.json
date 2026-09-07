@@ -1,0 +1,53 @@
+{
+  "config": {
+    "eval_json": "/Users/nhantt/Downloads/MS_HCMUS/Study/HP2/NLP/CK/results/vimqa_full_7b.json",
+    "examples": 4,
+    "out": "results/beats_oracle_vimqa.json"
+  },
+  "n_total": 1003,
+  "n_win": 98,
+  "n_lose": 226,
+  "pct_win": 9.770687936191425,
+  "gold_count_win": 1.469387755102041,
+  "gold_count_lose": 1.7168141592920354,
+  "win_f1_perfect": 55,
+  "win_oracle_zero": 69,
+  "examples": [
+    {
+      "question": "Okazaki Shinji lớn tuổi hơn Richard Nixon phải không?",
+      "gold": "không",
+      "pred_itercomp": "no",
+      "pred_oracle": "unknown",
+      "f1_itercomp": 100.0,
+      "f1_oracle": 0.0,
+      "n_gold_sentences": 2
+    },
+    {
+      "question": "Quê hương của Harry Kane có dân số đạt trên 53 triệu người phải không?",
+      "gold": "đúng",
+      "pred_itercomp": "có",
+      "pred_oracle": "unknown",
+      "f1_itercomp": 100.0,
+      "f1_oracle": 0.0,
+      "n_gold_sentences": 2
+    },
+    {
+      "question": "Andriy Mykolayovych Shevchenko lớn tuổi hơn Nicolas Anelka phải không?",
+      "gold": "đúng",
+      "pred_itercomp": "có",
+      "pred_oracle": "không",
+      "f1_itercomp": 100.0,
+      "f1_oracle": 0.0,
+      "n_gold_sentences": 2
+    },
+    {
+      "question": "Naruto đã xuất hiện ở phương tiện truyền thông nào xuất bản dài kỳ trên tạp chí chuyên về shōnen manga Weekly Shōnen Jump của Shueisha từ tháng 5 năm 2016?",
+      "gold": "Boruto – Naruto hậu sinh khả úy",
+      "pred_itercomp": "Boruto – Naruto hậu sinh khả úy",
+      "pred_oracle": "video game, OVA未知用户提问的问题与提供的语境信息不符，因此根据语境无法直接回答该问题。正确的答案应该是“unknown”。",
+      "f1_itercomp": 100.0,
+      "f1_oracle": 0.0,
+      "n_gold_sentences": 2
+    }
+  ]
+}

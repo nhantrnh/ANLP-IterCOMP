@@ -1,0 +1,50 @@
+{
+  "config": {
+    "dataset": "vimqa",
+    "limit": 50,
+    "percentile": 90.0,
+    "max_iter": 5,
+    "scorer": "bm25",
+    "out": "results/effective_ratio_vimqa.json"
+  },
+  "fertility": {
+    "cl100k_base": 2.39,
+    "o200k_base": 1.49,
+    "regex": 1.34
+  },
+  "total_tokens": {
+    "raw": {
+      "cl100k_base": 119338,
+      "o200k_base": 77955,
+      "regex": 56278
+    },
+    "oracle": {
+      "cl100k_base": 7050,
+      "o200k_base": 4850,
+      "regex": 3225
+    },
+    "itercomp": {
+      "cl100k_base": 28174,
+      "o200k_base": 18689,
+      "regex": 13177
+    }
+  },
+  "nominal_ratio": {
+    "oracle": {
+      "cl100k_base": 0.05907590205969599,
+      "o200k_base": 0.0622153806683343,
+      "regex": 0.05730480827321511
+    },
+    "itercomp": {
+      "cl100k_base": 0.23608573966381202,
+      "o200k_base": 0.23974087614649478,
+      "regex": 0.2341412274778777
+    }
+  },
+  "effective_ratio": {
+    "cl100k_base": 0.0987806442108,
+    "o200k_base": 0.16089991687684213,
+    "regex": 0.17473225931184902
+  },
+  "spread_across_tokenizers": 1.023915688530958
+}
