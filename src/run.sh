@@ -131,4 +131,3 @@ python scripts/make_tables.py
 
 say "XONG"
 echo "Kết quả JSON: results/"
-echo "Dán bảng ở trên vào report_en/report.tex"

@@ -48,7 +48,7 @@ from collections import defaultdict
 from pathlib import Path
 
 
-RESULTS = Path(__file__).parent / "results"
+RESULTS = Path(__file__).resolve().parents[1] / "results"
 
 
 # ═════════════════════════════════════════════════ các phương pháp nén

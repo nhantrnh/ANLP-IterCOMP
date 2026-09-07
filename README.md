@@ -22,31 +22,26 @@ Nâng cao*, VNU-HCM University of Science.
 
 | Yêu cầu | Vị trí |
 |---|---|
-| Báo cáo PDF (ACL short paper) | [`report_en/report.pdf`](report_en/report.pdf) — §1–9 chiếm 5 trang, References từ trang 6, 6 phụ lục (A–F), tổng 12 trang |
-| Mã nguồn | [`src/`](src/) + [`scripts/`](scripts/) + [`research/`](research/) + `requirements.txt` + `run.sh` |
-| Jupyter Notebook (Colab/Kaggle) | [`notebooks/colab_reproduce.ipynb`](notebooks/colab_reproduce.ipynb) |
+| Báo cáo PDF (ACL short paper) | [`report.pdf`](report.pdf) — §1–9 chiếm 5 trang, References từ trang 6, 6 phụ lục (A–F), tổng 12 trang |
+| Mã nguồn | [`src/`](src/) — `itercomp/` (cài đặt), `scripts/`, `requirements.txt`, `run.sh` |
+| Jupyter Notebook (Colab/Kaggle) | [`notebooks/`](notebooks/) — `colab_reproduce.ipynb` (nộp) + kernel GPU từng thí nghiệm |
 | README cách chạy | tệp này (Mục 3) |
 | Đường dẫn tải dữ liệu | [`DATASET_LINKS.txt`](DATASET_LINKS.txt) — tự tải từ HuggingFace, không kèm data 116 MB |
 | Mô hình / đường dẫn | [`MODEL_LINKS.txt`](MODEL_LINKS.txt) — **training-free, không có mô hình huấn luyện**; mọi mô hình tải tự động từ HuggingFace |
 
-Báo cáo dùng định dạng ACL chính thức
-([acl-org/acl-style-files](https://github.com/acl-org/acl-style-files), `report_en/acl.sty`).
+Báo cáo dùng định dạng ACL chính thức ([acl-org/acl-style-files](https://github.com/acl-org/acl-style-files)).
 
 ## 2. Cấu trúc thư mục
 
 ```
 .
-├── README.md · MODEL_LINKS.txt · DATASET_LINKS.txt
-├── report_en/          Nguồn LaTeX + report.pdf
-├── src/itercomp/       Cài đặt IterCOMP (core, scorer, reader, metrics, …)
-├── scripts/            run_eval.py (bảng chính), ablation, kiểm tra số liệu
-├── research/           Thí nghiệm phụ (dừng thích ứng, không dấu, …)
-├── results/            Kết quả JSON backing mọi con số trong báo cáo
-├── tests/              Test tính chất + hồi quy
-├── notebooks/
-│   ├── colab_reproduce.ipynb   Notebook demo đủ 8 phần (Colab/Kaggle)
-│   └── kaggle/                 Kernel GPU của từng thí nghiệm
-├── requirements.txt · run.sh
+├── README.md · MODEL_LINKS.txt · DATASET_LINKS.txt · report.pdf
+├── src/
+│   ├── itercomp/       Cài đặt IterCOMP (core, scorer, reader, metrics, …)
+│   ├── scripts/        run_eval.py (bảng chính), ablation, EXP-1/2, …
+│   ├── results/        Kết quả JSON backing mọi con số trong báo cáo
+│   ├── requirements.txt · run.sh
+├── notebooks/          colab_reproduce.ipynb (nộp) + kernel GPU từng thí nghiệm
 ```
 
 ## 3. Chạy nhanh
@@ -59,7 +54,7 @@ tiếng Việt mới). Đây là cách khuyến nghị.
 ### 3.1. Kaggle
 1. **Add → Upload Notebook** → chọn `notebooks/colab_reproduce.ipynb`.
 2. Panel phải: **Settings → Accelerator → `GPU T4 x2`** và **Internet: On**.
-3. **Run All**. Kết quả + bảng LaTeX in ra trong notebook; tải về ở ô cuối.
+3. **Run All**. Kết quả + bảng in ra trong notebook; tải về ở ô cuối.
 
 ### 3.2. Google Colab
 1. colab.research.google.com → **File → Upload notebook** → `colab_reproduce.ipynb`.
@@ -70,9 +65,9 @@ tiếng Việt mới). Đây là cách khuyến nghị.
 Cần GPU cho mô hình đọc (Qwen2.5-7B, 4-bit). Phần CPU (fertility, damage) chạy được không cần GPU.
 
 ```bash
-./run.sh          # tạo .venv, cài thư viện, tải dữ liệu, chạy đánh giá, sinh bảng
+cd src && ./run.sh   # tạo .venv, cài thư viện, tải dữ liệu, chạy đánh giá, sinh bảng
 # kiểm thử luồng (không tốn tài nguyên, không cần GPU):
-python scripts/run_eval.py --dataset vimqa --limit 5 --reader mock --itercomp-llm mock
+python src/scripts/run_eval.py --dataset vimqa --limit 5 --reader mock --itercomp-llm mock
 ```
 
 ### 3.4. Local — Windows
@@ -81,10 +76,10 @@ python scripts/run_eval.py --dataset vimqa --limit 5 --reader mock --itercomp-ll
 ```powershell
 python -m venv .venv
 .venv\Scripts\Activate.ps1
-pip install -r requirements.txt
+pip install -r src\requirements.txt
 # tải dữ liệu: xem DATASET_LINKS.txt (hoặc chạy các lệnh curl trong đó)
 # kiểm thử luồng:
-python scripts\run_eval.py --dataset vimqa --limit 5 --reader mock --itercomp-llm mock
+python src\scripts\run_eval.py --dataset vimqa --limit 5 --reader mock --itercomp-llm mock
 # chạy thật (cần GPU): thay --reader mock bằng --reader hf --reader-model Qwen/Qwen2.5-7B-Instruct --load-4bit
 ```
 
@@ -125,6 +120,5 @@ F1$^*$ (chuẩn hoá boolean), reader Qwen2.5-7B 4-bit — bảng đầy đủ �
 ## 6. Tính tái lập
 
 - Greedy decoding → **kết quả tất định**; chạy lại cùng cấu hình cho cùng số.
-- Mọi con số trong báo cáo được `scripts/verify_report_numbers.py` đối chiếu tự
-  động với `results/`.
-- Thực nghiệm GPU chạy trên Kaggle T4; kernel lưu ở `notebooks/kaggle/`.
+- Mọi con số trong báo cáo truy nguồn về `src/results/` (JSON đầy đủ per-row).
+- Thực nghiệm GPU chạy trên Kaggle T4; kernel lưu ở `notebooks/`.
