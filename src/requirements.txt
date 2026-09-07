@@ -9,7 +9,7 @@ llmlingua>=0.2.2            # microsoft/LLMLingua — v1 / LongLLMLingua / LLMLi
 
 # --- Core ---
 torch>=2.0                  # đã có 2.12.1
-transformers>=4.40          # đã có 4.45.2
+transformers==4.45.2        # GHIM CỨNG: bản 5.x xung đột llmlingua 0.2.2; cũng là bản sinh mọi số báo cáo
 accelerate>=0.30            # cần cho device_map khi load model lớn
 
 # --- Data ---

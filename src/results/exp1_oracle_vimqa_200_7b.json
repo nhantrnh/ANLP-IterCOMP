@@ -1,0 +1,43 @@
+{
+  "config": {
+    "dataset": "vimqa",
+    "limit": 200,
+    "reader": "hf",
+    "reader_model": "Qwen/Qwen2.5-7B-Instruct",
+    "load_4bit": true,
+    "scorer": "dual",
+    "percentile": 90.0,
+    "max_iter": 5,
+    "out": "results/exp1_oracle_vimqa_200_7b.json"
+  },
+  "results": {
+    "paper": {
+      "f1": 50.079574240691656,
+      "ratio": 0.18075801749271136,
+      "iters": 1.52
+    },
+    "oracle": {
+      "f1": 49.9099313835488,
+      "ratio": 0.1820387940477595,
+      "iters": 1.455
+    },
+    "never": {
+      "f1": 49.391730827109605,
+      "ratio": 0.49713931815500767,
+      "iters": 5.0
+    },
+    "gold": {
+      "f1": 54.935128655130114,
+      "ratio": 0.05469000151670908,
+      "iters": 0.0
+    }
+  },
+  "headroom": -0.1696428571428541,
+  "test": {
+    "diff": -0.16964285714285732,
+    "lo": -3.7944444444444447,
+    "hi": 3.5956349206349203,
+    "p": 0.927,
+    "n": 200
+  }
+}

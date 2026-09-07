@@ -1,0 +1,43 @@
+{
+  "config": {
+    "dataset": "musique",
+    "limit": 200,
+    "reader": "hf",
+    "reader_model": "Qwen/Qwen2.5-7B-Instruct",
+    "load_4bit": true,
+    "scorer": "dual",
+    "percentile": 90.0,
+    "max_iter": 5,
+    "out": "results/exp1_oracle_musique_200_7b.json"
+  },
+  "results": {
+    "paper": {
+      "f1": 25.90485347985348,
+      "ratio": 0.3234342101128186,
+      "iters": 3.1
+    },
+    "oracle": {
+      "f1": 25.941361416361413,
+      "ratio": 0.3436284214826687,
+      "iters": 3.365
+    },
+    "never": {
+      "f1": 28.0627607899347,
+      "ratio": 0.5250306401433016,
+      "iters": 5.0
+    },
+    "gold": {
+      "f1": 44.63342490842491,
+      "ratio": 0.1256308726941328,
+      "iters": 0.0
+    }
+  },
+  "headroom": 0.0365079365079346,
+  "test": {
+    "diff": 0.03650793650793624,
+    "lo": -4.8273809523809526,
+    "hi": 4.902777777777778,
+    "p": 0.9834,
+    "n": 200
+  }
+}

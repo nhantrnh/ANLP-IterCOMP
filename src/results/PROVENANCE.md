@@ -6,8 +6,6 @@ từng lỗi thời chỉ vài phút sau khi viết, vì một kernel được �
 Mỗi file GPU khớp **byte-to-byte** với đúng một kernel; không có file nào
 mồ côi, không có file nào trộn giữa hai lần chạy.
 
-Sinh lại bảng này: `python scripts/check_provenance.py`
-
 ## 1. Kernel Kaggle - trạng thái và số phận
 
 | Kernel | Chạy lần cuối | Trạng thái | Kết quả |

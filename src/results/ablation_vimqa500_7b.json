@@ -1,0 +1,87 @@
+{
+  "config": {
+    "dataset": "vimqa",
+    "limit": 500,
+    "llm": "hf",
+    "reader": "hf",
+    "reader_model": "Qwen/Qwen2.5-7B-Instruct",
+    "load_4bit": true,
+    "scorer": "dual",
+    "encoder": "BAAI/bge-m3",
+    "lam": 0.6,
+    "only": "percentile,max_iter",
+    "out": "results/ablation_vimqa500_7b.json"
+  },
+  "table": {
+    "max_iter=1": {
+      "ratio": 0.13279123747368113,
+      "iters": 1.0,
+      "segments": 3.916,
+      "em": 16.8,
+      "f1": 31.733678531838613
+    },
+    "max_iter=2": {
+      "ratio": 0.15962459315188227,
+      "iters": 1.222,
+      "segments": 4.794,
+      "em": 19.2,
+      "f1": 34.88534654636377
+    },
+    "max_iter=3": {
+      "ratio": 0.17409457466729666,
+      "iters": 1.358,
+      "segments": 5.278,
+      "em": 19.6,
+      "f1": 35.610115428275506
+    },
+    "max_iter=4": {
+      "ratio": 0.1847128556592175,
+      "iters": 1.474,
+      "segments": 5.644,
+      "em": 20.2,
+      "f1": 36.192910285409994
+    },
+    "max_iter=5": {
+      "ratio": 0.19358571824866388,
+      "iters": 1.582,
+      "segments": 5.942,
+      "em": 20.0,
+      "f1": 36.07201321303043
+    },
+    "percentile=70.0": {
+      "ratio": 0.431497330231341,
+      "iters": 1.462,
+      "segments": 13.214,
+      "em": 21.8,
+      "f1": 35.93259487605089
+    },
+    "percentile=80.0": {
+      "ratio": 0.3195994667849618,
+      "iters": 1.494,
+      "segments": 9.742,
+      "em": 23.6,
+      "f1": 38.272004824458726
+    },
+    "percentile=85.0": {
+      "ratio": 0.25107433328711715,
+      "iters": 1.468,
+      "segments": 7.564,
+      "em": 23.0,
+      "f1": 38.176193860856905
+    },
+    "percentile=90.0": {
+      "ratio": 0.19358571824866388,
+      "iters": 1.582,
+      "segments": 5.942,
+      "em": 20.0,
+      "f1": 36.07201321303043
+    },
+    "percentile=95.0": {
+      "ratio": 0.12922962327389773,
+      "iters": 1.772,
+      "segments": 3.83,
+      "em": 22.0,
+      "f1": 38.19556621217142
+    }
+  }
+}

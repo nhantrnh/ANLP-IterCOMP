@@ -1,0 +1,49 @@
+{
+  "config": {
+    "limit": 200,
+    "reader": "hf",
+    "reader_model": "Qwen/Qwen2.5-7B-Instruct",
+    "load_4bit": true,
+    "scorer": "dual",
+    "percentile": 90.0,
+    "max_iter": 5,
+    "out": "results/exp2_undiacritised_200_7b.json"
+  },
+  "results": {
+    "keep": {
+      "f1_itercomp": 50.079574240691656,
+      "f1_gold": 54.935128655130114,
+      "ratio": 0.18075801749271136,
+      "rows_without_gold": 0
+    },
+    "strip": {
+      "f1_itercomp": 29.29188483827651,
+      "f1_gold": 25.515721120635035,
+      "ratio": 0.19910756797525797,
+      "rows_without_gold": 48
+    },
+    "both": {
+      "f1_itercomp": 30.253505949674683,
+      "f1_gold": 24.43087092645916,
+      "ratio": 0.19910756797525797,
+      "rows_without_gold": 48
+    }
+  },
+  "delta_itercomp": -20.787689402415147,
+  "delta_gold": -29.41940753449508,
+  "attributable_to_compressor": 8.631718132079932,
+  "test_itercomp": {
+    "diff": -20.78768940241515,
+    "lo": -26.90527994521647,
+    "hi": -14.773393010914628,
+    "p": 0.0,
+    "n": 200
+  },
+  "test_gold": {
+    "diff": -29.419407534495075,
+    "lo": -35.47089862506897,
+    "hi": -23.63253427919015,
+    "p": 0.0,
+    "n": 200
+  }
+}
