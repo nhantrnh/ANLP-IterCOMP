@@ -55,3 +55,9 @@ paper_submission/
 # thư mục giải nén bài nộp cũ (không track)
 Đề tài 32_*/
 CK/
+
+# SOICT build artifacts (.bbl kept: dev machine may lack bibtex)
+soict/*.aux
+soict/*.log
+soict/*.blg
+soict/*.out
