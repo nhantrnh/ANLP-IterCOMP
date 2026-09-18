@@ -95,11 +95,18 @@ def strip_row(row: dict) -> dict:
     """Bản sao của row với ngữ cảnh đã gỡ dấu. Câu hỏi cũng gỡ, vì người dùng
     gõ không dấu thì gõ không dấu cả câu hỏi."""
     ctx = row["context"]
+    sf = row.get("supporting_facts") or {}
+    # supporting_facts gọi tên tài liệu bằng title CÓ DẤU. Nếu chỉ gỡ dấu
+    # context mà để nguyên đây thì gold_context() khớp (title, sent_id) trượt
+    # sạch và trả về chuỗi rỗng -- nhánh gold nhận ngữ cảnh trống, F1 tụt về ~0
+    # và "nén thắng gold" trở thành một so sánh với hư không.
     return row | {
         "question": strip_diacritics(row["question"]),
         "context": {"title": [strip_diacritics(t) for t in ctx["title"]],
                     "sentences": [[strip_diacritics(s) for s in doc]
                                   for doc in ctx["sentences"]]},
+        "supporting_facts": {**sf,
+                             "title": [strip_diacritics(t) for t in sf.get("title", [])]},
     }
 
 
