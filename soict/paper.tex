@@ -14,6 +14,8 @@
 \usepackage{multirow}
 % microtype off: LNCS Type1 fonts are not scalable, breaks pdfTeX font expansion
 \usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
 \usetikzlibrary{arrows.meta,positioning,calc,shapes.geometric,fit,backgrounds,decorations.pathreplacing,shadows,shapes.callouts}
 \usepackage{xcolor}
 \usepackage[hidelinks]{hyperref}
@@ -262,6 +264,43 @@ Every language exceeds $1.0$ with non-overlapping intervals (Table~\ref{tab:mult
 
 Crucially, fertility depends on the tokeniser measured. The compression ratio (Table~\ref{tab:vspaper}) counts with \texttt{\textbackslash w+}, where fertility is only $1.34\times$, so comparing ratios across languages is close to fair; but \emph{API cost} is billed on the served model's tokeniser - $2.39\times$ under \texttt{cl100k\_base} against $1.49\times$ under \texttt{o200k\_base} - while bge-m3's XLM-R is only $1.19\times$. On the 200 VimQA contexts here a context averages 1{,}110 \texttt{\textbackslash w+} words but 2{,}364 \texttt{cl100k\_base} tokens, so our ratios \emph{understate} billing $2\times$.
 
+
+\begin{figure}[tbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  width=\textwidth, height=4.3cm,
+  ybar, bar width=7pt,
+  enlarge x limits=0.14,
+  ymin=0, ymax=5.5,
+  ylabel={Tokens per English token},
+  symbolic x coords={English,Chinese,Vietnamese,Thai,Hindi},
+  xtick=data,
+  label style={font=\footnotesize}, tick label style={font=\scriptsize},
+  legend style={font=\scriptsize, at={(0.02,0.97)}, anchor=north west, draw=gray!40},
+  grid=major, grid style={gray!18},
+  nodes near coords, nodes near coords style={font=\tiny, /pgf/number format/fixed,
+     /pgf/number format/precision=2},
+]
+\addplot[fill=cScore, draw=cScoreL] coordinates
+  {(English,1.00) (Chinese,1.87) (Vietnamese,2.49) (Thai,3.89) (Hindi,4.97)};
+\addlegendentry{\texttt{cl100k\_base}}
+\addplot[fill=cLLM, draw=cLLML] coordinates
+  {(English,1.00) (Chinese,1.27) (Vietnamese,1.52) (Thai,1.83) (Hindi,1.71)};
+\addlegendentry{\texttt{o200k\_base}}
+\draw[gray!55, densely dashed] (axis cs:English,1) -- (axis cs:Hindi,1);
+\end{axis}
+\end{tikzpicture}
+\caption{What the same content costs in tokens, relative to its English
+translation, over 400 WMT24++ pairs per language. English is $1.0$ by
+construction (dashed). Under \texttt{cl100k\_base} a Hindi context costs almost
+five times its English counterpart, so two systems reporting the same nominal
+ratio in Hindi and in English are not delivering the same saving. Changing the
+tokeniser changes the tax more than changing the language does:
+\texttt{o200k\_base} flattens every bar, and reorders Thai above Hindi.}
+\label{fig:fertility}
+\end{figure}
+
 \subsection{The effective ratio}
 \label{sec:effratio}
 
@@ -502,6 +541,61 @@ against a 7.7 threshold. The other five carry an English-only component (GPT-2
 scoring; NQ- and HotpotQA-trained RECOMP; English-fine-tuned CompAct) and appear
 in full in the released results.
 
+
+\begin{figure}[tbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  width=\textwidth, height=4.9cm,
+  xlabel={Context retained (fraction of tokens)},
+  ylabel={F1$^*$},
+  xmin=0, xmax=1.06, ymin=10, ymax=76,
+  xtick={0,0.2,0.4,0.6,0.8,1.0},
+  grid=major, grid style={gray!18},
+  label style={font=\footnotesize}, tick label style={font=\scriptsize},
+  legend style={font=\scriptsize, at={(0.5,1.24)}, anchor=north, legend columns=4,
+                draw=gray!40, column sep=4pt},
+  clip mode=individual,
+]
+% Oracle - upper bound, perfect selection
+\addplot[only marks, mark=star, mark size=3pt, color=cDataL]
+  coordinates {(0.057,61.03) (0.164,44.90) (0.096,57.65) (0.068,71.40)};
+\addlegendentry{Oracle}
+% Raw - full context
+\addplot[only marks, mark=square*, mark size=2.2pt, color=black!62]
+  coordinates {(1.0,46.87) (1.0,21.16) (1.0,35.72) (1.0,59.24)};
+\addlegendentry{Raw}
+% IterCOMP
+\addplot[only marks, mark=*, mark size=2.6pt, color=cLoop]
+  coordinates {(0.206,51.29) (0.340,25.35) (0.354,36.72) (0.194,54.58)};
+\addlegendentry{IterCOMP}
+% LLMLingua-2
+\addplot[only marks, mark=triangle*, mark size=2.8pt, color=cScoreL]
+  coordinates {(0.316,35.31) (0.235,14.63) (0.233,19.24) (0.237,36.00)};
+\addlegendentry{LLML-2}
+
+% join each dataset's IterCOMP to its Raw: the arrow is the claim
+\draw[->,>=stealth,cLoop!55,thin] (axis cs:1.0,46.87) -- (axis cs:0.206,51.29);
+\draw[->,>=stealth,cLoop!55,thin] (axis cs:1.0,21.16) -- (axis cs:0.340,25.35);
+\draw[->,>=stealth,cLoop!55,thin] (axis cs:1.0,35.72) -- (axis cs:0.354,36.72);
+\draw[->,>=stealth,black!45,thin,densely dashed] (axis cs:1.0,59.24) -- (axis cs:0.194,54.58);
+
+\node[font=\tiny,anchor=west,text=black!70] at (axis cs:0.60,50.6) {VimQA (vi)};
+\node[font=\tiny,anchor=west,text=black!70] at (axis cs:0.62,24.2) {MuSiQue};
+\node[font=\tiny,anchor=west,text=black!70] at (axis cs:0.64,38.4) {2Wiki};
+\node[font=\tiny,anchor=west,text=black!70] at (axis cs:0.52,58.9) {HotpotQA};
+\end{axis}
+\end{tikzpicture}
+\caption{Accuracy against context retained, all four datasets. Up and to the
+left is better. Each arrow runs from a dataset's Raw point to its IterCOMP
+point: on VimQA, MuSiQue and 2Wiki the arrow rises while moving left, so
+compression buys accuracy \emph{and} tokens. On HotpotQA (dashed) it falls:
+the reader handles the full context well enough that filtering costs 4.66 F1,
+and only the token saving survives. Oracle marks the ceiling perfect selection
+would reach.}
+\label{fig:tradeoff}
+\end{figure}
+
 \paragraph{The full ordering does not.} The paper reports Oracle $>$ IterCOMP $>$
 Raw $>$ LLMLingua-2. We reproduce it on VimQA (IterCOMP$-$Raw $+4.42$, interval
 clear) and on MuSiQue ($+4.19$, interval clear; at $n=500$ the same margin read
@@ -682,15 +776,14 @@ domain is narrow,
 since VimQA derives from Wikipedia. We do evaluate \emph{undiacriticised} Vietnamese, with
 an unexpected result - see Appendix~\ref{app:undia}. Fertility is measured on
 translated text \cite{deutsch2025wmt24pp}, so it holds for the tokenisers we
-bill against rather than the language at large. The gap between where fertility
-is measured and where compression is run is the sharpest limit here: we report
+bill against rather than the language at large. The sharpest limit is the gap
+between where fertility is measured and where compression is run: we report
 fertility for four writing systems but compress only Vietnamese and English, so
 the effective ratio is argued generally and demonstrated on one language pair.
-Hindi, the worst case at $4.97\times$, is exactly where the correction would
-matter most, and we could not test it - we found no multi-hop QA benchmark in
-Hindi or Thai with the sentence-level supporting-fact annotations the Oracle
-branch needs. Extending the measurement to a language with that annotation is
-the obvious next step.
+Hindi, the worst case at $4.97\times$, is where the correction would matter most
+and is exactly what we could not test - no multi-hop QA benchmark in Hindi or
+Thai carries the sentence-level supporting-fact annotations the Oracle branch
+needs.
 
 \paragraph{Ethics.} VimQA's CC BY-NC-SA 4.0 licence confines us to research use,
 and because compression is lossy - it can drop a negation with no loss of
