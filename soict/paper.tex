@@ -62,7 +62,7 @@ identical ($1.02\times$ spread nominal, $1.77\times$ effective). To ground this
 we reimplement IterCOMP, a state-of-the-art training-free compressor evaluated
 only on English, and give it its first systematic evaluation on Vietnamese using
 the complete VimQA benchmark alongside MuSiQue, 2WikiMultiHopQA and HotpotQA
-($n\ge1{,}003$ each, seven baselines). Two further effects appear only outside
+($n\ge1{,}003$ each, six compression baselines). Two further effects appear only outside
 English: a boolean-answer normalisation step is worth $+10.0$ F1 in Vietnamese
 and exactly $0.0$ in English, and on undiacriticised text -- ubiquitous online --
 compressed context outscores even gold context. We release the implementation
@@ -261,6 +261,37 @@ Every language exceeds $1.0$ with non-overlapping intervals (Table~\ref{tab:mult
 
 
 Crucially, fertility depends on the tokeniser measured. The compression ratio (Table~\ref{tab:vspaper}) counts with \texttt{\textbackslash w+}, where fertility is only $1.34\times$, so comparing ratios across languages is close to fair; but \emph{API cost} is billed on the served model's tokeniser - $2.39\times$ under \texttt{cl100k\_base} against $1.49\times$ under \texttt{o200k\_base} - while bge-m3's XLM-R is only $1.19\times$. On the 200 VimQA contexts here a context averages 1{,}110 \texttt{\textbackslash w+} words but 2{,}364 \texttt{cl100k\_base} tokens, so our ratios \emph{understate} billing $2\times$.
+
+\subsection{The effective ratio}
+\label{sec:effratio}
+
+Write $|x|_{\mathcal{T}}$ for the number of tokens the billed tokeniser
+$\mathcal{T}$ assigns to a string $x$, and let $D$ be the retrieved documents and
+$P_{\text{comp}}$ the compressed prompt. The quantity compression papers report is
+
+\begin{equation}
+\text{Ratio}_{\text{nom}} \;=\; \frac{|P_{\text{comp}}|_{\mathcal{T}}}{|D|_{\mathcal{T}}} .
+\end{equation}
+
+Let $\phi_{\mathcal{T}}(\mathcal{L})$ be the fertility of language $\mathcal{L}$
+under $\mathcal{T}$: the mean token count of a text in $\mathcal{L}$ divided by
+that of its English translation, which is what Table~\ref{tab:multiling}
+measures. We define the \emph{effective ratio} as the nominal ratio expressed in
+English-equivalent tokens,
+
+\begin{equation}
+\text{Ratio}_{\text{eff}} \;=\;
+\frac{\text{Ratio}_{\text{nom}}}{\phi_{\mathcal{T}}(\mathcal{L})} ,
+\label{eq:effratio}
+\end{equation}
+
+so that $\text{Ratio}_{\text{eff}} = \text{Ratio}_{\text{nom}}$ for English by
+construction, and two systems are comparable only once both are read on this
+scale. The correction is deliberately a single division: fertility is a property
+of the language-tokeniser pair, not of the compressor, so it should be divided
+out rather than folded into the compressor's score. Reporting the pair
+$(\text{Ratio}_{\text{nom}}, \text{Ratio}_{\text{eff}})$ costs one extra column
+and keeps the familiar number intact.
 
 \subsection{Does the effective ratio discriminate?}
  A second metric that moved
@@ -520,7 +551,7 @@ Absolute numbers are not comparable across readers, but two invariants indicate 
 faithful reimplementation (Table~\ref{tab:vspaper}). First, the \textbf{method
 ordering reproduces} - Oracle $>$ IterCOMP $>$ Raw $>$ LLMLingua-2 on MuSiQue at
 both sample sizes, and on 2Wiki at scale (Section~\ref{sec:main}). Second, the
-Oracle/Raw ratio is in range: 1.74 at $n=50$ and 2.13 at $n=500$ against
+Oracle/Raw ratio is in range: 1.74 at $n=50$ and 2.12 at $n=1{,}500$ against
 the paper's 1.88. That ratio is the headroom perfect selection buys over full
 context; being a property of the task and data loader rather than the reader, its
 agreement evidences that decomposition, gold-sentence labels and F1 are all
@@ -651,7 +682,15 @@ domain is narrow,
 since VimQA derives from Wikipedia. We do evaluate \emph{undiacriticised} Vietnamese, with
 an unexpected result - see Appendix~\ref{app:undia}. Fertility is measured on
 translated text \cite{deutsch2025wmt24pp}, so it holds for the tokenisers we
-bill against rather than the language at large.
+bill against rather than the language at large. The gap between where fertility
+is measured and where compression is run is the sharpest limit here: we report
+fertility for four writing systems but compress only Vietnamese and English, so
+the effective ratio is argued generally and demonstrated on one language pair.
+Hindi, the worst case at $4.97\times$, is exactly where the correction would
+matter most, and we could not test it - we found no multi-hop QA benchmark in
+Hindi or Thai with the sentence-level supporting-fact annotations the Oracle
+branch needs. Extending the measurement to a language with that annotation is
+the obvious next step.
 
 \paragraph{Ethics.} VimQA's CC BY-NC-SA 4.0 licence confines us to research use,
 and because compression is lossy - it can drop a negation with no loss of

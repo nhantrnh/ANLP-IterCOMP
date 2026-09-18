@@ -108,8 +108,8 @@ Xu, F., Shi, W., Choi, E.: {RECOMP}: Improving retrieval-augmented lms with
 
 \bibitem{yun2026itercomp}
 Yun, J., Kim, Y.: {IterCOMP}: Reasoning-aware adaptive prompt compression for
-  multi-hop question answering. In: Proceedings of the 62nd Annual Meeting of
-  the Association for Computational Linguistics (ACL). San Diego, California
-  (2026), \url{https://aclanthology.org/2026.acl-long.1559/}
+  multi-hop question answering. In: Proceedings of the 64th Annual Meeting of
+  the Association for Computational Linguistics (Volume 1: Long Papers). San
+  Diego, California (2026), \url{https://aclanthology.org/2026.acl-long.1559/}
 
 \end{thebibliography}
