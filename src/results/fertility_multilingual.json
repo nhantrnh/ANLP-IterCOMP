@@ -1,0 +1,74 @@
+{
+  "source": "google/wmt24pp",
+  "pairs_requested": 400,
+  "languages": {
+    "vi_VN": {
+      "note": "Latin + dấu thanh; khoảng trắng tách âm tiết",
+      "tokenizers": {
+        "cl100k_base": {
+          "fertility": 2.4885850480008855,
+          "ci_lo": 2.428612947527158,
+          "ci_hi": 2.5523339139392074,
+          "n_pairs": 400
+        },
+        "o200k_base": {
+          "fertility": 1.5154708362102807,
+          "ci_lo": 1.4858050628373392,
+          "ci_hi": 1.5484158814941236,
+          "n_pairs": 400
+        }
+      }
+    },
+    "th_TH": {
+      "note": "Thai; KHÔNG khoảng trắng giữa từ",
+      "tokenizers": {
+        "cl100k_base": {
+          "fertility": 3.891749718709899,
+          "ci_lo": 3.7833104548001906,
+          "ci_hi": 4.006606781776316,
+          "n_pairs": 400
+        },
+        "o200k_base": {
+          "fertility": 1.8313842993704454,
+          "ci_lo": 1.7896030525381,
+          "ci_hi": 1.8749779804608349,
+          "n_pairs": 400
+        }
+      }
+    },
+    "hi_IN": {
+      "note": "Devanagari (abugida)",
+      "tokenizers": {
+        "cl100k_base": {
+          "fertility": 4.97367644281385,
+          "ci_lo": 4.825192181737161,
+          "ci_hi": 5.116564162578744,
+          "n_pairs": 400
+        },
+        "o200k_base": {
+          "fertility": 1.7147066816263863,
+          "ci_lo": 1.6729762579659626,
+          "ci_hi": 1.7562925031984193,
+          "n_pairs": 400
+        }
+      }
+    },
+    "zh_CN": {
+      "note": "Hán; không khoảng trắng",
+      "tokenizers": {
+        "cl100k_base": {
+          "fertility": 1.8714448201154328,
+          "ci_lo": 1.8261930765530119,
+          "ci_hi": 1.915429975312462,
+          "n_pairs": 400
+        },
+        "o200k_base": {
+          "fertility": 1.2698238034355063,
+          "ci_lo": 1.2425680014734353,
+          "ci_hi": 1.2970923446894203,
+          "n_pairs": 400
+        }
+      }
+    }
+  }
+}

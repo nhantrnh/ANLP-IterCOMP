@@ -32,7 +32,7 @@
 
 \begin{document}
 
-\title{Beyond Nominal Ratios: Language-Aware Prompt\\Compression for Multi-hop Question Answering}
+\title{Beyond Nominal Ratios: Language-Aware\\Prompt Compression for Multi-hop\\Question Answering}
 
 \titlerunning{Beyond Nominal Ratios}
 
@@ -66,9 +66,9 @@ token fertility on parallel WMT24++ sentences across four writing systems, a
 context costs $4.97\times$ more tokens in Hindi, $3.89\times$ in Thai and
 $2.49\times$ in Vietnamese than its English counterpart under the tokeniser that
 bills, so a compressor reporting the same nominal ratio in two languages is not
-delivering the same saving. We propose an \emph{effective ratio} that divides
-fertility out, and show it separates tokenisers that nominal ratios rank as
-identical ($1.02\times$ spread nominal, $1.77\times$ effective). To ground this
+delivering the same saving. We propose \textbf{FAIR}, a Fertility-Adjusted Ratio that divides fertility
+out, and show it separates tokenisers that nominal ratios rank as identical
+($1.02\times$ spread nominal, $1.77\times$ under FAIR). To ground this
 we reimplement IterCOMP, a state-of-the-art training-free compressor evaluated
 only on English, and give it its first systematic evaluation on Vietnamese using
 the complete VimQA benchmark alongside MuSiQue, 2WikiMultiHopQA and HotpotQA
@@ -192,7 +192,7 @@ metric-inflating one;
 (2)~evidence that the iteration budget saturates beyond two passes, with
 \texttt{max\_iter} from 2 to 5 moving F1 by $+1.2$ at $n=500$ (within noise)
 while retention grows from 0.160 to 0.194;
-(3)~an \emph{effective ratio} showing that nominal compression ratios understate
+(3)~\textbf{FAIR}, a fertility-adjusted ratio showing that nominal ratios understate
 real token cost on Vietnamese by $2.39\times$, since the tokeniser that bills is
 not the one that counts;
 (4)~that Vietnamese does not handicap the compressor, IterCOMP reaching 84\% of
@@ -200,7 +200,7 @@ the Oracle ceiling on VimQA, the lower 54\% on English MuSiQue being a dataset
 property, not a language effect (Appendix~\ref{app:decomp}); and
 (5)~that on undiacriticised Vietnamese, compressed context beats gold context by
 3.78 to 5.82 F1 (Appendix~\ref{app:undia}).
-We call the resulting configuration IterCOMP-VN, and stress that it is \emph{not}
+We call the resulting configuration IterCOMP-X, and stress that it is \emph{not}
 a new algorithm - the loop is unchanged; it is a deployment configuration plus a
 metric-level fix, and we report below which parts survive significance testing.
 
@@ -326,21 +326,20 @@ $P_{\text{comp}}$ the compressed prompt. The quantity compression papers report 
 Let $\phi_{\mathcal{T}}(\mathcal{L})$ be the fertility of language $\mathcal{L}$
 under $\mathcal{T}$: the mean token count of a text in $\mathcal{L}$ divided by
 that of its English translation, which is what Table~\ref{tab:multiling}
-measures. We define the \emph{effective ratio} as the nominal ratio expressed in
-English-equivalent tokens,
+measures. We define the \emph{Fertility-Adjusted Ratio} (FAIR) as the nominal
+ratio expressed in English-equivalent tokens,
 
 \begin{equation}
-\text{Ratio}_{\text{eff}} \;=\;
+\mathrm{FAIR} \;=\;
 \frac{\text{Ratio}_{\text{nom}}}{\phi_{\mathcal{T}}(\mathcal{L})} ,
-\label{eq:effratio}
+\label{eq:fair}
 \end{equation}
 
-so that $\text{Ratio}_{\text{eff}} = \text{Ratio}_{\text{nom}}$ for English by
-construction, and two systems are comparable only once both are read on this
-scale. The correction is deliberately a single division: fertility is a property
+so that $\mathrm{FAIR} = \text{Ratio}_{\text{nom}}$ for English by construction,
+and two systems are comparable only once both are read on this scale. The correction is deliberately a single division: fertility is a property
 of the language-tokeniser pair, not of the compressor, so it should be divided
 out rather than folded into the compressor's score. Reporting the pair
-$(\text{Ratio}_{\text{nom}}, \text{Ratio}_{\text{eff}})$ costs one extra column
+$(\text{Ratio}_{\text{nom}}, \mathrm{FAIR})$ costs one extra column
 and keeps the familiar number intact.
 
 \subsection{Does the effective ratio discriminate?}
