@@ -36,15 +36,23 @@
 
 \titlerunning{Beyond Nominal Ratios}
 
-\author{Truong Thanh Nhan \and Tran Ngoc Vy \and Tran Nhat Minh}
+\author{Thanh-Nhan Truong\orcidID{0009-0007-5012-7578}}
 
-\authorrunning{T. T. Nhan et al.}
+\authorrunning{T.-N. Truong}
 
 \institute{Faculty of Information Technology, VNUHCM - University of Science,\\
 Ho Chi Minh City, Vietnam\\
-\email{\{25C1505320, 25C1506947, 24C11055\}@student.hcmus.edu.vn}}
+\email{25C1505320@student.hcmus.edu.vn}}
+
+% Single-author paper, so the corresponding-author mark carries no contrast and
+% LNCS would render a lone dagger on the title page. The role is stated in the
+% footnote instead.
+\newcommand{\correspondingnote}{%
+  \footnotetext{Corresponding author: Thanh-Nhan Truong,
+  \texttt{25C1505320@student.hcmus.edu.vn}.}}
 
 \maketitle
+\correspondingnote
 \pagestyle{empty}
 \thispagestyle{empty}
 
@@ -272,15 +280,18 @@ Crucially, fertility depends on the tokeniser measured. The compression ratio (T
   width=\textwidth, height=4.3cm,
   ybar, bar width=7pt,
   enlarge x limits=0.14,
-  ymin=0, ymax=5.5,
+  ymin=0, ymax=5.9,
   ylabel={Tokens per English token},
   symbolic x coords={English,Chinese,Vietnamese,Thai,Hindi},
   xtick=data,
   label style={font=\footnotesize}, tick label style={font=\scriptsize},
-  legend style={font=\scriptsize, at={(0.02,0.97)}, anchor=north west, draw=gray!40},
+  legend style={font=\scriptsize, at={(0.02,0.97)}, anchor=north west,
+                draw=gray!40, /tikz/every even column/.append style={column sep=5pt}},
+  legend image code/.code={\draw[#1] (0cm,-0.08cm) rectangle (0.30cm,0.18cm);},
   grid=major, grid style={gray!18},
-  nodes near coords, nodes near coords style={font=\tiny, /pgf/number format/fixed,
-     /pgf/number format/precision=2},
+  nodes near coords,
+  every node near coord/.append style={font=\tiny, yshift=1.5pt,
+     /pgf/number format/fixed, /pgf/number format/precision=2},
 ]
 \addplot[fill=cScore, draw=cScoreL] coordinates
   {(English,1.00) (Chinese,1.87) (Vietnamese,2.49) (Thai,3.89) (Hindi,4.97)};
@@ -574,16 +585,28 @@ in full in the released results.
   coordinates {(0.316,35.31) (0.235,14.63) (0.233,19.24) (0.237,36.00)};
 \addlegendentry{LLML-2}
 
-% join each dataset's IterCOMP to its Raw: the arrow is the claim
-\draw[->,>=stealth,cLoop!55,thin] (axis cs:1.0,46.87) -- (axis cs:0.206,51.29);
-\draw[->,>=stealth,cLoop!55,thin] (axis cs:1.0,21.16) -- (axis cs:0.340,25.35);
-\draw[->,>=stealth,cLoop!55,thin] (axis cs:1.0,35.72) -- (axis cs:0.354,36.72);
-\draw[->,>=stealth,black!45,thin,densely dashed] (axis cs:1.0,59.24) -- (axis cs:0.194,54.58);
+% Each arrow runs Raw -> IterCOMP. Thick enough to read the direction in
+% greyscale; the dashed one is the dataset where compression loses accuracy.
+\draw[-{Stealth[length=5pt,width=4pt]},cLoop,line width=1.1pt,opacity=0.75]
+  (axis cs:0.97,46.87) -- (axis cs:0.24,51.29);
+\draw[-{Stealth[length=5pt,width=4pt]},cLoop,line width=1.1pt,opacity=0.75]
+  (axis cs:0.97,21.16) -- (axis cs:0.37,25.35);
+\draw[-{Stealth[length=5pt,width=4pt]},cLoop,line width=1.1pt,opacity=0.75]
+  (axis cs:0.97,35.72) -- (axis cs:0.385,36.72);
+\draw[-{Stealth[length=5pt,width=4pt]},black!60,line width=1.1pt,densely dashed]
+  (axis cs:0.97,59.24) -- (axis cs:0.225,54.58);
 
-\node[font=\tiny,anchor=west,text=black!70] at (axis cs:0.60,50.6) {VimQA (vi)};
-\node[font=\tiny,anchor=west,text=black!70] at (axis cs:0.62,24.2) {MuSiQue};
-\node[font=\tiny,anchor=west,text=black!70] at (axis cs:0.64,38.4) {2Wiki};
-\node[font=\tiny,anchor=west,text=black!70] at (axis cs:0.52,58.9) {HotpotQA};
+% Labels sit on their IterCOMP endpoint, not floating over the arrow.
+% VimQA and HotpotQA endpoints are 3.3 F1 apart, so their labels go on
+% opposite sides to keep clear of each other.
+\node[font=\tiny,anchor=east,text=black!75,inner sep=3pt]
+  at (axis cs:0.206,51.29) {VimQA (vi)};
+\node[font=\tiny,anchor=south west,text=black!75,inner sep=2pt]
+  at (axis cs:0.194,54.58) {HotpotQA};
+\node[font=\tiny,anchor=north,text=black!75,inner sep=2.4pt]
+  at (axis cs:0.340,25.35) {MuSiQue};
+\node[font=\tiny,anchor=south,text=black!75,inner sep=2.4pt]
+  at (axis cs:0.354,36.72) {2Wiki};
 \end{axis}
 \end{tikzpicture}
 \caption{Accuracy against context retained, all four datasets. Up and to the
@@ -804,6 +827,12 @@ handicap the compressor; what we could not move is the reader, failing on
 ${\sim}30\%$ of questions even given gold evidence.
 
 \clearpage
+\begin{credits}
+\subsubsection{\ackname} This research is supported by research funding from
+the Faculty of Information Technology, University of Science, Vietnam National
+University - Ho Chi Minh City.
+\end{credits}
+
 \bibliographystyle{splncs04}
 \bibliography{references}
 
