@@ -76,7 +76,7 @@ we reimplement IterCOMP, a state-of-the-art training-free compressor evaluated
 only on English, and give it its first systematic evaluation on Vietnamese using
 the complete VimQA benchmark alongside MuSiQue, 2WikiMultiHopQA and HotpotQA
 ($n\ge1{,}003$ each, six compression baselines). Two further effects appear only outside
-English: a boolean-answer normalisation step is worth $+10.0$ F1 in Vietnamese
+English: a boolean-answer normalisation step is worth $+8.67$ F1 in Vietnamese
 and exactly $0.0$ in English, and undiacriticised text -- ubiquitous online --
 costs every branch about 20 F1 while leaving the ordering intact, the damage
 falling on the reader rather than on the compressor. We release the implementation
@@ -190,9 +190,9 @@ remains restricted to English.
 The Vietnamese adaptation and evaluation are our primary contribution; the
 reproduction that enables them is reported subsequently. Our study contributes
 five findings, four of them specific to Vietnamese:
-(1)~a boolean-answer normalisation step worth $+10.0$ F1 on Vietnamese
-($p=0.01$) and $0.0$ on English ($p=1.00$), a linguistic fix rather than a
-metric-inflating one;
+(1)~a boolean-answer normalisation step worth $+8.67$ F1 on Vietnamese
+(CI $[+6.98,+10.47]$) and exactly $0.0$ on all three English datasets, a
+linguistic fix rather than a metric-inflating one;
 (2)~evidence that the iteration budget saturates beyond two passes, with
 \texttt{max\_iter} from 2 to 5 moving F1 by $+1.2$ at $n=500$ (within noise)
 while retention grows from 0.160 to 0.194;
@@ -711,23 +711,24 @@ deficit the mismatched comparison implied.
 \subsection{The ordering is reader-dependent}
 \label{sec:reader}
 
-Oracle exceeds Raw on every dataset while reading 5.7\% to 14.4\% of the tokens,
+Oracle exceeds Raw on every dataset while reading 5.7\% to 16.4\% of the tokens,
 confirming the premise the literature rests on: irrelevant passages \emph{do}
 degrade accuracy. But the size of that gap decides whether compression can exploit
-it. Oracle/Raw is 2.13 on MuSiQue and 1.30 on VimQA, where IterCOMP holds its own,
+it. Oracle/Raw is 2.12 on MuSiQue and 1.30 on VimQA, where IterCOMP holds its own,
 but only 1.21 on HotpotQA, where Raw wins outright. \textbf{The premise is
 reader-dependent}: a reader that already copes with distractors leaves compression
 little to recover. Swapping our 7B reader for Qwen2.5-0.5B on HotpotQA, the
 compression pipeline fixed, restores IterCOMP to $+7.66$ over Raw - reversing the
-$-7.99$ at 7B, and recovering the ordering the original paper reports with its own
+$-4.66$ at 7B, and recovering the ordering the original paper reports with its own
 weaker reader. The HotpotQA reversal is thus a property of the reader, not a defect
 of the compressor.
 
 \subsection{Vietnamese-specific findings}
 \label{sec:vnfindings}
 Running the method on Vietnamese surfaces four results. Boolean answer
-normalisation is worth $+10.0$ F1 on Vietnamese ($p=0.01$) and exactly $0.0$ on
-English ($p=1.00$), isolating a language-specific fix from a metric-inflating
+normalisation is worth $+8.67$ F1 on VimQA at $n=1{,}003$, interval
+$[+6.98,+10.47]$, and exactly $0.0$ on each of MuSiQue, 2Wiki and HotpotQA,
+isolating a language-specific fix from a metric-inflating
 one: a reader asked a Vietnamese question often answers ``Yes'', which is
 correct and scores $0$ against the gold ``đúng''. The step fires on the closing
 \emph{phải không} / \emph{đúng không} frame of the \emph{question}, never on the
@@ -853,7 +854,7 @@ supporting facts the Oracle branch needs.
 \paragraph{Ethics.} VimQA's CC BY-NC-SA 4.0 licence confines us to research use,
 and because compression is lossy - it can drop a negation with no loss of
 fluency, silently inverting an answer - sensitive deployments should verify
-outputs against the source; the fix worth 10.0 F1 in Vietnamese yet 0.0 in English
+outputs against the source; the fix worth 8.67 F1 in Vietnamese yet 0.0 in English
 is a further caution that ``multilingual'' models are not equally reliable across
 languages.
 
