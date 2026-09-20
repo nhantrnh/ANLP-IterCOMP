@@ -77,8 +77,9 @@ only on English, and give it its first systematic evaluation on Vietnamese using
 the complete VimQA benchmark alongside MuSiQue, 2WikiMultiHopQA and HotpotQA
 ($n\ge1{,}003$ each, six compression baselines). Two further effects appear only outside
 English: a boolean-answer normalisation step is worth $+10.0$ F1 in Vietnamese
-and exactly $0.0$ in English, and on undiacriticised text -- ubiquitous online --
-compressed context outscores even gold context. We release the implementation
+and exactly $0.0$ in English, and undiacriticised text -- ubiquitous online --
+costs every branch about 20 F1 while leaving the ordering intact, the damage
+falling on the reader rather than on the compressor. We release the implementation
 and the Vietnamese prompts.
 
 \keywords{Prompt compression \and Multi-hop question answering \and
@@ -201,8 +202,8 @@ not the one that counts;
 (4)~that Vietnamese does not handicap the compressor, IterCOMP reaching 84\% of
 the Oracle ceiling on VimQA, the lower 56\% on English MuSiQue being a dataset
 property, not a language effect (Section~\ref{sec:vnfindings}); and
-(5)~that on undiacriticised Vietnamese, compressed context beats gold context by
-3.78 to 5.82 F1 (Table~\ref{tab:undia}).
+(5)~that undiacriticised Vietnamese costs compressed and gold context alike
+about 20 F1, leaving their ordering unchanged (Table~\ref{tab:undia}).
 We call the resulting configuration IterCOMP-X, and stress that it is \emph{not}
 a new algorithm - the loop is unchanged; it is a deployment configuration plus a
 metric-level fix, and we report below which parts survive significance testing.
@@ -739,15 +740,24 @@ question and MuSiQue twenty, so perfect selection is worth more on MuSiQue and a
 compressor has further to fall short of it.
 
 \paragraph{Undiacriticised Vietnamese.} Vietnamese is frequently typed without
-tone marks online, a setting no compression paper evaluates. Stripping diacritics
-costs 20.8 F1 as \emph{má}, \emph{mà} and \emph{mã} collapse into one string; yet
-once the text is undiacriticised, \textbf{IterCOMP's compressed context beats even
-gold context} by 3.78 to 5.82 F1 (Table~\ref{tab:undia}) - supplying precisely
-the gold sentences becomes \emph{worse} than a compressed one.
-The released analysis traces the mechanism: stripping tone marks collapses
-20.8\% of VimQA's distinct syllables, and IterCOMP already beats Oracle on
-9.8\% of questions before any stripping, so the effect is amplified rather than
-created.
+tone marks online, a setting no compression paper evaluates. Stripping
+diacritics is expensive: \emph{má}, \emph{mà} and \emph{mã} collapse into one
+string, $20.8\%$ of VimQA's distinct syllables merge, and both branches lose
+about 20 F1 (Table~\ref{tab:undia}). What the setting does \emph{not} do is
+change the ordering. Gold context leads by $4.81$ with tone marks and by $3.99$
+and $4.05$ once they are stripped, and no interval separates, so compression
+neither gains nor loses ground relative to perfect evidence when the text is
+undiacriticised. The damage lands on the reader, not on the compressor: at a
+matched $20$-point drop for both branches, the compressor's share is
+$0.81$~F1.
+
+We report this because an earlier version of the experiment appeared to show
+the opposite. Stripping diacritics from the retrieved context also stripped
+them from the document titles, while the supporting-fact annotations that
+select the gold sentences kept theirs, so the two stopped matching and the gold
+branch was handed an empty context on $48$ of $200$ questions. Against an empty
+context a compressed one wins easily. With the titles stripped on both sides
+the gold branch recovers $8.4$ and $9.9$ F1 and the effect disappears.
 
 \begin{table}[htbp]
 \centering
@@ -756,18 +766,18 @@ created.
 \toprule
 Setting & IterC. & Gold & $\Delta$ \\
 \midrule
-\texttt{keep}  & 50.08 & \textbf{54.94} & $-4.86$ \\
-\texttt{strip} & \textbf{29.29} & 25.52 & $+3.78$ \\
-\texttt{both}  & \textbf{30.25} & 24.43 & $+5.82$ \\
+\texttt{keep}  & 50.17 & \textbf{54.97} & $-4.81$ \\
+\texttt{strip} & 29.91 & \textbf{33.90} & $-3.99$ \\
+\texttt{both}  & 30.25 & \textbf{34.30} & $-4.05$ \\
 \bottomrule
 \end{tabular}
-\caption{Undiacriticised Vietnamese ($n=200$, 7B reader). With tone marks
-(\texttt{keep}) gold context wins; strip them from the context (\texttt{strip})
-or from context and question (\texttt{both}) and IterCOMP wins. \texttt{strip} leaves the
-gold answer accented, so the reader must restore marks it never saw;
-\texttt{both} strips the reference too, scoring entity recovery rather than
-diacritics. Each row compares the same two branches, so the within-row
-comparison is unaffected.}
+\caption{Undiacriticised Vietnamese ($n=200$, 7B reader). Gold context leads in
+every setting and none of the three gaps separates: the paired bootstrap
+intervals are $[-10.93,+1.44]$, $[-9.51,+1.50]$ and $[-9.48,+1.48]$. Stripping
+tone marks costs both branches about 20 F1, and costs them equally.
+\texttt{strip} leaves the gold answer accented, so the reader must restore marks
+it never saw; \texttt{both} strips the reference too, scoring entity recovery
+rather than diacritics.}
 \label{tab:undia}
 \end{table}
 
@@ -827,8 +837,9 @@ $n\ge1{,}003$, the ablations at $n=500$, the baselines at $n=200$; what remains
 at $n=50$ is the scorer ablation, reported as inconclusive. One baseline is
 missing, R2C releasing no public checkpoint; every other baseline with a
 released model is included, CompAct among them. The domain is narrow, since
-VimQA derives from Wikipedia. We do evaluate \emph{undiacriticised} Vietnamese, with
-an unexpected result - see Table~\ref{tab:undia}. Fertility is measured on
+VimQA derives from Wikipedia. We do evaluate \emph{undiacriticised} Vietnamese
+(Table~\ref{tab:undia}), at $n=200$, where the intervals are wide enough that
+the setting bounds the damage rather than ranking the methods. Fertility is measured on
 translated text \cite{deutsch2025wmt24pp}, so it holds for the tokenisers we
 bill against rather than the language at large. The sharpest limit is that fertility is
 measured on four writing systems while compression is run on two, so the
