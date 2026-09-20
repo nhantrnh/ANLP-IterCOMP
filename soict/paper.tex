@@ -270,7 +270,8 @@ writing system each: Devanagari, Thai (unspaced), Latin-plus-tones, Han. All
 \label{tab:multiling}
 \end{table}
 
-Every language exceeds $1.0$ with non-overlapping intervals (Table~\ref{tab:multiling}), so the mismatch is systematic rather than a Vietnamese quirk; Vietnamese at $2.49\times$ is the \emph{mild} case, Hindi being penalised twice as heavily. The $2.49\times$ here (400 pairs) and the $2.39\times$ in Table~\ref{tab:fertility} (930 pairs) are different samples of the same corpus.
+Every language exceeds $1.0$ with non-overlapping intervals (Table~\ref{tab:multiling},
+plotted in Fig.~\ref{fig:fertility}), so the mismatch is systematic rather than a Vietnamese quirk; Vietnamese at $2.49\times$ is the \emph{mild} case, Hindi being penalised twice as heavily. The $2.49\times$ here (400 pairs) and the $2.39\times$ in Table~\ref{tab:fertility} (930 pairs) are different samples of the same corpus.
 
 
 
@@ -341,7 +342,7 @@ costs against an English original of the same content,
 \label{eq:effratio}
 \end{equation}
 
-so that $\text{Ratio}_{\text{eff}} = \text{Ratio}_{\text{nom}}$ for English,
+so that (\ref{eq:effratio}) gives $\text{Ratio}_{\text{eff}} = \text{Ratio}_{\text{nom}}$ for English,
 where $\phi = 1$, and rises above the nominal figure exactly as far as the
 language is penalised by the tokeniser. Keeping a fifth of a Vietnamese context
 is not the saving that keeping a fifth of an English one is, and the second
@@ -560,7 +561,8 @@ Per-dataset discussion is in the released repository.}
 \label{tab:4ds}
 \end{table}
 
-\paragraph{The central claim holds on all four.} Sentence-level compression beats
+\paragraph{The central claim holds on all four.} Fig.~\ref{fig:tradeoff} plots
+accuracy against context retained; sentence-level compression beats
 token-level LLMLingua-2 by $+10.72$ to $+18.58$ F1 (Table~\ref{tab:4ds}, last
 row), every paired bootstrap interval clear of zero. This is the paper's thesis,
 and the one result that does not depend on which dataset, reader or sample size we
