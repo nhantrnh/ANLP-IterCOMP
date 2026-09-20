@@ -79,7 +79,7 @@ def paired_bootstrap(a: list[float], b: list[float],
     return {"diff": obs, "lo": lo, "hi": hi, "p": min(p, 1.0), "n": n}
 
 
-def min_detectable_diff(scores: list[float], power: float = 0.8,
+def min_detectable_diff_unpaired(scores: list[float], power: float = 0.8,
                         alpha: float = 0.05) -> float:
     """Chênh lệch nhỏ nhất phát hiện được với cỡ mẫu hiện tại.
 

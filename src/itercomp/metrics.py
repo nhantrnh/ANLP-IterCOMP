@@ -102,9 +102,16 @@ def f1_span(pred: str, gold: str) -> float:
 # yếu của mô hình đọc.
 
 _YES = {"yes", "true", "correct", "right",
-        "đúng", "có", "phải", "vâng", "ừ"}
+        "đúng", "có", "phải", "vâng", "ừ", "dạ", "ừm",
+        "chính xác", "chắc chắn", "đương nhiên"}
 _NO = {"no", "false", "incorrect", "wrong",
-       "không", "sai", "chưa"}
+       "không", "sai", "chưa", "chẳng", "đâu", "chả"}
+
+#: Phó từ phủ định đứng đầu câu: chi phối toàn bộ phần sau, nên "chẳng phải"
+#: và "đâu có" là PHỦ ĐỊNH dù chứa token khẳng định ("phải", "có"). Không có
+#: luật này thì phép so khớp theo túi-từ đảo cực và chấm điểm F1 = 1 cho một
+#: câu trả lời ngược nghĩa.
+_NEG_SCOPE = re.compile(r"^\s*(không|chẳng|chả|đâu)\b", re.IGNORECASE)
 
 
 def _opposite(g: str) -> str:
@@ -155,6 +162,9 @@ def normalize_boolean(pred: str, gold: str, question: str | None = None) -> str:
         return pred
     if g not in _YES | _NO:
         return pred
+
+    if _NEG_SCOPE.match(pred.strip()):
+        return _opposite(g) if g in _YES else gold
 
     toks = set(tokenize(pred))
     hit_yes, hit_no = toks & _YES, toks & _NO

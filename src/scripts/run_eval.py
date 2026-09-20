@@ -38,7 +38,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # để chạy đ�
 from itercomp import (DATA, itercomp, load_dataset, make_llm,
                       exact_match, f1_score, tokenize, clean_answer, make_reader,
                       make_scorer, normalize_boolean,
-                      bootstrap_ci, paired_bootstrap, min_detectable_diff)
+                      bootstrap_ci, paired_bootstrap, min_detectable_diff_unpaired)
 from itercomp.scorer import (AP_K_MAX, AP_K_MIN, DEFAULT_LAMBDA,
                              DEFAULT_PERCENTILE, PERCENTILE_BY_DATASET)
 import argparse
@@ -814,7 +814,7 @@ def main():
         ci = bootstrap_ci(f1s)
         print(f"{name:<14}{ci['mean']:>8.1f}  [{ci['lo']:>5.1f}, {ci['hi']:>5.1f}]")
     ref = list(agg)[-1]
-    mdd = min_detectable_diff([x * 100 for x in agg[ref]["f1_norm"]])
+    mdd = min_detectable_diff_unpaired([x * 100 for x in agg[ref]["f1_norm"]])
     print(f"\nVới n={len(per_row)}, chênh nhỏ nhất phát hiện được ~{mdd:.1f} điểm F1."
           f"\nChênh nhỏ hơn mức này KHÔNG kết luận được.")
 
