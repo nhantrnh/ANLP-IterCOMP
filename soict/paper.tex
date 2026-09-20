@@ -48,10 +48,14 @@ Ho Chi Minh City, Vietnam\\
 % LNCS would render a lone dagger on the title page. The role is stated in the
 % footnote instead.
 \newcommand{\correspondingnote}{%
+  % An unnumbered footnote: \footnotetext with the counter at 0 prints a bare
+  % "0", which reads as a numbered note whose marker went missing.
+  \renewcommand{\thefootnote}{}%
   \footnotetext{Corresponding author: Thanh-Nhan Truong,
   \texttt{25C1505320@student.hcmus.edu.vn}. Code, prompts (Vietnamese and
   English), per-dataset results and the extended analyses are at
-  \url{https://github.com/nhantrnh/IterCOMP-X}.}}
+  \url{https://github.com/nhantrnh/IterCOMP-X}.}%
+  \renewcommand{\thefootnote}{\arabic{footnote}}}
 
 \maketitle
 \correspondingnote
@@ -136,8 +140,11 @@ and \emph{noise} (irrelevant passages degrade reader accuracy).
   {\textbf{0.68} \ ``Eilish co-wrote most tracks''};
 \node[dp, anchor=north west] (s3) at (\cL,0.40)
   {\textbf{0.34} \ ``\dots released on \textbf{29 Mar 2019}''};
-\node[nt, text=gray!50] at (\cL,-0.26)
+% This label sits below the last box; \path reserves the strip it needs so
+% resizebox does not scale it off the bottom edge.
+\node[nt, text=gray!50, anchor=north] at (\cL,-0.52)
   {below threshold - the answer is cut};
+\path (\cL,-0.95);
 
 % ── LLM ──────────────────────────────────────────────────
 \node[ai] (j1) at (\cM,1.55) {Answerability\\ judgement};
@@ -225,6 +232,13 @@ different languages. This section measures the gap and proposes a correction.
 
 \begin{table}[htbp]
 \centering
+\caption{Token fertility over 930 parallel English-Vietnamese sentence pairs from
+WMT24++ \cite{deutsch2025wmt24pp}. All 95\% confidence intervals are narrower
+than $\pm0.04$. Fertility depends strongly on the tokeniser: a factor of two
+separates \texttt{cl100k\_base} from XLM-R. $^a$GPT-4, GPT-3.5-turbo;
+$^b$GPT-4o. Which tokeniser bills depends on the served model, so exposure to
+fertility is set by that choice as much as by the language.}
+\label{tab:fertility}
 \small
 \begin{tabular}{lrrr}
 \toprule
@@ -236,13 +250,6 @@ XLM-R (used by bge-m3) & 57.9 & 49.7 & 1.19$\times$ \\
 \texttt{\textbackslash w+} (unit of ``ratio'') & 47.6 & 35.7 & 1.34$\times$ \\
 \bottomrule
 \end{tabular}
-\caption{Token fertility over 930 parallel English-Vietnamese sentence pairs from
-WMT24++ \cite{deutsch2025wmt24pp}. All 95\% confidence intervals are narrower
-than $\pm0.04$. Fertility depends strongly on the tokeniser: a factor of two
-separates \texttt{cl100k\_base} from XLM-R. $^a$GPT-4, GPT-3.5-turbo;
-$^b$GPT-4o. Which tokeniser bills depends on the served model, so exposure to
-fertility is set by that choice as much as by the language.}
-\label{tab:fertility}
 \end{table}
 
 \subsection{Four writing systems}
@@ -253,6 +260,10 @@ WMT24++ pairs per language (\texttt{fertility\_multilingual.py}) shows it is not
 
 \begin{table}[htbp]
 \centering
+\caption{Fertility against English over 400 WMT24++ pairs per language, one
+writing system each: Devanagari, Thai (unspaced), Latin-plus-tones, Han. All
+95\% confidence intervals are non-overlapping across languages.}
+\label{tab:multiling}
 \small
 \begin{tabular}{lrr}
 \toprule
@@ -264,10 +275,6 @@ Vietnamese & \textbf{2.49}$\times$ & 1.52$\times$ \\
 Chinese & \textbf{1.87}$\times$ & 1.27$\times$ \\
 \bottomrule
 \end{tabular}
-\caption{Fertility against English over 400 WMT24++ pairs per language, one
-writing system each: Devanagari, Thai (unspaced), Latin-plus-tones, Han. All
-95\% confidence intervals are non-overlapping across languages.}
-\label{tab:multiling}
 \end{table}
 
 Every language exceeds $1.0$ with non-overlapping intervals (Table~\ref{tab:multiling},
@@ -417,6 +424,8 @@ compare like with like; Table~\ref{tab:datasets} gives the statistics.
 
 \begin{table}[t]
 \centering
+\caption{Datasets (development-set statistics).}
+\label{tab:datasets}
 \small
 \begin{tabular}{llrr}
 \toprule
@@ -428,8 +437,6 @@ MuSiQue-Ans           & En & 2,417  & 20 \\
 \textbf{VimQA}        & \textbf{Vi} & \textbf{1,003} & \textbf{10} \\
 \bottomrule
 \end{tabular}
-\caption{Datasets (development-set statistics).}
-\label{tab:datasets}
 \end{table}
 
 \section{Method}
@@ -491,6 +498,12 @@ code.
 
 \begin{table}[t]
 \centering
+\caption{Hyperparameters, following the original paper (which used a LLaMA-3-8B
+reader); VimQA, absent there, uses $k=90$ as HotpotQA. The reader is quantised
+to 4-bit NF4 with double quantisation (bitsandbytes) and served through
+HuggingFace Transformers; decoding is greedy (\texttt{do\_sample=False}) with at
+most 48 new tokens, so no run-to-run sampling variance enters the numbers.}
+\label{tab:hyper}
 \small
 \begin{tabular}{ll}
 \toprule
@@ -503,12 +516,6 @@ Encoder & bge-m3 (frozen) \\
 Reader & Qwen2.5-7B-4bit \\
 \bottomrule
 \end{tabular}
-\caption{Hyperparameters, following the original paper (which used a LLaMA-3-8B
-reader); VimQA, absent there, uses $k=90$ as HotpotQA. The reader is quantised
-to 4-bit NF4 with double quantisation (bitsandbytes) and served through
-HuggingFace Transformers; decoding is greedy (\texttt{do\_sample=False}) with at
-most 48 new tokens, so no run-to-run sampling variance enters the numbers.}
-\label{tab:hyper}
 \end{table}
 
 We adopt the original paper's hyperparameters (Table~\ref{tab:hyper}).
@@ -538,6 +545,11 @@ documents this and the other text-handling prerequisites.
 
 \begin{table}[tbp]
 \centering
+\caption{Main results: F1$^*$, Qwen2.5-7B at 4-bit; the second row gives $n$. The
+last two rows are IterCOMP-X minus that baseline. $^\dag$ paired bootstrap interval
+excludes zero. Bold marks whichever of Raw and IterCOMP-X is higher.
+Per-dataset discussion is in the released repository.}
+\label{tab:4ds}
 \footnotesize
 \setlength{\tabcolsep}{2.4pt}
 \begin{tabular}{lrrrr}
@@ -554,11 +566,6 @@ $\Delta$ vs.\ Raw & $+4.42^\dag$ & $+4.19^\dag$ & $+1.00$ & $\mathbf{-4.66^\dag}
 $\Delta$ vs.\ LLML-2 & $+15.98^\dag$ & $+10.72^\dag$ & $+17.48^\dag$ & $+18.58^\dag$ \\
 \bottomrule
 \end{tabular}
-\caption{Main results: F1$^*$, Qwen2.5-7B at 4-bit; the second row gives $n$. The
-last two rows are IterCOMP-X minus that baseline. $^\dag$ paired bootstrap interval
-excludes zero. Bold marks whichever of Raw and IterCOMP-X is higher.
-Per-dataset discussion is in the released repository.}
-\label{tab:4ds}
 \end{table}
 
 \paragraph{The central claim holds on all four.} Fig.~\ref{fig:tradeoff} plots
@@ -665,6 +672,10 @@ not hold at full scale.
 
 \begin{table}[tbp]
 \centering
+\caption{F1 from the original paper (LLaMA-3-8B reader) against our
+reproduction (Qwen2.5-7B at 4-bit, $n=50$), plus our Vietnamese results.
+VimQA has no published baseline; the paper does not evaluate it.}
+\label{tab:vspaper}
 \small
 \begin{tabular}{lrrr}
 \toprule
@@ -681,10 +692,6 @@ IterCOMP & \textbf{27.36} & \textbf{35.1} & \textbf{43.0} \\
 \emph{Oracle/Raw} & \emph{1.88} & \emph{1.74} & \emph{1.22} \\
 \bottomrule
 \end{tabular}
-\caption{F1 from the original paper (LLaMA-3-8B reader) against our
-reproduction (Qwen2.5-7B at 4-bit, $n=50$), plus our Vietnamese results.
-VimQA has no published baseline; the paper does not evaluate it.}
-\label{tab:vspaper}
 \end{table}
 
 Absolute numbers are not comparable across readers, but two invariants indicate a
@@ -759,6 +766,14 @@ both sides recovers $8.4$ and $9.9$ F1 for gold, and the effect disappears.
 
 \begin{table}[htbp]
 \centering
+\caption{Undiacriticised Vietnamese ($n=200$, 7B reader). Gold context leads in
+every setting and none of the three gaps separates: the paired bootstrap
+intervals are $[-10.93,+1.44]$, $[-9.51,+1.50]$ and $[-9.48,+1.48]$. Stripping
+tone marks costs both branches about 20 F1, and costs them equally.
+\texttt{strip} leaves the gold answer accented, so the reader must restore marks
+it never saw; \texttt{both} strips the reference too, scoring entity recovery
+rather than diacritics.}
+\label{tab:undia}
 \small
 \begin{tabular}{lrrr}
 \toprule
@@ -769,14 +784,6 @@ Setting & IterC. & Gold & $\Delta$ \\
 \texttt{both}  & 30.25 & \textbf{34.30} & $-4.05$ \\
 \bottomrule
 \end{tabular}
-\caption{Undiacriticised Vietnamese ($n=200$, 7B reader). Gold context leads in
-every setting and none of the three gaps separates: the paired bootstrap
-intervals are $[-10.93,+1.44]$, $[-9.51,+1.50]$ and $[-9.48,+1.48]$. Stripping
-tone marks costs both branches about 20 F1, and costs them equally.
-\texttt{strip} leaves the gold answer accented, so the reader must restore marks
-it never saw; \texttt{both} strips the reference too, scoring entity recovery
-rather than diacritics.}
-\label{tab:undia}
 \end{table}
 
 \section{Error Analysis}
@@ -791,6 +798,10 @@ survives even perfect retrieval, so no compressor can address it.
 
 \begin{table}[htbp]
 \centering
+\caption{IterCOMP error distribution on VimQA ($n=50$) under two readers. Format
+errors fall from 32\% to 10\% with the larger reader, a reader limitation rather
+than a compression failure.}
+\label{tab:errors}
 \small
 \begin{tabular}{lrr}
 \toprule
@@ -802,10 +813,6 @@ Partially correct ($0<$ F1 $<1$) & 34\% & 32\% \\
 Fully wrong (F1 $=0$) & 26\% & 42\% \\
 \bottomrule
 \end{tabular}
-\caption{IterCOMP error distribution on VimQA ($n=50$) under two readers. Format
-errors fall from 32\% to 10\% with the larger reader, a reader limitation rather
-than a compression failure.}
-\label{tab:errors}
 \end{table}
 
 With the 7B reader, \textbf{10\%} of errors are not compression failures at all:
