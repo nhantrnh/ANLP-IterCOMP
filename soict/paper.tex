@@ -259,10 +259,23 @@ compress in a single pass.
 \paragraph{Iterative retrieval.} Self-Ask \cite{press2023selfask} and IRCoT
 \cite{trivedi2023ircot} decompose questions and interleave retrieval with
 reasoning; IterCOMP instead \emph{narrows} the context rather than expanding it.
+Every one of these is reported on English benchmarks.
 
-\paragraph{Vietnamese NLP.} Foundation models include PhoBERT
-\cite{nguyen2020phobert} and ViT5 \cite{phan2022vit5}; to our knowledge, none
-evaluates prompt compression for Vietnamese.
+\paragraph{Tokeniser disparity.} Subword tokenisers split non-English text more
+finely, so the same content costs more tokens: Ahia et al.\
+\cite{ahia2023allcost} price this against commercial APIs and Petrov et al.\
+\cite{petrov2023tokenizers} frame it as unfairness between languages. That
+literature measures the cost of \emph{text}. What it has not asked is what the
+disparity does to a \emph{ratio} of two token counts, which is how every
+compressor above reports its result - the question Section~\ref{sec:fertility}
+takes up.
+
+\paragraph{Vietnamese NLP.} The language is well served at the model level -
+PhoBERT \cite{nguyen2020phobert} and ViT5 \cite{phan2022vit5} are established
+encoders - and VimQA \cite{le2022vimqa} gives it a multi-hop benchmark built to
+the HotpotQA format. What is missing is the layer between: to our knowledge no
+compressor has been evaluated on Vietnamese, so neither the accuracy nor the
+cost of compressing a Vietnamese context has been measured.
 
 \section{Methodology}
 \label{sec:methodology}
@@ -274,11 +287,7 @@ A compression ratio is reported as a fraction of the context kept, and read as a
 saving. That reading assumes the unit being counted costs the same everywhere.
 It does not: the tokeniser that bills splits some writing systems far more
 finely than English, so the same nominal ratio buys different savings in
-different languages. That tokenisers charge non-English text more is
-established \cite{petrov2023tokenizers,ahia2023allcost}; what is new here is the
-consequence for compression. A ratio compares two token counts, so it inherits
-the distortion silently, and the number the field reports its progress in is the
-one distorted. We measure that here and propose a correction.
+different languages. We measure the gap here and propose a correction.
 
 \begin{table}[htbp]
 \centering
@@ -933,16 +942,6 @@ University - Ho Chi Minh City.
 
 % Tighten the bibliography: it was spilling a single entry onto a page of its
 % own, and the camera-ready ceiling is 15 pages.
-% LNCS sets \small inside thebibliography itself, so wrapping the call does
-% nothing; the only lever left is the inter-entry skip. A slightly negative
-% itemsep pulls the last entry back onto the References page instead of leaving
-% it alone on a page of its own.
-\let\oldthebibliography\thebibliography
-\renewcommand{\thebibliography}[1]{%
-  \oldthebibliography{#1}%
-  \setlength{\itemsep}{-2.5pt}\setlength{\parskip}{0pt}%
-  \setlength{\topsep}{0pt}\setlength{\partopsep}{0pt}}
-\vspace{-4mm}
 \bibliographystyle{splncs04}
 \bibliography{references}
 
