@@ -506,18 +506,18 @@ compare like with like; Table~\ref{tab:datasets} gives the statistics.
 
 \begin{table}[t]
 \centering
-\caption{Development-set sizes. \#Q is the full split, not the sample
-evaluated: the English sets are run at $n=1{,}500$ and VimQA in full.}
+\caption{Development-set sizes. \#Q is the full split and \#eval the sample
+actually run; VimQA is evaluated in full.}
 \label{tab:datasets}
 \small
-\begin{tabular}{llrr}
+\begin{tabular}{llrrr}
 \toprule
-Dataset & Lang. & \#Q & \#psg \\
+Dataset & Lang. & \#Q & \#eval & \#psg \\
 \midrule
-HotpotQA (distractor) & En & 7,405  & 10 \\
-2WikiMultiHopQA       & En & 12,576 & 10 \\
-MuSiQue-Ans           & En & 2,417  & 20 \\
-\textbf{VimQA}        & \textbf{Vi} & \textbf{1,003} & \textbf{10} \\
+HotpotQA (distractor) & En & 7,405  & 1,500 & 10 \\
+2WikiMultiHopQA       & En & 12,576 & 1,500 & 10 \\
+MuSiQue-Ans           & En & 2,417  & 1,500 & 20 \\
+\textbf{VimQA}        & \textbf{Vi} & \textbf{1,003} & \textbf{1,003} & \textbf{10} \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -555,8 +555,16 @@ keeps gold supporting sentences only - the upper bound for any
 document-level method, and a diagnostic: if Oracle is also low, the bottleneck is
 the reader rather than the compressor. LLMLingua-2
 \cite{pan2024llmlingua2} is our main compression baseline, chosen because its
-token classifier is natively multilingual and covers Vietnamese. Against
-these we run IterCOMP as reimplemented here.
+token classifier is natively multilingual and covers Vietnamese, so it meets
+Vietnamese on equal terms and can run on all four datasets.
+
+Five more run on VimQA at $n=200$: LLMLingua \cite{jiang2023llmlingua},
+LongLLMLingua \cite{jiang2024longllmlingua}, Selective-Context
+\cite{li2023selectivecontext}, RECOMP \cite{xu2024recomp} extractive and
+abstractive, and CompAct. Each carries an English-only component - GPT-2
+scoring, or training on NQ and HotpotQA - so they form a wider field rather than
+like-for-like comparisons and stay out of the main table. R2C we could not run:
+no public checkpoint.
 
 \subsection{Metrics}
 We report Exact Match (EM) and F1 under the standard HotpotQA
@@ -606,12 +614,10 @@ model twice per pass over 3.1 passes, $3.2$ to $7.2\times$ the time per question
 (Section~\ref{sec:cost}). The margin says sentence-level selection keeps
 multi-hop evidence that token-level scoring discards, not that it is cheaper. This is the paper's thesis,
 and the one result that does not depend on which dataset, reader or sample size we
-look at. It survives a wider field too: on VimQA ($n=200$) IterCOMP-X leads all six
-baselines we added, but only LLMLingua-2 is multilingual and meets Vietnamese on
-equal terms, where the margin is $+11.36$ F1, CI $[+4.93, +17.84]$, $p=0.0008$
-against a 7.7 threshold. The other five carry an English-only component (GPT-2
-scoring; NQ- and HotpotQA-trained RECOMP; English-fine-tuned CompAct) and appear
-in full in the released results.
+look at. It survives the wider field: on VimQA at $n=200$ IterCOMP-X leads all six
+baselines, and against LLMLingua-2, the only one that meets Vietnamese on equal
+terms, the margin is $+11.36$ F1, CI $[+4.93,+17.84]$, against a $7.7$
+threshold.
 
 
 \begin{figure}[!htbp]
@@ -895,9 +901,7 @@ prompts were released (ours are released with the code), the reader differs
 (Qwen2.5-7B at 4-bit vs.\ LLaMA-3-8B), and our retention is 0.32 at $n=50$ and 0.349 at $n=500$ against their 0.14.
 Sample sizes are uneven but no longer thin: all four datasets run at
 $n\ge1{,}003$, the ablations at $n=500$, the baselines at $n=200$; what remains
-at $n=50$ is the scorer ablation, reported as inconclusive. One baseline is
-missing, R2C releasing no public checkpoint; every other baseline with a
-released model is included, CompAct among them. The domain is narrow, since
+at $n=50$ is the scorer ablation, reported as inconclusive. The domain is narrow, since
 VimQA derives from Wikipedia. We do evaluate \emph{undiacriticised} Vietnamese
 (Table~\ref{tab:undia}), at $n=200$, where the intervals are wide enough that
 the setting bounds the damage rather than ranking the methods. Fertility is measured on
