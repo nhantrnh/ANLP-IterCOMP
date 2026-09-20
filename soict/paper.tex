@@ -282,7 +282,7 @@ Crucially, fertility depends on the tokeniser measured. The compression ratio (T
 \centering
 \begin{tikzpicture}
 \begin{axis}[
-  width=\textwidth, height=4.3cm,
+  width=\textwidth, height=3.9cm,
   ybar, bar width=7pt,
   enlarge x limits=0.14,
   ymin=0, ymax=5.9,
@@ -578,7 +578,7 @@ in full in the released results.
 \centering
 \begin{tikzpicture}
 \begin{axis}[
-  width=\textwidth, height=4.9cm,
+  width=\textwidth, height=4.4cm,
   xlabel={Context retained (fraction of tokens)},
   ylabel={F1$^*$},
   xmin=0, xmax=1.06, ymin=10, ymax=76,
@@ -746,21 +746,16 @@ compressor has further to fall short of it.
 tone marks online, a setting no compression paper evaluates. Stripping
 diacritics is expensive: \emph{má}, \emph{mà} and \emph{mã} collapse into one
 string, $20.8\%$ of VimQA's distinct syllables merge, and both branches lose
-about 20 F1 (Table~\ref{tab:undia}). What the setting does \emph{not} do is
-change the ordering. Gold context leads by $4.81$ with tone marks and by $3.99$
-and $4.05$ once they are stripped, and no interval separates, so compression
-neither gains nor loses ground relative to perfect evidence when the text is
-undiacriticised. The damage lands on the reader, not on the compressor: at a
-matched $20$-point drop for both branches, the compressor's share is
-$0.81$~F1.
+about 20 F1 (Table~\ref{tab:undia}). What it does not do is change the
+ordering: gold leads by $4.81$ with tone marks and by $3.99$ and $4.05$ without,
+no interval separating. The damage lands on the reader rather than the
+compressor - of the matched $20$-point drop, $0.81$ F1 is the compressor's.
 
-We report this because an earlier version of the experiment appeared to show
-the opposite. Stripping diacritics from the retrieved context also stripped
-them from the document titles, while the supporting-fact annotations that
-select the gold sentences kept theirs, so the two stopped matching and the gold
-branch was handed an empty context on $48$ of $200$ questions. Against an empty
-context a compressed one wins easily. With the titles stripped on both sides
-the gold branch recovers $8.4$ and $9.9$ F1 and the effect disappears.
+An earlier version of this experiment showed the opposite. Stripping
+diacritics from the context also stripped the document titles while the
+supporting-fact annotations kept theirs, so the two stopped matching and the
+gold branch received an empty context on $48$ of $200$ questions. Stripping
+both sides recovers $8.4$ and $9.9$ F1 for gold, and the effect disappears.
 
 \begin{table}[htbp]
 \centering
@@ -886,6 +881,7 @@ University - Ho Chi Minh City.
   \oldthebibliography{#1}%
   \setlength{\itemsep}{-2.5pt}\setlength{\parskip}{0pt}%
   \setlength{\topsep}{0pt}\setlength{\partopsep}{0pt}}
+\vspace{-4mm}
 \bibliographystyle{splncs04}
 \bibliography{references}
 
