@@ -287,8 +287,9 @@ compressor above reports its result - the question Section~\ref{sec:fertility}
 takes up.
 
 \paragraph{Vietnamese NLP.} The language is well served at the model level -
-PhoBERT \cite{nguyen2020phobert} and ViT5 \cite{phan2022vit5} are established
-encoders - and VimQA \cite{le2022vimqa} gives it a multi-hop benchmark built to
+the encoder PhoBERT \cite{nguyen2020phobert} and the text-to-text ViT5
+\cite{phan2022vit5} are both established - and VimQA \cite{le2022vimqa} gives it a
+multi-hop benchmark built to
 the HotpotQA format. What is missing is the layer between: to our knowledge no
 compressor has been evaluated on Vietnamese, so neither the accuracy nor the
 cost of compressing a Vietnamese context has been measured.
@@ -495,16 +496,16 @@ S_{\text{dual}} = \lambda \, S_{\text{sem}} + (1-\lambda) \, S_{\text{lex}}.
 \label{eq:dual}
 \end{equation}
 Filtering uses a percentile threshold rather than a fixed top-$k$. Writing
-$\mathcal{S} = \{ S_{\text{dual}}(q, e_{i,j}) \mid e_{i,j} \in D \}$ for the scores
-of every segment in the document set,
+$\mathcal{E} = \{ e_{i,j} \}$ for the segments of every document in $D$ and
+$\mathcal{S} = \{ S_{\text{dual}}(q, e) \mid e \in \mathcal{E} \}$ for their scores,
 \begin{equation}
-E_{\text{cand}} = \{ e_{i,j} \in D \mid S_{\text{dual}}(q, e_{i,j}) \ge \mathrm{Percentile}(\mathcal{S}, k) \}.
+E_{\text{cand}} = \{ e \in \mathcal{E} \mid S_{\text{dual}}(q, e) \ge \mathrm{Percentile}(\mathcal{S}, k) \}.
 \label{eq:pct}
 \end{equation}
 The threshold therefore \emph{adapts} to each question's score distribution
 rather than committing to a fixed budget.
 
-\subsubsection{Answerability judgment and follow-up generation.}
+\subsubsection{Answerability judgement and follow-up generation.}
 These two decision points are what make IterCOMP
 ``reasoning-aware'': the query evolves with the evidence state instead of
 staying fixed at $q$. In step~2 the reader is shown the evidence accumulated so
@@ -514,7 +515,8 @@ continues the loop, so a malformed answer costs an extra pass rather than a
 wrong stop. When the evidence is judged insufficient, step~3 asks for one short
 follow-up question naming the information still missing, and that follow-up
 becomes $q'$ for the next pass. The loop ends at whichever comes first, a
-sufficient verdict or \texttt{max\_iter}. Segments accumulate rather than replace,
+sufficient verdict or \texttt{max\_iter}. Segments accumulate rather than replace:
+from $E_{\text{accum}} \leftarrow \emptyset$, each pass $m$ applies
 $E_{\text{accum}} \leftarrow E_{\text{accum}} \cup E_{\text{cand}}^{(m)}$; on exit
 the union is deduplicated and restored to source-document order, so
 $P_{\text{comp}}$ reads as narrative rather than as a relevance ranking - which
@@ -618,7 +620,9 @@ documents this and the other text-handling prerequisites.
 
 \begin{table}[tbp]
 \centering
-\caption{Main results: F1$^*$, Qwen2.5-7B at 4-bit; the second row gives $n$. The
+\caption{Main results: F1$^*$ - F1 with the question-guided boolean
+normalisation of Section~\ref{sec:vnfindings}, which is inert on English -
+under Qwen2.5-7B at 4-bit; the second row gives $n$. The
 last two rows are IterCOMP-X minus that baseline. $^\dag$ paired bootstrap interval
 excludes zero. Bold marks whichever of Raw and IterCOMP-X is higher.
 Per-dataset discussion is in the released repository.}
@@ -778,7 +782,8 @@ evidences that decomposition, gold labels and F1 are all correct.
 
 \paragraph{Matching the operating point.} At $n=500$ on MuSiQue IterCOMP-X sits
 $0.62$ F1 \emph{below} the paper's ($26.74$ against $27.36$) while Oracle and Raw,
-which our compression code never touches, sit far above it ($+12.33$, $+3.51$) on
+which our compression code never touches, sit far above it ($+12.33$ Oracle,
+$+3.51$ Raw) on
 the reader alone. That $-0.62$ compares systems at different operating points,
 $0.349$ retention against $0.14$; sweeping $k$ to match compression puts $k=96$ at
 $0.160$ retention and $29.04$ F1, $+1.68$ over the paper.
@@ -810,10 +815,12 @@ it. Oracle/Raw is 2.12 on MuSiQue and 1.30 on VimQA, where IterCOMP holds its ow
 but only 1.21 on HotpotQA, where Raw wins outright. \textbf{The premise is
 reader-dependent}: a reader that already copes with distractors leaves compression
 little to recover. Swapping our 7B reader for Qwen2.5-0.5B on HotpotQA, the
-compression pipeline fixed, restores IterCOMP-X to $+7.66$ F1 over Raw
-($37.88$ against $30.22$ at $n=500$) - reversing the $-4.66$ the 7B reader
-gives on the same corpus, and recovering the ordering the original paper reports
-with its own weaker reader. The HotpotQA reversal is a property of the reader, not a defect of
+compression pipeline fixed, restores IterCOMP-X to $+7.66$ F1 over Raw ($37.88$
+against $30.22$) - reversing the $-4.66$ the 7B reader gives, and recovering the
+ordering the original paper reports with its own weaker reader. This check runs at
+$n=500$ rather than the $1{,}500$ of Table~\ref{tab:4ds}: a second full-scale
+sweep was outside our compute budget, and the reversal is far larger than the
+sampling noise at that size. The HotpotQA reversal is a property of the reader, not a defect of
 the compressor.
 
 \subsection{Vietnamese-specific findings}
@@ -938,7 +945,7 @@ benchmark carries the sentence-level supporting facts the Oracle branch needs.
 \paragraph{Ethics.} VimQA's CC BY-NC-SA 4.0 licence confines us to research use,
 and compression is lossy: dropping a negation leaves fluency intact while
 inverting the answer, so sensitive deployments should verify against the source.
-A fix worth 8.67 F1 in Vietnamese and 0.0 in English further cautions that
+A fix worth 8.67 F1 in Vietnamese and 0.0 F1 in English further cautions that
 ``multilingual'' models are not equally reliable across languages.
 
 \vspace{-1mm}
@@ -950,7 +957,8 @@ A fix worth 8.67 F1 in Vietnamese and 0.0 in English further cautions that
 A compression ratio is not comparable across languages: the same content costs
 $4.97\times$ more tokens in Hindi and $2.49\times$ more in Vietnamese under the
 tokeniser that bills, so an uncorrected ratio overstates the saving by
-$1.80\times$ across tokenisers it calls identical. The effective ratio is one
+$1.80\times$ across tokenisers the nominal figure treats as identical. The
+effective ratio is one
 extra column and fixes that.
 
 We reproduced IterCOMP without its code and gave it its first Vietnamese
@@ -965,7 +973,8 @@ questions even given gold evidence.
 \vspace{-3mm}
 \begin{credits}
 \subsubsection{\ackname} Supported by research funding from the Faculty of
-Information Technology, University of Science, VNU-HCM.
+Information Technology, University of Science, Vietnam National University,
+Ho Chi Minh City (VNU-HCM).
 \end{credits}
 
 % Tighten the bibliography: it was spilling a single entry onto a page of its
