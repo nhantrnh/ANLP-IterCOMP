@@ -66,9 +66,9 @@ token fertility on parallel WMT24++ sentences across four writing systems, a
 context costs $4.97\times$ more tokens in Hindi, $3.89\times$ in Thai and
 $2.49\times$ in Vietnamese than its English counterpart under the tokeniser that
 bills, so a compressor reporting the same nominal ratio in two languages is not
-delivering the same saving. We propose \textbf{FAIR}, a Fertility-Adjusted Ratio that divides fertility
-out, and show it separates tokenisers that nominal ratios rank as identical
-($1.02\times$ spread nominal, $1.77\times$ under FAIR). To ground this
+delivering the same saving. We propose an \emph{effective ratio} that divides fertility out, and show it
+separates tokenisers that nominal ratios rank as identical ($1.02\times$ spread
+nominal, $1.77\times$ effective). To ground this
 we reimplement IterCOMP, a state-of-the-art training-free compressor evaluated
 only on English, and give it its first systematic evaluation on Vietnamese using
 the complete VimQA benchmark alongside MuSiQue, 2WikiMultiHopQA and HotpotQA
@@ -192,7 +192,7 @@ metric-inflating one;
 (2)~evidence that the iteration budget saturates beyond two passes, with
 \texttt{max\_iter} from 2 to 5 moving F1 by $+1.2$ at $n=500$ (within noise)
 while retention grows from 0.160 to 0.194;
-(3)~\textbf{FAIR}, a fertility-adjusted ratio showing that nominal ratios understate
+(3)~an \emph{effective ratio} showing that nominal compression ratios understate
 real token cost on Vietnamese by $2.39\times$, since the tokeniser that bills is
 not the one that counts;
 (4)~that Vietnamese does not handicap the compressor, IterCOMP reaching 84\% of
@@ -288,13 +288,15 @@ Crucially, fertility depends on the tokeniser measured. The compression ratio (T
   legend style={font=\scriptsize, at={(0.02,0.97)}, anchor=north west,
                 draw=gray!40, /tikz/every even column/.append style={column sep=5pt}},
   legend image code/.code={\draw[#1] (0cm,-0.08cm) rectangle (0.30cm,0.18cm);},
-  grid=major, grid style={gray!18},
+  axis lines*=left, tick align=inside, tick pos=left,
+  axis line style={gray!55}, tick style={gray!55},
+  grid=major, grid style={gray!22, densely dotted},
   nodes near coords,
   every node near coord/.append style={font=\tiny, yshift=1.5pt,
      /pgf/number format/fixed, /pgf/number format/precision=2},
 ]
 \addplot[fill=cScore, draw=cScoreL] coordinates
-  {(English,1.00) (Chinese,1.87) (Vietnamese,2.49) (Thai,3.89) (Hindi,4.97)};
+  {(English,1.00) [] (Chinese,1.87) (Vietnamese,2.49) (Thai,3.89) (Hindi,4.97)};
 \addlegendentry{\texttt{cl100k\_base}}
 \addplot[fill=cLLM, draw=cLLML] coordinates
   {(English,1.00) (Chinese,1.27) (Vietnamese,1.52) (Thai,1.83) (Hindi,1.71)};
@@ -326,20 +328,21 @@ $P_{\text{comp}}$ the compressed prompt. The quantity compression papers report 
 Let $\phi_{\mathcal{T}}(\mathcal{L})$ be the fertility of language $\mathcal{L}$
 under $\mathcal{T}$: the mean token count of a text in $\mathcal{L}$ divided by
 that of its English translation, which is what Table~\ref{tab:multiling}
-measures. We define the \emph{Fertility-Adjusted Ratio} (FAIR) as the nominal
-ratio expressed in English-equivalent tokens,
+measures. We define the \emph{effective ratio} as the nominal ratio expressed
+in English-equivalent tokens,
 
 \begin{equation}
-\mathrm{FAIR} \;=\;
+\text{Ratio}_{\text{eff}} \;=\;
 \frac{\text{Ratio}_{\text{nom}}}{\phi_{\mathcal{T}}(\mathcal{L})} ,
-\label{eq:fair}
+\label{eq:effratio}
 \end{equation}
 
-so that $\mathrm{FAIR} = \text{Ratio}_{\text{nom}}$ for English by construction,
-and two systems are comparable only once both are read on this scale. The correction is deliberately a single division: fertility is a property
+so that $\text{Ratio}_{\text{eff}} = \text{Ratio}_{\text{nom}}$ for English by
+construction, and two systems are comparable only once both are read on this
+scale. The correction is deliberately a single division: fertility is a property
 of the language-tokeniser pair, not of the compressor, so it should be divided
 out rather than folded into the compressor's score. Reporting the pair
-$(\text{Ratio}_{\text{nom}}, \mathrm{FAIR})$ costs one extra column
+$(\text{Ratio}_{\text{nom}}, \text{Ratio}_{\text{eff}})$ costs one extra column
 and keeps the familiar number intact.
 
 \subsection{Does the effective ratio discriminate?}
@@ -561,7 +564,9 @@ in full in the released results.
   ylabel={F1$^*$},
   xmin=0, xmax=1.06, ymin=10, ymax=76,
   xtick={0,0.2,0.4,0.6,0.8,1.0},
-  grid=major, grid style={gray!18},
+  axis lines*=left, tick align=inside, tick pos=left,
+  axis line style={gray!55}, tick style={gray!55},
+  grid=major, grid style={gray!22, densely dotted},
   label style={font=\footnotesize}, tick label style={font=\scriptsize},
   legend style={font=\scriptsize, at={(0.5,1.24)}, anchor=north, legend columns=4,
                 draw=gray!40, column sep=4pt},
