@@ -244,7 +244,30 @@ recovers the central result on all four datasets (Table~\ref{tab:4ds});
 Section~\ref{sec:vspaper} compares our numbers with the original's, and the
 released repository carries the per-dataset breakdown.
 
-\section{Nominal Ratios Are Not Comparable Across Languages}
+\section{Related Work}
+\label{sec:related}
+
+\paragraph{Prompt compression.} \emph{Extractive} methods keep a subset of
+tokens or sentences: LLMLingua \cite{jiang2023llmlingua} drops tokens by
+perplexity; LongLLMLingua \cite{jiang2024longllmlingua} adds query awareness;
+LLMLingua-2 \cite{pan2024llmlingua2} recasts this as token classification,
+faster and \emph{multilingual} - the decisive property here; Selective-Context
+\cite{li2023selectivecontext} removes redundant lexical units. \emph{Abstractive}
+methods regenerate shorter content, notably RECOMP \cite{xu2024recomp}. All
+compress in a single pass.
+
+\paragraph{Iterative retrieval.} Self-Ask \cite{press2023selfask} and IRCoT
+\cite{trivedi2023ircot} decompose questions and interleave retrieval with
+reasoning; IterCOMP instead \emph{narrows} the context rather than expanding it.
+
+\paragraph{Vietnamese NLP.} Foundation models include PhoBERT
+\cite{nguyen2020phobert} and ViT5 \cite{phan2022vit5}; to our knowledge, none
+evaluates prompt compression for Vietnamese.
+
+\section{Methodology}
+\label{sec:methodology}
+
+\subsection{The tokeniser tax and the effective ratio}
 \label{sec:fertility}
 
 A compression ratio is reported as a fraction of the context kept, and read as a
@@ -255,7 +278,7 @@ different languages. That tokenisers charge non-English text more is
 established \cite{petrov2023tokenizers,ahia2023allcost}; what is new here is the
 consequence for compression. A ratio compares two token counts, so it inherits
 the distortion silently, and the number the field reports its progress in is the
-one distorted. This section measures that and proposes a correction.
+one distorted. We measure that here and propose a correction.
 
 \begin{table}[htbp]
 \centering
@@ -279,33 +302,14 @@ XLM-R (used by bge-m3) & 57.9 & 49.7 & 1.19$\times$ \\
 \end{tabular}
 \end{table}
 
-\subsection{Four writing systems}
+\subsubsection{Four writing systems}
 \label{sec:multiling}
 The claim above is about Vietnamese, so it needs a control: if every language were
 billed alike, fertility would not be worth reporting. Measuring 400 parallel
 WMT24++ pairs per language (\texttt{fertility\_multilingual.py}) shows it is not.
 
-\begin{table}[htbp]
-\centering
-\caption{Fertility against English over 400 WMT24++ pairs per language, one
-writing system each: Devanagari, Thai (unspaced), Latin-plus-tones, Han. All
-95\% confidence intervals are non-overlapping across languages.}
-\label{tab:multiling}
-\small
-\begin{tabular}{lrr}
-\toprule
-Language & \texttt{cl100k\_base} & \texttt{o200k\_base} \\
-\midrule
-Hindi & \textbf{4.97}$\times$ & 1.71$\times$ \\
-Thai & \textbf{3.89}$\times$ & 1.83$\times$ \\
-Vietnamese & \textbf{2.49}$\times$ & 1.52$\times$ \\
-Chinese & \textbf{1.87}$\times$ & 1.27$\times$ \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-Every language exceeds $1.0$ with non-overlapping intervals (Table~\ref{tab:multiling},
-plotted in Fig.~\ref{fig:fertility}), so the mismatch is systematic rather than a Vietnamese quirk; Vietnamese at $2.49\times$ is the \emph{mild} case, Hindi being penalised twice as heavily. The $2.49\times$ here (400 pairs) and the $2.39\times$ in Table~\ref{tab:fertility} (930 pairs) are different samples of the same corpus.
+Every language exceeds $1.0$ with non-overlapping intervals
+(Fig.~\ref{fig:fertility}), so the mismatch is systematic rather than a Vietnamese quirk; Vietnamese at $2.49\times$ is the \emph{mild} case, Hindi being penalised twice as heavily. The $2.49\times$ here (400 pairs) and the $2.39\times$ in Table~\ref{tab:fertility} (930 pairs) are different samples of the same corpus.
 
 
 
@@ -355,7 +359,7 @@ tokeniser changes the tax more than changing the language does:
 \label{fig:fertility}
 \end{figure}
 
-\subsection{The effective ratio}
+\subsubsection{The effective ratio}
 \label{sec:effratio}
 
 Write $|x|_{\mathcal{T}}$ for the number of tokens the billed tokeniser
@@ -368,7 +372,7 @@ $P_{\text{comp}}$ the compressed prompt. The quantity compression papers report 
 
 Let $\phi_{\mathcal{T}}(\mathcal{L})$ be the fertility of language $\mathcal{L}$
 under $\mathcal{T}$: the mean token count of a text in $\mathcal{L}$ divided by
-that of its English translation, which is what Table~\ref{tab:multiling}
+that of its English translation, which is what Fig.~\ref{fig:fertility}
 measures. We define the \emph{effective ratio} as what the compressed context
 costs against an English original of the same content,
 
@@ -388,13 +392,17 @@ retention figure rather than charged against the compressor's score. Reporting
 the pair $(\text{Ratio}_{\text{nom}}, \text{Ratio}_{\text{eff}})$ costs one
 extra column and leaves the familiar number intact.
 
-\subsection{Does the effective ratio discriminate?}
+\subsubsection{Does the effective ratio discriminate?}
  A second metric that moved
 with the first would add nothing. Holding the compressed contexts fixed - the
 same 50 VimQA questions, the same IterCOMP output, only the tokeniser changed -
 the nominal ratio barely moves while the effective ratio does:
 
-\begin{center}
+\begin{table}[htbp]
+\centering
+\caption{Nominal against effective ratio for one fixed set of compressed
+contexts (50 VimQA questions, same IterCOMP-X output, tokeniser varied).}
+\label{tab:effspread}
 \small
 \begin{tabular}{lrr}
 \toprule
@@ -407,7 +415,7 @@ Tokeniser & nominal & effective \\
 spread & $1.02\times$ & $\mathbf{1.80\times}$ \\
 \bottomrule
 \end{tabular}
-\end{center}
+\end{table}
 
 Because the contexts are byte-identical across the three rows, the whole of that
 $1.80\times$ is the tokeniser's and none of it the compressor's. A nominal ratio
@@ -415,27 +423,64 @@ reported on its own therefore conceals all of it, which is the case for adding
 the second column rather than replacing the first.
 
 
-\section{Related Work}
-\label{sec:related}
+\subsection{Iterative multi-hop compression}
+\label{sec:method}
 
-\paragraph{Prompt compression.} \emph{Extractive} methods keep a subset of
-tokens or sentences: LLMLingua \cite{jiang2023llmlingua} drops tokens by
-perplexity; LongLLMLingua \cite{jiang2024longllmlingua} adds query awareness;
-LLMLingua-2 \cite{pan2024llmlingua2} recasts this as token classification,
-faster and \emph{multilingual} - the decisive property here; Selective-Context
-\cite{li2023selectivecontext} removes redundant lexical units. \emph{Abstractive}
-methods regenerate shorter content, notably RECOMP \cite{xu2024recomp}. All
-compress in a single pass.
 
-\paragraph{Iterative retrieval.} Self-Ask \cite{press2023selfask} and IRCoT
-\cite{trivedi2023ircot} decompose questions and interleave retrieval with
-reasoning; IterCOMP instead \emph{narrows} the context rather than expanding it.
+Given a question $q$ and document set $D$, we seek a compressed context
+$P_{\text{comp}}$ with $|P_{\text{comp}}| \ll |D|$ such that the reader still
+answers correctly. IterCOMP is training-free: all parameters stay frozen.
+Each document is decomposed into sentence-level evidence segments $e_{i,j}$.
+Figure~\ref{fig:arch} traces one question through two iterations.
 
-\paragraph{Vietnamese NLP.} Foundation models include PhoBERT
-\cite{nguyen2020phobert} and ViT5 \cite{phan2022vit5}; to our knowledge, none
-evaluates prompt compression for Vietnamese.
 
-\section{Dataset}
+\subsubsection{Relevant evidence filtering}
+The \emph{semantic} signal is the inner product of dense representations from a
+text encoder $E(\cdot)$:
+\begin{equation}
+S_{\text{sem}}(q, e_{i,j}) = E(q)^\top E(e_{i,j}).
+\end{equation}
+This can miss exact lexical cues. Following M3-Embedding
+\cite{chen2024bgem3}, the importance weight of token $t$ is
+\begin{equation}
+w_t = \mathrm{ReLU}(\mathbf{w}_{\text{lex}}^\top E(t)),
+\end{equation}
+where $\mathbf{w}_{\text{lex}}$ is a projection vector. The \emph{lexical} score is a sparse
+inner product over co-occurring tokens:
+\begin{equation}
+S_{\text{lex}}(q, e_{i,j}) = \sum_{t \in q \cap e_{i,j}} w_t^{q} \cdot w_t^{e_{i,j}}.
+\end{equation}
+The two are combined into a dual-aspect relevance score:
+\begin{equation}
+S_{\text{dual}} = \lambda \, S_{\text{sem}} + (1-\lambda) \, S_{\text{lex}}.
+\label{eq:dual}
+\end{equation}
+Filtering uses a percentile threshold rather than a fixed top-$k$:
+\begin{equation}
+E_{\text{cand}} = \{ e_{i,j} \mid S_{\text{dual}} \ge \mathrm{Percentile}(S, k) \}.
+\label{eq:pct}
+\end{equation}
+The threshold therefore \emph{adapts} to each question's score distribution
+rather than committing to a fixed budget.
+
+\subsubsection{Answerability judgment and follow-up generation}
+These two decision points are what make IterCOMP
+``reasoning-aware'': the query evolves with the evidence state instead of
+staying fixed at $q$. In step~2 the reader is shown the evidence accumulated so
+far and asked whether it suffices to answer $q$, replying with a single token.
+The reply is read strictly: anything other than \texttt{ANSWERABLE\_YES}
+continues the loop, so a malformed answer costs an extra pass rather than a
+wrong stop. When the evidence is judged insufficient, step~3 asks for one short
+follow-up question naming the information still missing, and that follow-up
+becomes $q'$ for the next pass. The loop ends at whichever comes first, a
+sufficient verdict or \texttt{max\_iter}. Neither prompt is published in the
+original paper; ours are released in full, in Vietnamese and English, with the
+code.
+
+\section{Experimental Setup}
+\label{sec:setup}
+
+\subsection{Datasets}
 \label{sec:dataset}
 
 The three English datasets are standard for multi-hop QA and are exactly those
@@ -468,61 +513,7 @@ MuSiQue-Ans           & En & 2,417  & 20 \\
 \end{tabular}
 \end{table}
 
-\section{Method}
-\label{sec:method}
 
-
-Given a question $q$ and document set $D$, we seek a compressed context
-$P_{\text{comp}}$ with $|P_{\text{comp}}| \ll |D|$ such that the reader still
-answers correctly. IterCOMP is training-free: all parameters stay frozen.
-Each document is decomposed into sentence-level evidence segments $e_{i,j}$.
-Figure~\ref{fig:arch} traces one question through two iterations.
-
-
-\subsection{Relevant evidence filtering}
-The \emph{semantic} signal is the inner product of dense representations from a
-text encoder $E(\cdot)$:
-\begin{equation}
-S_{\text{sem}}(q, e_{i,j}) = E(q)^\top E(e_{i,j}).
-\end{equation}
-This can miss exact lexical cues. Following M3-Embedding
-\cite{chen2024bgem3}, the importance weight of token $t$ is
-\begin{equation}
-w_t = \mathrm{ReLU}(\mathbf{w}_{\text{lex}}^\top E(t)),
-\end{equation}
-where $\mathbf{w}_{\text{lex}}$ is a projection vector. The \emph{lexical} score is a sparse
-inner product over co-occurring tokens:
-\begin{equation}
-S_{\text{lex}}(q, e_{i,j}) = \sum_{t \in q \cap e_{i,j}} w_t^{q} \cdot w_t^{e_{i,j}}.
-\end{equation}
-The two are combined into a dual-aspect relevance score:
-\begin{equation}
-S_{\text{dual}} = \lambda \, S_{\text{sem}} + (1-\lambda) \, S_{\text{lex}}.
-\label{eq:dual}
-\end{equation}
-Filtering uses a percentile threshold rather than a fixed top-$k$:
-\begin{equation}
-E_{\text{cand}} = \{ e_{i,j} \mid S_{\text{dual}} \ge \mathrm{Percentile}(S, k) \}.
-\label{eq:pct}
-\end{equation}
-The threshold therefore \emph{adapts} to each question's score distribution
-rather than committing to a fixed budget.
-
-\subsection{Answerability judgment and follow-up generation}
-These two decision points are what make IterCOMP
-``reasoning-aware'': the query evolves with the evidence state instead of
-staying fixed at $q$. In step~2 the reader is shown the evidence accumulated so
-far and asked whether it suffices to answer $q$, replying with a single token.
-The reply is read strictly: anything other than \texttt{ANSWERABLE\_YES}
-continues the loop, so a malformed answer costs an extra pass rather than a
-wrong stop. When the evidence is judged insufficient, step~3 asks for one short
-follow-up question naming the information still missing, and that follow-up
-becomes $q'$ for the next pass. The loop ends at whichever comes first, a
-sufficient verdict or \texttt{max\_iter}. Neither prompt is published in the
-original paper; ours are released in full, in Vietnamese and English, with the
-code.
-
-\section{Experimental Setup}
 \label{sec:setup}
 
 \begin{table}[t]
@@ -932,6 +923,7 @@ reader-dependent: a stronger reader gains enough from full context that
 compression's accuracy advantage narrows or reverses. Vietnamese itself does not
 handicap the compressor; what we could not move is the reader, failing on
 ${\sim}30\%$ of questions even given gold evidence.
+
 
 \begin{credits}
 \subsubsection{\ackname} This research is supported by research funding from
