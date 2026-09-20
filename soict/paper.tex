@@ -206,7 +206,7 @@ while retention grows from 0.160 to 0.194;
 (3)~an \emph{effective ratio} showing that nominal compression ratios understate
 real token cost on Vietnamese by $2.39\times$, since the tokeniser that bills is
 not the one that counts;
-(4)~that Vietnamese does not handicap the compressor, IterCOMP reaching 84\% of
+(4)~that Vietnamese does not handicap the compressor, IterCOMP-X reaching 84\% of
 the Oracle ceiling on VimQA, the lower 56\% on English MuSiQue being a dataset
 property, not a language effect (Section~\ref{sec:vnfindings}); and
 (5)~that undiacriticised Vietnamese costs compressed and gold context alike
@@ -304,13 +304,15 @@ Crucially, fertility depends on the tokeniser measured. The compression ratio (T
   axis line style={gray!55}, tick style={gray!55},
   grid=major, grid style={gray!22, densely dotted},
   nodes near coords,
-  every node near coord/.append style={font=\tiny, yshift=1.5pt,
+  every node near coord/.append style={font=\tiny, yshift=2.5pt,
      /pgf/number format/fixed, /pgf/number format/precision=2},
 ]
 \addplot[fill=cScore, draw=cScoreL] coordinates
   {(English,1.00) [] (Chinese,1.87) (Vietnamese,2.49) (Thai,3.89) (Hindi,4.97)};
 \addlegendentry{\texttt{cl100k\_base}}
-\addplot[fill=cLLM, draw=cLLML] coordinates
+\addplot[fill=cLLM, draw=cLLML,
+  every node near coord/.append style={font=\tiny, yshift=2.5pt, xshift=3pt,
+     /pgf/number format/fixed, /pgf/number format/precision=2}] coordinates
   {(English,1.00) (Chinese,1.27) (Vietnamese,1.52) (Thai,1.83) (Hindi,1.71)};
 \addlegendentry{\texttt{o200k\_base}}
 \draw[gray!55, densely dashed] (axis cs:English,1) -- (axis cs:Hindi,1);
@@ -424,7 +426,8 @@ compare like with like; Table~\ref{tab:datasets} gives the statistics.
 
 \begin{table}[t]
 \centering
-\caption{Datasets (development-set statistics).}
+\caption{Development-set sizes. \#Q is the full split, not the sample
+evaluated: the English sets are run at $n=1{,}500$ and VimQA in full.}
 \label{tab:datasets}
 \small
 \begin{tabular}{llrr}
@@ -573,7 +576,7 @@ accuracy against context retained; sentence-level compression beats
 token-level LLMLingua-2 by $+10.72$ to $+18.58$ F1 (Table~\ref{tab:4ds}, last
 row), every paired bootstrap interval clear of zero. This is the paper's thesis,
 and the one result that does not depend on which dataset, reader or sample size we
-look at. It survives a wider field too: on VimQA ($n=200$) IterCOMP leads all six
+look at. It survives a wider field too: on VimQA ($n=200$) IterCOMP-X leads all six
 baselines we added, but only LLMLingua-2 is multilingual and meets Vietnamese on
 equal terms, where the margin is $+11.36$ F1, CI $[+4.93, +17.84]$, $p=0.0008$
 against a 7.7 threshold. The other five carry an English-only component (GPT-2
@@ -650,16 +653,16 @@ would reach.}
 \end{figure}
 
 \paragraph{The full ordering does not reproduce uniformly.} The paper reports Oracle $>$ IterCOMP $>$
-Raw $>$ LLMLingua-2. We reproduce it on VimQA (IterCOMP$-$Raw $+4.42$, interval
+Raw $>$ LLMLingua-2. We reproduce it on VimQA (IterCOMP-X$-$Raw $+4.42$, interval
 clear) and on MuSiQue ($+4.19$, interval clear; at $n=500$ the same margin read
 $+3.31$ and crossed zero, so tripling the sample decided it); the order matches on
 2Wiki, where $+1.00$ does not separate; and on HotpotQA \textbf{Raw overtakes
-IterCOMP} by $4.66$ F1, interval clear. The IterCOMP$-$Raw gap across the four is
+IterCOMP-X} by $4.66$ F1, interval clear. The IterCOMP-X$-$Raw gap across the four is
 therefore $+4.42$, $+4.19$, $+1.00$ and $-4.66$ F1. Section~\ref{sec:reader}
 accounts for the HotpotQA reversal.
 
 \paragraph{Small samples lacked power rather than validity.} At $n=50$ the
-IterCOMP-Raw gaps fell inside the paired detection threshold (18.0 F1) on both
+IterCOMP-X$-$Raw gaps fell inside the paired detection threshold (18.0 F1) on both
 datasets, so we reported them as inconclusive and held the accuracy claim until
 the full $1{,}003$-question VimQA run resolved it above; the underlying power
 analysis is released with the results. An early reading that the compression
@@ -775,9 +778,10 @@ it never saw; \texttt{both} strips the reference too, scoring entity recovery
 rather than diacritics.}
 \label{tab:undia}
 \small
+\setlength{\tabcolsep}{7pt}
 \begin{tabular}{lrrr}
 \toprule
-Setting & IterC. & Gold & $\Delta$ \\
+Setting & IterCOMP-X & Gold & $\Delta$ \\
 \midrule
 \texttt{keep}  & 50.17 & \textbf{54.97} & $-4.81$ \\
 \texttt{strip} & 29.91 & \textbf{33.90} & $-3.99$ \\
