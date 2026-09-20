@@ -54,11 +54,11 @@
 % Section heads: llncs leaves generous space; recover roughly a line per head
 % across the eight sections so the body clears the 12-page ceiling.
 \usepackage{titlesec}
-\titlespacing*{\section}{0pt}{8pt plus 2pt minus 2pt}{5pt plus 1pt minus 1pt}
-\titlespacing*{\subsection}{0pt}{7pt plus 2pt minus 2pt}{4pt plus 1pt minus 1pt}
+\titlespacing*{\section}{0pt}{6pt plus 1pt minus 1pt}{4pt plus 1pt minus 1pt}
+\titlespacing*{\subsection}{0pt}{5.5pt plus 1pt minus 1pt}{3pt plus 1pt minus 1pt}
 \setlength{\belowcaptionskip}{2pt}
-\setlength{\textfloatsep}{6pt plus 1pt minus 1pt}
-\setlength{\intextsep}{6pt plus 1pt minus 1pt}
+\setlength{\textfloatsep}{5pt plus 1pt minus 1pt}
+\setlength{\intextsep}{5pt plus 1pt minus 1pt}
 
 \begin{document}
 
@@ -232,22 +232,24 @@ specific to Vietnamese:
 
 \begin{itemize}[leftmargin=1.2em, itemsep=0pt, parsep=0pt, topsep=2pt,
                 partopsep=0pt]
-\item a boolean-answer normalisation step worth $+8.67$ F1 on Vietnamese
-  (CI $[+6.98,+10.47]$) and exactly $0.0$ on all three English datasets, a
-  linguistic fix rather than a metric-inflating one;
-\item evidence that the iteration budget saturates beyond two passes, with
-  \texttt{max\_iter} from 2 to 5 moving F1 by $+1.2$ at $n=500$ (within noise)
-  while retention grows from 0.160 to 0.194;
-\item an \emph{effective ratio} showing that nominal compression ratios
-  understate real token cost on Vietnamese by $2.39\times$, since the tokeniser
-  that bills is not the one that counts;
-\item evidence that Vietnamese does not handicap the compressor, IterCOMP-X
-  reaching 84\% of the Oracle ceiling on VimQA, the lower 56\% on English
-  MuSiQue being a dataset property, not a language effect
-  (Section~\ref{sec:vnfindings});
-\item a measurement of undiacriticised Vietnamese, which costs compressed and
-  gold context alike about 20 F1, leaving their ordering unchanged
-  (Table~\ref{tab:undia}).
+\item \textbf{An effective ratio} that prices retention in English-equivalent
+  tokens. Nominal ratios understate what a Vietnamese context actually costs by
+  $2.39\times$, because the tokeniser that bills is not the one that counts.
+\item \textbf{A boolean-answer normalisation step} worth $+8.67$ F1 on
+  Vietnamese (95\% CI $[+6.98,+10.47]$) and exactly $0.0$ on all three English
+  datasets - a linguistic fix, not a metric-inflating one.
+\item \textbf{Evidence that Vietnamese does not handicap the compressor.}
+  IterCOMP-X reaches 84\% of the Oracle ceiling on VimQA; the lower 56\% on
+  English MuSiQue follows from that dataset's twenty candidate passages, not
+  from language (Section~\ref{sec:vnfindings}).
+\item \textbf{A saturation point for the iteration budget.} Raising
+  \texttt{max\_iter} from 2 to 5 moves F1 by $+1.2$ at $n=500$, inside the noise
+  floor, while retention grows from 0.160 to 0.194 - the extra passes buy
+  context, not accuracy.
+\item \textbf{The first measurement of undiacriticised Vietnamese} under
+  compression. Dropping tone marks costs about 20 F1, but it costs gold context
+  $21.07$ and the compressed context $20.26$, so the loss belongs to the reader
+  and not to the compressor (Table~\ref{tab:undia}).
 \end{itemize}
 
 We call this configuration IterCOMP-X and stress that it is \emph{not} a new
@@ -348,33 +350,35 @@ Crucially, fertility depends on the tokeniser measured. The compression ratio (T
 \centering
 \begin{tikzpicture}
 \begin{axis}[
-  width=\textwidth, height=2.9cm,
-  ybar, bar width=7pt,
-  enlarge x limits=0.14,
-  ymin=0, ymax=5.9,
+  width=\textwidth, height=3.9cm,
+  ybar, bar width=9pt,
+  enlarge x limits=0.13,
+  ymin=0, ymax=6.4,
+  ytick={0,1,2,3,4,5},
   ylabel={Tokens per English token},
+  ylabel style={yshift=-6pt},
   symbolic x coords={English,Chinese,Vietnamese,Thai,Hindi},
   xtick=data,
   label style={font=\footnotesize}, tick label style={font=\scriptsize},
-  legend style={font=\scriptsize, at={(0.02,0.97)}, anchor=north west,
-                draw=gray!40, /tikz/every even column/.append style={column sep=5pt}},
+  legend style={font=\scriptsize, at={(0.5,1.04)}, anchor=south,
+                legend columns=2, draw=none, fill=none,
+                /tikz/every even column/.append style={column sep=8pt}},
   legend image code/.code={\draw[#1] (0cm,-0.08cm) rectangle (0.30cm,0.18cm);},
-  axis lines*=left, tick align=inside, tick pos=left,
+  axis lines*=left, tick align=outside, tick pos=left,
   axis line style={gray!55}, tick style={gray!55},
-  grid=major, grid style={gray!22, densely dotted},
+  ymajorgrids, grid style={gray!22, densely dotted},
   nodes near coords,
-  every node near coord/.append style={font=\tiny, yshift=2.5pt,
-     /pgf/number format/fixed, /pgf/number format/precision=2},
+  every node near coord/.append style={font=\tiny, yshift=1pt,
+     /pgf/number format/fixed, /pgf/number format/fixed zerofill,
+     /pgf/number format/precision=2},
 ]
 \addplot[fill=cScore, draw=cScoreL] coordinates
-  {(English,1.00) [] (Chinese,1.87) (Vietnamese,2.49) (Thai,3.89) (Hindi,4.97)};
+  {(English,1.00) (Chinese,1.87) (Vietnamese,2.49) (Thai,3.89) (Hindi,4.97)};
 \addlegendentry{\texttt{cl100k\_base}}
-\addplot[fill=cLLM, draw=cLLML,
-  every node near coord/.append style={font=\tiny, yshift=2.5pt, xshift=6pt,
-     /pgf/number format/fixed, /pgf/number format/precision=2}] coordinates
+\addplot[fill=cLLM, draw=cLLML] coordinates
   {(English,1.00) (Chinese,1.27) (Vietnamese,1.52) (Thai,1.83) (Hindi,1.71)};
 \addlegendentry{\texttt{o200k\_base}}
-\draw[gray!55, densely dashed] (axis cs:English,1) -- (axis cs:Hindi,1);
+\draw[gray!60, densely dashed] (axis cs:English,1) -- (axis cs:Hindi,1);
 \end{axis}
 \end{tikzpicture}
 \caption{What the same content costs in tokens, relative to its English
@@ -634,12 +638,12 @@ Per-dataset discussion is in the released repository.}
 & VimQA & MuSiQue & 2Wiki & HotpotQA \\
 & 1003 & 1500 & 1500 & 1500 \\
 \midrule
-Oracle & 61.03 & 44.90 & 57.65 & \textbf{71.40} \\
+Oracle & 61.03 & 44.90 & 57.65 & 71.40 \\
 Raw & 46.87 & 21.16 & 35.72 & \textbf{59.24} \\
 IterCOMP-X & \textbf{51.29} & \textbf{25.35} & \textbf{36.72} & 54.58 \\
 LLML-2 & 35.31 & 14.63 & 19.24 & 36.00 \\
 \midrule
-$\Delta$ vs.\ Raw & $+4.42^\dag$ & $+4.19^\dag$ & $+1.00$ & $\mathbf{-4.66^\dag}$ \\
+$\Delta$ vs.\ Raw & $+4.42^\dag$ & $+4.19^\dag$ & $+1.00$ & $-4.66^\dag$ \\
 $\Delta$ vs.\ LLML-2 & $+15.98^\dag$ & $+10.72^\dag$ & $+17.48^\dag$ & $+18.58^\dag$ \\
 \bottomrule
 \end{tabular}
@@ -652,27 +656,30 @@ row), every paired bootstrap interval clear of zero, while keeping $0.194$ to
 $0.354$ of the context. The two are not matched on cost:
 LLMLingua-2 classifies tokens once with a small encoder, IterCOMP-X calls a 7B
 model twice per pass, $2.6$ to $7.4\times$ the time per question
-(Section~\ref{sec:cost}). The margin says sentence-level selection
-keeps multi-hop evidence that token-level scoring discards, not that it is
-cheaper. It is the one result independent of dataset, reader and sample size. At $n=200$ on VimQA it also leads all six
-baselines, with $+11.36$ F1 over LLMLingua-2, CI $[+4.93,+17.84]$.
+(Section~\ref{sec:cost}). The margin says sentence-level selection keeps multi-hop
+evidence that token-level scoring discards - not that it is cheaper. This is the
+one result independent of dataset, reader and sample size. At $n=200$ on VimQA it
+also leads all six baselines, by $+11.36$ F1 over LLMLingua-2, CI
+$[+4.93,+17.84]$.
 
 
 \begin{figure}[!htbp]
 \centering
 \begin{tikzpicture}
 \begin{axis}[
-  width=\textwidth, height=3.1cm,
+  width=\textwidth, height=4.6cm,
   xlabel={Context retained (fraction of tokens)},
   ylabel={F1$^*$},
-  xmin=0, xmax=1.06, ymin=10, ymax=76,
+  xmin=-0.04, xmax=1.12, ymin=8, ymax=78,
   xtick={0,0.2,0.4,0.6,0.8,1.0},
-  axis lines*=left, tick align=inside, tick pos=left,
+  ytick={20,30,40,50,60,70},
+  axis lines*=left, tick align=outside, tick pos=left,
   axis line style={gray!55}, tick style={gray!55},
-  grid=major, grid style={gray!22, densely dotted},
+  ymajorgrids, grid style={gray!22, densely dotted},
   label style={font=\footnotesize}, tick label style={font=\scriptsize},
-  legend style={font=\scriptsize, at={(0.5,1.24)}, anchor=north, legend columns=4,
-                draw=gray!40, column sep=4pt},
+  xlabel style={yshift=2pt}, ylabel style={yshift=-4pt},
+  legend style={font=\scriptsize, at={(0.5,1.03)}, anchor=south, legend columns=4,
+                draw=none, fill=none, column sep=7pt},
   clip mode=individual,
 ]
 % Oracle - upper bound, perfect selection
@@ -695,25 +702,25 @@ baselines, with $+11.36$ F1 over LLMLingua-2, CI $[+4.93,+17.84]$.
 % Each arrow runs Raw -> IterCOMP. Thick enough to read the direction in
 % greyscale; the dashed one is the dataset where compression loses accuracy.
 \draw[-{Stealth[length=5pt,width=4pt]},cLoop,line width=1.1pt,opacity=0.75]
-  (axis cs:0.97,46.87) -- (axis cs:0.24,51.29);
+  (axis cs:0.94,46.95) -- (axis cs:0.235,51.05);
 \draw[-{Stealth[length=5pt,width=4pt]},cLoop,line width=1.1pt,opacity=0.75]
-  (axis cs:0.97,21.16) -- (axis cs:0.37,25.35);
+  (axis cs:0.94,21.30) -- (axis cs:0.375,25.15);
 \draw[-{Stealth[length=5pt,width=4pt]},cLoop,line width=1.1pt,opacity=0.75]
-  (axis cs:0.97,35.72) -- (axis cs:0.385,36.72);
+  (axis cs:0.94,35.80) -- (axis cs:0.392,36.58);
 \draw[-{Stealth[length=5pt,width=4pt]},black!60,line width=1.1pt,densely dashed]
-  (axis cs:0.97,59.24) -- (axis cs:0.225,54.58);
+  (axis cs:0.94,59.10) -- (axis cs:0.228,54.88);
 
 % Labels sit on their IterCOMP endpoint, not floating over the arrow.
 % VimQA and HotpotQA endpoints are 3.3 F1 apart, so their labels go on
 % opposite sides to keep clear of each other.
-\node[font=\tiny,anchor=east,text=black!75,inner sep=3pt]
-  at (axis cs:0.206,51.29) {VimQA (vi)};
-\node[font=\tiny,anchor=south west,text=black!75,inner sep=2pt]
-  at (axis cs:0.194,54.58) {HotpotQA};
-\node[font=\tiny,anchor=north,text=black!75,inner sep=2.4pt]
-  at (axis cs:0.340,25.35) {MuSiQue};
-\node[font=\tiny,anchor=south,text=black!75,inner sep=2.4pt]
-  at (axis cs:0.354,36.72) {2Wiki};
+\node[font=\tiny,anchor=south east,text=black!75,inner sep=2pt]
+  at (axis cs:0.93,47.6) {VimQA (vi)};
+\node[font=\tiny,anchor=south east,text=black!75,inner sep=2pt]
+  at (axis cs:0.93,59.8) {HotpotQA};
+\node[font=\tiny,anchor=south east,text=black!75,inner sep=2pt]
+  at (axis cs:0.93,22.0) {MuSiQue};
+\node[font=\tiny,anchor=south east,text=black!75,inner sep=2pt]
+  at (axis cs:0.93,36.5) {2Wiki};
 \end{axis}
 \end{tikzpicture}
 \caption{Accuracy against context retained, all four datasets. Up and to the
@@ -760,7 +767,7 @@ VimQA has no published baseline; the paper does not evaluate it.}
 Oracle & 37.51 & 57.0 & 53.3 \\
 Raw Documents & 19.92 & 32.8 & 43.8 \\
 LLMLingua-2 & 14.72 & 13.5 & 30.7 \\
-IterCOMP & \textbf{27.36} & \textbf{35.1} & \textbf{43.0} \\
+IterCOMP & 27.36 & 35.1 & 43.0 \\
 \midrule
 \emph{ratio} & \emph{0.14} & \emph{0.32} & \emph{0.19} \\
 \emph{Oracle/Raw} & \emph{1.88} & \emph{1.74} & \emph{1.22} \\
@@ -770,15 +777,14 @@ IterCOMP & \textbf{27.36} & \textbf{35.1} & \textbf{43.0} \\
 
 This table is at $n=50$, the paper's operating point, so its MuSiQue figures sit
 above the full-scale ones ($35.1$ against $25.35$): the first fifty questions are
-easier than the split, not in disagreement with it. Absolute numbers are not
-comparable across readers either, but two invariants indicate a faithful
-reimplementation. First, the \textbf{method
+simply easier. Absolute numbers are not comparable across readers, but two
+invariants indicate a faithful reimplementation. First, the \textbf{method
 ordering reproduces} - Oracle $>$ IterCOMP $>$ Raw $>$ LLMLingua-2 on MuSiQue at
 both sample sizes, and on 2Wiki at scale (Section~\ref{sec:main}). Second, the
 Oracle/Raw ratio is in range: 1.74 at $n=50$ and 2.12 at $n=1{,}500$ against the
 paper's 1.88. That ratio is the headroom perfect selection buys over full
-context; being a property of the task rather than the reader, its agreement
-evidences that decomposition, gold labels and F1 are all correct.
+context. It is a property of the task, not of the reader, so its agreement
+confirms that decomposition, gold labels and F1 are all correct.
 
 \paragraph{Matching the operating point.} At $n=500$ on MuSiQue IterCOMP-X sits
 $0.62$ F1 \emph{below} the paper's ($26.74$ against $27.36$) while Oracle and Raw,
@@ -876,9 +882,9 @@ rather than diacritics.}
 \toprule
 Setting & IterCOMP-X & Gold & $\Delta$ \\
 \midrule
-\texttt{keep}  & 50.17 & \textbf{54.97} & $-4.81$ \\
-\texttt{strip} & 29.91 & \textbf{33.90} & $-3.99$ \\
-\texttt{both}  & 30.25 & \textbf{34.30} & $-4.05$ \\
+\texttt{keep}  & 50.17 & 54.97 & $-4.81$ \\
+\texttt{strip} & 29.91 & 33.90 & $-3.99$ \\
+\texttt{both}  & 30.25 & 34.30 & $-4.05$ \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -933,14 +939,14 @@ retrieval. Under a 0.5B reader it collapses to 92.1\% zeros.
 
 \paragraph{Limitations.} Absolute numbers are not comparable to the paper's: no
 prompts were released, the reader differs (Qwen2.5-7B at 4-bit against
-LLaMA-3-8B), and our retention is 0.349 at $n=500$ against their 0.14. Every
-headline number comes from one reader; greedy decoding rules out sampling noise
-but not a quantisation artefact, and Section~\ref{sec:reader}'s 0.5B run is our
-only check. The sharpest limit is that fertility is measured on four writing
-systems while compression is run on two, so the effective ratio is argued
-generally and shown on one language pair. Hindi, the worst case, is where it
-would matter most and is what we could not test: no Hindi or Thai multi-hop
-benchmark carries the sentence-level supporting facts the Oracle branch needs.
+LLaMA-3-8B), and our retention is 0.349 against their 0.14. Every headline number
+comes from one reader; greedy decoding rules out sampling noise but not a
+quantisation artefact, and Section~\ref{sec:reader}'s 0.5B run is our only check.
+The sharpest limit is that fertility is measured on four writing systems while
+compression is run on two, so the effective ratio is argued generally and shown
+on one language pair. Hindi, the worst case, is where it would matter most and is
+what we could not test: no Hindi or Thai multi-hop benchmark carries the
+sentence-level supporting facts the Oracle branch needs.
 
 \paragraph{Ethics.} VimQA's CC BY-NC-SA 4.0 licence confines us to research use,
 and compression is lossy: dropping a negation leaves fluency intact while
@@ -954,31 +960,36 @@ A fix worth 8.67 F1 in Vietnamese and 0.0 F1 in English further cautions that
 \section{Conclusion}
 \label{sec:conclusion}
 
-A compression ratio is not comparable across languages: the same content costs
+A compression ratio is not comparable across languages. The same content costs
 $4.97\times$ more tokens in Hindi and $2.49\times$ more in Vietnamese under the
 tokeniser that bills, so an uncorrected ratio overstates the saving by
-$1.80\times$ across tokenisers the nominal figure treats as identical. The
-effective ratio is one
+$1.80\times$ across tokenisers it treats as identical. The effective ratio is one
 extra column and fixes that.
 
 We reproduced IterCOMP without its code and gave it its first Vietnamese
 evaluation, released as IterCOMP-X. Sentence-level beats token-level compression
 on all four datasets, but the ordering is reader-dependent: a stronger reader
 gains enough from full context that the advantage narrows or reverses, leaving a
-saving in tokens rather than time. Neither Vietnamese nor stripping its tone
+saving in tokens rather than in time. Neither Vietnamese nor the loss of its tone
 marks handicaps the compressor; the reader does, failing on ${\sim}30\%$ of
 questions even given gold evidence.
 
 
-\vspace{-3mm}
+\vspace{-3.5mm}
 \begin{credits}
 \subsubsection{\ackname} Supported by research funding from the Faculty of
-Information Technology, University of Science, Vietnam National University,
-Ho Chi Minh City (VNU-HCM).
+Information Technology, University of Science, VNU-HCM.
 \end{credits}
 
 % Tighten the bibliography: it was spilling a single entry onto a page of its
 % own, and the camera-ready ceiling is 15 pages.
+% References get their own breathing room: the body ends inside page 12, so
+% there is space here, and the cramped default made the list hard to scan.
+\let\oldthebibliography\thebibliography
+\renewcommand{\thebibliography}[1]{%
+  \oldthebibliography{#1}%
+  \setlength{\itemsep}{3.5pt plus 1pt minus 0.5pt}%
+  \setlength{\parsep}{0pt}}
 \bibliographystyle{splncs04}
 \bibliography{references}
 
