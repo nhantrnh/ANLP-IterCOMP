@@ -207,8 +207,8 @@ metric-level fix, and we report below which parts survive significance testing.
 None of this is measurable without a working reimplementation; absent a public
 one, we rebuild it from the paper's description and redesign every prompt. It
 recovers the central result on all four datasets (Table~\ref{tab:4ds});
-Section~\ref{sec:vspaper} and Appendix~\ref{app:4ds} compare our numbers with the
-original's dataset by dataset.
+Section~\ref{sec:vspaper} compares our numbers with the original's, and the
+released repository carries the per-dataset breakdown.
 
 \section{Nominal Ratios Are Not Comparable Across Languages}
 \label{sec:fertility}
@@ -509,8 +509,8 @@ We report Exact Match (EM) and F1 under the standard HotpotQA
 normalisation, plus the compression ratio (compressed over Raw Document
 tokens). That normalisation is built for English, so for Vietnamese we
 preserve diacritics - stripping them collapses distinct words
-(\emph{má}/\emph{mà}) and renders EM/F1 meaningless; Appendix~\ref{sec:vnconfig}
-details this and the other text-handling prerequisites.
+(\emph{má}/\emph{mà}) and renders EM/F1 meaningless. The released code
+documents this and the other text-handling prerequisites.
 
 \section{Results and Discussion}
 \label{sec:results}
@@ -539,7 +539,7 @@ $-$LLML-2 & $+15.98^\dag$ & $+10.72^\dag$ & $+17.48^\dag$ & $+18.58^\dag$ \\
 \caption{Main results: F1$^*$, Qwen2.5-7B at 4-bit; the second row gives $n$. The
 last two rows are IterCOMP minus that baseline. $^\dag$ paired bootstrap interval
 excludes zero. Bold marks whichever of Raw and IterCOMP is higher.
-Appendix~\ref{app:4ds} discusses each dataset.}
+Per-dataset discussion is in the released repository.}
 \label{tab:4ds}
 \end{table}
 
@@ -636,7 +636,7 @@ accounts for the HotpotQA reversal.
 IterCOMP-Raw gaps fell inside the paired detection threshold (18.0 F1) on both
 datasets, so we reported them as inconclusive and held the accuracy claim until
 the full $1{,}003$-question VimQA run resolved it above; the underlying power
-analysis is in Appendix~\ref{app:full}. An early reading that the compression
+analysis is released with the results. An early reading that the compression
 margin grows with task complexity likewise reverses at proper samples ($+15.98$
 on VimQA at $n=1{,}003$ against $+10.72$ on MuSiQue at $n=1{,}500$), so we
 withdraw it.
@@ -683,7 +683,7 @@ puts IterCOMP $0.62$ F1 \emph{below} the paper's ($26.74$ against $27.36$), whil
 Oracle and Raw - which our compression code never touches - sit far above it
 ($+12.33$ and $+3.51$), our stronger reader alone. That $-0.62$ is misleading: it
 compares systems at different operating points, $0.349$ retention against $0.14$.
-Sweeping $k$ to match compression (Appendix~\ref{app:mqk}) puts $k=96$ at $0.160$
+Sweeping $k$ to match compression (released with the results) puts $k=96$ at $0.160$
 retention and $29.04$ F1, now $+1.68$ over the paper's $27.36$. A residual gap
 remains - a reader $+12.33$ F1 stronger on perfect evidence should lift a working
 compressor by more than $1.68$ - but it is within the noise floor, not the
@@ -775,7 +775,7 @@ yes/no questions answered correctly in substance but in the wrong surface form
 (F1 of 0). That bucket was \textbf{32\%} under a 0.5B reader - ``tức là yes''
 for ``đúng'', a small model code-switching into English - and falls on the
 identical prompt as the reader grows, so boolean answers need language-aware
-normalisation (Appendix~\ref{sec:vi}) rather than a compression fix.
+normalisation, released with the code, rather than a compression fix.
 Partially correct answers give a related but wrong entity within a
 correctly retained segment; fully wrong ones are mostly compositional,
 where the Raw-Oracle gap is widest, so distractors rather than the compressor
@@ -792,15 +792,12 @@ same template collapses to 92.1\% zeros.
 \paragraph{Limitations.} Absolute numbers are not comparable to the paper's: no
 prompts were released (ours are in Appendix~\ref{app:prompts}), the reader differs
 (Qwen2.5-7B at 4-bit vs.\ LLaMA-3-8B), and our retention is 0.32 at $n=50$ and 0.349 at $n=500$ against their 0.14.
-Sample
-sizes are uneven but no longer thin: all four datasets run at
-$n\ge1{,}003$ (VimQA at 1,003; the other three at 1,500), the ablations at $n=500$ and the baselines at
-$n=200$. What remains at $n=50$ is the scorer ablation, reported as
-inconclusive. One of seven baselines is still missing: R2C releases no public checkpoint, so
-the gap is on the original authors' side rather than a limit of our effort -
-every other baseline with a released model is included, CompAct among them. The
-domain is narrow,
-since VimQA derives from Wikipedia. We do evaluate \emph{undiacriticised} Vietnamese, with
+Sample sizes are uneven but no longer thin: all four datasets run at
+$n\ge1{,}003$, the ablations at $n=500$, the baselines at $n=200$; what remains
+at $n=50$ is the scorer ablation, reported as inconclusive. One baseline is
+missing, R2C releasing no public checkpoint; every other baseline with a
+released model is included, CompAct among them. The domain is narrow, since
+VimQA derives from Wikipedia. We do evaluate \emph{undiacriticised} Vietnamese, with
 an unexpected result - see Appendix~\ref{app:undia}. Fertility is measured on
 translated text \cite{deutsch2025wmt24pp}, so it holds for the tokenisers we
 bill against rather than the language at large. The sharpest limit is the gap
@@ -830,136 +827,22 @@ compression's accuracy advantage narrows or reverses. Vietnamese itself does not
 handicap the compressor; what we could not move is the reader, failing on
 ${\sim}30\%$ of questions even given gold evidence.
 
-\clearpage
 \begin{credits}
 \subsubsection{\ackname} This research is supported by research funding from
 the Faculty of Information Technology, University of Science, Vietnam National
 University - Ho Chi Minh City.
 \end{credits}
 
+% Tighten the bibliography: it was spilling a single entry onto a page of its
+% own, and the camera-ready ceiling is 15 pages.
+\let\oldthebibliography\thebibliography
+\renewcommand{\thebibliography}[1]{%
+  \oldthebibliography{#1}%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \bibliographystyle{splncs04}
 \bibliography{references}
 
-\clearpage
 \appendix
-
-\section{Vietnamese-specific Improvements (Detail)}
-\label{app:vi}
-\label{sec:vi}
-\label{sec:improve}
-
-\subsection{Prerequisites for running on Vietnamese}
-\label{sec:vnconfig}
-
-The decisive practical advantage: no model needs replacing - both bge-m3
-and LLMLingua-2 are natively multilingual and cover Vietnamese. Three mandatory
-adjustments all sit in text handling. Unicode-aware tokenisation: the
-tokenising regex must set the Unicode flag, or accented characters (\emph{ế},
-\emph{ộ}, \emph{ữ}) fail to count as word characters and are split off from their
-syllables, rendering EM and F1 meaningless. Preserving diacritics:
-HotpotQA normalisation lowercases, strips punctuation and removes English
-articles, but stripping Vietnamese tone marks collapses distinct words
-(\emph{má}, \emph{mà}, \emph{mã}) into one. Boolean answer
-normalisation: 300 of 1,003 VimQA questions answer \emph{đúng} or
-\emph{không},
-detailed below. VimQA is also absent from the paper, so no $k$ is published - we
-use $k=90$ as for HotpotQA since both supply 10 candidate passages.
-
-\subsection{Boolean answer normalisation}
-The error analysis (Section~\ref{sec:vietnamese}) shows the reader answering
-yes/no questions in English (``Yes'', ``tức là yes'') where the gold answer is
-``đúng''. This is code-switching in a small multilingual model
-\cite{marchisio2024confusion} meeting the format brittleness of lexical-match
-metrics \cite{kamalloo2023evaluating}, on a benchmark whose largest answer class
-is boolean: 300 of 1,003 VimQA questions. VimQA's own normalisation section
-\cite{le2022vimqa} covers Unicode and diacritics only, not answer semantics. We
-map predictions into the Vietnamese lexical set \emph{only when} the gold answer
-is boolean and the prediction contains an unambiguous affirmative or negative
-token, so normalisation cannot turn a wrong answer into a right one.
-
-\begin{table}[!ht]
-\centering
-\small
-\begin{tabular}{lrr}
-\toprule
-Method & $\Delta$F1 (vi) & $p$ \\
-\midrule
-Raw          & $+6.0$  & 0.09        \\
-Oracle       & $+4.0$  & 0.54        \\
-LLMLingua-2  & $+8.0$  & 0.03$^\dag$ \\
-IterCOMP     & $+10.0$ & 0.01$^\dag$ \\
-\bottomrule
-\end{tabular}
-\caption{Effect of boolean normalisation on VimQA, paired bootstrap, $n=50$,
-Qwen2.5-7B. $^\dag$ significant at $p<0.05$. On English MuSiQue every method
-moves by exactly $0.0$ ($p=1.00$).}
-\label{tab:boolnorm7b}
-\end{table}
-
-Table~\ref{tab:boolnorm7b} carries its own control: normalisation lifts IterCOMP by 10.0 F1 ($p=0.01$) and LLMLingua-2 by 8.0 ($p=0.03$) on Vietnamese, but changes every method by exactly $0.0$ ($p=1.00$) on English MuSiQue, where predictions already match the gold tokens. A generic scoring trick would help both languages; this one is inert outside Vietnamese, which is what distinguishes a language-specific fix from a metric-inflating one. The effect is largest for the compressed methods, which leave the reader less Vietnamese context and so induce more code-switching.
-
-\subsection{Fertility-corrected compression accounting}
-Fertility is a named, measured phenomenon
-\cite{petrov2023tokenizers,ahia2023allcost}, not our discovery. What is
-unreported is its consequence for compression \emph{cost}: an equal token ratio in
-two languages is not equal spend, since the same content bills $2.39\times$ more
-tokens in Vietnamese under \texttt{cl100k\_base}. The survey of
-\cite{li2025promptcompression} never mentions language; LLMLingua-2
-\cite{pan2024llmlingua2} evaluates on Chinese without discussing token counts. We
-propose reporting an \emph{effective ratio} (nominal ratio divided by fertility);
-Appendix~\ref{sec:multiling} shows across four writing systems that the penalty
-is the tokeniser's, not Vietnamese's.
-
-We also tested, and \emph{refuted}, a second hypothesis: token-level
-compression was expected to sever Vietnamese syllables, but was measured to sever
-\textbf{zero}. What it cuts instead is \emph{function words}, at a rate that
-sentence-level compression does not match: $1.17\times$ against $1.01\times$ at
-matched compression on 500 questions. An English control gives the same
-$1.17\times$ (Appendix~\ref{app:funcwords}), so the bias belongs to compression
-granularity and not to Vietnamese.
-
-\subsection{Why not replace bge-m3 with a Vietnamese encoder}
-The obvious improvement - swapping the multilingual encoder for a Vietnamese
-one - we deliberately do not make. VN-MTEB \cite{pham2026vnmteb} compares 18 models
-over 41 datasets and finds the opposite of the intuition: bge-m3 scores 39.84 on
-retrieval against 34.18 for \texttt{AITeamVN/Vietnamese\_Embedding}. More
-decisively, Vietnamese-specific encoders are \emph{dense-only} with no sparse
-head, so substituting one would forfeit $S_{\text{lex}}$ and collapse
-equation~(4) to its semantic term. VN-MTEB itself evaluates dense retrieval
-only - to our knowledge, \textbf{no work has benchmarked hybrid dense-sparse
-retrieval for Vietnamese}.
-
-\subsection{Results}
-
-After normalisation, IterCOMP beats LLMLingua-2 on Vietnamese at both reader
-scales: $+12.4$ F1 ($p=0.05$) with the 7B reader at $n=50$ and $+7.8$
-($p=0.004$) with a 0.5B reader at $n=200$. The claim strengthens with sample
-size rather than weakening - $+11.36$ at $n=200$ and $+15.98$ at $n=1{,}003$,
-both with the interval clear of zero.
-
-\paragraph{Compression beats gold context without diacritics.} Vietnamese is
-often typed without tone marks, a setting no compression paper we know of
-evaluates.
-Stripping them costs 20.8 F1. The surprise is the sign flip: with diacritics,
-gold context beats IterCOMP by 4.86 F1; without them \textbf{IterCOMP beats gold
-context} by 3.78 to 5.82. The mechanism is not what it first appears: with
-diacritics intact IterCOMP already beats Oracle on 9.8\% of questions, and those
-wins carry fewer gold sentences (1.47 against 1.72), so stripping \emph{amplifies}
-a label-sparsity effect rather than creating a disambiguation one. Corpus-level
-ambiguity is real - 20.8\% of syllables collapse - but we could not link it to
-per-question loss, and we report that failure (Appendix~\ref{app:undia}).
-
-\paragraph{A negative result on hyperparameters.} Sweeping
-$\lambda \in [0.0, 1.0]$ and $k \in [70, 95]$ on VimQA \emph{under a 0.5B
-reader at $n=50$} puts the best $\lambda$ at $0.4$ against the paper's $0.6$ -
-but the gap is $0.8$ F1, and resolving that would need $n \approx 37{,}000$
-questions against VimQA's 1,003. We report a \textbf{negative result}: no
-evidence the paper's hyperparameters need changing for Vietnamese. On that sweep
-$k=90$ is also optimal, matching the paper; the 7B sweeps in
-Appendices~\ref{app:open} and~\ref{app:abl500} put the best $k$ elsewhere, but
-every one of those gaps is inside its own detection threshold, so the three
-readings disagree only within noise.
-
 
 \section{Prompts Used}
 \label{app:prompts}
@@ -969,15 +852,12 @@ subsequent work can reproduce our setup exactly. Placeholders in
 \texttt{\{...\}} are substituted at run time.
 
 \subsection{Answerability judgment (Step 2)}
-{\small\begin{verbatim}
+{\footnotesize\begin{verbatim}
 You are solving a multi-hop question.
 Below is the evidence collected so far.
-
 QUESTION: {question}
-
 EVIDENCE SO FAR:
 {evidence}
-
 Is the evidence above SUFFICIENT to
 answer the question accurately?
 Reply with exactly one word:
@@ -985,21 +865,17 @@ ANSWERABLE_YES or ANSWERABLE_NO
 \end{verbatim}}
 
 \subsection{Follow-up question generation (Step 3)}
-{\small\begin{verbatim}
+{\footnotesize\begin{verbatim}
 You are solving a multi-hop question but
 the evidence is not yet sufficient.
-
 ORIGINAL QUESTION: {question}
-
 EVIDENCE SO FAR:
 {evidence}
-
 State ONE short follow-up question
 targeting exactly the MISSING information
 needed to answer the original question.
 Give only the follow-up question, no
 explanation.
-
 FOLLOW-UP:
 \end{verbatim}}
 
@@ -1007,334 +883,27 @@ FOLLOW-UP:
 Shared by \emph{every} compression method, so that comparisons differ only in the
 context supplied. The prompt is bilingual because we evaluate both English and
 Vietnamese datasets.
-{\small\begin{verbatim}
+{\footnotesize\begin{verbatim}
 Answer the question using ONLY the
 context below. Reply with the SHORT
 answer only (a few words, no
 explanation, no full sentence). If the
 context does not contain the answer,
 reply: unknown
-
 CONTEXT:
 {context}
-
 QUESTION: {question}
 ANSWER:
 \end{verbatim}}
 
-\section{Results at Full Scale}
-
-\subsection{VimQA at $n=1{,}003$}
-\label{app:full}
-
-The tables in the body mix sample sizes - $n=50$ for the paper comparison,
-$n=200$ for the baselines - because each was run when the
-compute allowed. This appendix gives the largest: all four methods on
-\textbf{all 1,003 VimQA questions}
-with the same 7B reader, which drops the paired detection threshold from 18.0 F1
-to \textbf{4.3}.
-
-\begin{center}
-\begin{tabular}{lrrr}
-\toprule
-Method & EM & F1$^*$ & ratio \\
-\midrule
-Raw Documents & 28.5 & 46.87 & 1.000 \\
-Oracle & \textbf{36.4} & \textbf{61.03} & 0.057 \\
-LLMLingua-2 & 17.2 & 35.31 & 0.316 \\
-IterCOMP & 26.9 & 51.29 & \textbf{0.206} \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-Three paired comparisons, 10k bootstrap resamples:
-
-\begin{center}
-\small
-\setlength{\tabcolsep}{4pt}
-\begin{tabular}{lrr}
-\toprule
-Comparison & $\Delta$F1 & 95\% CI \\
-\midrule
-IterC. $-$ LLML-2 & $+15.98$ & $[+12.98, +19.01]$ \\
-IterC. $-$ Raw & $+4.42$ & $[+1.73, +7.17]$ \\
-Oracle $-$ IterC. & $+9.74$ & $[+7.08, +12.42]$ \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-\subsection{What the move from $n=50$ cost MuSiQue}
-\label{app:mq500}
-
-MuSiQue is the one dataset we have at both sizes, so it shows what the small
-sample was hiding. Oracle falls 57.05 to 49.84, Raw 32.85 to 23.43 and IterCOMP
-35.11 to 26.74; only LLMLingua-2 rises, 13.51 to 15.14. The first fifty
-questions were simply easier than the set. Two of our readings changed with it,
-both recorded in Section~\ref{sec:results}: at $n=500$ IterCOMP no longer
-separated from Raw on English (later resolved in its favour at $n=1{,}500$,
-Appendix~\ref{app:4ds}), and the margin over LLMLingua-2 is larger on Vietnamese
-($+15.98$) than on English ($+11.60$), reversing the $n=50$ reading that had
-looked like evidence for the advantage growing with benchmark difficulty.
-
-One reading strengthened. The compressor reaches \textbf{84\%} of the Oracle
-score on VimQA against \textbf{54\%} on MuSiQue - wider than the 81\%
-against 62\% at $n=50$. Oracle/Raw moves the same way, 2.13 on MuSiQue against
-1.30 on VimQA, consistent with this ratio being set by how many distractor
-passages a dataset supplies: MuSiQue gives 20 candidates per question, VimQA 10.
-
-\subsection{All four datasets at $n\ge500$}
-\label{app:4ds}
-
-Every comparison with the original rested on MuSiQue until now: 2Wiki and
-HotpotQA had been run only at $n=50$ under a 0.5B reader, which cannot be set
-beside their LLaMA-3-8B table. Both now run at $n=1{,}500$ with the 7B reader and
-the paper's own $k$ per dataset - 85 for 2Wiki, 90 for HotpotQA. This appendix
-expands Table~\ref{tab:4ds} dataset by dataset.
-
-\paragraph{The central claim holds on all four.} Sentence-level compression beats
-token-level compression by $+11.60$ to $+18.58$ F1, with every interval clear of
-zero. That is the paper's thesis, and it is the one result that does not depend
-on which dataset we look at.
-
-\paragraph{The full ordering does not.} The paper reports
-Oracle $>$ IterCOMP $>$ Raw $>$ LLMLingua-2 throughout. We reproduce it on VimQA
-($+4.42$, clear). On MuSiQue the order matches and its $+3.31$ margin (crossing
-zero at the table's $n=500$) clears at $n=1{,}500$; on 2Wiki the order matches but
-$+1.00$ does not separate. Only on HotpotQA does \textbf{Raw overtake IterCOMP},
-by \textbf{4.66 F1, interval clear}. An earlier version of this paper claimed in its abstract that
-``the method ordering reproduces exactly''; that claim was made from MuSiQue
-alone and is withdrawn.
-
-\paragraph{What tripling the sample resolved.} At $n=1{,}500$, MuSiQue's
-IterCOMP$-$Raw goes from $+3.31$ (crossing zero) to $+4.19$ (clear) and 2Wiki's
-flips sign, $-2.69$ to $+1.00$. Greedy decoding makes the first 500 of the 1,500
-reproduce to $0.00$ F1, so the $n=500$ readings were too few, not wrong; we had
-published that $-2.69$ needs $n\approx1{,}300$. Below the threshold of
-Section~\ref{sec:main}, a difference has only a value, not a reliable sign.
-
-\paragraph{Why, and what it costs the premise.} Our reader reads long contexts
-better than theirs. On HotpotQA Raw scores 59.24 against the paper's 43.63 -
-$+15.6$ F1 from the reader alone, the largest such gap in this work - while
-IterCOMP moves only from 51.78 to 54.58. A reader that copes with distractors
-gains more from being handed everything than from being handed a filtered
-subset, so compression's \emph{accuracy} advantage evaporates and only its
-\emph{cost} advantage survives: IterCOMP still reads 19.4\% of the tokens.
-
-This qualifies the premise stated in Section~\ref{sec:intro}, that irrelevant
-passages degrade reader accuracy. They do on VimQA and MuSiQue, where Oracle
-beats Raw by 1.30 and 2.13$\times$. On HotpotQA the ratio is 1.21 and on 2Wiki
-1.61, and the reader recovers enough from the full context that filtering costs
-accuracy rather than buying it.
-
-\subsection{MuSiQue at matched compression}
-\label{app:mqk}
-
-At $k=90$ - the paper's setting - our retention on MuSiQue is 0.349 against
-their 0.14 (Table~\ref{tab:mqk}). Same knob, same dataset, 2.5$\times$ apart, so the difference is in
-the segment population the percentile ranks over rather than in the percentile:
-MuSiQue supplies 20 passages per question and our decomposition yields more
-candidates than theirs. Comparing F1 across that gap says little, so we swept
-$k$ to find where our retention meets theirs ($n=200$, 7B reader; the target is
-the ratio, measured precisely at any $n$).
-
-\begin{table}[htbp]
-\centering
-\small
-\begin{tabular}{lrrrr}
-\toprule
-$k$ & keep & F1 & iters & segs \\
-\midrule
-90 (paper's) & 0.330 & 26.65 & 3.14 & 6.3 \\
-93 & 0.287 & 26.32 & 3.19 & 5.4 \\
-\textbf{96} & \textbf{0.160} & \textbf{29.04} & 3.00 & 3.0 \\
-97.5 & 0.160 & 29.04 & 3.00 & 3.0 \\
-\midrule
-\emph{paper} & \emph{0.14} & \emph{27.36} & -- & -- \\
-\bottomrule
-\end{tabular}
-\caption{MuSiQue, Qwen2.5-7B at 4-bit, $n=200$. $k=96$ and $k=97.5$ are
-identical because the filter floors at three segments per question.}
-\label{tab:mqk}
-\end{table}
-
-At $k=96$ we retain 0.160 against their 0.14 and score \textbf{29.04} against
-\textbf{27.36}. So at comparable compression our reimplementation is $+1.68$
-above the original, not $0.62$ below - the deficit reported at $k=90$ was an
-artefact of reading 2.5$\times$ more context, which costs accuracy on MuSiQue
-because the extra passages are distractors.
-
-Two limits on this. The sweep floors at $k=96$: raising $k$ to 97.5 changes
-nothing because only three segments survive, so we cannot reach their 0.14
-exactly. And $+1.68$ is well inside the detection threshold at $n=200$, so the
-honest statement is that the two are indistinguishable at matched compression -
-a stronger reproduction result than either the $-0.62$ or the $+1.68$ read alone.
-
-\section{Ablations and Open Questions}
-
-\subsection{Ablations at $n=500$, which refute one of them}
-\label{app:abl500}
-
-We reran the two axes that carry claims, at ten times the sample; the run is
-released as \texttt{ablation\_vimqa500\_7b.json}.
-
-\begin{table}[htbp]
-\centering
-\footnotesize
-\setlength{\tabcolsep}{2.6pt}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{lrr|rrr|lrr}
-\toprule
-& \multicolumn{2}{c|}{$n{=}50$} & \multicolumn{3}{c|}{$n{=}500$} & & \multicolumn{2}{c}{$n{=}500$} \\
-\texttt{m\_it} & F1 & rat. & F1 & rat. & it. & $k$ & F1 & rat. \\
-\midrule
-1 & 28.36 & .134 & 31.7 & .133 & 1.00 & 70 & 35.9 & .431 \\
-2 & \textbf{33.03} & .158 & 34.9 & .160 & 1.22 & 80 & \textbf{38.3} & .320 \\
-3 & \textbf{33.03} & .170 & 35.6 & .174 & 1.36 & 85 & 38.2 & .251 \\
-4 & \textbf{33.03} & .181 & \textbf{36.2} & .185 & 1.47 & 90 & 36.1 & .194 \\
-5 & \textbf{33.03} & .189 & 36.1 & .194 & 1.58 & 95 & 38.2 & .129 \\
-\bottomrule
-\end{tabular}}
-\caption{VimQA, Qwen2.5-7B at 4-bit; ``rat.'' is the retained fraction, ``it.''
-the mean iteration count. At $n=50$ the F1 column is
-\emph{bit-identical} from \texttt{max\_iter}${}=2$ (33.033695 to six decimals);
-at $n=500$ it is not. Detection threshold at $n=500$ is $6.6$ F1 paired, so
-\emph{no} pair in either half separates.}
-\label{tab:abl500}
-\end{table}
-
-Two things follow, and the first corrects this appendix.
-
-\textbf{The bit-identical result was an artefact of $n=50$.} The left half of
-Table~\ref{tab:abl500} shows how complete the illusion was: extra passes changed
-which segments were retained (0.158 to 0.189) without changing a single answer,
-to six decimals. An agreement that exact reads as a structural fact rather than a
-sampling one, and we inferred that no larger sample would alter those four numbers.
-A larger sample did: at $n=500$ they run 34.9, 35.6, 36.2, 36.1, with mean iterations
-rising 1.18 to 1.58. Fifty questions were simply too few to contain the minority
-on which the ceiling binds - and that minority is narrow, since even at
-\texttt{max\_iter}${}=5$ the loop stops after 1.58 passes on average. The
-remaining finding is weaker: two passes versus five yield $+1.2$ F1, far inside noise, for
-20\% more context - an argument for the smaller budget on cost, not accuracy.
-
-\textbf{The $k$-curve reversal is consistent with sampling noise.} At $n=50$,
-$k=70$ scored best (38.77) and $k=90$ worst (33.03), a spread of 5.7 F1. At
-$n=500$, $k=70$ is \emph{worst} (35.9) and the spread has collapsed to 2.3. We
-expected the larger sample to resolve this comparison and it did the opposite:
-the effect shrank rather than the interval. A ranking that inverts under a
-tenfold sample increase was never a ranking, and the caution this report
-attached to the $n=50$ ablations was warranted.
-
-\subsection{What this reimplementation does not settle}
-\label{app:open}
-\vspace{-0.5\baselineskip}
-
-One question we consider open, and one we have since closed.
-
-\paragraph{Whether the stopping rule helps - resolved.} At $n=50$, removing the
-answerability check appeared to raise F1 from 33.03 to 36.64
-(the \texttt{no-answerability} ablation), suggesting the rule
-\emph{lost} 3.6 F1 - below the 18.0-point paired threshold, so we ran four
-stopping regimes at $n=200$ under the 7B reader. A \emph{perfect} oracle stopper
-scores 49.91 against the paper's 50.08 on VimQA and 25.94 against 25.90 on
-MuSiQue ($-0.17$, $+0.04$): the rule incurs no accuracy cost, and the earlier gap
-was a sampling artifact. Never stopping instead reads 49.7\% of the context
-against 18.1\% for the same F1, so the rule's value is \emph{token savings, not
-accuracy} - a distinction the paper does not draw.
-
-\paragraph{Whether a larger reader lifts the ceiling.} Oracle, seeing exactly the
-gold sentences, still scores zero on 28\% of VimQA and 30\% of MuSiQue questions;
-since compression cannot beat Oracle, that fraction bounds what
-Section~\ref{sec:vietnamese} attributes to the reader. The 98 age-comparison
-questions are the identified part; the rest we have not categorised, and whether
-a reader at the paper's scale recovers either is beyond this GPU budget.
-
-\paragraph{Whether $k=90$ is the right operating point.} Sweeping the percentile
-threshold on VimQA traces a monotone trade-off that the single published value
-hides:
-
-\begin{center}
-\small
-\begin{tabular}{lrrrrr}
-\toprule
-$k$ & 70 & 80 & 85 & \textbf{90} & 95 \\
-\midrule
-F1    & 38.77 & 36.60 & 36.35 & \textbf{33.03} & 34.56 \\
-ratio & 0.430 & 0.316 & 0.245 & \textbf{0.189} & 0.118 \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-At $n=50$ every step from $k=70$ to $k=90$ appears to trade accuracy for
-compression, placing $k=90$ near the aggressive end (43\% of the context against
-19\% for 5.7 F1). \textbf{That trade-off does not survive $n=500$}
-(Appendix~\ref{app:abl500}), where $k=70$ becomes the \emph{worst} setting and
-the spread collapses to 2.3 F1: the monotonicity was a property of fifty
-questions, and no tested $k$ is distinguishable from another.
-
-\paragraph{Whether two design choices earn their complexity.} Equation~(4)
-combines dense and sparse signals, yet on VimQA either half alone scores
-\emph{above} the combination (lexical 35.44, dense 35.12, dual 33.03), and even
-BM25 lands within 0.05 F1 at 32.98; top-3 reaches 37.46 F1 at 16.3\% of the
-context against 33.03 at 18.9\% for $k=90$. Both gaps sit inside the noise floor,
-so neither ablation distinguishes its alternatives at $n=50$ (separation would
-need $n\approx1{,}000$); we report them as absence of evidence \emph{for} either
-choice, not evidence against. Appendix~\ref{app:abl500} moves two axes to $n=500$
-and refutes one; the scorer comparison, its 2.4 F1 spread under threshold even at
-$n=500$, is left at $n=50$.
-
-\section{Token Fertility: Supplementary Measurements}
-\label{app:fert-extra}
-
-Section~\ref{sec:fertility} gives the headline fertility numbers. The per-token
-counts behind them, and the sensitivity of the effective ratio to the tokeniser,
-are reported there in full; this appendix is retained only as a pointer so that
-appendix lettering matches the submitted artefact.
-
 \section{Further Vietnamese Analysis}
-
-\subsection{Function-word damage}
-\label{app:funcwords}
-
-We also tested, and \emph{refuted}, a second metric. Token-level compression was
-expected to sever syllables and tone marks (\emph{ph\h{o}} $\to$ \emph{ph}), but
-on 50 VimQA questions LLMLingua-2 severs \textbf{zero} syllables; what it cuts is
-\emph{function words}. At matched compression the function-to-content loss ratio
-is unbiased for sentence-level IterCOMP but not for token-level LLMLingua-2, and
-the English control lands in the same place:
-
-\begin{center}
-\small
-\begin{tabular}{lrrr}
-\toprule
-$n{=}500$ & IterC. & LLML-2 & gap \\
-\midrule
-VimQA (vi) & 1.01$\times$ & 1.17$\times$ & $+0.16$ \\
-MuSiQue (en) & 0.99$\times$ & 1.17$\times$ & $+0.17$ \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-At $n=50$ the gaps are larger ($+0.31$, $+0.39$) but shrink with sample size,
-confirming the bias is a property of compression granularity, not the language;
-our typological hypothesis gets no support. The damage is concrete - at
-\texttt{rate}${}=0.33$ LLMLingua-2 discards 96.1\% of relational and 91.2\% of
-negation particles, and dropping \emph{kh\^ong} inverts a sentence - yet it
-barely predicts F1: only at $n=1{,}003$ does the token-level correlation clear
-zero ($\rho=-0.067$, 95\% CI $[-0.124, -0.004]$), a real but negligible
-association ($|\rho|<0.1$), while sentence-level IterCOMP stays null. A modern
-reader recovers a sentence stripped of function words when the evidence is
-present, but not one that was dropped - so grammatical damage is a measurable
-property of compressor output, not a demonstrated cause of the 11.6-18.6 F1 gap,
-whose mechanism remains open.
 
 \subsection{Undiacriticised Vietnamese}
 \label{app:undia}
 
-Section~\ref{sec:vnfindings} reports the headline result and its table
-(Table~\ref{tab:undia}): with tone marks intact gold context beats IterCOMP by
-4.86 F1, but once diacritics are stripped IterCOMP beats gold context by 3.78 to
-5.82 F1. We evaluate \texttt{strip} (context only) and \texttt{both} (context and
-question) against a gold-context branch at $n=200$; here we trace the mechanism.
+Table~\ref{tab:undia} gives the result; \texttt{strip} removes tone marks from
+the context and \texttt{both} from context and question, each against a
+gold-context branch at $n=200$. Here we trace the mechanism.
 
 \paragraph{How much ambiguity stripping creates.} The likely mechanism is that
 undiacriticised text introduces lexical ambiguity that wider context resolves,
@@ -1354,7 +923,12 @@ word collides - so we report the effect and the mechanism separately.
 \subsection{Vietnamese/English decomposition}
 \label{app:decomp}
 
-\begin{table}[htbp]
+On VimQA the ordering changes (Table~\ref{tab:decomp}) - Raw edges out IterCOMP (43.8 against 43.0) - but
+with the reader fixed IterCOMP reaches 84\% of the Oracle ceiling against 54\% on
+MuSiQue. What differs is Oracle/Raw, 1.22 against 1.74: VimQA gives 10 passages
+per question against MuSiQue's 20, so the gain is the data's, not the language's.
+
+\begin{table}[h!]
 \centering
 \small
 \begin{tabular}{lrrr}
@@ -1370,10 +944,5 @@ normalisation. Or/Raw is what perfect evidence selection is worth on the data;
 IC/Or is IterCOMP's score as a fraction of the Oracle bound.}
 \label{tab:decomp}
 \end{table}
-
-On VimQA the ordering changes (Table~\ref{tab:decomp}) - Raw edges out IterCOMP (43.8 against 43.0) - but
-with the reader fixed IterCOMP reaches 84\% of the Oracle ceiling against 54\% on
-MuSiQue. What differs is Oracle/Raw, 1.22 against 1.74: VimQA gives 10 passages
-per question against MuSiQue's 20, so the gain is the data's, not the language's.
 
 \end{document}
