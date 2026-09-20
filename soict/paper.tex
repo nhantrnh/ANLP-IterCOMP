@@ -608,7 +608,8 @@ $\Delta$ vs.\ LLML-2 & $+15.98^\dag$ & $+10.72^\dag$ & $+17.48^\dag$ & $+18.58^\
 \paragraph{The central claim holds on all four.} Fig.~\ref{fig:tradeoff} plots
 accuracy against context retained; sentence-level compression beats
 token-level LLMLingua-2 by $+10.72$ to $+18.58$ F1 (Table~\ref{tab:4ds}, last
-row), every paired bootstrap interval clear of zero. The two are not matched on cost:
+row), every paired bootstrap interval clear of zero, while keeping $0.194$ to
+$0.354$ of the context. The two are not matched on cost:
 LLMLingua-2 classifies tokens once with a small encoder, IterCOMP-X calls a 7B
 model twice per pass over 3.1 passes, $3.2$ to $7.2\times$ the time per question
 (Section~\ref{sec:cost}). The margin says sentence-level selection keeps
@@ -819,11 +820,11 @@ ordering: gold leads by $4.81$ with tone marks and by $3.99$ and $4.05$ without,
 no interval separating. The damage lands on the reader rather than the
 compressor - of the matched $20$-point drop, $0.81$ F1 is the compressor's.
 
-An earlier version of this experiment showed the opposite. Stripping
-diacritics from the context also stripped the document titles while the
-supporting-fact annotations kept theirs, so the two stopped matching and the
-gold branch received an empty context on $48$ of $200$ questions. Stripping
-both sides recovers $8.4$ and $9.9$ F1 for gold, and the effect disappears.
+The setting carries a trap we fell into first. Supporting facts address
+documents by title, so stripping diacritics from the context but not from the
+annotations breaks the match and hands the gold branch an empty context - $48$
+of $200$ questions here - which any compressed context beats. Stripping both
+sides returns $8.4$ and $9.9$ F1 to gold and reverses the apparent result.
 
 \begin{table}[htbp]
 \centering
@@ -929,13 +930,22 @@ languages.
 \section{Conclusion}
 \label{sec:conclusion}
 
+A compression ratio is not comparable across languages. Under the tokeniser
+that bills, the same content costs $4.97\times$ more tokens in Hindi and
+$2.49\times$ more in Vietnamese than in English, so a ratio reported without that
+correction understates what compression actually saves - by $1.80\times$ across
+tokenisers that the nominal figure ranks as identical. The effective ratio prices
+retention in English-equivalent tokens and is one extra column to report.
+
 We reproduced IterCOMP without its code, gave it its first Vietnamese
-evaluation, and release the configuration as IterCOMP-X. The central claim holds - sentence-level beats
-token-level compression on all four datasets - but the full ordering is
-reader-dependent: a stronger reader gains enough from full context that
-compression's accuracy advantage narrows or reverses. Vietnamese itself does not
-handicap the compressor; what we could not move is the reader, failing on
-${\sim}30\%$ of questions even given gold evidence.
+evaluation, and release the configuration as IterCOMP-X. The central claim
+holds - sentence-level beats token-level compression on all four datasets - but
+the full ordering is reader-dependent: a stronger reader gains enough from full
+context that compression's accuracy advantage narrows or reverses, and the
+saving that remains is in tokens rather than in time. Vietnamese itself does not
+handicap the compressor, and neither does stripping its tone marks; what we
+could not move is the reader, failing on ${\sim}30\%$ of questions even given
+gold evidence.
 
 
 \begin{credits}
