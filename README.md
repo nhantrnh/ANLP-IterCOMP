@@ -124,3 +124,9 @@ F1$^*$ (chuẩn hoá boolean), reader Qwen2.5-7B 4-bit — bảng đầy đủ �
 - Greedy decoding → **kết quả tất định**; chạy lại cùng cấu hình cho cùng số.
 - Mọi con số trong báo cáo truy nguồn về `src/results/` (JSON đầy đủ per-row).
 - Thực nghiệm GPU chạy trên Kaggle T4; kernel lưu ở `notebooks/kaggle/`.
+
+## Prompts
+
+The IterCOMP paper does not release its prompt text, so ours were written from
+its method description and are given in full, Vietnamese and English, in
+[PROMPTS.md](PROMPTS.md).

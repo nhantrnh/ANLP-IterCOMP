@@ -49,7 +49,9 @@ Ho Chi Minh City, Vietnam\\
 % footnote instead.
 \newcommand{\correspondingnote}{%
   \footnotetext{Corresponding author: Thanh-Nhan Truong,
-  \texttt{25C1505320@student.hcmus.edu.vn}.}}
+  \texttt{25C1505320@student.hcmus.edu.vn}. Code, prompts (Vietnamese and
+  English), per-dataset results and the extended analyses are at
+  \url{https://github.com/nhantrnh/ANLP-IterCOMP}.}}
 
 \maketitle
 \correspondingnote
@@ -197,9 +199,9 @@ real token cost on Vietnamese by $2.39\times$, since the tokeniser that bills is
 not the one that counts;
 (4)~that Vietnamese does not handicap the compressor, IterCOMP reaching 84\% of
 the Oracle ceiling on VimQA, the lower 54\% on English MuSiQue being a dataset
-property, not a language effect (Appendix~\ref{app:decomp}); and
+property, not a language effect (Section~\ref{sec:vnfindings}); and
 (5)~that on undiacriticised Vietnamese, compressed context beats gold context by
-3.78 to 5.82 F1 (Appendix~\ref{app:undia}).
+3.78 to 5.82 F1 (Table~\ref{tab:undia}).
 We call the resulting configuration IterCOMP-X, and stress that it is \emph{not}
 a new algorithm - the loop is unchanged; it is a deployment configuration plus a
 metric-level fix, and we report below which parts survive significance testing.
@@ -469,7 +471,7 @@ rather than committing to a fixed budget.
 These two decision points are what make IterCOMP
 ``reasoning-aware'': the query evolves with the evidence state instead of
 staying fixed at $q$. Neither prompt is published in the original paper; ours
-appear in full in Appendix~\ref{app:prompts}.
+are released in full, in Vietnamese and English, with the code.
 
 \section{Experimental Setup}
 \label{sec:setup}
@@ -721,7 +723,10 @@ costs 20.8 F1 as \emph{má}, \emph{mà} and \emph{mã} collapse into one string;
 once the text is undiacriticised, \textbf{IterCOMP's compressed context beats even
 gold context} by 3.78 to 5.82 F1 (Table~\ref{tab:undia}) - supplying precisely
 the gold sentences becomes \emph{worse} than a compressed one.
-Appendix~\ref{app:undia} traces the mechanism.
+The released analysis traces the mechanism: stripping tone marks collapses
+20.8\% of VimQA's distinct syllables, and IterCOMP already beats Oracle on
+9.8\% of questions before any stripping, so the effect is amplified rather than
+created.
 
 \begin{table}[htbp]
 \centering
@@ -790,7 +795,7 @@ same template collapses to 92.1\% zeros.
 \label{sec:limitations}
 
 \paragraph{Limitations.} Absolute numbers are not comparable to the paper's: no
-prompts were released (ours are in Appendix~\ref{app:prompts}), the reader differs
+prompts were released (ours are released with the code), the reader differs
 (Qwen2.5-7B at 4-bit vs.\ LLaMA-3-8B), and our retention is 0.32 at $n=50$ and 0.349 at $n=500$ against their 0.14.
 Sample sizes are uneven but no longer thin: all four datasets run at
 $n\ge1{,}003$, the ablations at $n=500$, the baselines at $n=200$; what remains
@@ -798,7 +803,7 @@ at $n=50$ is the scorer ablation, reported as inconclusive. One baseline is
 missing, R2C releasing no public checkpoint; every other baseline with a
 released model is included, CompAct among them. The domain is narrow, since
 VimQA derives from Wikipedia. We do evaluate \emph{undiacriticised} Vietnamese, with
-an unexpected result - see Appendix~\ref{app:undia}. Fertility is measured on
+an unexpected result - see Table~\ref{tab:undia}. Fertility is measured on
 translated text \cite{deutsch2025wmt24pp}, so it holds for the tokenisers we
 bill against rather than the language at large. The sharpest limit is the gap
 between where fertility is measured and where compression is run: we report
@@ -841,108 +846,5 @@ University - Ho Chi Minh City.
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \bibliographystyle{splncs04}
 \bibliography{references}
-
-\appendix
-
-\section{Prompts Used}
-\label{app:prompts}
-
-The original paper does not release prompt text. We give ours in full so that
-subsequent work can reproduce our setup exactly. Placeholders in
-\texttt{\{...\}} are substituted at run time.
-
-\subsection{Answerability judgment (Step 2)}
-{\footnotesize\begin{verbatim}
-You are solving a multi-hop question.
-Below is the evidence collected so far.
-QUESTION: {question}
-EVIDENCE SO FAR:
-{evidence}
-Is the evidence above SUFFICIENT to
-answer the question accurately?
-Reply with exactly one word:
-ANSWERABLE_YES or ANSWERABLE_NO
-\end{verbatim}}
-
-\subsection{Follow-up question generation (Step 3)}
-{\footnotesize\begin{verbatim}
-You are solving a multi-hop question but
-the evidence is not yet sufficient.
-ORIGINAL QUESTION: {question}
-EVIDENCE SO FAR:
-{evidence}
-State ONE short follow-up question
-targeting exactly the MISSING information
-needed to answer the original question.
-Give only the follow-up question, no
-explanation.
-FOLLOW-UP:
-\end{verbatim}}
-
-\subsection{Reader prompt}
-Shared by \emph{every} compression method, so that comparisons differ only in the
-context supplied. The prompt is bilingual because we evaluate both English and
-Vietnamese datasets.
-{\footnotesize\begin{verbatim}
-Answer the question using ONLY the
-context below. Reply with the SHORT
-answer only (a few words, no
-explanation, no full sentence). If the
-context does not contain the answer,
-reply: unknown
-CONTEXT:
-{context}
-QUESTION: {question}
-ANSWER:
-\end{verbatim}}
-
-\section{Further Vietnamese Analysis}
-
-\subsection{Undiacriticised Vietnamese}
-\label{app:undia}
-
-Table~\ref{tab:undia} gives the result; \texttt{strip} removes tone marks from
-the context and \texttt{both} from context and question, each against a
-gold-context branch at $n=200$. Here we trace the mechanism.
-
-\paragraph{How much ambiguity stripping creates.} The likely mechanism is that
-undiacriticised text introduces lexical ambiguity that wider context resolves,
-while gold context removes exactly that surrounding material. On the corpus, of
-the 13,165 distinct lowercase syllables in VimQA, removing tone marks collapses
-them onto 11,182, so \textbf{20.8\% become ambiguous} and 1,983 distinctions are
-lost (against only 2\% diacritic-bearing tokens in English MuSiQue).
-\paragraph{Not confined to stripped text.} The effect predates stripping: with
-diacritics intact IterCOMP already beats Oracle on \textbf{9.8\%} of the 1,003
-questions (84.7 F1 against 17.7), so stripping amplifies a background effect
-rather than causing one. It lives in the labels - IterCOMP's wins carry fewer
-gold sentences (1.47 against 1.72) and are not luck (perfect F1 on 56\% of them
-where Oracle scores zero on 70\%). We have \emph{not} shown ambiguity to be the
-cause - a per-question ambiguity measure saturates because every common function
-word collides - so we report the effect and the mechanism separately.
-
-\subsection{Vietnamese/English decomposition}
-\label{app:decomp}
-
-On VimQA the ordering changes (Table~\ref{tab:decomp}) - Raw edges out IterCOMP (43.8 against 43.0) - but
-with the reader fixed IterCOMP reaches 84\% of the Oracle ceiling against 54\% on
-MuSiQue. What differs is Oracle/Raw, 1.22 against 1.74: VimQA gives 10 passages
-per question against MuSiQue's 20, so the gain is the data's, not the language's.
-
-\begin{table}[h!]
-\centering
-\small
-\begin{tabular}{lrrr}
-\toprule
- & Oracle & Or/Raw & IC/Or \\
-\midrule
-MuSiQue (en) & 57.0 & 1.74 & 0.62 \\
-\textbf{VimQA (vi)} & 53.3 & \textbf{1.22} & \textbf{0.81} \\
-\bottomrule
-\end{tabular}
-\caption{Same reader (Qwen2.5-7B at 4-bit), $n=50$, F1 after boolean
-normalisation. Or/Raw is what perfect evidence selection is worth on the data;
-IC/Or is IterCOMP's score as a fraction of the Oracle bound.}
-\label{tab:decomp}
-\end{table}
 
 \end{document}
