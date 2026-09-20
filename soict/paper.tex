@@ -251,7 +251,11 @@ A compression ratio is reported as a fraction of the context kept, and read as a
 saving. That reading assumes the unit being counted costs the same everywhere.
 It does not: the tokeniser that bills splits some writing systems far more
 finely than English, so the same nominal ratio buys different savings in
-different languages. This section measures the gap and proposes a correction.
+different languages. That tokenisers charge non-English text more is
+established \cite{petrov2023tokenizers,ahia2023allcost}; what is new here is the
+consequence for compression. A ratio compares two token counts, so it inherits
+the distortion silently, and the number the field reports its progress in is the
+one distorted. This section measures that and proposes a correction.
 
 \begin{table}[htbp]
 \centering
@@ -596,7 +600,11 @@ $\Delta$ vs.\ LLML-2 & $+15.98^\dag$ & $+10.72^\dag$ & $+17.48^\dag$ & $+18.58^\
 \paragraph{The central claim holds on all four.} Fig.~\ref{fig:tradeoff} plots
 accuracy against context retained; sentence-level compression beats
 token-level LLMLingua-2 by $+10.72$ to $+18.58$ F1 (Table~\ref{tab:4ds}, last
-row), every paired bootstrap interval clear of zero. This is the paper's thesis,
+row), every paired bootstrap interval clear of zero. The two are not matched on cost:
+LLMLingua-2 classifies tokens once with a small encoder, IterCOMP-X calls a 7B
+model twice per pass over 3.1 passes, $3.2$ to $7.2\times$ the time per question
+(Section~\ref{sec:cost}). The margin says sentence-level selection keeps
+multi-hop evidence that token-level scoring discards, not that it is cheaper. This is the paper's thesis,
 and the one result that does not depend on which dataset, reader or sample size we
 look at. It survives a wider field too: on VimQA ($n=200$) IterCOMP-X leads all six
 baselines we added, but only LLMLingua-2 is multilingual and meets Vietnamese on
@@ -743,20 +751,17 @@ deficit the mismatched comparison implied.
 \subsection{What the compression costs to run}
 \label{sec:cost}
 
-The saving is in tokens read, not in time. IterCOMP-X spends two extra LLM calls
-per pass - the answerability check and the follow-up - and runs $3.1$ passes on
-average, so wall-clock per question rises even as the context shrinks: $2.88$ to
-$4.52$~s on VimQA, $2.65$ to $8.73$~s on MuSiQue, $1.67$ to $3.30$~s on
-HotpotQA and $1.15$ to $3.80$~s on 2Wiki, against a context cut to $21\%$,
-$34\%$, $19\%$ and $35\%$ of Raw. LLMLingua-2, a single pass, is faster than
-Raw on all four.
+The saving is in tokens read, not in time. Two extra LLM calls per pass over
+$3.1$ passes raise wall-clock per question even as the context shrinks: $2.88$
+to $4.52$~s on VimQA and $2.65$ to $8.73$~s on MuSiQue, against contexts cut to
+$21\%$ and $34\%$ of Raw; 2Wiki and HotpotQA behave alike. LLMLingua-2, a
+single pass, is faster than Raw everywhere.
 
-Which of the two matters depends on where the model runs. Served behind an API
-priced per token, reading a fifth of the context is the cost that appears on the
-bill and the extra passes are the vendor's problem. Self-hosted, the arithmetic
-inverts: the GPU is the budget, and a method that triples latency to save
-context is a poor trade unless the context would not have fitted. We report both
-columns rather than the flattering one.
+Which matters depends on where the model runs. Behind a per-token API, reading
+a fifth of the context is the bill and the extra passes are the vendor's
+problem. Self-hosted the arithmetic inverts: the GPU is the budget, and tripling
+latency to save context is a poor trade unless the context would not have
+fitted.
 
 \subsection{The ordering is reader-dependent}
 \label{sec:reader}

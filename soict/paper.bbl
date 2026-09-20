@@ -3,6 +3,12 @@
 \providecommand{\urlprefix}{URL }
 \providecommand{\doi}[1]{https://doi.org/#1}
 
+\bibitem{ahia2023allcost}
+Ahia, O., Kumar, S., Gonen, H., Kasai, J., Mortensen, D., Smith, N.A.,
+  Tsvetkov, Y.: Do all languages cost the same? tokenization in the era of
+  commercial language models. In: Proceedings of EMNLP (2023),
+  \url{https://aclanthology.org/2023.emnlp-main.614/}
+
 \bibitem{chen2024bgem3}
 Chen, J., Xiao, S., Zhang, P., Luo, K., Lian, D., Liu, Z.: {M3-Embedding}:
   Multi-linguality, multi-functionality, multi-granularity text embeddings
@@ -52,6 +58,11 @@ Pan, Z., Wu, Q., Jiang, H., Xia, M., Luo, X., Zhang, J., Lin, Q., R{\"u}hle,
   V., Yang, Y., Lin, C.Y., Zhao, H.V., Qiu, L., Zhang, D.: {LLMLingua-2}: Data
   distillation for efficient and faithful task-agnostic prompt compression. In:
   Findings of ACL (2024), \url{https://aclanthology.org/2024.findings-acl.57/}
+
+\bibitem{petrov2023tokenizers}
+Petrov, A., La~Malfa, E., Torr, P., Bibi, A.: Language model tokenizers
+  introduce unfairness between languages. In: Advances in Neural Information
+  Processing Systems (NeurIPS) (2023)
 
 \bibitem{phan2022vit5}
 Phan, L., Tran, H., Nguyen, H., Trinh, T.H.: {ViT5}: Pretrained text-to-text
