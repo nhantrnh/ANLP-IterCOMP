@@ -130,7 +130,7 @@ and \emph{noise} (irrelevant passages degrade reader accuracy).
              align=left, font=\scriptsize, text width=44mm,
              inner xsep=5pt, inner ysep=4pt},
   kp/.style={sg, draw=cLLML, fill=cLLM!40, line width=0.9pt},
-  dp/.style={sg, draw=gray!25, fill=gray!8, text=gray!55},
+  dp/.style={sg, draw=gray!45, fill=gray!10, text=gray!75!black},
   ai/.style={rounded corners=3pt, draw=cScoreL, fill=cScore, line width=0.7pt,
              align=center, font=\scriptsize\bfseries, text width=32mm,
              inner xsep=5pt, inner ysep=5pt},
@@ -160,7 +160,7 @@ and \emph{noise} (irrelevant passages degrade reader accuracy).
   {\textbf{0.34} \ ``\dots released on \textbf{29 Mar 2019}''};
 % This label sits below the last box; \path reserves the strip it needs so
 % resizebox does not scale it off the bottom edge.
-\node[nt, text=gray!50, anchor=north] at (\cL,-0.52)
+\node[nt, text=gray!70!black, anchor=north] at (\cL,-0.52)
   {below threshold - the answer is cut};
 \path (\cL,-0.95);
 
@@ -740,6 +740,24 @@ remains - a reader $+12.33$ F1 stronger on perfect evidence should lift a workin
 compressor by more than $1.68$ - but it is within the noise floor, not the
 deficit the mismatched comparison implied.
 
+\subsection{What the compression costs to run}
+\label{sec:cost}
+
+The saving is in tokens read, not in time. IterCOMP-X spends two extra LLM calls
+per pass - the answerability check and the follow-up - and runs $3.1$ passes on
+average, so wall-clock per question rises even as the context shrinks: $2.88$ to
+$4.52$~s on VimQA, $2.65$ to $8.73$~s on MuSiQue, $1.67$ to $3.30$~s on
+HotpotQA and $1.15$ to $3.80$~s on 2Wiki, against a context cut to $21\%$,
+$34\%$, $19\%$ and $35\%$ of Raw. LLMLingua-2, a single pass, is faster than
+Raw on all four.
+
+Which of the two matters depends on where the model runs. Served behind an API
+priced per token, reading a fifth of the context is the cost that appears on the
+bill and the extra passes are the vendor's problem. Self-hosted, the arithmetic
+inverts: the GPU is the budget, and a method that triples latency to save
+context is a poor trade unless the context would not have fitted. We report both
+columns rather than the flattering one.
+
 \subsection{The ordering is reader-dependent}
 \label{sec:reader}
 
@@ -762,10 +780,17 @@ normalisation is worth $+8.67$ F1 on VimQA at $n=1{,}003$, interval
 $[+6.98,+10.47]$, and exactly $0.0$ on each of MuSiQue, 2Wiki and HotpotQA,
 isolating a language-specific fix from a metric-inflating
 one: a reader asked a Vietnamese question often answers ``Yes'', which is
-correct and scores $0$ against the gold ``đúng''. The step fires on the closing
-\emph{phải không} / \emph{đúng không} frame of the \emph{question}, never on the
-gold answer, so it is available at inference; a prediction of the wrong polarity
-maps to the opposite label and still scores zero. Nominal compression ratios understate token cost
+correct and scores $0$ against the gold ``đúng''. The step is post-processing on the reader's
+output, gated by the \emph{question}: it fires when the question ends in
+\emph{phải không}, \emph{đúng không}, \emph{hay không} or the
+\emph{có \ldots{} không} frame, never on the gold answer, so it is available at
+inference. It then reads the prediction's polarity against two closed
+lexicons - affirmative \{yes, true, correct, right, đúng, có, phải, vâng, ừ\}
+and negative \{no, false, incorrect, wrong, không, sai, chưa\} - and rewrites an
+unambiguous hit to the label of that polarity in the dataset's own vocabulary.
+A prediction matching neither, or both, is left untouched; one of the wrong
+polarity is rewritten to the opposite label and still scores zero, so the step
+cannot convert a wrong answer into a right one. Nominal compression ratios understate token cost
 on Vietnamese by $2.39\times$ because the tokeniser that bills is not the one
 that counts; we propose an \emph{effective ratio} that folds fertility back in. Vietnamese does not handicap the compressor:
 IterCOMP-X recovers $84\%$ of the Oracle ceiling on VimQA ($51.29$ against
@@ -872,7 +897,13 @@ VimQA derives from Wikipedia. We do evaluate \emph{undiacriticised} Vietnamese
 (Table~\ref{tab:undia}), at $n=200$, where the intervals are wide enough that
 the setting bounds the damage rather than ranking the methods. Fertility is measured on
 translated text \cite{deutsch2025wmt24pp}, so it holds for the tokenisers we
-bill against rather than the language at large. The sharpest limit is that fertility is
+bill against rather than the language at large. Every headline number comes from one reader,
+Qwen2.5-7B at 4-bit; decoding is greedy, so nothing here is sampling noise, but
+a quantisation artefact would not show up as variance either. The 0.5B run in
+Section~\ref{sec:reader} is the check we have: it moves the HotpotQA gap the way
+the reader-dependence account predicts. A 3B run we do not use tells against
+itself - its Oracle falls below its Raw, which cannot be right - and is released
+so that the reader can see it. The sharpest limit is that fertility is
 measured on four writing systems while compression is run on two, so the
 effective ratio is argued generally and shown on one language pair. Hindi, the
 worst case at $4.97\times$, is where it would matter most and is what we could
