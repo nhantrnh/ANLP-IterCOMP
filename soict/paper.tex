@@ -613,12 +613,10 @@ $0.354$ of the context. The two are not matched on cost:
 LLMLingua-2 classifies tokens once with a small encoder, IterCOMP-X calls a 7B
 model twice per pass over 3.1 passes, $3.2$ to $7.2\times$ the time per question
 (Section~\ref{sec:cost}). The margin says sentence-level selection keeps
-multi-hop evidence that token-level scoring discards, not that it is cheaper. This is the paper's thesis,
-and the one result that does not depend on which dataset, reader or sample size we
-look at. It survives the wider field: on VimQA at $n=200$ IterCOMP-X leads all six
-baselines, and against LLMLingua-2, the only one that meets Vietnamese on equal
-terms, the margin is $+11.36$ F1, CI $[+4.93,+17.84]$, against a $7.7$
-threshold.
+multi-hop evidence that token-level scoring discards, not that it is cheaper. This is the paper's thesis and the one
+result independent of dataset, reader and sample size. It survives the wider
+field: at $n=200$ on VimQA IterCOMP-X leads all six baselines, and against
+LLMLingua-2 the margin is $+11.36$ F1, CI $[+4.93,+17.84]$.
 
 
 \begin{figure}[!htbp]
@@ -734,15 +732,17 @@ IterCOMP & \textbf{27.36} & \textbf{35.1} & \textbf{43.0} \\
 \end{tabular}
 \end{table}
 
-Absolute numbers are not comparable across readers, but two invariants indicate a
-faithful reimplementation (Table~\ref{tab:vspaper}). First, the \textbf{method
+This table is at $n=50$, the paper's operating point, so its MuSiQue figures
+sit above the full-scale ones in Table~\ref{tab:4ds} ($35.1$ against $25.35$):
+the first fifty questions are easier than the split, not in disagreement with
+it. Absolute numbers are not comparable across readers either, but two
+invariants indicate a faithful reimplementation. First, the \textbf{method
 ordering reproduces} - Oracle $>$ IterCOMP $>$ Raw $>$ LLMLingua-2 on MuSiQue at
 both sample sizes, and on 2Wiki at scale (Section~\ref{sec:main}). Second, the
 Oracle/Raw ratio is in range: 1.74 at $n=50$ and 2.12 at $n=1{,}500$ against
 the paper's 1.88. That ratio is the headroom perfect selection buys over full
-context; being a property of the task and data loader rather than the reader, its
-agreement evidences that decomposition, gold-sentence labels and F1 are all
-correct.
+context; being a property of the task rather than the reader, its agreement
+evidences that decomposition, gold-sentence labels and F1 are all correct.
 
 \paragraph{Matching the operating point.} A direct $n=500$ comparison on MuSiQue
 puts IterCOMP $0.62$ F1 \emph{below} the paper's ($26.74$ against $27.36$), while
