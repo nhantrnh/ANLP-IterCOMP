@@ -4,7 +4,15 @@
 %
 % Build: pdflatex paper && bibtex paper && pdflatex paper && pdflatex paper
 
-\documentclass[a4paper]{llncs}
+% llncs sets a 122mm text block whatever the paper size, so on A4 the block
+% sits in the middle of a 210mm sheet with ~44mm of white either side - the
+% margins read as too wide because the sheet is too big, not the block too
+% small. 155x235mm is the trim the proceedings are printed at, and it is what
+% published SOICT papers use.
+\documentclass{llncs}
+\usepackage[paperwidth=155mm, paperheight=235mm,
+            textwidth=347.12pt, textheight=549.14pt,
+            centering]{geometry}
 
 \usepackage[T1,T5]{fontenc}      % T5 for Vietnamese examples
 \usepackage[utf8]{inputenc}
