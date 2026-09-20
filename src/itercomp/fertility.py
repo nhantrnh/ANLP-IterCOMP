@@ -86,11 +86,16 @@ def effective_ratio(compressed: str, original: str,
     n_c = len(enc.encode(compressed))
     n_o = len(enc.encode(original)) or 1
     nominal = n_c / n_o
+    # NHÂN, không chia. Câu hỏi là "ngữ cảnh nén này tốn bao nhiêu token so với
+    # ngữ cảnh GỐC nếu viết bằng tiếng Anh", nên mẫu số là tiếng Anh còn tử số
+    # vẫn là tiếng Việt: (n_c * phi) / n_o_en, với n_o_en = n_o. Chia cho
+    # fertility sẽ cho số NHỎ hơn khi ngôn ngữ bị phạt nặng, đọc thành "nén
+    # tiếng Việt rẻ hơn tiếng Anh" - ngược hẳn hiện tượng đang đo.
     return {
         "nominal_ratio": nominal,
-        "effective_ratio": nominal / fertility if fertility else nominal,
+        "effective_ratio": nominal * fertility if fertility else nominal,
         "tokens_saved": n_o - n_c,
-        "tokens_saved_en_equiv": (n_o - n_c) / fertility if fertility else (n_o - n_c),
+        "tokens_saved_en_equiv": (n_o - n_c) * fertility if fertility else (n_o - n_c),
         "fertility": fertility,
     }
 

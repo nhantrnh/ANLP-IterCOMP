@@ -120,14 +120,39 @@ def _opposite(g: str) -> str:
     return "dung" if plain else "đúng"
 
 
-def normalize_boolean(pred: str, gold: str) -> str:
-    """Nếu đáp án vàng là đúng/sai, quy dự đoán về cùng hệ từ vựng tiếng Việt.
+# Câu hỏi đúng/sai tiếng Việt kết bằng một số ít khuôn: "... phải không?",
+# "... đúng không?", "có ... không?". Dùng khuôn CÂU HỎI để quyết định có chuẩn
+# hoá hay không, thay vì nhìn nhãn vàng: bộ hậu xử lý chạy lúc suy luận thì
+# không có nhãn, và một phép đo đọc nhãn để tự quyết định là phép đo không dùng
+# lại được. Trên 300 câu VimQA khuôn này bắt đủ 98/98 câu boolean.
+_BOOL_Q = re.compile(
+    r"(phải không|đúng không|hay không|có phải|\bcó\b.{0,60}\bkhông\b)\s*\?*\s*$",
+    re.IGNORECASE)
 
-    Chỉ can thiệp khi `gold` thực sự là đáp án đúng/sai, và khi dự đoán chứa
-    token khẳng định hoặc phủ định rõ ràng. Mọi trường hợp khác trả về nguyên
-    văn, nên phép chuẩn hoá không thể biến một câu trả lời sai thành đúng.
+
+def is_boolean_question(question: str) -> bool:
+    """Câu hỏi có phải dạng đúng/sai không, xét trên CHÍNH câu hỏi."""
+    return bool(_BOOL_Q.search(question.strip()))
+
+
+def normalize_boolean(pred: str, gold: str, question: str | None = None) -> str:
+    """Quy dự đoán đúng/sai về hệ từ vựng tiếng Việt của bộ dữ liệu.
+
+    Reader hay trả lời "Yes" cho câu hỏi tiếng Việt - đúng nghĩa, nhưng F1 tính
+    trên token thì thành 0. Phép chuẩn hoá này sửa đúng chỗ đó.
+
+    Kích hoạt theo `question` khi có: đó là tín hiệu dùng được lúc suy luận.
+    Khi không truyền `question`, lùi về xét dạng của `gold` - tiện cho việc
+    chấm lại các file kết quả cũ, nhưng đường chạy chính luôn truyền câu hỏi.
+    Dù đi nhánh nào, chuẩn hoá cũng KHÔNG biến câu sai thành câu đúng: dự đoán
+    lệch cực được ánh xạ sang cực đối lập của nhãn, nên vẫn F1 = 0.
     """
     g = normalize(gold)
+    if question is not None:
+        if not is_boolean_question(question):
+            return pred
+    elif g not in _YES | _NO:
+        return pred
     if g not in _YES | _NO:
         return pred
 

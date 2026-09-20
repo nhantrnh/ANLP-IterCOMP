@@ -70,7 +70,7 @@ $2.49\times$ in Vietnamese than its English counterpart under the tokeniser that
 bills, so a compressor reporting the same nominal ratio in two languages is not
 delivering the same saving. We propose an \emph{effective ratio} that divides fertility out, and show it
 separates tokenisers that nominal ratios rank as identical ($1.02\times$ spread
-nominal, $1.77\times$ effective). To ground this
+nominal, $1.80\times$ effective). To ground this
 we reimplement IterCOMP, a state-of-the-art training-free compressor evaluated
 only on English, and give it its first systematic evaluation on Vietnamese using
 the complete VimQA benchmark alongside MuSiQue, 2WikiMultiHopQA and HotpotQA
@@ -198,7 +198,7 @@ while retention grows from 0.160 to 0.194;
 real token cost on Vietnamese by $2.39\times$, since the tokeniser that bills is
 not the one that counts;
 (4)~that Vietnamese does not handicap the compressor, IterCOMP reaching 84\% of
-the Oracle ceiling on VimQA, the lower 54\% on English MuSiQue being a dataset
+the Oracle ceiling on VimQA, the lower 56\% on English MuSiQue being a dataset
 property, not a language effect (Section~\ref{sec:vnfindings}); and
 (5)~that on undiacriticised Vietnamese, compressed context beats gold context by
 3.78 to 5.82 F1 (Table~\ref{tab:undia}).
@@ -330,18 +330,20 @@ $P_{\text{comp}}$ the compressed prompt. The quantity compression papers report 
 Let $\phi_{\mathcal{T}}(\mathcal{L})$ be the fertility of language $\mathcal{L}$
 under $\mathcal{T}$: the mean token count of a text in $\mathcal{L}$ divided by
 that of its English translation, which is what Table~\ref{tab:multiling}
-measures. We define the \emph{effective ratio} as the nominal ratio expressed
-in English-equivalent tokens,
+measures. We define the \emph{effective ratio} as what the compressed context
+costs against an English original of the same content,
 
 \begin{equation}
 \text{Ratio}_{\text{eff}} \;=\;
-\frac{\text{Ratio}_{\text{nom}}}{\phi_{\mathcal{T}}(\mathcal{L})} ,
+\text{Ratio}_{\text{nom}} \cdot \phi_{\mathcal{T}}(\mathcal{L}) ,
 \label{eq:effratio}
 \end{equation}
 
-so that $\text{Ratio}_{\text{eff}} = \text{Ratio}_{\text{nom}}$ for English by
-construction, and two systems are comparable only once both are read on this
-scale. The correction is deliberately a single division: fertility is a property
+so that $\text{Ratio}_{\text{eff}} = \text{Ratio}_{\text{nom}}$ for English,
+where $\phi = 1$, and rises above the nominal figure exactly as far as the
+language is penalised by the tokeniser. Keeping a fifth of a Vietnamese context
+is not the saving that keeping a fifth of an English one is, and the second
+number says by how much. The correction is deliberately a single division: fertility is a property
 of the language-tokeniser pair, not of the compressor, so it should be divided
 out rather than folded into the compressor's score. Reporting the pair
 $(\text{Ratio}_{\text{nom}}, \text{Ratio}_{\text{eff}})$ costs one extra column
@@ -359,17 +361,17 @@ the nominal ratio barely moves while the effective ratio does:
 \toprule
 Tokeniser & nominal & effective \\
 \midrule
-\texttt{cl100k\_base} & 0.236 & \textbf{0.099} \\
-\texttt{o200k\_base} & 0.240 & 0.161 \\
-\texttt{\textbackslash w+} & 0.234 & \textbf{0.175} \\
+\texttt{cl100k\_base} & 0.236 & \textbf{0.564} \\
+\texttt{o200k\_base} & 0.240 & 0.357 \\
+\texttt{\textbackslash w+} & 0.234 & \textbf{0.314} \\
 \midrule
-spread & $1.02\times$ & $\mathbf{1.77\times}$ \\
+spread & $1.02\times$ & $\mathbf{1.80\times}$ \\
 \bottomrule
 \end{tabular}
 \end{center}
 
 Because the contexts are byte-identical across the three rows, the whole of that
-$1.77\times$ is the tokeniser's and none of it the compressor's. A nominal ratio
+$1.80\times$ is the tokeniser's and none of it the compressor's. A nominal ratio
 reported on its own therefore conceals all of it, which is the case for adding
 the second column rather than replacing the first.
 
@@ -470,8 +472,16 @@ rather than committing to a fixed budget.
 \subsection{Answerability judgment and follow-up generation}
 These two decision points are what make IterCOMP
 ``reasoning-aware'': the query evolves with the evidence state instead of
-staying fixed at $q$. Neither prompt is published in the original paper; ours
-are released in full, in Vietnamese and English, with the code.
+staying fixed at $q$. In step~2 the reader is shown the evidence accumulated so
+far and asked whether it suffices to answer $q$, replying with a single token.
+The reply is read strictly: anything other than \texttt{ANSWERABLE\_YES}
+continues the loop, so a malformed answer costs an extra pass rather than a
+wrong stop. When the evidence is judged insufficient, step~3 asks for one short
+follow-up question naming the information still missing, and that follow-up
+becomes $q'$ for the next pass. The loop ends at whichever comes first, a
+sufficient verdict or \texttt{max\_iter}. Neither prompt is published in the
+original paper; ours are released in full, in Vietnamese and English, with the
+code.
 
 \section{Experimental Setup}
 \label{sec:setup}
@@ -491,7 +501,10 @@ Reader & Qwen2.5-7B-4bit \\
 \bottomrule
 \end{tabular}
 \caption{Hyperparameters, following the original paper (which used a LLaMA-3-8B
-reader); VimQA, absent there, uses $k=90$ as HotpotQA.}
+reader); VimQA, absent there, uses $k=90$ as HotpotQA. The reader is quantised
+to 4-bit NF4 with double quantisation (bitsandbytes) and served through
+HuggingFace Transformers; decoding is greedy (\texttt{do\_sample=False}) with at
+most 48 new tokens, so no run-to-run sampling variance enters the numbers.}
 \label{tab:hyper}
 \end{table}
 
@@ -531,11 +544,11 @@ documents this and the other text-handling prerequisites.
 \midrule
 Oracle & 61.03 & 44.90 & 57.65 & \textbf{71.40} \\
 Raw & 46.87 & 21.16 & 35.72 & \textbf{59.24} \\
-IterCOMP & \textbf{51.29} & \textbf{25.35} & \textbf{36.72} & 54.58 \\
+IterCOMP-X & \textbf{51.29} & \textbf{25.35} & \textbf{36.72} & 54.58 \\
 LLML-2 & 35.31 & 14.63 & 19.24 & 36.00 \\
 \midrule
-$-$Raw & $+4.42^\dag$ & $+4.19^\dag$ & $+1.00$ & $\mathbf{-4.66^\dag}$ \\
-$-$LLML-2 & $+15.98^\dag$ & $+10.72^\dag$ & $+17.48^\dag$ & $+18.58^\dag$ \\
+$\Delta$ vs.\ Raw & $+4.42^\dag$ & $+4.19^\dag$ & $+1.00$ & $\mathbf{-4.66^\dag}$ \\
+$\Delta$ vs.\ LLML-2 & $+15.98^\dag$ & $+10.72^\dag$ & $+17.48^\dag$ & $+18.58^\dag$ \\
 \bottomrule
 \end{tabular}
 \caption{Main results: F1$^*$, Qwen2.5-7B at 4-bit; the second row gives $n$. The
@@ -585,7 +598,7 @@ in full in the released results.
 % IterCOMP
 \addplot[only marks, mark=*, mark size=2.6pt, color=cLoop]
   coordinates {(0.206,51.29) (0.340,25.35) (0.354,36.72) (0.194,54.58)};
-\addlegendentry{IterCOMP}
+\addlegendentry{IterCOMP-X}
 % LLMLingua-2
 \addplot[only marks, mark=triangle*, mark size=2.8pt, color=cScoreL]
   coordinates {(0.316,35.31) (0.235,14.63) (0.233,19.24) (0.237,36.00)};
@@ -625,7 +638,7 @@ would reach.}
 \label{fig:tradeoff}
 \end{figure}
 
-\paragraph{The full ordering does not.} The paper reports Oracle $>$ IterCOMP $>$
+\paragraph{The full ordering does not reproduce uniformly.} The paper reports Oracle $>$ IterCOMP $>$
 Raw $>$ LLMLingua-2. We reproduce it on VimQA (IterCOMP$-$Raw $+4.42$, interval
 clear) and on MuSiQue ($+4.19$, interval clear; at $n=500$ the same margin read
 $+3.31$ and crossed zero, so tripling the sample decided it); the order matches on
@@ -634,14 +647,14 @@ IterCOMP} by $4.66$ F1, interval clear. The IterCOMP$-$Raw gap across the four i
 therefore $+4.42$, $+4.19$, $+1.00$ and $-4.66$ F1. Section~\ref{sec:reader}
 accounts for the HotpotQA reversal.
 
-\paragraph{Small samples were inconclusive, not wrong.} At $n=50$ the
+\paragraph{Small samples lacked power rather than validity.} At $n=50$ the
 IterCOMP-Raw gaps fell inside the paired detection threshold (18.0 F1) on both
 datasets, so we reported them as inconclusive and held the accuracy claim until
 the full $1{,}003$-question VimQA run resolved it above; the underlying power
 analysis is released with the results. An early reading that the compression
 margin grows with task complexity likewise reverses at proper samples ($+15.98$
-on VimQA at $n=1{,}003$ against $+10.72$ on MuSiQue at $n=1{,}500$), so we
-withdraw it.
+on VimQA at $n=1{,}003$ against $+10.72$ on MuSiQue at $n=1{,}500$), and does
+not hold at full scale.
 
 \subsection{Comparison with the original paper}
 \label{sec:vspaper}
@@ -708,14 +721,22 @@ of the compressor.
 
 \subsection{Vietnamese-specific findings}
 \label{sec:vnfindings}
-Running the method on Vietnamese surfaces four results, developed in the
-appendices. Boolean answer normalisation is worth $+10.0$ F1 on
-Vietnamese ($p=0.01$) and exactly $0.0$ on English ($p=1.00$), isolating a
-language-specific fix from a metric-inflating one. Nominal compression
-ratios understate token cost on Vietnamese by $2.39\times$ because the tokeniser
-that bills is not the one that counts; we propose an \emph{effective ratio} that
-divides fertility out. Vietnamese does not handicap the compressor:
-IterCOMP recovers $84\%$ of the Oracle ceiling on VimQA.
+Running the method on Vietnamese surfaces four results. Boolean answer
+normalisation is worth $+10.0$ F1 on Vietnamese ($p=0.01$) and exactly $0.0$ on
+English ($p=1.00$), isolating a language-specific fix from a metric-inflating
+one: a reader asked a Vietnamese question often answers ``Yes'', which is
+correct and scores $0$ against the gold ``đúng''. The step fires on the shape of
+the \emph{question} - the closing \emph{phải không} / \emph{đúng không} frame -
+never on the gold answer, so it is available at inference time; and a prediction
+of the wrong polarity is mapped to the opposite label, so the step cannot turn a
+wrong answer into a right one. Nominal compression ratios understate token cost
+on Vietnamese by $2.39\times$ because the tokeniser that bills is not the one
+that counts; we propose an \emph{effective ratio} that folds fertility back in. Vietnamese does not handicap the compressor:
+IterCOMP recovers $84\%$ of the Oracle ceiling on VimQA ($51.29$ against
+$61.03$) but only $56\%$ on MuSiQue ($25.35$ against $44.90$). The gap tracks
+distractor density rather than language: VimQA offers ten candidate passages per
+question and MuSiQue twenty, so perfect selection is worth more on MuSiQue and a
+compressor has further to fall short of it.
 
 \paragraph{Undiacriticised Vietnamese.} Vietnamese is frequently typed without
 tone marks online, a setting no compression paper evaluates. Stripping diacritics
@@ -742,7 +763,12 @@ Setting & IterC. & Gold & $\Delta$ \\
 \end{tabular}
 \caption{Undiacriticised Vietnamese ($n=200$, 7B reader). With tone marks
 (\texttt{keep}) gold context wins; strip them from the context (\texttt{strip})
-or from context and question (\texttt{both}) and IterCOMP wins.}
+or from context and question (\texttt{both}) and IterCOMP wins. The two
+settings differ in what the reader must produce: \texttt{strip} leaves the gold
+answer accented, so the reader has to restore tone marks it never saw, while
+\texttt{both} strips the reference as well and scores recovery of the entity
+rather than of its diacritics. Both columns are compared against the same
+IterCOMP and gold branches, so the comparison within a row is unaffected.}
 \label{tab:undia}
 \end{table}
 
@@ -824,8 +850,8 @@ languages.
 \section{Conclusion}
 \label{sec:conclusion}
 
-We reproduced IterCOMP without its code and gave it its first Vietnamese
-evaluation. The central claim holds - sentence-level beats
+We reproduced IterCOMP without its code, gave it its first Vietnamese
+evaluation, and release the configuration as IterCOMP-X. The central claim holds - sentence-level beats
 token-level compression on all four datasets - but the full ordering is
 reader-dependent: a stronger reader gains enough from full context that
 compression's accuracy advantage narrows or reverses. Vietnamese itself does not
