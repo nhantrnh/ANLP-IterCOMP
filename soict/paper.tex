@@ -842,10 +842,11 @@ compressor has further to fall short of it.
 marks online, a setting no compression paper evaluates. Stripping diacritics is
 expensive: \emph{má}, \emph{mà} and \emph{mã} collapse into one string, $20.8\%$
 of VimQA's syllables merge, and both branches lose about 20 F1
-(Table~\ref{tab:undia}). It does not change the ordering: gold leads by
-$4.81$ with tone marks and by $3.99$ and $4.05$ without, no interval
-separating, and of the matched $20$-point drop only $0.81$ F1 is the
-compressor's.
+(Table~\ref{tab:undia}). It does not change the ordering: gold leads by $4.81$
+with tone marks and by $3.99$ and $4.05$ without, no interval separating. The
+damage is the reader's: gold context loses $21.07$ F1 against the compressed
+branch's $20.26$, so compression degrades $0.81$ F1 \emph{less} than perfect
+evidence does and adds no extraction error of its own.
 
 One point matters for anyone repeating this: supporting facts address
 documents by title, so diacritics must come off the annotations as well as the
