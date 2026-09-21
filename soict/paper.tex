@@ -276,10 +276,12 @@ Every one of these is reported on English benchmarks.
 finely, so the same content costs more tokens: Ahia et al.\
 \cite{ahia2023allcost} price this against commercial APIs and Petrov et al.\
 \cite{petrov2023tokenizers} frame it as unfairness between languages. That
-literature measures the cost of \emph{text}. What it has not asked is what the
-disparity does to a \emph{ratio} of two token counts, which is how every
-compressor above reports its result - the question Section~\ref{sec:fertility}
-takes up.
+literature measures the cost of \emph{text}. Cross-lingual audits of compression
+have since controlled for the disparity \emph{inside} their protocol, matching
+budgets in the target tokeniser \cite{lukauskas2026lost}. What is not yet
+proposed is a \emph{reported} quantity that carries the correction, so that
+published ratios stay comparable across languages - the question
+Section~\ref{sec:fertility} takes up.
 
 \paragraph{Vietnamese NLP.} The language is well served at the model level -
 the encoder PhoBERT \cite{nguyen2020phobert} and the text-to-text ViT5

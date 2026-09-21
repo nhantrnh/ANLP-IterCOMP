@@ -53,6 +53,11 @@ Li, Y., Dong, B., Guerin, F., Lin, C.: Compressing context to enhance inference
   efficiency of large language models. In: Proceedings of EMNLP (2023),
   \url{https://aclanthology.org/2023.emnlp-main.391/}
 
+\bibitem{lukauskas2026lost}
+Lukauskas, M.: Lost in compression: A controlled cross-lingual audit of
+  extractive prompt compressors. arXiv preprint arXiv:2608.26175  (2026),
+  \url{https://arxiv.org/abs/2608.26175}
+
 \bibitem{marchisio2024confusion}
 Marchisio, K., Ko, W.Y., Bérard, A., Dehaze, T., Ruder, S.: Understanding and
   mitigating language confusion in {LLM}s. In: Proceedings of EMNLP (2024),
