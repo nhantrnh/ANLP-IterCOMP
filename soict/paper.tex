@@ -206,7 +206,7 @@ the answer; re-scored against the follow-up $q'$ it rises to $0.89$ and is kept.
 
 Prompt compression addresses both, but existing methods
 \cite{jiang2023llmlingua,li2023selectivecontext,pan2024llmlingua2,xu2024recomp}
-compress \emph{once}, conditioned on the original question, and so miss what
+compress once, conditioned on the original question, and so miss what
 defines multi-hop QA: the information needed at a later hop becomes identifiable
 only once the earlier hop's evidence is in. IterCOMP \cite{yun2026itercomp}
 embeds that reasoning into the compression loop, but ships no implementation and
@@ -246,7 +246,7 @@ Surveys divide the field in two
 tokens or sentences: LLMLingua \cite{jiang2023llmlingua} drops tokens by
 perplexity; LongLLMLingua \cite{jiang2024longllmlingua} adds query awareness;
 LLMLingua-2 \cite{pan2024llmlingua2} recasts this as token classification,
-faster and \emph{multilingual} - the decisive property here; Selective-Context
+faster and multilingual - the decisive property here; Selective-Context
 \cite{li2023selectivecontext} removes redundant lexical units. \emph{Abstractive}
 methods regenerate shorter content, notably RECOMP \cite{xu2024recomp}. All
 compress in a single pass.
@@ -259,7 +259,7 @@ chain-of-thought so that each reasoning step conditions the next query; ReAct
 \cite{yao2023react} generalises the pattern to interleaved reasoning and acting;
 HippoRAG \cite{gutierrez2024hipporag} instead indexes the corpus so that
 multi-hop associations are available without repeated retrieval. What these share
-is direction: each iteration \emph{adds} evidence. IterCOMP runs the same kind of
+is direction: each iteration adds evidence. IterCOMP runs the same kind of
 loop with the opposite objective, using the reasoning state to decide what to
 discard, so the context shrinks as the loop proceeds. All of this work is
 evaluated on English benchmarks.
@@ -268,10 +268,10 @@ evaluated on English benchmarks.
 Subword tokenisers split non-English text more finely, so the same content costs
 more tokens. Ahia et al.\ \cite{ahia2023allcost} price this against commercial
 APIs, and Petrov et al.\ \cite{petrov2023tokenizers} frame it as unfairness
-between languages. That literature measures the cost of \emph{text}.
+between languages. That literature measures the cost of text.
 Cross-lingual audits of compression have since controlled for the disparity
 inside their protocol, matching budgets in the target tokeniser
-\cite{lukauskas2026lost}. What remains unproposed is a \emph{reported} quantity
+\cite{lukauskas2026lost}. What remains unproposed is a reported quantity
 carrying the correction, so that published ratios stay comparable across
 languages; Section~\ref{sec:fertility} supplies one.
 
@@ -331,7 +331,7 @@ alike, the quantity would not be worth reporting. Measuring 400 parallel WMT24++
 pairs per language shows it is not.
 
 Every language exceeds $1.0$ with non-overlapping intervals
-(Fig.~\ref{fig:fertility}), so the mismatch is systematic rather than a Vietnamese quirk; Vietnamese at $2.49\times$ is the \emph{mild} case: Hindi is penalised twice as heavily. The $2.49\times$ here (400 pairs) and the $2.39\times$ in Table~\ref{tab:fertility} (930 pairs) are different samples of the same corpus.
+(Fig.~\ref{fig:fertility}), so the mismatch is systematic rather than a Vietnamese quirk; Vietnamese at $2.49\times$ is the mild case: Hindi is penalised twice as heavily. The $2.49\times$ here (400 pairs) and the $2.39\times$ in Table~\ref{tab:fertility} (930 pairs) are different samples of the same corpus.
 
 
 
@@ -342,7 +342,7 @@ on the served model's tokeniser, $2.39\times$ under \texttt{cl100k\_base} agains
 $1.49\times$ under \texttt{o200k\_base}, while bge-m3's XLM-R is $1.19\times$. On
 the 200 VimQA contexts here a context averages 1{,}110 whitespace-delimited
 syllables but 2{,}364 \texttt{cl100k\_base} tokens, so our ratios
-\emph{understate} billing $2\times$.
+understate billing $2\times$.
 
 
 \begin{figure}[!htbp]
@@ -731,7 +731,7 @@ $[+4.93,+17.84]$.
 \caption{Accuracy against context retained, all four datasets. Up and to the
 left is better. Each arrow runs from a dataset's Raw point to its IterCOMP-X
 point: on VimQA and MuSiQue the arrow rises while moving left, so compression
-buys accuracy \emph{and} tokens; on 2Wiki it is flat ($+1.00$, not separating).
+buys accuracy and tokens; on 2Wiki it is flat ($+1.00$, not separating).
 On HotpotQA (dashed) it falls:
 the reader handles the full context well enough that filtering costs 4.66 F1,
 and only the token saving survives. Oracle marks what gold evidence reaches.}
@@ -757,7 +757,7 @@ $+10.72$ on MuSiQue.
 \label{sec:reader}
 
 Oracle exceeds Raw on every dataset while reading 5.7\% to 16.4\% of the tokens,
-confirming the premise the literature rests on: irrelevant passages \emph{do}
+confirming the premise the literature rests on: irrelevant passages do
 degrade accuracy. The size of that gap decides whether compression can exploit it. Oracle/Raw is 2.12 on MuSiQue, 1.61 on 2Wiki and 1.30 on VimQA, where IterCOMP-X
 holds its own, but only 1.21 on HotpotQA, where Raw wins outright. The premise is reader-dependent: a reader that already copes with distractors leaves compression
 little to recover. Replacing the reader with Qwen2.5-0.5B on HotpotQA ($n=500$)
@@ -766,7 +766,7 @@ $30.22$), the ordering the original paper reports with its own weaker reader.
 The two runs are not a clean control, and we say so: following the original
 design, our answerability judge is the reader model, so the smaller model both
 reads and compresses, and it compresses far less (retention $0.532$ against
-$0.192$). The reversal is therefore \emph{consistent with} a reader effect but
+$0.192$). The reversal is therefore consistent with a reader effect but
 does not isolate one; separating them needs a run with the judge pinned at 7B
 while the reader shrinks, which we did not have the budget for.
 
@@ -834,8 +834,7 @@ Setting & IterCOMP-X & Gold & $\Delta$ \\
 \label{sec:erroranalysis}
 \label{app:errors}
 
-We hand-categorised 50 IterCOMP-X predictions on VimQA. Most errors belong to the
-\emph{reader}: Oracle sees the gold evidence yet reaches only 61.03 F1, so
+We hand-categorised 50 IterCOMP-X predictions on VimQA. Most errors belong to the reader: Oracle sees the gold evidence yet reaches only 61.03 F1, so
 80\% of IterCOMP-X's 48.7 F1 of error survives perfect retrieval. One
 error in ten is not a compression failure at all: a yes/no question answered
 correctly in substance but in the wrong surface form, scoring F1 of 0. A smaller reader does this far more often on the identical
