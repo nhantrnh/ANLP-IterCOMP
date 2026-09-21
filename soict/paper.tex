@@ -668,8 +668,7 @@ one result independent of dataset, reader and sample size. At $n=200$ on VimQA i
 also leads every one of them, by $+11.36$ F1 over LLMLingua-2, CI
 $[+4.93,+17.84]$.
 
-
-\begin{figure}[htbp]
+\begin{figure}[!b]
 \centering
 \begin{tikzpicture}
 \begin{groupplot}[
@@ -737,6 +736,8 @@ evidence.}
 \label{fig:tradeoff}
 \end{figure}
 
+
+
 \subsection{Reproduction of the Reported Ordering}
 The paper reports
 Oracle $>$ IterCOMP $>$ Raw $>$ LLMLingua-2. We reproduce it on VimQA (IterCOMP-X
@@ -757,9 +758,10 @@ $+10.72$ on MuSiQue.
 
 Oracle exceeds Raw on every dataset while reading 5.7\% to 16.4\% of the tokens,
 confirming the premise the literature rests on: irrelevant passages do
-degrade accuracy. The size of that gap decides whether compression can exploit it. Oracle/Raw is 2.12 on MuSiQue, 1.61 on 2Wiki and 1.30 on VimQA, where IterCOMP-X
-holds its own, but only 1.21 on HotpotQA, where Raw wins outright. The premise is reader-dependent: a reader that already copes with distractors leaves compression
-little to recover. Replacing the reader with Qwen2.5-0.5B on HotpotQA ($n=500$)
+degrade accuracy. The size of that gap decides whether compression can exploit it. Oracle/Raw is 2.12 on MuSiQue, 1.61 on 2Wiki and 1.30 on VimQA, the three where
+IterCOMP-X holds its own. On HotpotQA it is only 1.21, and Raw wins outright.
+The premise is therefore reader-dependent: a reader that already copes with
+distractors leaves compression little to recover. Replacing the reader with Qwen2.5-0.5B on HotpotQA ($n=500$)
 moves IterCOMP-X from $-4.66$ to $+7.66$ F1 against Raw ($37.88$ against
 $30.22$), the ordering the original paper reports with its own weaker reader.
 The two runs are not a clean control, and we say so: following the original
