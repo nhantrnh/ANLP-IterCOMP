@@ -25,6 +25,7 @@
 \usepackage{tikz}
 \usepackage{pgfplots}
 \usetikzlibrary{patterns}
+\usepgfplotslibrary{groupplots}
 \pgfplotsset{compat=1.18}
 \usetikzlibrary{arrows.meta,positioning,calc,shapes.geometric,fit,backgrounds,decorations.pathreplacing,shadows,shapes.callouts}
 \usepackage{xcolor}
@@ -672,70 +673,64 @@ $[+4.93,+17.84]$.
 \begin{figure}[!htbp]
 \centering
 \begin{tikzpicture}
-\begin{axis}[
-  width=\textwidth, height=3.9cm,
-  xlabel={Context retained (fraction of tokens)},
-  ylabel={F1$^*$},
-  xmin=-0.04, xmax=1.12, ymin=10, ymax=78,
-  xtick={0,0.2,0.4,0.6,0.8,1.0},
-  ytick={10,20,30,40,50,60,70},
+\begin{groupplot}[
+  group style={group size=2 by 2, horizontal sep=26pt, vertical sep=24pt,
+               y descriptions at=edge left, x descriptions at=edge bottom},
+  width=5.1cm, height=3.5cm,
+  xmin=-0.08, xmax=1.14, ymin=10, ymax=78,
+  xtick={0,0.5,1}, ytick={20,40,60},
   axis lines*=left, tick align=outside, tick pos=left,
   axis line style={gray!55}, tick style={gray!55},
-  ymajorgrids, grid style={gray!22, densely dotted},
-  label style={font=\footnotesize}, tick label style={font=\scriptsize},
-  xlabel style={yshift=2pt}, ylabel style={yshift=-4pt},
-  legend style={font=\scriptsize, at={(0.5,1.03)}, anchor=south, legend columns=4,
-                draw=none, fill=none, column sep=7pt},
-  clip mode=individual,
+  ymajorgrids, grid style={gray!25, densely dotted},
+  tick label style={font=\scriptsize},
+  title style={font=\footnotesize, yshift=-4pt},
+  scale only axis,
 ]
-% Oracle - upper bound, perfect selection
-\addplot[only marks, mark=star, mark size=3pt, color=cDataL]
-  coordinates {(0.057,61.03) (0.164,44.90) (0.096,57.65) (0.068,71.40)};
-\addlegendentry{Oracle}
-% Raw - full context
-\addplot[only marks, mark=square*, mark size=2.2pt, color=black!62]
-  coordinates {(1.0,46.87) (1.0,21.16) (1.0,35.72) (1.0,59.24)};
-\addlegendentry{Raw}
-% IterCOMP
-\addplot[only marks, mark=*, mark size=2.6pt, color=cLoop]
-  coordinates {(0.206,51.29) (0.340,25.35) (0.354,36.72) (0.194,54.58)};
-\addlegendentry{IterCOMP-X}
-% LLMLingua-2
-\addplot[only marks, mark=triangle*, mark size=2.8pt, color=cScoreL]
-  coordinates {(0.316,35.31) (0.235,14.63) (0.233,19.24) (0.237,36.00)};
-\addlegendentry{LLML-2}
-
-% Each arrow runs Raw -> IterCOMP. Thick enough to read the direction in
-% greyscale; the dashed one is the dataset where compression loses accuracy.
-\draw[-{Stealth[length=5pt,width=4pt]},cLoop,line width=1.1pt,opacity=0.75]
-  (axis cs:0.94,46.95) -- (axis cs:0.235,51.05);
-\draw[-{Stealth[length=5pt,width=4pt]},cLoop,line width=1.1pt,opacity=0.75]
-  (axis cs:0.94,21.30) -- (axis cs:0.375,25.15);
-\draw[-{Stealth[length=5pt,width=4pt]},cLoop,line width=1.1pt,opacity=0.75]
-  (axis cs:0.94,35.80) -- (axis cs:0.392,36.58);
-\draw[-{Stealth[length=5pt,width=4pt]},black!60,line width=1.1pt,densely dashed]
-  (axis cs:0.94,59.10) -- (axis cs:0.228,54.88);
-
-% Labels sit on their IterCOMP endpoint, not floating over the arrow.
-% VimQA and HotpotQA endpoints are 3.3 F1 apart, so their labels go on
-% opposite sides to keep clear of each other.
-\node[font=\scriptsize,anchor=south east,text=black!75,inner sep=2pt]
-  at (axis cs:0.93,47.6) {VimQA (vi)};
-\node[font=\scriptsize,anchor=south east,text=black!75,inner sep=2pt]
-  at (axis cs:0.93,61.5) {HotpotQA};
-\node[font=\scriptsize,anchor=south east,text=black!75,inner sep=2pt]
-  at (axis cs:0.93,22.0) {MuSiQue};
-\node[font=\scriptsize,anchor=south east,text=black!75,inner sep=2pt]
-  at (axis cs:0.93,36.5) {2Wiki};
-\end{axis}
+% Each panel is one dataset, so a marker's dataset is never in doubt. The arrow
+% runs Raw -> IterCOMP-X; up and to the left is better.
+\nextgroupplot[title={VimQA (vi)}, ylabel={F1$^*$}, ylabel style={font=\footnotesize}]
+  \draw[-{Stealth[length=4pt,width=3pt]},cLoop,line width=0.9pt]
+    (axis cs:0.93,46.87) -- (axis cs:0.28,51.0);
+  \addplot[only marks,mark=star,mark size=2.6pt,color=cDataL] coordinates {(0.057,61.03)};
+  \addplot[only marks,mark=square*,mark size=2pt,color=black!62] coordinates {(1.0,46.87)};
+  \addplot[only marks,mark=*,mark size=2.2pt,color=cLoop] coordinates {(0.206,51.29)};
+  \addplot[only marks,mark=triangle*,mark size=2.4pt,color=cScoreL] coordinates {(0.316,35.31)};
+\nextgroupplot[title={MuSiQue}]
+  \draw[-{Stealth[length=4pt,width=3pt]},cLoop,line width=0.9pt]
+    (axis cs:0.93,21.16) -- (axis cs:0.42,25.1);
+  \addplot[only marks,mark=star,mark size=2.6pt,color=cDataL] coordinates {(0.164,44.90)};
+  \addplot[only marks,mark=square*,mark size=2pt,color=black!62] coordinates {(1.0,21.16)};
+  \addplot[only marks,mark=*,mark size=2.2pt,color=cLoop] coordinates {(0.340,25.35)};
+  \addplot[only marks,mark=triangle*,mark size=2.4pt,color=cScoreL] coordinates {(0.235,14.63)};
+\nextgroupplot[title={2Wiki}]
+  \draw[-{Stealth[length=4pt,width=3pt]},cLoop,line width=0.9pt]
+    (axis cs:0.93,35.72) -- (axis cs:0.43,36.5);
+  \addplot[only marks,mark=star,mark size=2.6pt,color=cDataL] coordinates {(0.096,57.65)};
+  \addplot[only marks,mark=square*,mark size=2pt,color=black!62] coordinates {(1.0,35.72)};
+  \addplot[only marks,mark=*,mark size=2.2pt,color=cLoop] coordinates {(0.354,36.72)};
+  \addplot[only marks,mark=triangle*,mark size=2.4pt,color=cScoreL] coordinates {(0.233,19.24)};
+\nextgroupplot[title={HotpotQA}]
+  \draw[-{Stealth[length=4pt,width=3pt]},black!60,line width=0.9pt,densely dashed]
+    (axis cs:0.93,59.24) -- (axis cs:0.27,54.9);
+  \addplot[only marks,mark=star,mark size=2.6pt,color=cDataL] coordinates {(0.068,71.40)};
+  \addplot[only marks,mark=square*,mark size=2pt,color=black!62] coordinates {(1.0,59.24)};
+  \addplot[only marks,mark=*,mark size=2.2pt,color=cLoop] coordinates {(0.194,54.58)};
+  \addplot[only marks,mark=triangle*,mark size=2.4pt,color=cScoreL] coordinates {(0.237,36.00)};
+\end{groupplot}
+\node[below=22pt, font=\footnotesize] at ($(group c1r2.south east)!0.5!(group c2r2.south west)$)
+  {Context retained (fraction of tokens)};
+\node[above=16pt, font=\scriptsize] at ($(group c1r1.north east)!0.5!(group c2r1.north west)$)
+  {\raisebox{-0.3ex}{\tikz\node[star,star points=5,draw=cDataL,fill=cDataL,inner sep=1pt]{};}~Oracle\quad
+   \raisebox{-0.3ex}{\tikz\node[rectangle,draw=black!62,fill=black!62,inner sep=1.4pt]{};}~Raw\quad
+   \raisebox{-0.3ex}{\tikz\node[circle,draw=cLoop,fill=cLoop,inner sep=1.4pt]{};}~IterCOMP-X\quad
+   \raisebox{-0.3ex}{\tikz\node[regular polygon,regular polygon sides=3,draw=cScoreL,fill=cScoreL,inner sep=1pt]{};}~LLMLingua-2};
 \end{tikzpicture}
-\caption{Accuracy against context retained, all four datasets. Up and to the
-left is better. Each arrow runs from a dataset's Raw point to its IterCOMP-X
-point: on VimQA and MuSiQue the arrow rises while moving left, so compression
-buys accuracy and tokens; on 2Wiki it is flat ($+1.00$, not separating).
-On HotpotQA (dashed) it falls:
-the reader handles the full context well enough that filtering costs 4.66 F1,
-and only the token saving survives. Oracle marks what gold evidence reaches.}
+\caption{Accuracy against context retained, one panel per dataset. Up and to the
+left is better. The arrow runs from Raw to IterCOMP-X: it rises while moving left
+on VimQA and MuSiQue, so compression buys accuracy and tokens; on 2Wiki it is
+flat ($+1.00$, not separating); on HotpotQA (dashed) it falls, the reader
+handling the full context well enough that filtering costs $4.66$ F1 and only the
+token saving survives. Oracle marks what gold evidence reaches.}
 \label{fig:tradeoff}
 \end{figure}
 
