@@ -37,11 +37,16 @@ expansion.
 | Requirement | Status |
 |---|---|
 | Springer CCIS template | `llncs.cls`, single column |
-| A4 | yes |
-| <= 12 pages excluding references | 10 pages, References from p11 |
-| No page numbers | `\pagestyle{empty}` |
+| Trim | 155x235mm, the size the proceedings print at |
+| <= 12 pages excluding references | body ends inside p12, References p13-14 |
+| No page numbers | none printed; llncs emits them only under `headings` |
 | Single-blind (names included) | yes |
 | PDF | yes |
+
+Source code is not part of the submission - SOICT asks for a PDF, and the
+Springer template's `readme.txt` says nothing about artifacts. The repository
+is cited in the abstract for readers who want it, not because the venue
+requires it.
 
 ## Still open
 
