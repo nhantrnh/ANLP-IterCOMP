@@ -37,8 +37,15 @@
 % ORCID glyph linking to the record.
 \newcommand{\orcidicon}{\begin{tikzpicture}[scale=0.1, baseline=-0.05ex]
   \fill[color=orcidgreen] (0,0) circle (1);
-  \node[white, font=\bfseries\fontsize{4.6}{4.6}\selectfont, inner sep=0pt]
-    at (0,0) {iD};
+  % white "i": dot over a stem, left of centre
+  \fill[white] (-0.46,0.42) circle (0.16);
+  \fill[white] (-0.62,-0.52) rectangle (-0.30,0.20);
+  % white "D": stem plus bowl, right of centre
+  \fill[white] (-0.10,-0.52) rectangle (0.14,0.52);
+  \fill[white] (0.06,-0.52) .. controls (0.62,-0.52) and (0.74,-0.16) ..
+    (0.74,0.00) .. controls (0.74,0.16) and (0.62,0.52) .. (0.06,0.52) -- cycle;
+  \fill[color=orcidgreen] (0.14,-0.30) .. controls (0.48,-0.30) and (0.52,-0.12) ..
+    (0.52,0.00) .. controls (0.52,0.12) and (0.48,0.30) .. (0.14,0.30) -- cycle;
 \end{tikzpicture}}
 \renewcommand{\orcidID}[1]{\,\raisebox{0.75ex}{\href{https://orcid.org/#1}{\orcidicon}}}
 \newcommand{\envelopeicon}{\ding{41}}
@@ -87,20 +94,7 @@ Ho Chi Minh City, Vietnam\\
 \and
 Vietnam National University, Ho Chi Minh City, Vietnam}
 
-% Single-author paper, so the corresponding-author mark carries no contrast and
-% LNCS would render a lone dagger on the title page. The role is stated in the
-% footnote instead.
-\newcommand{\correspondingnote}{%
-  % An unnumbered footnote: \footnotetext with the counter at 0 prints a bare
-  % "0", which reads as a numbered note whose marker went missing.
-  \renewcommand{\thefootnote}{}%
-  \footnotetext{\envelopeicon~Corresponding author. Code, prompts (Vietnamese and
-  English), per-dataset results and the extended analyses are at
-  \url{https://github.com/nhantrnh/IterCOMP-X}.}%
-  \renewcommand{\thefootnote}{\arabic{footnote}}}
-
 \maketitle
-\correspondingnote
 \thispagestyle{empty}
 
 
@@ -125,8 +119,8 @@ VimQA subset. Two further effects appear only outside
 English: a boolean-answer normalisation step is worth $+8.67$ F1 in Vietnamese
 and exactly $0.0$ in English, and non-diacritic text - ubiquitous online - costs
 every branch about 20 F1, with no measurable extra cost to the compressed
-branch. We release the implementation
-and the Vietnamese prompts.
+branch. We release the implementation and the Vietnamese prompts at
+\url{https://github.com/nhantrnh/IterCOMP-X}.
 
 \keywords{Prompt compression \and Multi-hop question answering \and
 Tokeniser fertility \and Vietnamese NLP \and Retrieval-augmented generation}
