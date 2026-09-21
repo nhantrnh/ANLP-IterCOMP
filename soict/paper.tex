@@ -217,7 +217,7 @@ Prompt compression addresses both. However, existing methods
 \cite{jiang2023llmlingua,pan2024llmlingua2,xu2024recomp,li2023selectivecontext}
 compress \emph{once}, conditioned on the original question, and therefore miss the
 defining property of multi-hop QA: the information needed at a later hop only
-becomes identifiable after the evidence of the earlier hop is in hand.
+becomes identifiable once the evidence of the earlier hop has been retrieved.
 IterCOMP \cite{yun2026itercomp} embeds multi-hop reasoning into the compression
 loop itself. No public implementation accompanies the original paper, and its evaluation
 remains restricted to English.
@@ -437,7 +437,7 @@ costs against an English original of the same content,
 so that (\ref{eq:effratio}) gives $\text{Ratio}_{\text{eff}} =
 \text{Ratio}_{\text{nom}}$ for English, where $\phi = 1$, and rises above the
 nominal figure exactly as far as the tokeniser penalises the language: keeping a
-fifth of a Vietnamese context is not the saving keeping a fifth of an English one
+fifth of a Vietnamese context is not the saving that keeping a fifth of an English one
 is. The correction is deliberately a single factor, since fertility belongs to
 the language-tokeniser pair rather than to the compressor. Reporting the pair
 $(\text{Ratio}_{\text{nom}}, \text{Ratio}_{\text{eff}})$ costs one extra column
@@ -573,7 +573,7 @@ Dataset & Lang. & \#Q & \#eval & \#psg \\
 HotpotQA \cite{yang2018hotpotqa} & En & 7,405  & 1,500 & 10 \\
 2Wiki \cite{ho2020constructing} & En & 12,576 & 1,500 & 10 \\
 MuSiQue \cite{trivedi2022musique} & En & 2,417  & 1,500 & 20 \\
-\textbf{VimQA}        & \textbf{Vi} & \textbf{1,003} & \textbf{1,003} & \textbf{10} \\
+\textbf{VimQA} \cite{le2022vimqa} & \textbf{Vi} & \textbf{1,003} & \textbf{1,003} & \textbf{10} \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -616,7 +616,7 @@ Six more run on VimQA at $n=200$: LLMLingua \cite{jiang2023llmlingua},
 LongLLMLingua \cite{jiang2024longllmlingua}, Selective-Context
 \cite{li2023selectivecontext}, RECOMP \cite{xu2024recomp} in its extractive and
 abstractive forms, and CompAct \cite{yoon2024compact}. Each carries an English-only component, so they widen the
-field rather than compare like with like, and stay out of the main table. R2C,
+field rather than compare like with like, and stay out of the main table. R2C (Retrieve-Read-Compress),
 the original paper's second-strongest baseline, has no public checkpoint.
 
 \subsection{Metrics}
@@ -888,9 +888,8 @@ error in ten is not a compression failure at all: a yes/no question answered
 correctly in substance but in the wrong surface form, scoring F1 of 0. A smaller reader does this far more often on the identical
 prompt - ``tức là yes'' for ``đúng'', the language confusion small models are
 prone to \cite{marchisio2024confusion} - so boolean answers need language-aware
-normalisation rather than a compression fix. The rest give a related but wrong entity inside a correctly
-retained segment, or are compositional, where the Raw-Oracle gap is widest and
-distractors rather than the compressor drive them.
+normalisation rather than a compression fix. The rest give a wrong but related entity inside a correctly
+retained segment, or are compositional, where the Raw-Oracle gap is widest.
 
 A further \textbf{9.8\% of VimQA is a single question template} - \emph{``X lớn
 tuổi hơn Y phải không?''}, ``is $X$ older than $Y$?'', and its negation
