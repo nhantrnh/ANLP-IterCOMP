@@ -52,6 +52,7 @@
 % eight tables and three figures in twelve pages; the defaults spend a page on
 % white space alone.
 \setlength{\abovecaptionskip}{2pt}
+
 \setlength{\belowcaptionskip}{1pt}
 \setlength{\textfloatsep}{4pt plus 1pt minus 1pt}
 \setlength{\intextsep}{4pt plus 1pt minus 1pt}
@@ -239,11 +240,11 @@ specific to Vietnamese:
   the three English datasets (56--76\%), so the Vietnamese setting is the
   easiest of the four rather than the hardest
   (Section~\ref{sec:vnfindings}).
-\item \textbf{The first measurement of non-diacritic Vietnamese} under
-  compression. Dropping diacritics costs about 20 F1, and costs gold and
-  compressed context statistically indistinguishable amounts ($20.70$ against
-  $18.66$, CI $[-2.71,+6.79]$); the loss is the reader's, not extraction error
-  the compressor adds (Table~\ref{tab:undia}).
+\item \textbf{The first measurement of non-diacritic Vietnamese.} Stripping
+  diacritics costs about 20 F1, and costs gold and compressed context
+  statistically indistinguishable amounts, $20.70$ against $18.66$; the loss is
+  the reader's, not extraction error the compressor adds
+  (Table~\ref{tab:undia}).
 \end{itemize}
 
 We call this configuration IterCOMP-X and stress that it is \emph{not} a new
@@ -791,10 +792,10 @@ judge unsatisfied. LLMLingua-2, a single encoder pass, costs $1.50$ and
 $1.47$~s: faster than Raw everywhere, and the $2.6\times$--$7.4\times$ gap to
 IterCOMP-X of Section~\ref{sec:main}.
 
-Which matters depends on where the model runs. Behind a per-token API, reading a
-fifth of the context is the bill and the extra passes are the vendor's problem.
-Self-hosted the arithmetic inverts: the GPU is the budget, and tripling latency
-to save context is a poor trade unless the context would not have fitted.
+Which matters depends on where the model runs: behind a per-token API the bill is
+the context read and the extra passes are the vendor's problem, while
+self-hosted the GPU is the budget and tripling latency to save context is a poor
+trade unless the context would not have fitted.
 
 \subsection{The ordering is reader-dependent}
 \label{sec:reader}
@@ -908,27 +909,30 @@ retrieval. Under a 0.5B reader it collapses to 92.1\% zeros.
 
 \paragraph{Limitations.} Absolute numbers are not comparable to the paper's: no
 prompts were released, the reader differs (Qwen2.5-7B at 4-bit against
-LLaMA-3-8B), and our retention is 0.349 against their 0.14. Every headline number
-comes from one reader, and our only reader check is confounded: the answerability
+LLaMA-3-8B), and our retention is 0.349 against 0.14. Every headline number
+comes from one reader, and our reader check is confounded: the answerability
 judge shares the reader model, so the 0.5B run varies compressor and reader
-together. IterCOMP-X loses to the uncompressed baseline on HotpotQA by $4.66$ F1
+together. A 3B run is released but excluded from every claim - its Oracle falls
+below its Raw, an invalid ordering traceable to the reader abstaining
+(\texttt{unknown}) on $54.8\%$ of Oracle questions. IterCOMP-X loses to the uncompressed baseline on HotpotQA by $4.66$ F1
 and we cannot yet attribute that loss. The diacritic experiment separates gold
 from compressed context at $n=500$ but not at $n=200$, a reminder that our
-smaller runs bound effects rather than exclude them. The sharpest limit is that fertility is
-measured on four writing systems while compression is run on two, so the
-effective ratio is argued generally and shown on one language pair. Hindi, the
-worst case, is what we could not test: no Hindi or Thai multi-hop benchmark
-carries the sentence-level supporting facts the Oracle branch needs.
+smaller runs bound effects rather than exclude them. The sharpest limit is that fertility is measured on four
+writing systems while compression is run on two, so the effective ratio is argued
+generally and shown on one language pair. Hindi, the worst case, is what we could
+not test: no Hindi or Thai multi-hop benchmark carries sentence-level supporting
+facts.
 
 \paragraph{Ethics.} VimQA's CC BY-NC-SA 4.0 licence confines us to research use,
 and compression is lossy: dropping a negation leaves fluency intact while
 inverting the answer, so sensitive deployments should verify against the source.
-A fix worth 8.67 F1 in Vietnamese and 0.0 F1 in English further cautions that
+A fix worth 8.67 F1 in Vietnamese and 0.0 in English is a further caution that
 ``multilingual'' models are not equally reliable across languages.
 
-\vspace{-1mm}
-
 \vspace{-2mm}
+
+\enlargethispage{2\baselineskip}
+\vspace{-3mm}
 \section{Conclusion}
 \label{sec:conclusion}
 
@@ -940,16 +944,15 @@ effective ratio is one extra column and fixes that. We reproduced IterCOMP
 without its code and gave it its first Vietnamese evaluation, released as
 IterCOMP-X: sentence-level beats token-level compression on all four datasets,
 while against the uncompressed baseline it wins on three and loses on HotpotQA,
-apparently with reader strength, though our one check confounds reader and
-compressor. Neither Vietnamese nor the loss of its diacritics handicaps the
-compressor; the reader does, failing on ${\sim}30\%$ of questions even given gold
-evidence.
+apparently with reader strength, though our one check confounds the two. Neither
+Vietnamese nor the loss of its diacritics handicaps the compressor; the reader
+does, failing on ${\sim}30\%$ of questions even given gold evidence.
 
 
-\vspace{-3.5mm}
+\vspace{-4.5mm}
 \begin{credits}
-\subsubsection{\ackname} Supported by research funding from the Faculty of
-Information Technology, University of Science, VNU-HCM.
+\subsubsection{\ackname} Supported by the Faculty of Information Technology,
+University of Science, VNU-HCM.
 \end{credits}
 
 % Tighten the bibliography: it was spilling a single entry onto a page of its
@@ -959,7 +962,7 @@ Information Technology, University of Science, VNU-HCM.
 \let\oldthebibliography\thebibliography
 \renewcommand{\thebibliography}[1]{%
   \oldthebibliography{#1}%
-  \setlength{\itemsep}{3.5pt plus 1pt minus 0.5pt}%
+  \setlength{\itemsep}{2.5pt plus 1pt minus 0.5pt}%
   \setlength{\parsep}{0pt}}
 \bibliographystyle{splncs04}
 \bibliography{references}
