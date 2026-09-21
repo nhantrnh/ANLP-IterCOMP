@@ -235,9 +235,10 @@ specific to Vietnamese:
   Vietnamese (95\% CI $[+6.98,+10.47]$) and exactly $0.0$ on all three English
   datasets - a linguistic fix, not a metric-inflating one.
 \item \textbf{Vietnamese does not handicap the compressor.}
-  IterCOMP-X reaches 84\% of the Oracle ceiling on VimQA; the lower 56\% on
-  English MuSiQue follows from that dataset's twenty candidate passages, not
-  from language (Section~\ref{sec:vnfindings}).
+  IterCOMP-X recovers 84\% of the Oracle ceiling on VimQA, more than on any of
+  the three English datasets (56--76\%), so the Vietnamese setting is the
+  easiest of the four rather than the hardest
+  (Section~\ref{sec:vnfindings}).
 \item \textbf{The first measurement of non-diacritic Vietnamese} under
   compression. Dropping diacritics costs about 20 F1, and costs gold and
   compressed context statistically indistinguishable amounts ($20.70$ against
@@ -441,11 +442,12 @@ retention figure rather than charged against the compressor's score. Reporting
 the pair $(\text{Ratio}_{\text{nom}}, \text{Ratio}_{\text{eff}})$ costs one
 extra column and leaves the familiar number intact.
 
-\subsubsection{Does the effective ratio discriminate?}
- A second metric that moved
-with the first would add nothing. Holding the compressed contexts fixed - the
-same 50 VimQA questions, the same IterCOMP-X output, only the tokeniser changed -
-the nominal ratio barely moves while the effective ratio does (Table~\ref{tab:effspread}):
+\subsubsection{What the nominal ratio hides.}
+The correction is a multiplication, so the effective ratio necessarily inherits
+the fertility spread; the point of the following is not that it moves, but
+\emph{how much} a reported ratio conceals. We hold the compressed contexts fixed
+- the same 50 VimQA questions, the same IterCOMP-X output, only the tokeniser
+changed (Table~\ref{tab:effspread}):
 
 \begin{table}[htbp]
 \centering
@@ -466,10 +468,11 @@ spread & $1.02\times$ & $\mathbf{1.80\times}$ \\
 \end{tabular}
 \end{table}
 
-Because the contexts are byte-identical across the three rows, the whole of that
-$1.80\times$ is the tokeniser's and none of it the compressor's. A nominal ratio
-reported on its own therefore conceals all of it. That is the argument for adding
-the second column rather than replacing the first.
+The contexts are byte-identical across the three rows, so the whole of that
+$1.80\times$ is the tokeniser's and none of it the compressor's: three systems a
+nominal ratio calls identical to within $1.02\times$ differ by $1.80\times$ in
+what they actually cost. That is the argument for adding the second column
+rather than replacing the first.
 
 
 \subsection{Iterative multi-hop compression}
@@ -600,9 +603,10 @@ We adopt the original paper's hyperparameters (Table~\ref{tab:hyper}).
 
 \subsection{Baselines}
 Raw Documents concatenates everything with no compression. Oracle
-keeps only the gold supporting sentences. It is the upper bound for any
-document-level method, and also a diagnostic: if Oracle is low, the bottleneck is
-the reader rather than the compressor. LLMLingua-2
+keeps only the gold supporting sentences. It is the reference condition for
+selection quality - not a per-question bound, since Raw still beats it on 7 to
+10\% of questions - and a diagnostic: if Oracle is low, the bottleneck is the
+reader rather than the compressor. LLMLingua-2
 \cite{pan2024llmlingua2} is our main compression baseline, chosen because its
 token classifier is natively multilingual and covers Vietnamese, so it meets
 Vietnamese on equal terms and can run on all four datasets.
@@ -741,8 +745,7 @@ point: on VimQA and MuSiQue the arrow rises while moving left, so compression
 buys accuracy \emph{and} tokens; on 2Wiki it is flat ($+1.00$, not separating).
 On HotpotQA (dashed) it falls:
 the reader handles the full context well enough that filtering costs 4.66 F1,
-and only the token saving survives. Oracle marks the ceiling perfect selection
-would reach.}
+and only the token saving survives. Oracle marks what gold evidence reaches.}
 \label{fig:tradeoff}
 \end{figure}
 
