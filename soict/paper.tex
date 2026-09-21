@@ -337,9 +337,9 @@ XLM-R (used by bge-m3) & 57.9 & 49.7 & 1.19$\times$ \\
 
 \subsubsection{Cross-lingual Measurement.}
 \label{sec:multiling}
-The claim above is about Vietnamese, so it needs a control: if every language were
-billed alike, fertility would not be worth reporting. Measuring 400 parallel
-WMT24++ pairs per language shows it is not.
+Fertility on Vietnamese alone proves nothing: if every language were billed
+alike, the quantity would not be worth reporting. Measuring 400 parallel WMT24++
+pairs per language shows it is not.
 
 Every language exceeds $1.0$ with non-overlapping intervals
 (Fig.~\ref{fig:fertility}), so the mismatch is systematic rather than a Vietnamese quirk; Vietnamese at $2.49\times$ is the \emph{mild} case: Hindi is penalised twice as heavily. The $2.49\times$ here (400 pairs) and the $2.39\times$ in Table~\ref{tab:fertility} (930 pairs) are different samples of the same corpus.
@@ -450,10 +450,10 @@ the language-tokeniser pair rather than to the compressor. Reporting the pair
 $(\text{Ratio}_{\text{nom}}, \text{Ratio}_{\text{eff}})$ costs one extra column
 and leaves the familiar number intact.
 
-\subsubsection{Discriminative Power.}
-The correction is a multiplication, so the effective ratio necessarily inherits
-the fertility spread; the point of the following is not that it moves, but
-\emph{how much} a reported ratio conceals. We hold the compressed contexts fixed
+\subsubsection{How Much a Nominal Ratio Conceals.}
+The correction is a multiplication, so the effective ratio inherits the fertility
+spread by construction; what the following measures is the size of what a
+reported ratio hides. We hold the compressed contexts fixed
 - the same 50 VimQA questions, the same IterCOMP-X output, only the tokeniser
 changed (Table~\ref{tab:effspread}):
 
@@ -789,8 +789,7 @@ while the reader shrinks, which we did not have the budget for.
 
 \subsection{Vietnamese-specific Results}
 \label{sec:vnfindings}
-Vietnamese surfaces four results. Boolean answer
-normalisation is worth $+8.67$ F1 on VimQA at $n=1{,}003$, interval
+Four results appear only on Vietnamese. Boolean answer normalisation is worth $+8.67$ F1 on VimQA at $n=1{,}003$, interval
 $[+6.98,+10.47]$, and exactly $0.0$ on each of MuSiQue, 2Wiki and HotpotQA,
 isolating a language-specific fix from a metric-inflating
 one: a reader asked a Vietnamese question often answers ``Yes'', which is
@@ -812,7 +811,7 @@ three ten-passage datasets themselves range over twenty points.
 
 \paragraph{Diacritic Removal.} Vietnamese is often typed without diacritics
 online, a setting no compression paper evaluates, and stripping them is
-expensive. They carry tone (\emph{ma}, \emph{mà}, \emph{má}, \emph{mả},
+expensive. Diacritics carry tone (\emph{ma}, \emph{mà}, \emph{má}, \emph{mả},
 \emph{mã}, \emph{mạ} collapse to one form) and segmental contrasts (ă â ê ô ơ ư,
 đ), so \emph{đang} and \emph{dáng} merge too; across VimQA this shrinks the
 syllable-type inventory by $21.4\%$, and both branches lose about 20 F1. Gold context leads throughout, by $10.52$ F1 with
