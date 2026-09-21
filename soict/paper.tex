@@ -106,12 +106,12 @@ nominal, $1.80\times$ effective). To ground this
 we reimplement IterCOMP, a recent training-free compressor evaluated only on
 English, and give it its first evaluation on Vietnamese multi-hop QA using the
 complete VimQA benchmark alongside MuSiQue, 2WikiMultiHopQA and HotpotQA
-($n\ge1{,}003$ each), with five further compression baselines on a 200-question
+($n\ge1{,}003$ each), with six further compression baselines on a 200-question
 VimQA subset. Two further effects appear only outside
 English: a boolean-answer normalisation step is worth $+8.67$ F1 in Vietnamese
 and exactly $0.0$ in English, and non-diacritic text - ubiquitous online - costs
-every branch about 20 F1, the damage falling on the reader rather than on the
-compressor. We release the implementation
+every branch about 20 F1, with no measurable extra cost to the compressed
+branch. We release the implementation
 and the Vietnamese prompts.
 
 \keywords{Prompt compression \and Multi-hop question answering \and
@@ -241,8 +241,8 @@ specific to Vietnamese:
   (Section~\ref{sec:vnfindings}).
 \item \textbf{The first measurement of non-diacritic Vietnamese.} Stripping
   diacritics costs about 20 F1, and costs gold and compressed context
-  statistically indistinguishable amounts, $20.70$ against $18.66$; the loss is
-  the reader's, not extraction error the compressor adds
+  indistinguishable amounts ($20.70$ against $18.66$, difference-in-differences
+  CI $[-2.71,+6.79]$), so we find no extraction error the compressor adds
   (Table~\ref{tab:undia}).
 \end{itemize}
 
@@ -612,10 +612,10 @@ reader rather than the compressor. LLMLingua-2
 token classifier is natively multilingual and covers Vietnamese, so it meets
 Vietnamese on equal terms and can run on all four datasets.
 
-Five more run on VimQA at $n=200$: LLMLingua \cite{jiang2023llmlingua},
+Six more run on VimQA at $n=200$: LLMLingua \cite{jiang2023llmlingua},
 LongLLMLingua \cite{jiang2024longllmlingua}, Selective-Context
-\cite{li2023selectivecontext}, RECOMP \cite{xu2024recomp} in both forms, and
-CompAct \cite{yoon2024compact}. Each carries an English-only component, so they widen the
+\cite{li2023selectivecontext}, RECOMP \cite{xu2024recomp} in its extractive and
+abstractive forms, and CompAct \cite{yoon2024compact}. Each carries an English-only component, so they widen the
 field rather than compare like with like, and stay out of the main table. R2C,
 the original paper's second-strongest baseline, has no public checkpoint.
 
@@ -675,7 +675,7 @@ model twice per pass, $2.6$ to $7.4\times$ the time per question
 evidence which token-level scoring discards; it does not show that the method is
 cheaper. This is the
 one result independent of dataset, reader and sample size. At $n=200$ on VimQA it
-also leads all six baselines, by $+11.36$ F1 over LLMLingua-2, CI
+also leads every one of them, by $+11.36$ F1 over LLMLingua-2, CI
 $[+4.93,+17.84]$.
 
 
@@ -800,8 +800,8 @@ the GPU is the budget and tripling latency to save context is a poor trade.
 
 Oracle exceeds Raw on every dataset while reading 5.7\% to 16.4\% of the tokens,
 confirming the premise the literature rests on: irrelevant passages \emph{do}
-degrade accuracy. The size of that gap decides whether compression can exploit it. Oracle/Raw is 2.12 on MuSiQue and 1.30 on VimQA, where IterCOMP holds its own,
-but only 1.21 on HotpotQA, where Raw wins outright. \textbf{The premise is
+degrade accuracy. The size of that gap decides whether compression can exploit it. Oracle/Raw is 2.12 on MuSiQue, 1.61 on 2Wiki and 1.30 on VimQA, where IterCOMP-X
+holds its own, but only 1.21 on HotpotQA, where Raw wins outright. \textbf{The premise is
 reader-dependent}: a reader that already copes with distractors leaves compression
 little to recover. Replacing the reader with Qwen2.5-0.5B on HotpotQA ($n=500$)
 moves IterCOMP-X from $-4.66$ to $+7.66$ F1 against Raw ($37.88$ against
@@ -845,9 +845,8 @@ syllable-type inventory by $21.4\%$, and both branches lose about 20 F1. Gold co
 diacritics and by $8.48$ and $6.75$ without, every interval clear of zero at
 $n=500$ where none separated at $n=200$. What stripping does \emph{not} do is
 single out the compressor: gold loses $20.70$ F1 and the compressed branch
-$18.66$, a difference-in-differences of $+2.04$, CI $[-2.71,+6.79]$. The damage
-is the reader failing on merged syllables, not extraction error the compressor
-adds.
+$18.66$, a difference-in-differences of $+2.04$, CI $[-2.71,+6.79]$. We attribute the loss to the reader failing on merged
+syllables, though the interval leaves room for a small effect either way.
 
 One point matters for anyone repeating this: supporting facts address
 documents by title, so diacritics must come off the annotations as well as the
