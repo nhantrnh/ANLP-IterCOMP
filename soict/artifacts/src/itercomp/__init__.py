@@ -14,7 +14,7 @@ from .metrics import (exact_match, f1_score, f1_span, normalize,
 from .reader import clean_answer, make_reader
 from .scorer import make_scorer, percentile_filter, budget_filter, split_long_segments
 from .stopping import should_stop, evidence_confidence, marginal_gain
-from .stats import (bootstrap_ci, min_detectable_diff, paired_bootstrap,
+from .stats import (bootstrap_ci, min_detectable_diff_unpaired, paired_bootstrap,
                     required_n)
 
 __all__ = [
@@ -26,7 +26,7 @@ __all__ = [
     "make_llm", "make_reader", "clean_answer",
     "make_scorer", "percentile_filter",
     "should_stop", "evidence_confidence", "marginal_gain",
-    "bootstrap_ci", "paired_bootstrap", "min_detectable_diff", "required_n",
+    "bootstrap_ci", "paired_bootstrap", "min_detectable_diff_unpaired", "required_n",
     "exact_match", "f1_score", "f1_span", "normalize", "normalize_boolean",
     "tokenize",
 ]

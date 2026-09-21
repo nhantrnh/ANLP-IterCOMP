@@ -7,7 +7,7 @@ tiếng Anh dưới `cl100k_base`. Survey của Li et al. (2025) không nhắc n
 LLMLingua-2 đánh giá tiếng Trung nhưng không bàn số token.
 
 CÁI SCRIPT NÀY ĐO. Với mỗi phương pháp, tỉ lệ nén tính theo BỐN tokenizer khác
-nhau, cộng tỉ lệ hiệu dụng (danh nghĩa / fertility). Điểm cốt lõi: cùng một lần
+nhau, cộng tỉ lệ hiệu dụng (danh nghĩa * fertility). Điểm cốt lõi: cùng một lần
 nén cho ra con số chi phí chênh nhau tới 2x tuỳ tokenizer nào thanh toán — nên
 "nén 5x" là phát biểu vô nghĩa nếu không nói tokenizer.
 
@@ -23,6 +23,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # scripts/ nằm trong src/
 
 from itercomp import load_dataset, make_scorer, tokenize  # noqa: E402
 from itercomp.core import decompose, score_segments  # noqa: E402
@@ -129,7 +130,7 @@ def main():
     print("     Nên 'nén N lần' là phát biểu chưa đủ nghĩa nếu không nói tokenizer.")
 
     # ── bang 2: ty le hieu dung ─────────────────────────────────────
-    print("\nTỈ LỆ HIỆU DỤNG = danh nghĩa / fertility")
+    print("\nTỈ LỆ HIỆU DỤNG = danh nghĩa * fertility")
     print("  (quy về 'tương đương tiếng Anh': cùng nội dung viết bằng tiếng Anh")
     print("   thì tỉ lệ nén tương ứng là bao nhiêu)\n")
     print(f"{'tokenizer':14s} {'fertility':>10s} {'danh nghĩa':>12s} {'hiệu dụng':>11s}")
@@ -137,7 +138,7 @@ def main():
     for e in encs:
         nom = rows_out["itercomp"][e]
         f = FERTILITY[e]
-        eff[e] = nom / f
+        eff[e] = nom * f
         print(f"{e:14s} {f:10.2f} {100*nom:11.1f}% {100*eff[e]:10.1f}%")
 
     print(f"\n  -> IterCOMP trên {args.dataset}: đọc {100*rows_out['itercomp']['regex']:.1f}% "

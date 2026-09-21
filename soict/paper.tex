@@ -108,9 +108,9 @@ only on English, and give it its first systematic evaluation on Vietnamese using
 the complete VimQA benchmark alongside MuSiQue, 2WikiMultiHopQA and HotpotQA
 ($n\ge1{,}003$ each, six compression baselines). Two further effects appear only outside
 English: a boolean-answer normalisation step is worth $+8.67$ F1 in Vietnamese
-and exactly $0.0$ in English, and non-diacritic text - ubiquitous online -
-costs every branch about 20 F1 while leaving the ordering intact, the damage
-falling on the reader rather than on the compressor. We release the implementation
+and exactly $0.0$ in English, and non-diacritic text - ubiquitous online - costs
+every branch about 20 F1, the damage falling on the reader rather than on the
+compressor. We release the implementation
 and the Vietnamese prompts.
 
 \keywords{Prompt compression \and Multi-hop question answering \and
@@ -238,10 +238,10 @@ specific to Vietnamese:
   English MuSiQue follows from that dataset's twenty candidate passages, not
   from language (Section~\ref{sec:vnfindings}).
 \item \textbf{The first measurement of non-diacritic Vietnamese} under
-  compression. Dropping tone marks costs about 20 F1, and costs gold and
-  compressed context statistically indistinguishable amounts ($21.07$ against
-  $20.26$); we find no evidence that compression adds extraction error of its own
-  (Table~\ref{tab:undia}).
+  compression. Dropping diacritics costs about 20 F1, and costs gold and
+  compressed context statistically indistinguishable amounts ($20.70$ against
+  $18.66$, CI $[-2.71,+6.79]$); the loss is the reader's, not extraction error
+  the compressor adds (Table~\ref{tab:undia}).
 \end{itemize}
 
 We call this configuration IterCOMP-X and stress that it is \emph{not} a new
@@ -832,13 +832,14 @@ diacritics online, a setting no compression paper evaluates, and stripping them
 is expensive. Diacritics carry tone (\emph{ma}, \emph{mà}, \emph{má},
 \emph{mả}, \emph{mã}, \emph{mạ} collapse to one form) and also segmental
 contrasts (ă â ê ô ơ ư, đ), so \emph{đang} and \emph{dáng} merge too. Across
-VimQA this shrinks the syllable-type inventory by $21.4\%$, and both branches
-lose about 20 F1 (Table~\ref{tab:undia}). The ordering does not change: gold leads by $4.81$
-with diacritics and by $3.99$ and $4.05$ without, no interval separating. Gold context loses $21.07$ F1 and the compressed branch $20.26$; the
-difference-in-differences is $+0.81$ F1, CI $[-6.49,+8.21]$, so the two branches
-lose statistically indistinguishable amounts. We can say we detect no
-compression-specific damage, not that there is none: at $n=200$ this design has
-$80\%$ power only for gaps of about $8$ F1.
+VimQA this shrinks the syllable-type inventory by $21.4\%$, and both branches lose
+about 20 F1 (Table~\ref{tab:undia}). Gold context leads throughout, by $10.52$ F1 with
+diacritics and by $8.48$ and $6.75$ without, every interval clear of zero at
+$n=500$ where none separated at $n=200$. What stripping does \emph{not} do is
+single out the compressor: gold loses $20.70$ F1 and the compressed branch
+$18.66$, a difference-in-differences of $+2.04$, CI $[-2.71,+6.79]$. The damage
+is the reader failing on merged syllables, not extraction error the compressor
+adds.
 
 One point matters for anyone repeating this: supporting facts address
 documents by title, so diacritics must come off the annotations as well as the
@@ -847,11 +848,10 @@ empty.
 
 \begin{table}[t]
 \centering
-\caption{Non-diacritic Vietnamese ($n=200$, 7B reader). Gold context leads in
-every setting but no gap separates: the paired bootstrap intervals are
-$[-11.02,+1.35]$, $[-9.55,+1.53]$ and $[-9.43,+1.38]$, and at this sample size
-the design has $80\%$ power only for gaps of about $8$ F1. Stripping tone marks
-costs both branches about 20 F1; we cannot detect a difference between them.
+\caption{Non-diacritic Vietnamese ($n=500$, 7B reader). Gold context leads in
+every setting and $^\dag$ every paired bootstrap interval clears zero:
+$[-14.40,-6.65]$, $[-12.25,-4.77]$ and $[-10.57,-2.94]$. None separated at $n=200$, so the gap is real but
+needed the larger sample. Stripping costs both branches about 19-21 F1.
 \texttt{strip} leaves the gold answer accented, so the reader must restore marks
 it never saw; \texttt{both} strips the reference too, scoring entity recovery
 rather than diacritics.}
@@ -862,9 +862,9 @@ rather than diacritics.}
 \toprule
 Setting & IterCOMP-X & Gold & $\Delta$ \\
 \midrule
-\texttt{keep}  & 50.17 & 54.97 & $-4.81$ \\
-\texttt{strip} & 29.91 & 33.90 & $-3.99$ \\
-\texttt{both}  & 30.25 & 34.30 & $-4.05$ \\
+\texttt{keep}  & 47.47 & 58.00 & $-10.52^\dag$ \\
+\texttt{strip} & 28.81 & 37.29 & $-8.48^\dag$ \\
+\texttt{both}  & 30.61 & 37.36 & $-6.75^\dag$ \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -902,9 +902,9 @@ LLaMA-3-8B), and our retention is 0.349 against their 0.14. Every headline numbe
 comes from one reader, and our only reader check is confounded: the answerability
 judge shares the reader model, so the 0.5B run varies compressor and reader
 together. IterCOMP-X loses to the uncompressed baseline on HotpotQA by $4.66$ F1
-and we cannot yet attribute that loss; the diacritic comparison is a null result,
-all three intervals crossing zero, so we detect no compression-specific damage
-rather than establishing there is none. The sharpest limit is that fertility is
+and we cannot yet attribute that loss. The diacritic experiment separates gold
+from compressed context at $n=500$ but not at $n=200$, a reminder that our
+smaller runs bound effects rather than exclude them. The sharpest limit is that fertility is
 measured on four writing systems while compression is run on two, so the
 effective ratio is argued generally and shown on one language pair. Hindi, the
 worst case, is what we could not test: no Hindi or Thai multi-hop benchmark

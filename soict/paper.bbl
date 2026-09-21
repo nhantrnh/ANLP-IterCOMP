@@ -5,7 +5,7 @@
 
 \bibitem{ahia2023allcost}
 Ahia, O., Kumar, S., Gonen, H., Kasai, J., Mortensen, D., Smith, N.A.,
-  Tsvetkov, Y.: Do all languages cost the same? tokenization in the era of
+  Tsvetkov, Y.: Do all languages cost the same? {T}okenization in the era of
   commercial language models. In: Proceedings of EMNLP (2023),
   \url{https://aclanthology.org/2023.emnlp-main.614/}
 
@@ -21,6 +21,11 @@ Deutsch, D., Briakou, E., Caswell, I., Finkelstein, M., Galilee, R., Juraska,
   language coverage of {WMT24} to 55 languages and dialects. In: Proceedings of
   WMT (2025), \url{https://huggingface.co/datasets/google/wmt24pp}
 
+\bibitem{ho2020constructing}
+Ho, X., Duong~Nguyen, A.K., Sugawara, S., Aizawa, A.: Constructing a multi-hop
+  {QA} dataset for comprehensive evaluation of reasoning steps. In: Proceedings
+  of COLING (2020), \url{https://aclanthology.org/2020.coling-main.580/}
+
 \bibitem{jiang2023llmlingua}
 Jiang, H., Wu, Q., Lin, C.Y., Yang, Y., Qiu, L.: {LLMLingua}: Compressing
   prompts for accelerated inference of large language models. In: Proceedings
@@ -33,8 +38,8 @@ Jiang, H., Wu, Q., Luo, X., Li, D., Lin, C.Y., Yang, Y., Qiu, L.:
   \url{https://aclanthology.org/2024.acl-long.91/}
 
 \bibitem{le2022vimqa}
-Le, K., Nguyen, H., Le~Thanh, T., Nguyen, M.: {VIMQA}: A vietnamese dataset for
-  advanced reasoning and explainable multi-hop question answering. In:
+Le, K., Nguyen, H., Le~Thanh, T., Nguyen, M.: {VIMQA}: A {Vietnamese} dataset
+  for advanced reasoning and explainable multi-hop question answering. In:
   Proceedings of LREC (2022), \url{https://aclanthology.org/2022.lrec-1.700/}
 
 \bibitem{lewis2020rag}
@@ -48,9 +53,14 @@ Li, Y., Dong, B., Guerin, F., Lin, C.: Compressing context to enhance inference
   efficiency of large language models. In: Proceedings of EMNLP (2023),
   \url{https://aclanthology.org/2023.emnlp-main.391/}
 
+\bibitem{marchisio2024confusion}
+Marchisio, K., Ko, W.Y., Bérard, A., Dehaze, T., Ruder, S.: Understanding and
+  mitigating language confusion in {LLM}s. In: Proceedings of EMNLP (2024),
+  \url{https://aclanthology.org/2024.emnlp-main.380/}
+
 \bibitem{nguyen2020phobert}
 Nguyen, D.Q., Nguyen, A.T.: {PhoBERT}: Pre-trained language models for
-  vietnamese. In: Findings of EMNLP (2020),
+  {Vietnamese}. In: Findings of EMNLP (2020),
   \url{https://aclanthology.org/2020.findings-emnlp.92/}
 
 \bibitem{pan2024llmlingua2}
@@ -66,7 +76,7 @@ Petrov, A., La~Malfa, E., Torr, P., Bibi, A.: Language model tokenizers
 
 \bibitem{phan2022vit5}
 Phan, L., Tran, H., Nguyen, H., Trinh, T.H.: {ViT5}: Pretrained text-to-text
-  transformer for vietnamese language generation. In: Proceedings of NAACL
+  transformer for {Vietnamese} language generation. In: Proceedings of NAACL
   Student Research Workshop (2022),
   \url{https://aclanthology.org/2022.naacl-srw.18/}
 
@@ -74,6 +84,12 @@ Phan, L., Tran, H., Nguyen, H., Trinh, T.H.: {ViT5}: Pretrained text-to-text
 Press, O., Zhang, M., Min, S., Schmidt, L., Smith, N.A., Lewis, M.: Measuring
   and narrowing the compositionality gap in language models. In: Findings of
   EMNLP (2023), \url{https://aclanthology.org/2023.findings-emnlp.378/}
+
+\bibitem{trivedi2022musique}
+Trivedi, H., Balasubramanian, N., Khot, T., Sabharwal, A.: {MuSiQue}: Multihop
+  questions via single-hop question composition. Transactions of the
+  Association for Computational Linguistics  \textbf{10} (2022),
+  \url{https://aclanthology.org/2022.tacl-1.31/}
 
 \bibitem{trivedi2023ircot}
 Trivedi, H., Balasubramanian, N., Khot, T., Sabharwal, A.: Interleaving
@@ -85,6 +101,12 @@ Trivedi, H., Balasubramanian, N., Khot, T., Sabharwal, A.: Interleaving
 Xu, F., Shi, W., Choi, E.: {RECOMP}: Improving retrieval-augmented lms with
   context compression and selective augmentation. In: Proceedings of ICLR
   (2024), \url{https://openreview.net/forum?id=mlJLVigNHp}
+
+\bibitem{yang2018hotpotqa}
+Yang, Z., Qi, P., Zhang, S., Bengio, Y., Cohen, W.W., Salakhutdinov, R.,
+  Manning, C.D.: {HotpotQA}: A dataset for diverse, explainable multi-hop
+  question answering. In: Proceedings of EMNLP (2018),
+  \url{https://aclanthology.org/D18-1259/}
 
 \bibitem{yoon2024compact}
 Yoon, C., Lee, T., Hwang, H., Jeong, M., Kang, J.: {CompAct}: Compressing

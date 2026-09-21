@@ -29,7 +29,7 @@ dưới. Mỗi file tự mang `config` của nó — đọc khối đó thay vì
 | Bảng 5 (CompAct) | `compact_vimqa_200_7b.json` | 200 | |
 | **Bảng 6 (so bài gốc)** | `musique_500_7b.json` | 500 | cột `ours` đọc ở n=50 đầu |
 | | `vimqa_200_7b.json` | 200 | cột VimQA |
-| **Bảng 7 (mất dấu)** | `exp2_undiacritised_200_7b_fixed.json` | 200 | **bản đã sửa bug gold** |
+| **Bảng 6 (mất dấu)** | `exp2_undiacritised_500_7b.json` | 500 | chạy lại sau khi sửa bug gold |
 | **Bảng 8 (phân loại lỗi)** | `hotpotqa_500_05b.json` | 500 | cột 0.5B |
 | | `hotpotqa_500_7b.json` | 500 | cột 7B |
 | §5.2 (quét k khớp mức nén) | `ablation_musique200_k.json` | 200 | nguồn của 3.14 passes |
@@ -43,10 +43,13 @@ dưới. Mỗi file tự mang `config` của nó — đọc khối đó thay vì
 
 ## Cảnh báo về hai file dễ nhầm
 
-`exp2_undiacritised_200_7b_fixed.json` là bản **sau** khi sửa lỗi `strip_row`
-không strip `supporting_facts["title"]`, khiến 48/200 ngữ cảnh gold rỗng. Bản
-chưa sửa (`..._200_7b.json`, **không** nằm trong folder này) cho kết luận ngược
-và không được dùng. Kiểm bằng `rows_without_gold == 0` trong file.
+`exp2_undiacritised_500_7b.json` là lần chạy dùng cho bài: n=500, sau khi sửa
+lỗi `strip_row` không strip `supporting_facts["title"]` (lỗi này từng khiến
+48/200 ngữ cảnh gold rỗng). Kiểm bằng `rows_without_gold == 0`.
+
+Hai bản n=200 (`..._200_7b.json` chưa sửa và `..._200_7b_fixed.json` đã sửa)
+**không** dùng cho bảng nào: ở n=200 không khoảng tin cậy nào tách khỏi 0, kết
+luận chỉ dứt khoát khi lên n=500.
 
 `hotpotqa_500_3b.json` tồn tại trong repo nhưng **không dùng**: lần chạy đó cho
 Oracle thấp hơn Raw, một thứ tự không hợp lệ, nên bị loại khỏi mọi bảng.
