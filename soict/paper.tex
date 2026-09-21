@@ -264,46 +264,41 @@ syllables but 2{,}364 \texttt{cl100k\_base} tokens, so our ratios
 understate billing $2\times$.
 
 
-\begin{figure}[!htbp]
+\begin{figure}[htbp]
 \centering
 \begin{tikzpicture}
 \begin{axis}[
-  width=\textwidth, height=3.7cm,
-  ybar, bar width=8pt,
-  enlarge x limits=0.13,
-  ymin=0, ymax=6.4,
-  ytick={0,1,2,3,4,5},
-  ylabel={Tokens per English token},
-  ylabel style={yshift=-6pt},
-  symbolic x coords={English,Chinese,Vietnamese,Thai,Hindi},
-  xtick=data,
+  width=\textwidth, height=4.4cm,
+  xbar, bar width=6pt, bar shift=0pt,
+  enlarge y limits=0.15,
+  xmin=0, xmax=5.9,
+  xtick={0,1,2,3,4,5},
+  xlabel={Tokens per English token},
+  symbolic y coords={Hindi,Thai,Vietnamese,Chinese,English},
+  ytick=data,
+  y dir=reverse,
   label style={font=\footnotesize}, tick label style={font=\scriptsize},
-  legend style={font=\scriptsize, at={(0.5,1.04)}, anchor=south,
-                legend columns=2, draw=none, fill=none,
-                /tikz/every even column/.append style={column sep=8pt}},
-  legend image code/.code={\draw[#1] (0cm,-0.08cm) rectangle (0.30cm,0.18cm);},
+  legend style={font=\scriptsize, at={(0.98,0.04)}, anchor=south east,
+                draw=gray!40, fill=white, legend columns=1, row sep=1pt},
+  legend image code/.code={\draw[#1] (0cm,-0.07cm) rectangle (0.26cm,0.16cm);},
   axis lines*=left, tick align=outside, tick pos=left,
   axis line style={gray!55}, tick style={gray!55},
-  ymajorgrids, grid style={gray!22, densely dotted},
-  nodes near coords,
-  every node near coord/.append style={font=\scriptsize, yshift=1.5pt,
+  xmajorgrids, grid style={gray!25, densely dotted},
+  nodes near coords, nodes near coords align={horizontal},
+  every node near coord/.append style={font=\scriptsize, xshift=1pt,
      /pgf/number format/fixed, /pgf/number format/fixed zerofill,
      /pgf/number format/precision=2},
 ]
-\addplot[fill=cScore, draw=cScoreL,
-  nodes near coords={\pgfmathprintnumber\pgfplotspointmeta},
-  point meta=explicit symbolic]
-  coordinates {(English,1.00)[] (Chinese,1.87)[1.87] (Vietnamese,2.49)[2.49]
-               (Thai,3.89)[3.89] (Hindi,4.97)[4.97]};
+% Bars run horizontally so the language names read straight and the value
+% labels sit past the bar end, where they cannot collide with a neighbour.
+\addplot[fill=cScore, draw=cScoreL] coordinates
+  {(4.97,Hindi) (3.89,Thai) (2.49,Vietnamese) (1.87,Chinese) (1.00,English)};
 \addlegendentry{\texttt{cl100k\_base}}
 \addplot[fill=cLLM, draw=cLLML,
-  postaction={pattern=north east lines, pattern color=cLLML},
-  nodes near coords={\pgfmathprintnumber\pgfplotspointmeta},
-  point meta=explicit symbolic]
-  coordinates {(English,1.00)[] (Chinese,1.27)[1.27] (Vietnamese,1.52)[1.52]
-               (Thai,1.83)[1.83] (Hindi,1.71)[1.71]};
+  postaction={pattern=north east lines, pattern color=cLLML}] coordinates
+  {(1.71,Hindi) (1.83,Thai) (1.52,Vietnamese) (1.27,Chinese) (1.00,English)};
 \addlegendentry{\texttt{o200k\_base}}
-\draw[gray!60, densely dashed] (axis cs:English,1) -- (axis cs:Hindi,1);
+\draw[gray!60, densely dashed] (axis cs:1,Hindi) -- (axis cs:1,English);
 \end{axis}
 \end{tikzpicture}
 \caption{What the same content costs in tokens, relative to its English
@@ -687,7 +682,7 @@ $[+4.93,+17.84]$.
   axis line style={gray!55}, tick style={gray!55},
   ymajorgrids, grid style={gray!25, densely dotted},
   tick label style={font=\scriptsize},
-  title style={font=\footnotesize, yshift=-4pt},
+  title style={font=\footnotesize, yshift=-2pt},
   scale only axis,
 ]
 % Each panel is one dataset, so a marker's dataset is never in doubt. The arrow
@@ -723,7 +718,7 @@ $[+4.93,+17.84]$.
 \end{groupplot}
 \node[below=15pt, font=\footnotesize] at ($(group c1r2.south east)!0.5!(group c2r2.south west)$)
   {Context retained (fraction of tokens)};
-\node[above=11pt, font=\scriptsize] at ($(group c1r1.north east)!0.5!(group c2r1.north west)$)
+\node[above=20pt, font=\scriptsize] at ($(group c1r1.north east)!0.5!(group c2r1.north west)$)
   {\raisebox{-0.3ex}{\tikz\node[star,star points=5,draw=cDataL,fill=cDataL,inner sep=1pt]{};}~Oracle\quad
    \raisebox{-0.3ex}{\tikz\node[rectangle,draw=black!62,fill=black!62,inner sep=1.4pt]{};}~Raw\quad
    \raisebox{-0.3ex}{\tikz\node[circle,draw=cLoop,fill=cLoop,inner sep=1.4pt]{};}~IterCOMP-X\quad
