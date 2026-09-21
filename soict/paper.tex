@@ -102,25 +102,24 @@ Vietnam National University, Ho Chi Minh City, Vietnam}
 \begin{abstract}
 Prompt compression is reported as a ratio: the fraction of the context a
 compressor keeps. We show that this number is not comparable across languages,
-and that the gap is large enough to change which method looks cheaper. Measuring
-token fertility on parallel WMT24++ sentences across four writing systems, a
-context costs $4.97\times$ more tokens in Hindi, $3.89\times$ in Thai and
-$2.49\times$ in Vietnamese than its English counterpart under the tokeniser that
-bills, so a compressor reporting the same nominal ratio in two languages is not
-delivering the same saving. We propose an \emph{effective ratio} that prices retention in English-equivalent
-tokens, and show it
-separates tokenisers that nominal ratios rank as identical ($1.02\times$ spread
-nominal, $1.80\times$ effective). To ground this
-we reimplement IterCOMP, a recent training-free compressor evaluated only on
-English, and give it its first evaluation on Vietnamese multi-hop QA using the
-complete VimQA benchmark alongside MuSiQue, 2WikiMultiHopQA and HotpotQA
-($n\ge1{,}003$ each), with six further compression baselines on a 200-question
-VimQA subset. Two further effects appear only outside
+and that the gap is large enough to change which method is the cheaper one.
+Measuring token fertility on parallel WMT24++ sentences across four writing
+systems, a context costs $4.97\times$ more tokens in Hindi, $3.89\times$ in Thai
+and $2.49\times$ in Vietnamese than its English counterpart under the commercial
+tokenisers that bill, so a compressor reporting the same nominal ratio in two
+languages is not delivering the same savings. We propose an \emph{effective
+ratio} that prices retention in English-equivalent tokens, and show it separates
+tokenisers that nominal ratios rank as identical ($1.02\times$ spread nominal,
+$1.80\times$ effective). To ground this, we reimplement IterCOMP, a recent
+training-free compressor evaluated only on English, and give it its first
+evaluation on Vietnamese multi-hop QA - the configuration we release as
+IterCOMP-X - using the complete VimQA benchmark alongside MuSiQue,
+2WikiMultiHopQA and HotpotQA ($n\ge1{,}003$ each), with six further compression
+baselines on a 200-question VimQA subset. Two further effects appear only outside
 English: a boolean-answer normalisation step is worth $+8.67$ F1 in Vietnamese
-and exactly $0.0$ in English, and non-diacritic text - ubiquitous online - costs
-every branch about 20 F1, with no measurable extra cost to the compressed
-branch. We release the implementation and the Vietnamese prompts at
-\url{https://github.com/nhantrnh/IterCOMP-X}.
+and exactly $0.0$ in English, and non-diacritic text - ubiquitous online -
+degrades every branch by about 20 F1, with no measurable extra loss to the
+compressed branch.
 
 \keywords{Prompt compression \and Multi-hop question answering \and
 Tokeniser fertility \and Vietnamese NLP \and Retrieval-augmented generation}
@@ -678,8 +677,7 @@ token-level LLMLingua-2 by $+10.72$ to $+18.58$ F1 (Table~\ref{tab:4ds}, last
 row), every paired bootstrap interval clear of zero, while keeping $0.194$ to
 $0.354$ of the context. The two are not matched on cost:
 LLMLingua-2 classifies tokens once with a small encoder, IterCOMP-X calls a 7B
-model twice per pass, $2.6$ to $7.4\times$ the time per question
-(Section~\ref{sec:cost}). The margin shows that sentence-level selection keeps multi-hop
+model twice per pass, $2.6$ to $7.4\times$ the time per question. The margin shows that sentence-level selection keeps multi-hop
 evidence which token-level scoring discards; it does not show that the method is
 cheaper. This is the
 one result independent of dataset, reader and sample size. At $n=200$ on VimQA it
@@ -771,38 +769,6 @@ accuracy claim until the full runs settled it. The interpretation that the margi
 grows with task complexity does not survive either: $+15.98$ on VimQA against
 $+10.72$ on MuSiQue.
 
-\subsection{Comparison with the original paper}
-\label{sec:vspaper}
-
-Absolute numbers do not compare across readers, but two invariants suggest the
-reimplementation is faithful. First, the \textbf{method ordering reproduces} -
-Oracle $>$ IterCOMP $>$ Raw $>$ LLMLingua-2 on MuSiQue at both sample sizes, and
-on 2Wiki at scale (Section~\ref{sec:main}). Second, the Oracle/Raw ratio is in
-range: 1.72 at $n=50$ and 2.12 at $n=1{,}500$ against the paper's 1.88. That
-ratio is the headroom perfect selection buys over full context; being a property
-of the task rather than of the reader, its agreement is evidence that
-decomposition, gold labels and F1 are all correct. On the headline number,
-IterCOMP-X at $n=500$ on MuSiQue sits $0.62$ F1 below the paper's ($26.74$
-against $27.36$), but at $0.349$ retention against their $0.14$ - sweeping $k$ to
-match compression puts $k=96$ at $0.160$ retention and $29.04$ F1, $+1.68$ over
-the paper.
-
-\subsection{What the compression costs to run}
-\label{sec:cost}
-
-The saving is in tokens read, not in time. Two extra LLM calls per pass raise
-wall-clock per question even as the context shrinks: $2.88$ to $4.52$~s on VimQA
-and $3.12$ to $10.90$~s on MuSiQue, against contexts cut to $21\%$ and $35\%$ of
-Raw. The loop is not equally long on the two - $1.58$ passes on VimQA against
-$3.14$ on MuSiQue, whose twenty distractor paragraphs keep the answerability
-judge unsatisfied. LLMLingua-2, a single encoder pass, costs $1.50$ and
-$1.47$~s: faster than Raw everywhere, and the $2.6\times$--$7.4\times$ gap to
-IterCOMP-X of Section~\ref{sec:main}.
-
-Which matters depends on where the model runs: behind a per-token API the bill is
-the context read and the extra passes are the vendor's problem, while self-hosted
-the GPU is the budget and tripling latency to save context is a poor trade.
-
 \subsection{The ordering is reader-dependent}
 \label{sec:reader}
 
@@ -884,7 +850,7 @@ Setting & IterCOMP-X & Gold & $\Delta$ \\
 \end{tabular}
 \end{table}
 
-\section{Error Analysis}
+\subsection{Error analysis}
 \label{sec:vietnamese}
 \label{sec:erroranalysis}
 \label{app:errors}
@@ -905,23 +871,30 @@ tuổi hơn Y phải không?''}, ``is $X$ older than $Y$?'', and its negation
 because the task is arithmetic over two birth dates rather than retrieval; under
 a 0.5B reader it collapses to 92.1\% zeros.
 
-\section{Limitations and Ethical Considerations}
+\section{Limitations and Future Work}
 \label{sec:limitations}
 
 \paragraph{Limitations.} Absolute numbers are not comparable to the paper's: no
 prompts were released, the reader differs (Qwen2.5-7B at 4-bit against
-LLaMA-3-8B), and our retention is 0.349 against 0.14. Every headline number comes
+LLaMA-3-8B), and our MuSiQue retention is 0.340 against their 0.14. Every headline number comes
 from one reader, and that check is confounded: the answerability judge shares the
-reader model, so the 0.5B run varies compressor and reader together. A 3B run is released but excluded
-from every claim: its Oracle falls below its Raw, the reader abstaining on
-$54.8\%$ of Oracle questions. IterCOMP-X also loses to the uncompressed baseline
-on HotpotQA by $4.66$ F1, which we cannot yet attribute, and the diacritic
-experiment separates gold from compressed context at $n=500$ but not at $n=200$
-- our smaller runs bound effects rather than exclude them. The sharpest limit is
-that fertility is measured on four writing systems while compression is run on
-two, so the effective ratio is argued generally and shown on one language pair;
-Hindi, the worst case, we could not test, no Hindi or Thai multi-hop benchmark
-carrying sentence-level supporting facts.
+reader model, so the 0.5B run varies compressor and reader together. A 3B run is
+released but excluded from every claim, its Oracle falling below its Raw with the
+reader abstaining on $54.8\%$ of Oracle questions. IterCOMP-X loses to the
+uncompressed baseline on HotpotQA by $4.66$ F1, which we cannot yet attribute,
+and the diacritic experiment separates gold from compressed context at $n=500$
+but not at $n=200$. The sharpest limit is that fertility is measured on four
+writing systems while compression is run on two, so the effective ratio is argued
+generally and shown on one language pair.
+
+\paragraph{Future work.} Each limitation names its own next step. Pinning the
+answerability judge at 7B while shrinking only the reader would separate the two
+effects the 0.5B run confounds, and would settle whether the HotpotQA reversal
+belongs to the reader. A Hindi or Thai multi-hop set with sentence-level
+supporting facts would test the effective ratio where fertility is worst rather
+than mildest - no such benchmark exists today. Extending the boolean rule to
+other languages with question-final polarity markers is cheap and likely to
+transfer.
 
 \paragraph{Ethics.} VimQA's CC BY-NC-SA 4.0 licence confines us to research use,
 and compression is lossy: dropping a negation leaves fluency intact while
@@ -929,27 +902,19 @@ inverting the answer, so sensitive deployments should verify against the source.
 A fix worth 8.67 F1 in Vietnamese and 0.0 F1 in English is a further caution that
 ``multilingual'' models are not equally reliable across languages.
 
-\vspace{-2mm}
-
-
-\enlargethispage{4\baselineskip}
-\vspace{-3mm}
-\section{Conclusion}
+\paragraph{Conclusion.}
 \label{sec:conclusion}
-
-A compression ratio is not comparable across languages: the same content costs
-$4.97\times$ more tokens in Hindi and $2.49\times$ more in Vietnamese under the
-tokeniser that bills, and a nominal ratio conceals a $1.80\times$ spread in true
-cost across tokenisers it reports as identical to within $1.02\times$. The
-effective ratio is one extra column and fixes that. We reproduced IterCOMP
-without its code and gave it its first Vietnamese evaluation, released as
-IterCOMP-X: sentence-level beats token-level compression on all four datasets,
-while against the uncompressed baseline it wins on three and loses on HotpotQA.
-Neither Vietnamese nor the loss of its diacritics handicaps the compressor; the
-reader does, failing on ${\sim}30\%$ of questions even given gold evidence.
+A compression ratio is not comparable across languages, and a nominal figure
+conceals a $1.80\times$ spread in true cost across tokenisers it reports as
+identical to within $1.02\times$. The effective ratio is one extra column and
+fixes that. Reproducing IterCOMP without its code and giving it its first
+Vietnamese evaluation, released as IterCOMP-X, shows sentence-level beating
+token-level compression on all four datasets while winning on three of four
+against the uncompressed baseline. Neither Vietnamese nor the loss of its
+diacritics handicaps the compressor; the reader does, failing on
+${\sim}30\%$ of questions even given gold evidence.
 
 
-\vspace{-4.5mm}
 \begin{credits}
 \subsubsection{\ackname} Supported by the Faculty of Information Technology,
 University of Science, VNU-HCM.
