@@ -241,7 +241,8 @@ rebuild it from the paper's description and redesign every prompt.
 \section{Related Work}
 \label{sec:related}
 
-\paragraph{Prompt Compression.} Surveys divide the field in two
+\subsection{Prompt Compression}
+Surveys divide the field in two
 \cite{li2025promptcompression}. \emph{Extractive} methods keep a subset of
 tokens or sentences: LLMLingua \cite{jiang2023llmlingua} drops tokens by
 perplexity; LongLLMLingua \cite{jiang2024longllmlingua} adds query awareness;
@@ -251,33 +252,34 @@ faster and \emph{multilingual} - the decisive property here; Selective-Context
 methods regenerate shorter content, notably RECOMP \cite{xu2024recomp}. All
 compress in a single pass.
 
-\paragraph{Iterative Retrieval.} Self-Ask \cite{press2023selfask} and IRCoT
-\cite{trivedi2023ircot} decompose questions and interleave retrieval with
-reasoning; IterCOMP instead \emph{narrows} the context rather than expanding it.
-Every one of these is reported on English benchmarks.
+\subsection{Iterative Retrieval}
+Self-Ask \cite{press2023selfask} and IRCoT \cite{trivedi2023ircot} decompose
+questions and interleave retrieval with reasoning, expanding the context as they
+go; IterCOMP inverts that, narrowing the context across the same kind of loop.
+All are evaluated on English benchmarks.
 
-\paragraph{Tokeniser Disparity.} Subword tokenisers split non-English text more
-finely, so the same content costs more tokens: Ahia et al.\
-\cite{ahia2023allcost} price this against commercial APIs and Petrov et al.\
-\cite{petrov2023tokenizers} frame it as unfairness between languages. That
-literature measures the cost of \emph{text}. Cross-lingual audits of compression
-have since controlled for the disparity \emph{inside} their protocol, matching
-budgets in the target tokeniser \cite{lukauskas2026lost}. What is not yet
-proposed is a \emph{reported} quantity that carries the correction, so that
-published ratios stay comparable across languages - the question
-Section~\ref{sec:fertility} takes up.
+\subsection{Tokeniser Disparity}
+Subword tokenisers split non-English text more finely, so the same content costs
+more tokens. Ahia et al.\ \cite{ahia2023allcost} price this against commercial
+APIs, and Petrov et al.\ \cite{petrov2023tokenizers} frame it as unfairness
+between languages. That literature measures the cost of \emph{text}.
+Cross-lingual audits of compression have since controlled for the disparity
+inside their protocol, matching budgets in the target tokeniser
+\cite{lukauskas2026lost}. What remains unproposed is a \emph{reported} quantity
+carrying the correction, so that published ratios stay comparable across
+languages; Section~\ref{sec:fertility} supplies one.
 
-\paragraph{Vietnamese NLP.} The language is well served at the model level -
-the encoder PhoBERT \cite{nguyen2020phobert} and the text-to-text ViT5
-\cite{phan2022vit5} are both established - and VimQA \cite{le2022vimqa} gives it a
-multi-hop benchmark built to
-the HotpotQA format. Compression has begun to reach the language: XProvence
-\cite{mohamed2026xprovence} prunes context in 100+ languages and lists Vietnamese
-among its transfer targets on MKQA. But that is single-hop, and reports no
-per-language retention. To our knowledge no compressor has been evaluated on
-Vietnamese \emph{multi-hop} QA, where sentence-level supporting facts make an
-Oracle branch available, and none reports what a Vietnamese context costs in the
-tokeniser that bills.
+\subsection{Vietnamese NLP}
+Vietnamese is well served at the model level, with the encoder PhoBERT
+\cite{nguyen2020phobert} and the text-to-text ViT5 \cite{phan2022vit5} both
+established, and VimQA \cite{le2022vimqa} supplies a multi-hop benchmark in the
+HotpotQA format. Compression has begun to reach the language: XProvence
+\cite{mohamed2026xprovence} prunes context in over 100 languages and lists
+Vietnamese among its transfer targets on MKQA, but evaluates single-hop QA and
+reports no per-language retention. To our knowledge no compressor has been
+evaluated on Vietnamese \emph{multi-hop} QA, where sentence-level supporting
+facts make an Oracle branch available, and none reports what a Vietnamese
+context costs under the tokeniser that bills.
 
 \section{Methodology}
 \label{sec:methodology}
@@ -616,8 +618,6 @@ meaningless.
 \section{Results and Discussion}
 \label{sec:results}
 
-\subsection{Main Results}
-\label{sec:main}
 
 \begin{table}[htbp]
 \centering
@@ -646,7 +646,9 @@ $\Delta$ vs.\ LLML-2 & $+15.98^\dag$ & $+10.72^\dag$ & $+17.48^\dag$ & $+18.58^\
 \end{tabular}
 \end{table}
 
-\paragraph{Sentence-level against Token-level Compression.} Fig.~\ref{fig:tradeoff} plots
+\subsection{Sentence-level against Token-level Compression}
+\label{sec:main}
+Fig.~\ref{fig:tradeoff} plots
 accuracy against context retained; sentence-level compression beats
 token-level LLMLingua-2 by $+10.72$ to $+18.58$ F1 (Table~\ref{tab:4ds}, last
 row), every paired bootstrap interval clear of zero, while keeping $0.194$ to
@@ -730,7 +732,8 @@ and only the token saving survives. Oracle marks what gold evidence reaches.}
 \label{fig:tradeoff}
 \end{figure}
 
-\paragraph{Reproduction of the Reported Ordering.} The paper reports
+\subsection{Reproduction of the Reported Ordering}
+The paper reports
 Oracle $>$ IterCOMP $>$ Raw $>$ LLMLingua-2. We reproduce it on VimQA (IterCOMP-X
 over Raw, $+4.42$, interval clear) and on MuSiQue ($+4.19$; at $n=500$ the same
 margin read $+3.31$ and crossed zero, so tripling the sample decided it); the
@@ -780,7 +783,8 @@ not the hardest. We do not claim to explain the spread: MuSiQue's twenty
 candidate passages against ten elsewhere fit its position at the bottom, but the
 three ten-passage datasets themselves range over twenty points.
 
-\paragraph{Diacritic Removal.} Vietnamese is often typed without diacritics
+\subsection{Diacritic Removal}
+Vietnamese is often typed without diacritics
 online, a setting no compression paper evaluates, and stripping them is
 expensive. Diacritics carry tone (\emph{ma}, \emph{mà}, \emph{má}, \emph{mả},
 \emph{mã}, \emph{mạ} collapse to one form) and segmental contrasts (ă â ê ô ơ ư,
