@@ -58,6 +58,11 @@ Marchisio, K., Ko, W.Y., Bérard, A., Dehaze, T., Ruder, S.: Understanding and
   mitigating language confusion in {LLM}s. In: Proceedings of EMNLP (2024),
   \url{https://aclanthology.org/2024.emnlp-main.380/}
 
+\bibitem{mohamed2026xprovence}
+Mohamed, Y., Elhoseiny, M., Formal, T., Chirkova, N.: {XProvence}: Zero-cost
+  multilingual context pruning for retrieval-augmented generation. arXiv
+  preprint arXiv:2601.18886  (2026), \url{https://arxiv.org/abs/2601.18886}
+
 \bibitem{nguyen2020phobert}
 Nguyen, D.Q., Nguyen, A.T.: {PhoBERT}: Pre-trained language models for
   {Vietnamese}. In: Findings of EMNLP (2020),

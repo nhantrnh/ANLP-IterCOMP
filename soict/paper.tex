@@ -103,10 +103,11 @@ delivering the same saving. We propose an \emph{effective ratio} that prices ret
 tokens, and show it
 separates tokenisers that nominal ratios rank as identical ($1.02\times$ spread
 nominal, $1.80\times$ effective). To ground this
-we reimplement IterCOMP, a state-of-the-art training-free compressor evaluated
-only on English, and give it its first systematic evaluation on Vietnamese using
-the complete VimQA benchmark alongside MuSiQue, 2WikiMultiHopQA and HotpotQA
-($n\ge1{,}003$ each, six compression baselines). Two further effects appear only outside
+we reimplement IterCOMP, a recent training-free compressor evaluated only on
+English, and give it its first evaluation on Vietnamese multi-hop QA using the
+complete VimQA benchmark alongside MuSiQue, 2WikiMultiHopQA and HotpotQA
+($n\ge1{,}003$ each), with five further compression baselines on a 200-question
+VimQA subset. Two further effects appear only outside
 English: a boolean-answer normalisation step is worth $+8.67$ F1 in Vietnamese
 and exactly $0.0$ in English, and non-diacritic text - ubiquitous online - costs
 every branch about 20 F1, the damage falling on the reader rather than on the
@@ -284,9 +285,13 @@ takes up.
 the encoder PhoBERT \cite{nguyen2020phobert} and the text-to-text ViT5
 \cite{phan2022vit5} are both established - and VimQA \cite{le2022vimqa} gives it a
 multi-hop benchmark built to
-the HotpotQA format. What is missing is the layer between: to our knowledge no
-compressor has been evaluated on Vietnamese, so neither the accuracy nor the
-cost of compressing a Vietnamese context has been measured.
+the HotpotQA format. Compression has begun to reach the language: XProvence
+\cite{mohamed2026xprovence} prunes context in 100+ languages and lists Vietnamese
+among its transfer targets on MKQA. But that is single-hop, and reports no
+per-language retention. To our knowledge no compressor has been evaluated on
+Vietnamese \emph{multi-hop} QA, where sentence-level supporting facts make an
+Oracle branch available, and none reports what a Vietnamese context costs in the
+tokeniser that bills.
 
 \section{Methodology}
 \label{sec:methodology}
