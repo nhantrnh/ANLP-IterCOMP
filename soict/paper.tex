@@ -28,7 +28,21 @@
 \pgfplotsset{compat=1.18}
 \usetikzlibrary{arrows.meta,positioning,calc,shapes.geometric,fit,backgrounds,decorations.pathreplacing,shadows,shapes.callouts}
 \usepackage{xcolor}
+\usepackage{pifont}     % \ding{41}: envelope for the corresponding author
 \usepackage[hidelinks]{hyperref}
+
+% ORCID mark and corresponding-author envelope, drawn rather than loaded as
+% images so the source stays self-contained. llncs prints \orcidID as "[id]",
+% which a reader takes for a citation; Springer's own papers show the green
+% ORCID glyph linking to the record.
+\newcommand{\orcidicon}{\begin{tikzpicture}[scale=0.1, baseline=-0.05ex]
+  \fill[color=orcidgreen] (0,0) circle (1);
+  \node[white, font=\bfseries\fontsize{4.6}{4.6}\selectfont, inner sep=0pt]
+    at (0,0) {iD};
+\end{tikzpicture}}
+\renewcommand{\orcidID}[1]{\,\raisebox{0.75ex}{\href{https://orcid.org/#1}{\orcidicon}}}
+\newcommand{\envelopeicon}{\ding{41}}
+\newcommand{\envelope}{\textsuperscript{\footnotesize\ding{41}}}
 
 % Muted palette; distinguishable in greyscale (brightness differs).
 \definecolor{cData}{HTML}{E8EEF7}
@@ -38,6 +52,7 @@
 \definecolor{cLLM}{HTML}{EAF3EA}
 \definecolor{cLLML}{HTML}{4E8A52}
 \definecolor{cLoop}{HTML}{9B4D8C}
+\definecolor{orcidgreen}{HTML}{A6CE39}
 
 
 % Let a page carry a little more float than the default before LaTeX defers it.
@@ -62,7 +77,7 @@
 
 \titlerunning{Beyond Nominal Ratios}
 
-\author{Thanh-Nhan Truong\inst{1,2}\orcidID{0009-0007-5012-7578}}
+\author{Thanh-Nhan Truong\inst{1,2}\textsuperscript{(\envelopeicon)}\orcidID{0009-0007-5012-7578}}
 
 \authorrunning{T.-N. Truong}
 
@@ -79,8 +94,7 @@ Vietnam National University, Ho Chi Minh City, Vietnam}
   % An unnumbered footnote: \footnotetext with the counter at 0 prints a bare
   % "0", which reads as a numbered note whose marker went missing.
   \renewcommand{\thefootnote}{}%
-  \footnotetext{Corresponding author: Thanh-Nhan Truong,
-  \texttt{25C1505320@student.hcmus.edu.vn}. Code, prompts (Vietnamese and
+  \footnotetext{\envelopeicon~Corresponding author. Code, prompts (Vietnamese and
   English), per-dataset results and the extended analyses are at
   \url{https://github.com/nhantrnh/IterCOMP-X}.}%
   \renewcommand{\thefootnote}{\arabic{footnote}}}

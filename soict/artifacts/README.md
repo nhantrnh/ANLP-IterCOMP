@@ -1,8 +1,12 @@
 # Artefacts cho bài SOICT 2026
 
-Bản chụp *chỉ* những gì bài báo dùng: 22 file kết quả, mã nguồn sinh ra chúng,
-và bản `paper.tex` / `paper.pdf` tương ứng. Mọi con số in trong bài đều truy được
-về đúng một file dưới `results/`.
+Bản chụp *chỉ* những gì bài báo dùng: 22 file kết quả, ba prompt, và bản
+`paper.tex` / `paper.pdf` tương ứng. Mọi con số in trong bài đều truy được về
+đúng một file dưới `results/`.
+
+Mã nguồn **không** nằm ở đây — nó ở repo chính
+(<https://github.com/nhantrnh/IterCOMP-X>), thư mục `src/`, để một nơi duy nhất
+là nguồn chuẩn thay vì hai bản dễ lệch nhau.
 
 Chụp ngày 21/09/2026, tại commit của repo lúc tạo. File kết quả là output thô của
 lần chạy, không chỉnh tay.
@@ -55,6 +59,8 @@ luận chỉ dứt khoát khi lên n=500.
 Oracle thấp hơn Raw, một thứ tự không hợp lệ, nên bị loại khỏi mọi bảng.
 
 ## Chạy lại
+
+Lấy mã nguồn từ repo chính rồi:
 
 ```bash
 cd src
