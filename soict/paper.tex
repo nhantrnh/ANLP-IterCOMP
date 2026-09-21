@@ -61,23 +61,6 @@
 \definecolor{cLoop}{HTML}{9B4D8C}
 \definecolor{orcidgreen}{HTML}{A6CE39}
 
-
-% Let a page carry a little more float than the default before LaTeX defers it.
-\renewcommand{\topfraction}{0.95}
-\renewcommand{\bottomfraction}{0.8}
-\renewcommand{\textfraction}{0.06}
-\renewcommand{\floatpagefraction}{0.9}
-\setlength{\floatsep}{8pt plus 2pt minus 2pt}
-
-% Float and caption spacing, a little under the LNCS defaults: the paper runs
-% seven floats in twelve pages, so some tightening is needed, but squeezing
-% these to a fifth of normal is what made the page read as cramped.
-\setlength{\abovecaptionskip}{9pt}
-
-\setlength{\belowcaptionskip}{4pt}
-\setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
-\setlength{\intextsep}{9pt plus 2pt minus 2pt}
-
 \begin{document}
 
 \title{Beyond Nominal Ratios: Language-Aware\\Prompt Compression for Multi-hop\\Question Answering}
@@ -228,8 +211,7 @@ embeds that reasoning into the compression loop, but ships no implementation and
 is evaluated only on English. Four findings follow, three specific to
 Vietnamese:
 
-\begin{itemize}[leftmargin=1.2em, itemsep=0pt, parsep=0pt, topsep=2pt,
-                partopsep=0pt]
+\begin{itemize}[leftmargin=1.2em]
 \item \textbf{An effective ratio} that prices retention in English-equivalent
   tokens. Nominal ratios understate what a Vietnamese context actually costs by
   $2.39\times$, because the tokeniser that bills is not the one that counts.
@@ -889,15 +871,6 @@ retention against 0.14).
 University of Science, VNU-HCM.
 \end{credits}
 
-% Tighten the bibliography: it was spilling a single entry onto a page of its
-% own, and the camera-ready ceiling is 15 pages.
-% References get their own breathing room: the body ends inside page 12, so
-% there is space here, and the cramped default made the list hard to scan.
-\let\oldthebibliography\thebibliography
-\renewcommand{\thebibliography}[1]{%
-  \oldthebibliography{#1}%
-  \setlength{\itemsep}{1.5pt plus 0.5pt}%
-  \setlength{\parsep}{0pt}}
 \bibliographystyle{splncs04}
 \bibliography{references}
 
