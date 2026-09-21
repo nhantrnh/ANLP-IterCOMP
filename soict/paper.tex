@@ -262,7 +262,8 @@ rebuild it from the paper's description and redesign every prompt.
 \section{Related Work}
 \label{sec:related}
 
-\paragraph{Prompt Compression.} \emph{Extractive} methods keep a subset of
+\paragraph{Prompt Compression.} Surveys divide the field in two
+\cite{li2025promptcompression}. \emph{Extractive} methods keep a subset of
 tokens or sentences: LLMLingua \cite{jiang2023llmlingua} drops tokens by
 perplexity; LongLLMLingua \cite{jiang2024longllmlingua} adds query awareness;
 LLMLingua-2 \cite{pan2024llmlingua2} recasts this as token classification,
@@ -318,7 +319,8 @@ WMT24++ \cite{deutsch2025wmt24pp}. All 95\% confidence intervals are narrower
 than $\pm0.04$. Fertility is the mean of per-pair token ratios (Eq.~\ref{eq:fert}),
 not the ratio of the mean counts in columns two and three; the two differ by up to
 $0.02$ here because pair lengths vary. Fertility depends strongly on the tokeniser:
-a factor of two separates \texttt{cl100k\_base} from XLM-R. $^a$GPT-4, GPT-3.5-turbo;
+a factor of two separates \texttt{cl100k\_base} from XLM-R. Both OpenAI
+tokenisers are measured with \texttt{tiktoken} \cite{openai2024tiktoken}. $^a$GPT-4, GPT-3.5-turbo;
 $^b$GPT-4o. Which tokeniser bills depends on the served model, so exposure to
 fertility is set by that choice as much as by the language.}
 \label{tab:fertility}
@@ -564,7 +566,8 @@ essentially unchanged. We use the distractor setting for all four, giving
 10-20 candidate passages per question, so no Wikipedia index is required
 and cost is per question rather than per corpus. Because MuSiQue
 withholds test answers, we report on development sets throughout, and all four
-datasets are evaluated under a single reader (Qwen2.5-7B at 4-bit) so the numbers
+datasets are evaluated under a single reader, Qwen2.5-7B
+\cite{qwen2025qwen25} at 4-bit, so the numbers
 compare like with like; Table~\ref{tab:datasets} gives the statistics.
 
 \begin{table}[t]
@@ -588,7 +591,7 @@ MuSiQue \cite{trivedi2022musique} & En & 2,417  & 1,500 & 20 \\
 \begin{table}[t]
 \centering
 \caption{Hyperparameters from the original paper, which used a LLaMA-3-8B
-reader; VimQA, absent there, uses $k=90$ as HotpotQA. The reader is 4-bit NF4
+\cite{grattafiori2024llama3} reader; VimQA, absent there, uses $k=90$ as HotpotQA. The reader is 4-bit NF4
 (bitsandbytes, double quantisation) under HuggingFace Transformers, decoding
 greedily at most 48 new tokens, so no sampling variance enters the numbers.}
 \label{tab:hyper}
@@ -601,7 +604,7 @@ Max iterations & 5 \\
 Evidence cap & 60\% of source \\
 $\lambda$ & 0.6 \\
 $k$ (percentile) & 90; 85 for 2Wiki \\
-Encoder & bge-m3 (frozen) \\
+Encoder & bge-m3 \cite{chen2024bgem3} (frozen) \\
 Reader & Qwen2.5-7B-4bit \\
 \bottomrule
 \end{tabular}

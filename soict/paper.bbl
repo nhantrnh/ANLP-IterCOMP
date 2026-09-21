@@ -21,6 +21,11 @@ Deutsch, D., Briakou, E., Caswell, I., Finkelstein, M., Galilee, R., Juraska,
   language coverage of {WMT24} to 55 languages and dialects. In: Proceedings of
   WMT (2025), \url{https://huggingface.co/datasets/google/wmt24pp}
 
+\bibitem{grattafiori2024llama3}
+Grattafiori, A., Dubey, A., Jauhri, A., et~al.: The {Llama} 3 herd of models.
+  arXiv preprint arXiv:2407.21783  (2024),
+  \url{https://arxiv.org/abs/2407.21783}
+
 \bibitem{ho2020constructing}
 Ho, X., Duong~Nguyen, A.K., Sugawara, S., Aizawa, A.: Constructing a multi-hop
   {QA} dataset for comprehensive evaluation of reasoning steps. In: Proceedings
@@ -53,6 +58,11 @@ Li, Y., Dong, B., Guerin, F., Lin, C.: Compressing context to enhance inference
   efficiency of large language models. In: Proceedings of EMNLP (2023),
   \url{https://aclanthology.org/2023.emnlp-main.391/}
 
+\bibitem{li2025promptcompression}
+Li, Z., Liu, Y., Su, Y., Collier, N.: Prompt compression for large language
+  models: A survey. In: Proceedings of NAACL (2025),
+  \url{https://aclanthology.org/2025.naacl-long.368/}
+
 \bibitem{lukauskas2026lost}
 Lukauskas, M.: Lost in {C}ompression: {A} {C}ontrolled {C}ross-{L}ingual
   {A}udit of {E}xtractive {P}rompt {C}ompressors. arXiv preprint
@@ -73,6 +83,10 @@ Mohamed, Y., Elhoseiny, M., Formal, T., Chirkova, N.: {XProvence}:
 Nguyen, D.Q., Nguyen, A.T.: {PhoBERT}: Pre-trained language models for
   {Vietnamese}. In: Findings of EMNLP (2020),
   \url{https://aclanthology.org/2020.findings-emnlp.92/}
+
+\bibitem{openai2024tiktoken}
+{OpenAI}: tiktoken: A fast {BPE} tokeniser for use with {OpenAI}'s models.
+  \url{https://github.com/openai/tiktoken} (2024)
 
 \bibitem{pan2024llmlingua2}
 Pan, Z., Wu, Q., Jiang, H., Xia, M., Luo, X., Zhang, J., Lin, Q., R{\"u}hle,
@@ -95,6 +109,10 @@ Phan, L., Tran, H., Nguyen, H., Trinh, T.H.: {ViT5}: Pretrained text-to-text
 Press, O., Zhang, M., Min, S., Schmidt, L., Smith, N.A., Lewis, M.: Measuring
   and narrowing the compositionality gap in language models. In: Findings of
   EMNLP (2023), \url{https://aclanthology.org/2023.findings-emnlp.378/}
+
+\bibitem{qwen2025qwen25}
+{Qwen Team}: {Qwen2.5} technical report. arXiv preprint arXiv:2412.15115
+  (2025), \url{https://arxiv.org/abs/2412.15115}
 
 \bibitem{trivedi2022musique}
 Trivedi, H., Balasubramanian, N., Khot, T., Sabharwal, A.: {MuSiQue}: Multihop
