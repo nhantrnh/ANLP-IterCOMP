@@ -210,13 +210,14 @@ compress once, conditioned on the original question, and so miss what
 defines multi-hop QA: the information needed at a later hop becomes identifiable
 only once the earlier hop's evidence is in. IterCOMP \cite{yun2026itercomp}
 embeds that reasoning into the compression loop, but ships no implementation and
-is evaluated only on English. Four findings follow, three specific to
-Vietnamese:
+is evaluated only on English. Four findings follow: one about compression
+ratios across languages, three about Vietnamese in particular.
 
 \begin{itemize}[leftmargin=1.2em]
 \item An effective ratio that prices retention in English-equivalent tokens.
-  Nominal ratios understate what a Vietnamese context actually costs by
-  $2.39\times$, because the tokeniser that bills is not the one that counts.
+  A nominal ratio means different things in different languages, understating
+  Vietnamese by $2.39\times$, because the tokeniser that bills is not the one
+  that counts.
 \item A boolean-answer normalisation step worth $+8.67$ F1 on Vietnamese
   (95\% CI $[+6.98,+10.47]$) and exactly $0.0$ on all three English datasets -
   a linguistic fix, not a metric-inflating one.
@@ -305,7 +306,7 @@ different languages. We measure the gap here and propose a correction.
 WMT24++ \cite{deutsch2025wmt24pp}. All 95\% confidence intervals are narrower
 than $\pm0.04$. Fertility is the mean of per-pair token ratios (Eq.~\ref{eq:fert}),
 not the ratio of the mean counts in columns two and three; the two differ by up to
-$0.02$ here because pair lengths vary. Fertility depends strongly on the tokeniser:
+$0.03$ here because pair lengths vary. Fertility depends strongly on the tokeniser:
 a factor of two separates \texttt{cl100k\_base} from XLM-R. Both OpenAI
 tokenisers are measured with \texttt{tiktoken} \cite{openai2024tiktoken}. $^a$GPT-4, GPT-3.5-turbo;
 $^b$GPT-4o. Which tokeniser bills depends on the served model, so exposure to
