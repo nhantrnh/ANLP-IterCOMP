@@ -63,7 +63,7 @@
 
 \begin{document}
 
-\title{Beyond Nominal Ratios: Language-Aware\\Prompt Compression for Multi-hop\\Question Answering}
+\title{Beyond Nominal Ratios: Language-Aware\\Prompt Compression for Multi-Hop\\Question Answering}
 
 \titlerunning{Beyond Nominal Ratios}
 
@@ -253,10 +253,17 @@ methods regenerate shorter content, notably RECOMP \cite{xu2024recomp}. All
 compress in a single pass.
 
 \subsection{Iterative Retrieval}
-Self-Ask \cite{press2023selfask} and IRCoT \cite{trivedi2023ircot} decompose
-questions and interleave retrieval with reasoning, expanding the context as they
-go; IterCOMP inverts that, narrowing the context across the same kind of loop.
-All are evaluated on English benchmarks.
+A parallel line of work treats multi-hop QA as a loop rather than a single pass.
+Self-Ask \cite{press2023selfask} has the model pose and answer its own follow-up
+questions; IRCoT \cite{trivedi2023ircot} interleaves retrieval with
+chain-of-thought so that each reasoning step conditions the next query; ReAct
+\cite{yao2023react} generalises the pattern to interleaved reasoning and acting;
+HippoRAG \cite{gutierrez2024hipporag} instead indexes the corpus so that
+multi-hop associations are available without repeated retrieval. What these share
+is direction: each iteration \emph{adds} evidence. IterCOMP runs the same kind of
+loop with the opposite objective, using the reasoning state to decide what to
+discard, so the context shrinks as the loop proceeds. All of this work is
+evaluated on English benchmarks.
 
 \subsection{Tokeniser Disparity}
 Subword tokenisers split non-English text more finely, so the same content costs
@@ -464,7 +471,7 @@ actually cost - all of it the tokeniser's, none of it the compressor's. That is
 the argument for adding the second column rather than replacing the first.
 
 
-\subsection{Iterative Multi-hop Compression}
+\subsection{Iterative Multi-Hop Compression}
 \label{sec:method}
 
 
@@ -646,7 +653,7 @@ $\Delta$ vs.\ LLML-2 & $+15.98^\dag$ & $+10.72^\dag$ & $+17.48^\dag$ & $+18.58^\
 \end{tabular}
 \end{table}
 
-\subsection{Sentence-level against Token-level Compression}
+\subsection{Sentence-Level against Token-Level Compression}
 \label{sec:main}
 Fig.~\ref{fig:tradeoff} plots
 accuracy against context retained; sentence-level compression beats
@@ -765,7 +772,7 @@ $0.192$). The reversal is therefore \emph{consistent with} a reader effect but
 does not isolate one; separating them needs a run with the judge pinned at 7B
 while the reader shrinks, which we did not have the budget for.
 
-\subsection{Vietnamese-specific Results}
+\subsection{Vietnamese-Specific Results}
 \label{sec:vnfindings}
 Four results appear only on Vietnamese. Boolean answer normalisation is worth $+8.67$ F1 on VimQA at $n=1{,}003$, interval
 $[+6.98,+10.47]$, and exactly $0.0$ on each of MuSiQue, 2Wiki and HotpotQA,

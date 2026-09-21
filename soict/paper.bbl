@@ -26,6 +26,11 @@ Grattafiori, A., Dubey, A., Jauhri, A., et~al.: The {Llama} 3 herd of models.
   arXiv preprint arXiv:2407.21783  (2024),
   \url{https://arxiv.org/abs/2407.21783}
 
+\bibitem{gutierrez2024hipporag}
+Guti{\'e}rrez, B.J., Shu, Y., Gu, Y., Yasunaga, M., Su, Y.: {HippoRAG}:
+  Neurobiologically inspired long-term memory for large language models. In:
+  Proceedings of NeurIPS (2024)
+
 \bibitem{ho2020constructing}
 Ho, X., Duong~Nguyen, A.K., Sugawara, S., Aizawa, A.: Constructing a multi-hop
   {QA} dataset for comprehensive evaluation of reasoning steps. In: Proceedings
@@ -136,6 +141,11 @@ Yang, Z., Qi, P., Zhang, S., Bengio, Y., Cohen, W.W., Salakhutdinov, R.,
   Manning, C.D.: {HotpotQA}: A dataset for diverse, explainable multi-hop
   question answering. In: Proceedings of EMNLP (2018),
   \url{https://aclanthology.org/D18-1259/}
+
+\bibitem{yao2023react}
+Yao, S., Zhao, J., Yu, D., Du, N., Shafran, I., Narasimhan, K., Cao, Y.:
+  {ReAct}: Synergizing reasoning and acting in language models. In: Proceedings
+  of ICLR (2023)
 
 \bibitem{yoon2024compact}
 Yoon, C., Lee, T., Hwang, H., Jeong, M., Kang, J.: {CompAct}: Compressing
