@@ -223,7 +223,7 @@ loop itself. No public implementation accompanies the original paper, and its ev
 remains restricted to English.
 
 The Vietnamese adaptation and evaluation are our primary contribution; the
-reproduction that enables them is reported second. Five findings follow, four
+reproduction that enables them is reported second. Four findings follow, three
 specific to Vietnamese:
 
 \begin{itemize}[leftmargin=1.2em, itemsep=0pt, parsep=0pt, topsep=2pt,
@@ -453,7 +453,8 @@ changed (Table~\ref{tab:effspread}):
 \begin{table}[htbp]
 \centering
 \caption{Nominal against effective ratio for one fixed set of compressed
-contexts (50 VimQA questions, same IterCOMP-X output, tokeniser varied).}
+contexts (50 VimQA questions, same IterCOMP-X output, tokeniser varied). Bold
+marks the spread the two columns disagree on.}
 \label{tab:effspread}
 \small
 \begin{tabular}{lrr}
@@ -469,11 +470,10 @@ spread & $1.02\times$ & $\mathbf{1.80\times}$ \\
 \end{tabular}
 \end{table}
 
-The contexts are byte-identical across the three rows, so the whole of that
-$1.80\times$ is the tokeniser's and none of it the compressor's: three systems a
-nominal ratio calls identical to within $1.02\times$ differ by $1.80\times$ in
-what they actually cost. That is the argument for adding the second column
-rather than replacing the first.
+The contexts are byte-identical across the three rows, so three systems a nominal
+ratio calls identical to within $1.02\times$ differ by $1.80\times$ in what they
+actually cost - all of it the tokeniser's, none of it the compressor's. That is
+the argument for adding the second column rather than replacing the first.
 
 
 \subsection{Iterative multi-hop compression}
@@ -627,7 +627,7 @@ the released per-question records. Nominal retention is counted in \texttt{\text
 the original protocol uses - words in English, syllables in Vietnamese, so the
 $1.34\times$ figure is a lower bound on word-level fertility;
 Eq.~\ref{eq:effratio} converts it to billed cost. That normalisation is built for English, so for Vietnamese we
-preserve diacritics: stripping them collapses distinct words
+preserve diacritics: stripping them collapses distinct syllables
 (\emph{má}/\emph{mà}) and renders EM/F1 meaningless. The released code
 documents this and the other text-handling prerequisites.
 
@@ -732,7 +732,7 @@ $[+4.93,+17.84]$.
 \node[font=\scriptsize,anchor=south east,text=black!75,inner sep=2pt]
   at (axis cs:0.93,47.6) {VimQA (vi)};
 \node[font=\scriptsize,anchor=south east,text=black!75,inner sep=2pt]
-  at (axis cs:0.93,59.8) {HotpotQA};
+  at (axis cs:0.93,61.5) {HotpotQA};
 \node[font=\scriptsize,anchor=south east,text=black!75,inner sep=2pt]
   at (axis cs:0.93,22.0) {MuSiQue};
 \node[font=\scriptsize,anchor=south east,text=black!75,inner sep=2pt]
@@ -770,7 +770,7 @@ Absolute numbers do not compare across readers, but two invariants suggest the
 reimplementation is faithful. First, the \textbf{method ordering reproduces} -
 Oracle $>$ IterCOMP $>$ Raw $>$ LLMLingua-2 on MuSiQue at both sample sizes, and
 on 2Wiki at scale (Section~\ref{sec:main}). Second, the Oracle/Raw ratio is in
-range: 1.74 at $n=50$ and 2.12 at $n=1{,}500$ against the paper's 1.88. That
+range: 1.72 at $n=50$ and 2.12 at $n=1{,}500$ against the paper's 1.88. That
 ratio is the headroom perfect selection buys over full context; being a property
 of the task rather than of the reader, its agreement is evidence that
 decomposition, gold labels and F1 are all correct. On the headline number,
@@ -829,11 +829,12 @@ is left alone, and a wrong-polarity prediction maps to the opposite label and
 still scores zero. The lexicons are released with the code. Nominal compression ratios understate token cost
 on Vietnamese by $2.39\times$ because the tokeniser that bills is not the one
 that counts; we propose an \emph{effective ratio} that folds fertility back in. Vietnamese does not handicap the compressor:
-IterCOMP-X recovers $84\%$ of the gold-evidence reference on VimQA ($51.29$ against
-$61.03$) but only $56\%$ on MuSiQue ($25.35$ against $44.90$). The gap tracks
-distractor density rather than language: VimQA offers ten candidate passages per
-question and MuSiQue twenty, so perfect selection is worth more on MuSiQue and a
-compressor has further to fall short of it.
+IterCOMP-X recovers $84\%$ of the gold-evidence reference on VimQA ($51.29$
+against $61.03$), the highest of the four, against $76\%$ on HotpotQA, $64\%$ on
+2Wiki and $56\%$ on MuSiQue. The Vietnamese dataset is the easiest to recover on,
+not the hardest. We do not claim to explain the spread: MuSiQue's twenty
+candidate passages against ten elsewhere fit its position at the bottom, but the
+three ten-passage datasets themselves range over twenty points.
 
 \paragraph{Non-diacritic Vietnamese.} Vietnamese is often typed without diacritics
 online, a setting no compression paper evaluates, and stripping them is

@@ -54,9 +54,9 @@ Li, Y., Dong, B., Guerin, F., Lin, C.: Compressing context to enhance inference
   \url{https://aclanthology.org/2023.emnlp-main.391/}
 
 \bibitem{lukauskas2026lost}
-Lukauskas, M.: Lost in compression: A controlled cross-lingual audit of
-  extractive prompt compressors. arXiv preprint arXiv:2608.26175  (2026),
-  \url{https://arxiv.org/abs/2608.26175}
+Lukauskas, M.: Lost in {C}ompression: {A} {C}ontrolled {C}ross-{L}ingual
+  {A}udit of {E}xtractive {P}rompt {C}ompressors. arXiv preprint
+  arXiv:2608.26175  (2026), \url{https://arxiv.org/abs/2608.26175}
 
 \bibitem{marchisio2024confusion}
 Marchisio, K., Ko, W.Y., Bérard, A., Dehaze, T., Ruder, S.: Understanding and
@@ -64,9 +64,10 @@ Marchisio, K., Ko, W.Y., Bérard, A., Dehaze, T., Ruder, S.: Understanding and
   \url{https://aclanthology.org/2024.emnlp-main.380/}
 
 \bibitem{mohamed2026xprovence}
-Mohamed, Y., Elhoseiny, M., Formal, T., Chirkova, N.: {XProvence}: Zero-cost
-  multilingual context pruning for retrieval-augmented generation. arXiv
-  preprint arXiv:2601.18886  (2026), \url{https://arxiv.org/abs/2601.18886}
+Mohamed, Y., Elhoseiny, M., Formal, T., Chirkova, N.: {XProvence}:
+  {Z}ero-{C}ost {M}ultilingual {C}ontext {P}runing for {R}etrieval-{A}ugmented
+  {G}eneration. arXiv preprint arXiv:2601.18886  (2026),
+  \url{https://arxiv.org/abs/2601.18886}
 
 \bibitem{nguyen2020phobert}
 Nguyen, D.Q., Nguyen, A.T.: {PhoBERT}: Pre-trained language models for
