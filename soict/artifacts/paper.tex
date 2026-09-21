@@ -127,7 +127,7 @@ documents to compensate for a model's bounded knowledge, but introduces two
 problems: \emph{cost} (input length grows linearly with the number of documents)
 and \emph{noise} (irrelevant passages degrade reader accuracy).
 
-\begin{figure}[t]
+\begin{figure}[!htbp]
 \centering
 \resizebox{\textwidth}{!}{%
 \begin{tikzpicture}[
@@ -214,7 +214,7 @@ the answer; re-scored against the follow-up $q'$ it rises to $0.89$ and is kept.
 \end{figure}
 
 Prompt compression addresses both. However, existing methods
-\cite{jiang2023llmlingua,pan2024llmlingua2,xu2024recomp,li2023selectivecontext}
+\cite{jiang2023llmlingua,li2023selectivecontext,pan2024llmlingua2,xu2024recomp}
 compress \emph{once}, conditioned on the original question, and therefore miss the
 defining property of multi-hop QA: the information needed at a later hop only
 becomes identifiable once the evidence of the earlier hop has been retrieved.
@@ -918,7 +918,7 @@ carrying sentence-level supporting facts.
 \paragraph{Ethics.} VimQA's CC BY-NC-SA 4.0 licence confines us to research use,
 and compression is lossy: dropping a negation leaves fluency intact while
 inverting the answer, so sensitive deployments should verify against the source.
-A fix worth 8.67 F1 in Vietnamese and 0.0 in English is a further caution that
+A fix worth 8.67 F1 in Vietnamese and 0.0 F1 in English is a further caution that
 ``multilingual'' models are not equally reliable across languages.
 
 \vspace{-2mm}
