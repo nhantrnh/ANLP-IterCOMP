@@ -23,8 +23,7 @@ Deutsch, D., Briakou, E., Caswell, I., Finkelstein, M., Galilee, R., Juraska,
 
 \bibitem{grattafiori2024llama3}
 Grattafiori, A., Dubey, A., Jauhri, A., et~al.: The {Llama} 3 herd of models.
-  arXiv preprint arXiv:2407.21783  (2024),
-  \url{https://arxiv.org/abs/2407.21783}
+  Technical report, Meta AI (2024)
 
 \bibitem{gutierrez2024hipporag}
 Guti{\'e}rrez, B.J., Shu, Y., Gu, Y., Yasunaga, M., Su, Y.: {HippoRAG}:
@@ -68,11 +67,6 @@ Li, Z., Liu, Y., Su, Y., Collier, N.: Prompt compression for large language
   models: A survey. In: Proceedings of NAACL (2025),
   \url{https://aclanthology.org/2025.naacl-long.368/}
 
-\bibitem{lukauskas2026lost}
-Lukauskas, M.: Lost in {C}ompression: {A} {C}ontrolled {C}ross-{L}ingual
-  {A}udit of {E}xtractive {P}rompt {C}ompressors. arXiv preprint
-  arXiv:2608.26175  (2026), \url{https://arxiv.org/abs/2608.26175}
-
 \bibitem{marchisio2024confusion}
 Marchisio, K., Ko, W.Y., Bérard, A., Dehaze, T., Ruder, S.: Understanding and
   mitigating language confusion in {LLM}s. In: Proceedings of EMNLP (2024),
@@ -81,8 +75,8 @@ Marchisio, K., Ko, W.Y., Bérard, A., Dehaze, T., Ruder, S.: Understanding and
 \bibitem{mohamed2026xprovence}
 Mohamed, Y., Elhoseiny, M., Formal, T., Chirkova, N.: {XProvence}:
   {Z}ero-{C}ost {M}ultilingual {C}ontext {P}runing for {R}etrieval-{A}ugmented
-  {G}eneration. arXiv preprint arXiv:2601.18886  (2026),
-  \url{https://arxiv.org/abs/2601.18886}
+  {G}eneration. In: Proceedings of ECIR. Lecture Notes in Computer Science,
+  vol. 16484. Springer (2026)
 
 \bibitem{nguyen2020phobert}
 Nguyen, D.Q., Nguyen, A.T.: {PhoBERT}: Pre-trained language models for
@@ -116,8 +110,7 @@ Press, O., Zhang, M., Min, S., Schmidt, L., Smith, N.A., Lewis, M.: Measuring
   EMNLP (2023), \url{https://aclanthology.org/2023.findings-emnlp.378/}
 
 \bibitem{qwen2025qwen25}
-{Qwen Team}: {Qwen2.5} technical report. arXiv preprint arXiv:2412.15115
-  (2025), \url{https://arxiv.org/abs/2412.15115}
+{Qwen Team}: {Qwen2.5} technical report. Technical report, Alibaba Group (2025)
 
 \bibitem{trivedi2022musique}
 Trivedi, H., Balasubramanian, N., Khot, T., Sabharwal, A.: {MuSiQue}: Multihop

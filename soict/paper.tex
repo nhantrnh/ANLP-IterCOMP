@@ -268,12 +268,12 @@ evaluated on English benchmarks.
 Subword tokenisers split non-English text more finely, so the same content costs
 more tokens. Ahia et al.\ \cite{ahia2023allcost} price this against commercial
 APIs, and Petrov et al.\ \cite{petrov2023tokenizers} frame it as unfairness
-between languages. That literature measures the cost of text.
-Cross-lingual audits of compression have since controlled for the disparity
-inside their protocol, matching budgets in the target tokeniser
-\cite{lukauskas2026lost}. What remains unproposed is a reported quantity
-carrying the correction, so that published ratios stay comparable across
-languages; Section~\ref{sec:fertility} supplies one.
+between languages. That literature measures the cost of text, and where
+compression work controls for the disparity at all, it does so inside the
+evaluation protocol by matching budgets in the target tokeniser. What remains
+unproposed is a reported quantity carrying the correction, so that published
+ratios stay comparable across languages; Section~\ref{sec:fertility} supplies
+one.
 
 \subsection{Vietnamese NLP}
 Vietnamese is well served at the model level, with the encoder PhoBERT
