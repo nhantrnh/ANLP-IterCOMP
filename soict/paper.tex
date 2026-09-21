@@ -92,22 +92,23 @@ Prompt compression is reported as a ratio: the fraction of the context a
 compressor keeps. We show that this number is not comparable across languages,
 and that the gap is large enough to reverse which method is the cheaper one.
 Measuring token fertility on parallel WMT24++ sentences across four writing
-systems, a context costs $4.97\times$ more tokens in Hindi, $3.89\times$ in Thai
-and $2.49\times$ in Vietnamese than its English counterpart under the commercial
-tokenisers that bill, so a compressor reporting the same nominal ratio in two
-languages is not delivering the same savings. We propose an \emph{effective
-ratio} that prices retention in English-equivalent tokens, and show it separates
-tokenisers that nominal ratios rank as identical ($1.02\times$ spread nominal,
-$1.80\times$ effective). To ground this, we reimplement IterCOMP, a recent
-training-free compressor evaluated only on English, and give it its first
-evaluation on Vietnamese multi-hop QA - the configuration we release as
-IterCOMP-X - using the complete VimQA benchmark alongside MuSiQue,
-2WikiMultiHopQA and HotpotQA ($n\ge1{,}003$ each), with six further compression
-baselines on a 200-question VimQA subset. Two further effects appear only outside
-English: a boolean-answer normalisation step is worth $+8.67$ F1 in Vietnamese
-and exactly $0.0$ in English, and non-diacritic text - ubiquitous online -
-degrades every branch by about 20 F1, with no measurable extra loss to the
-compressed branch.
+systems, the same content costs $4.97\times$ more tokens in Hindi, $3.89\times$
+in Thai and $2.49\times$ in Vietnamese than in English under the commercial
+tokenisers that bill. A compressor reporting the same nominal ratio in two
+languages is therefore not delivering the same savings. We propose an
+\emph{effective ratio} that prices retention in English-equivalent tokens: it
+separates tokenisers a nominal ratio calls identical to within $1.02\times$ but
+which differ by $1.80\times$ in what they actually cost.
+
+To ground this we reimplement IterCOMP, a recent training-free compressor
+evaluated only on English, and give it its first evaluation on Vietnamese
+multi-hop QA, released as IterCOMP-X. Across the complete VimQA benchmark and
+three English datasets ($n\ge1{,}003$ each), sentence-level compression beats
+token-level by $+10.72$ to $+18.58$ F1, though against the uncompressed baseline
+it wins on three of four. Two effects appear only outside English: a
+boolean-answer normalisation step worth $+8.67$ F1 in Vietnamese and exactly
+$0.0$ in English, and non-diacritic text - ubiquitous online - costing every
+branch about 20 F1, with no measurable extra loss to the compressed branch.
 
 \keywords{Prompt compression \and Multi-hop question answering \and
 Tokeniser fertility \and Vietnamese NLP \and Retrieval-augmented generation}
