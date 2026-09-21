@@ -214,21 +214,20 @@ is evaluated only on English. Four findings follow, three specific to
 Vietnamese:
 
 \begin{itemize}[leftmargin=1.2em]
-\item \textbf{An effective ratio} that prices retention in English-equivalent
-  tokens. Nominal ratios understate what a Vietnamese context actually costs by
+\item An effective ratio that prices retention in English-equivalent tokens.
+  Nominal ratios understate what a Vietnamese context actually costs by
   $2.39\times$, because the tokeniser that bills is not the one that counts.
-\item \textbf{A boolean-answer normalisation step} worth $+8.67$ F1 on
-  Vietnamese (95\% CI $[+6.98,+10.47]$) and exactly $0.0$ on all three English
-  datasets - a linguistic fix, not a metric-inflating one.
-\item \textbf{Vietnamese does not handicap the compressor.}
-  IterCOMP-X recovers 84\% of the gold-evidence reference on VimQA, more than on any of
-  the three English datasets (56--76\%), so the Vietnamese setting is the
-  easiest of the four rather than the hardest
-  (Section~\ref{sec:vnfindings}).
-\item \textbf{The first measurement of non-diacritic Vietnamese.} Stripping
-  diacritics costs about 20 F1, and costs gold and compressed context
-  indistinguishable amounts ($20.70$ against $18.66$, difference-in-differences
-  CI $[-2.71,+6.79]$), so we find no extraction error the compressor adds
+\item A boolean-answer normalisation step worth $+8.67$ F1 on Vietnamese
+  (95\% CI $[+6.98,+10.47]$) and exactly $0.0$ on all three English datasets -
+  a linguistic fix, not a metric-inflating one.
+\item Evidence that Vietnamese does not handicap the compressor: IterCOMP-X
+  recovers 84\% of the gold-evidence reference on VimQA, more than on any of the
+  three English datasets (56--76\%), so the Vietnamese setting is the easiest of
+  the four rather than the hardest (Section~\ref{sec:vnfindings}).
+\item The first measurement of non-diacritic Vietnamese. Stripping diacritics
+  costs about 20 F1, and costs gold and compressed context indistinguishable
+  amounts ($20.70$ against $18.66$, difference-in-differences CI
+  $[-2.71,+6.79]$), so we find no extraction error the compressor adds
   (Table~\ref{tab:undia}).
 \end{itemize}
 
@@ -745,7 +744,7 @@ Oracle $>$ IterCOMP $>$ Raw $>$ LLMLingua-2. We reproduce it on VimQA (IterCOMP-
 over Raw, $+4.42$, interval clear) and on MuSiQue ($+4.19$; at $n=500$ the same
 margin read $+3.31$ and crossed zero, so tripling the sample decided it); the
 order matches on 2Wiki, where $+1.00$ does not separate; and on HotpotQA
-\textbf{Raw overtakes IterCOMP-X} by $4.66$ F1, interval clear. The four gaps are
+Raw overtakes IterCOMP-X by $4.66$ F1, interval clear. The four gaps are
 therefore $+4.42$, $+4.19$, $+1.00$ and $-4.66$ F1; Section~\ref{sec:reader}
 accounts for the reversal.
 
@@ -760,8 +759,7 @@ $+10.72$ on MuSiQue.
 Oracle exceeds Raw on every dataset while reading 5.7\% to 16.4\% of the tokens,
 confirming the premise the literature rests on: irrelevant passages \emph{do}
 degrade accuracy. The size of that gap decides whether compression can exploit it. Oracle/Raw is 2.12 on MuSiQue, 1.61 on 2Wiki and 1.30 on VimQA, where IterCOMP-X
-holds its own, but only 1.21 on HotpotQA, where Raw wins outright. \textbf{The premise is
-reader-dependent}: a reader that already copes with distractors leaves compression
+holds its own, but only 1.21 on HotpotQA, where Raw wins outright. The premise is reader-dependent: a reader that already copes with distractors leaves compression
 little to recover. Replacing the reader with Qwen2.5-0.5B on HotpotQA ($n=500$)
 moves IterCOMP-X from $-4.66$ to $+7.66$ F1 against Raw ($37.88$ against
 $30.22$), the ordering the original paper reports with its own weaker reader.
@@ -838,7 +836,7 @@ Setting & IterCOMP-X & Gold & $\Delta$ \\
 
 We hand-categorised 50 IterCOMP-X predictions on VimQA. Most errors belong to the
 \emph{reader}: Oracle sees the gold evidence yet reaches only 61.03 F1, so
-\textbf{80\%} of IterCOMP-X's 48.7 F1 of error survives perfect retrieval. One
+80\% of IterCOMP-X's 48.7 F1 of error survives perfect retrieval. One
 error in ten is not a compression failure at all: a yes/no question answered
 correctly in substance but in the wrong surface form, scoring F1 of 0. A smaller reader does this far more often on the identical
 prompt - ``tức là yes'' for ``đúng'', the language confusion small models are
@@ -846,7 +844,7 @@ prone to \cite{marchisio2024confusion} - so boolean answers need language-aware
 normalisation rather than a compression fix. The rest give a wrong but related entity inside a correctly
 retained segment, or are compositional, where the Raw-Oracle gap is widest.
 
-A further \textbf{9.8\% of VimQA is a single question template} - \emph{``X lớn
+A further 9.8\% of VimQA is a single question template - \emph{``X lớn
 tuổi hơn Y phải không?''}, ``is $X$ older than $Y$?'', and its negation
 \emph{nhỏ tuổi hơn} - on which 44.9\% of answers score zero against 37.1\% elsewhere,
 because the task is arithmetic over two birth dates rather than retrieval; under
