@@ -127,8 +127,97 @@ Prompt compression addresses both, but existing methods
 compress once, conditioned on the original question, and so miss what
 defines multi-hop QA: the information needed at a later hop becomes identifiable
 only once the earlier hop's evidence is in. IterCOMP \cite{yun2026itercomp}
-embeds that reasoning into the compression loop, but ships no implementation and
-is evaluated only on English. Four findings follow: one about compression
+embeds that reasoning into the compression loop: Fig.~\ref{fig:arch} follows one
+VimQA question through it, where the sentence holding the answer falls below the
+threshold on the first pass and is recovered on the second. The method ships no
+implementation, however, and is evaluated only on English.
+
+\begin{figure}[!htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+  font=\footnotesize, x=1cm, y=1cm,
+  % ── mot bang mau duy nhat: xanh = du lieu, cam = LLM, luc = ket qua ──
+  qq/.style={rounded corners=3pt, draw=cDataL, fill=cData, line width=0.7pt,
+             align=center, font=\scriptsize, text width=44mm,
+             inner xsep=5pt, inner ysep=5pt},
+  sg/.style={rounded corners=2pt, draw=gray!40, fill=white, line width=0.5pt,
+             align=left, font=\scriptsize, text width=44mm,
+             inner xsep=5pt, inner ysep=4pt},
+  kp/.style={sg, draw=cLLML, fill=cLLM!40, line width=0.9pt},
+  dp/.style={sg, draw=gray!45, fill=gray!10, text=gray!75!black},
+  ai/.style={rounded corners=3pt, draw=cScoreL, fill=cScore, line width=0.7pt,
+             align=center, font=\scriptsize\bfseries, text width=32mm,
+             inner xsep=5pt, inner ysep=5pt},
+  ok/.style={rounded corners=3pt, draw=cLLML, fill=cLLM, line width=0.8pt,
+             align=center, font=\scriptsize\bfseries, text width=44mm,
+             inner xsep=5pt, inner ysep=5pt},
+  tag/.style={font=\tiny\bfseries, text=white, fill=cScoreL, rounded corners=1.5pt,
+              inner xsep=2.5pt, inner ysep=1pt},
+  a/.style={-{Latex[length=2mm,width=1.6mm]}, line width=0.8pt, gray!40!black},
+  b/.style={-{Latex[length=2mm,width=1.6mm]}, line width=0.9pt, cLoop,
+            dashed, dash pattern=on 2pt off 1.5pt},
+  hd/.style={font=\scriptsize\bfseries, text=gray!20!black, anchor=west},
+  nt/.style={font=\scriptsize, align=left, anchor=north west},
+]
+% ═══ luoi: cot x = 0 / 6.4 / 10.6 ; hang y cach deu 0.72 ═══
+\def\cL{0}      \def\cM{6.85}   \def\cR{10.45}
+
+% ── PASS 1 ───────────────────────────────────────────────
+\node[hd] at (\cL,2.72) {Pass 1 \ \textnormal{query $=q$}};
+\node[qq, anchor=north west] (q1) at (\cL,2.50)
+  {\emph{``\dots released on \textbf{what date}?''}};
+\node[sg, anchor=north west] (s1) at (\cL,1.72)
+  {\textbf{0.71} \ ``\dots the debut studio album''};
+\node[sg, anchor=north west] (s2) at (\cL,1.06)
+  {\textbf{0.68} \ ``Eilish co-wrote most tracks''};
+\node[dp, anchor=north west] (s3) at (\cL,0.40)
+  {\textbf{0.34} \ ``\dots released on \textbf{29 Mar 2019}''};
+% This label sits below the last box; \path reserves the strip it needs so
+% resizebox does not scale it off the bottom edge.
+\node[nt, text=gray!70!black, anchor=north] at (\cL,-0.52)
+  {below threshold - the answer is cut};
+\path (\cL,-0.95);
+
+% ── LLM ──────────────────────────────────────────────────
+\node[ai] (j1) at (\cM,1.55) {Answerability\\ judgement};
+\node[tag, anchor=north east] at ($(j1.north east)+(0.05,0.05)$) {LLM};
+\node[ai] (j2) at (\cM,0.25) {Missing information\\ identification};
+\node[tag, anchor=north east] at ($(j2.north east)+(0.05,0.05)$) {LLM};
+\draw[a] (s1.east) -- (j1.west);
+\draw[a] (j1) -- node[font=\scriptsize, right=2pt, text=gray!45!black]
+         {unanswerable} (j2);
+
+% ── PASS 2 ───────────────────────────────────────────────
+\node[hd] at (\cR,2.72) {Pass 2 \ \textnormal{query $=q'$}};
+\node[qq, anchor=north west] (q2) at (\cR,2.50)
+  {\emph{``\textbf{When We All Fall Asleep} released when?''}};
+\node[kp, anchor=north west] (t1) at (\cR,1.72)
+  {\textbf{0.89} \ ``\dots released on \textbf{29 Mar 2019}''};
+\node[sg, anchor=north west] (t2) at (\cR,1.06)
+  {\textbf{0.55} \ ``\dots the debut studio album''};
+\node[nt, text=cLLML] at (\cR,0.40) {same sentence, now rank 1 - kept};
+\node[ok, anchor=north west] (rd) at (\cR,0.02)
+  {answerable $\rightarrow$ $P_\text{comp}$, 19\% of tokens};
+
+% ── vong lap: di vong LEN TREN, khong cat qua hop nao ──
+\draw[b] (j2.east) -- ++(0.45,0) |- (9.15,3.30) -| ($(q2.north)+(0,0.02)$);
+\node[font=\scriptsize, text=cLoop, anchor=south] at (9.15,3.34)
+  {question update};
+
+\begin{scope}[on background layer]
+  \node[fit=(q1)(s1)(s2)(s3), draw=cDataL!35, dashed, line width=0.5pt,
+        dash pattern=on 2pt off 1.6pt, rounded corners=4pt, inner sep=6pt] {};
+  \node[fit=(q2)(t1)(t2)(rd), draw=cLLML!35, dashed, line width=0.5pt,
+        dash pattern=on 2pt off 1.6pt, rounded corners=4pt, inner sep=6pt] {};
+\end{scope}
+\end{tikzpicture}}
+\caption{One VimQA question through two IterCOMP passes. The sentence carrying the
+release date scores $0.34$ and is filtered out, so a single-pass compressor loses
+the answer; re-scored against the follow-up $q'$ it rises to $0.89$ and is kept.}
+\label{fig:arch}
+\end{figure}
+ Four findings follow: one about compression
 ratios across languages, three about Vietnamese in particular.
 
 \begin{itemize}[leftmargin=1.2em]
@@ -392,93 +481,9 @@ Given a question $q$ and document set $D$, we seek a compressed context
 $P_{\text{comp}}$ with $|P_{\text{comp}}| \ll |D|$ such that the reader still
 answers correctly. IterCOMP is training-free: all parameters stay frozen.
 Each document is decomposed into sentence-level evidence segments $e_{i,j}$.
-Figure~\ref{fig:arch} traces one question through two iterations.
+Fig.~\ref{fig:arch} traced this loop on one question; we now give the two
+steps it turns on.
 
-\begin{figure}[!htbp]
-\centering
-\resizebox{\textwidth}{!}{%
-\begin{tikzpicture}[
-  font=\footnotesize, x=1cm, y=1cm,
-  % ── mot bang mau duy nhat: xanh = du lieu, cam = LLM, luc = ket qua ──
-  qq/.style={rounded corners=3pt, draw=cDataL, fill=cData, line width=0.7pt,
-             align=center, font=\scriptsize, text width=44mm,
-             inner xsep=5pt, inner ysep=5pt},
-  sg/.style={rounded corners=2pt, draw=gray!40, fill=white, line width=0.5pt,
-             align=left, font=\scriptsize, text width=44mm,
-             inner xsep=5pt, inner ysep=4pt},
-  kp/.style={sg, draw=cLLML, fill=cLLM!40, line width=0.9pt},
-  dp/.style={sg, draw=gray!45, fill=gray!10, text=gray!75!black},
-  ai/.style={rounded corners=3pt, draw=cScoreL, fill=cScore, line width=0.7pt,
-             align=center, font=\scriptsize\bfseries, text width=32mm,
-             inner xsep=5pt, inner ysep=5pt},
-  ok/.style={rounded corners=3pt, draw=cLLML, fill=cLLM, line width=0.8pt,
-             align=center, font=\scriptsize\bfseries, text width=44mm,
-             inner xsep=5pt, inner ysep=5pt},
-  tag/.style={font=\tiny\bfseries, text=white, fill=cScoreL, rounded corners=1.5pt,
-              inner xsep=2.5pt, inner ysep=1pt},
-  a/.style={-{Latex[length=2mm,width=1.6mm]}, line width=0.8pt, gray!40!black},
-  b/.style={-{Latex[length=2mm,width=1.6mm]}, line width=0.9pt, cLoop,
-            dashed, dash pattern=on 2pt off 1.5pt},
-  hd/.style={font=\scriptsize\bfseries, text=gray!20!black, anchor=west},
-  nt/.style={font=\scriptsize, align=left, anchor=north west},
-]
-% ═══ luoi: cot x = 0 / 6.4 / 10.6 ; hang y cach deu 0.72 ═══
-\def\cL{0}      \def\cM{6.85}   \def\cR{10.45}
-
-% ── PASS 1 ───────────────────────────────────────────────
-\node[hd] at (\cL,2.72) {Pass 1 \ \textnormal{query $=q$}};
-\node[qq, anchor=north west] (q1) at (\cL,2.50)
-  {\emph{``\dots released on \textbf{what date}?''}};
-\node[sg, anchor=north west] (s1) at (\cL,1.72)
-  {\textbf{0.71} \ ``\dots the debut studio album''};
-\node[sg, anchor=north west] (s2) at (\cL,1.06)
-  {\textbf{0.68} \ ``Eilish co-wrote most tracks''};
-\node[dp, anchor=north west] (s3) at (\cL,0.40)
-  {\textbf{0.34} \ ``\dots released on \textbf{29 Mar 2019}''};
-% This label sits below the last box; \path reserves the strip it needs so
-% resizebox does not scale it off the bottom edge.
-\node[nt, text=gray!70!black, anchor=north] at (\cL,-0.52)
-  {below threshold - the answer is cut};
-\path (\cL,-0.95);
-
-% ── LLM ──────────────────────────────────────────────────
-\node[ai] (j1) at (\cM,1.55) {Answerability\\ judgement};
-\node[tag, anchor=north east] at ($(j1.north east)+(0.05,0.05)$) {LLM};
-\node[ai] (j2) at (\cM,0.25) {Missing information\\ identification};
-\node[tag, anchor=north east] at ($(j2.north east)+(0.05,0.05)$) {LLM};
-\draw[a] (s1.east) -- (j1.west);
-\draw[a] (j1) -- node[font=\scriptsize, right=2pt, text=gray!45!black]
-         {unanswerable} (j2);
-
-% ── PASS 2 ───────────────────────────────────────────────
-\node[hd] at (\cR,2.72) {Pass 2 \ \textnormal{query $=q'$}};
-\node[qq, anchor=north west] (q2) at (\cR,2.50)
-  {\emph{``\textbf{When We All Fall Asleep} released when?''}};
-\node[kp, anchor=north west] (t1) at (\cR,1.72)
-  {\textbf{0.89} \ ``\dots released on \textbf{29 Mar 2019}''};
-\node[sg, anchor=north west] (t2) at (\cR,1.06)
-  {\textbf{0.55} \ ``\dots the debut studio album''};
-\node[nt, text=cLLML] at (\cR,0.40) {same sentence, now rank 1 - kept};
-\node[ok, anchor=north west] (rd) at (\cR,0.02)
-  {answerable $\rightarrow$ $P_\text{comp}$, 19\% of tokens};
-
-% ── vong lap: di vong LEN TREN, khong cat qua hop nao ──
-\draw[b] (j2.east) -- ++(0.45,0) |- (9.15,3.30) -| ($(q2.north)+(0,0.02)$);
-\node[font=\scriptsize, text=cLoop, anchor=south] at (9.15,3.34)
-  {question update};
-
-\begin{scope}[on background layer]
-  \node[fit=(q1)(s1)(s2)(s3), draw=cDataL!35, dashed, line width=0.5pt,
-        dash pattern=on 2pt off 1.6pt, rounded corners=4pt, inner sep=6pt] {};
-  \node[fit=(q2)(t1)(t2)(rd), draw=cLLML!35, dashed, line width=0.5pt,
-        dash pattern=on 2pt off 1.6pt, rounded corners=4pt, inner sep=6pt] {};
-\end{scope}
-\end{tikzpicture}}
-\caption{One VimQA question through two IterCOMP passes. The sentence carrying the
-release date scores $0.34$ and is filtered out, so a single-pass compressor loses
-the answer; re-scored against the follow-up $q'$ it rises to $0.89$ and is kept.}
-\label{fig:arch}
-\end{figure}
 
 
 \subsubsection{Evidence Filtering.}
