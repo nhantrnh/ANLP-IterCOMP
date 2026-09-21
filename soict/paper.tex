@@ -62,6 +62,8 @@
 \definecolor{cLoop}{HTML}{9B4D8C}
 \definecolor{orcidgreen}{HTML}{A6CE39}
 
+\renewcommand{\floatpagefraction}{0.9}
+
 \begin{document}
 
 \title{Beyond Nominal Ratios: Language-Aware\\Prompt Compression for Multi-Hop\\Question Answering}
@@ -119,91 +121,6 @@ retrieval-augmented generation \cite{lewis2020rag} supplies those documents at
 two costs: input length grows with their number, and irrelevant passages degrade
 reader accuracy.
 
-\begin{figure}[!htbp]
-\centering
-\resizebox{\textwidth}{!}{%
-\begin{tikzpicture}[
-  font=\footnotesize, x=1cm, y=1cm,
-  % ── mot bang mau duy nhat: xanh = du lieu, cam = LLM, luc = ket qua ──
-  qq/.style={rounded corners=3pt, draw=cDataL, fill=cData, line width=0.7pt,
-             align=center, font=\scriptsize, text width=44mm,
-             inner xsep=5pt, inner ysep=5pt},
-  sg/.style={rounded corners=2pt, draw=gray!40, fill=white, line width=0.5pt,
-             align=left, font=\scriptsize, text width=44mm,
-             inner xsep=5pt, inner ysep=4pt},
-  kp/.style={sg, draw=cLLML, fill=cLLM!40, line width=0.9pt},
-  dp/.style={sg, draw=gray!45, fill=gray!10, text=gray!75!black},
-  ai/.style={rounded corners=3pt, draw=cScoreL, fill=cScore, line width=0.7pt,
-             align=center, font=\scriptsize\bfseries, text width=32mm,
-             inner xsep=5pt, inner ysep=5pt},
-  ok/.style={rounded corners=3pt, draw=cLLML, fill=cLLM, line width=0.8pt,
-             align=center, font=\scriptsize\bfseries, text width=44mm,
-             inner xsep=5pt, inner ysep=5pt},
-  tag/.style={font=\tiny\bfseries, text=white, fill=cScoreL, rounded corners=1.5pt,
-              inner xsep=2.5pt, inner ysep=1pt},
-  a/.style={-{Latex[length=2mm,width=1.6mm]}, line width=0.8pt, gray!40!black},
-  b/.style={-{Latex[length=2mm,width=1.6mm]}, line width=0.9pt, cLoop,
-            dashed, dash pattern=on 2pt off 1.5pt},
-  hd/.style={font=\scriptsize\bfseries, text=gray!20!black, anchor=west},
-  nt/.style={font=\scriptsize, align=left, anchor=north west},
-]
-% ═══ luoi: cot x = 0 / 6.4 / 10.6 ; hang y cach deu 0.72 ═══
-\def\cL{0}      \def\cM{6.85}   \def\cR{10.45}
-
-% ── PASS 1 ───────────────────────────────────────────────
-\node[hd] at (\cL,2.72) {Pass 1 \ \textnormal{query $=q$}};
-\node[qq, anchor=north west] (q1) at (\cL,2.50)
-  {\emph{``\dots released on \textbf{what date}?''}};
-\node[sg, anchor=north west] (s1) at (\cL,1.72)
-  {\textbf{0.71} \ ``\dots the debut studio album''};
-\node[sg, anchor=north west] (s2) at (\cL,1.06)
-  {\textbf{0.68} \ ``Eilish co-wrote most tracks''};
-\node[dp, anchor=north west] (s3) at (\cL,0.40)
-  {\textbf{0.34} \ ``\dots released on \textbf{29 Mar 2019}''};
-% This label sits below the last box; \path reserves the strip it needs so
-% resizebox does not scale it off the bottom edge.
-\node[nt, text=gray!70!black, anchor=north] at (\cL,-0.52)
-  {below threshold - the answer is cut};
-\path (\cL,-0.95);
-
-% ── LLM ──────────────────────────────────────────────────
-\node[ai] (j1) at (\cM,1.55) {Answerability\\ judgement};
-\node[tag, anchor=north east] at ($(j1.north east)+(0.05,0.05)$) {LLM};
-\node[ai] (j2) at (\cM,0.25) {Missing information\\ identification};
-\node[tag, anchor=north east] at ($(j2.north east)+(0.05,0.05)$) {LLM};
-\draw[a] (s1.east) -- (j1.west);
-\draw[a] (j1) -- node[font=\scriptsize, right=2pt, text=gray!45!black]
-         {unanswerable} (j2);
-
-% ── PASS 2 ───────────────────────────────────────────────
-\node[hd] at (\cR,2.72) {Pass 2 \ \textnormal{query $=q'$}};
-\node[qq, anchor=north west] (q2) at (\cR,2.50)
-  {\emph{``\textbf{When We All Fall Asleep} released when?''}};
-\node[kp, anchor=north west] (t1) at (\cR,1.72)
-  {\textbf{0.89} \ ``\dots released on \textbf{29 Mar 2019}''};
-\node[sg, anchor=north west] (t2) at (\cR,1.06)
-  {\textbf{0.55} \ ``\dots the debut studio album''};
-\node[nt, text=cLLML] at (\cR,0.40) {same sentence, now rank 1 - kept};
-\node[ok, anchor=north west] (rd) at (\cR,0.02)
-  {answerable $\rightarrow$ $P_\text{comp}$, 19\% of tokens};
-
-% ── vong lap: di vong LEN TREN, khong cat qua hop nao ──
-\draw[b] (j2.east) -- ++(0.45,0) |- (9.15,3.30) -| ($(q2.north)+(0,0.02)$);
-\node[font=\scriptsize, text=cLoop, anchor=south] at (9.15,3.34)
-  {question update};
-
-\begin{scope}[on background layer]
-  \node[fit=(q1)(s1)(s2)(s3), draw=cDataL!35, dashed, line width=0.5pt,
-        dash pattern=on 2pt off 1.6pt, rounded corners=4pt, inner sep=6pt] {};
-  \node[fit=(q2)(t1)(t2)(rd), draw=cLLML!35, dashed, line width=0.5pt,
-        dash pattern=on 2pt off 1.6pt, rounded corners=4pt, inner sep=6pt] {};
-\end{scope}
-\end{tikzpicture}}
-\caption{One VimQA question through two IterCOMP passes. The sentence carrying the
-release date scores $0.34$ and is filtered out, so a single-pass compressor loses
-the answer; re-scored against the follow-up $q'$ it rises to $0.89$ and is kept.}
-\label{fig:arch}
-\end{figure}
 
 Prompt compression addresses both, but existing methods
 \cite{jiang2023llmlingua,li2023selectivecontext,pan2024llmlingua2,xu2024recomp}
@@ -482,6 +399,92 @@ answers correctly. IterCOMP is training-free: all parameters stay frozen.
 Each document is decomposed into sentence-level evidence segments $e_{i,j}$.
 Figure~\ref{fig:arch} traces one question through two iterations.
 
+\begin{figure}[!htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+  font=\footnotesize, x=1cm, y=1cm,
+  % ── mot bang mau duy nhat: xanh = du lieu, cam = LLM, luc = ket qua ──
+  qq/.style={rounded corners=3pt, draw=cDataL, fill=cData, line width=0.7pt,
+             align=center, font=\scriptsize, text width=44mm,
+             inner xsep=5pt, inner ysep=5pt},
+  sg/.style={rounded corners=2pt, draw=gray!40, fill=white, line width=0.5pt,
+             align=left, font=\scriptsize, text width=44mm,
+             inner xsep=5pt, inner ysep=4pt},
+  kp/.style={sg, draw=cLLML, fill=cLLM!40, line width=0.9pt},
+  dp/.style={sg, draw=gray!45, fill=gray!10, text=gray!75!black},
+  ai/.style={rounded corners=3pt, draw=cScoreL, fill=cScore, line width=0.7pt,
+             align=center, font=\scriptsize\bfseries, text width=32mm,
+             inner xsep=5pt, inner ysep=5pt},
+  ok/.style={rounded corners=3pt, draw=cLLML, fill=cLLM, line width=0.8pt,
+             align=center, font=\scriptsize\bfseries, text width=44mm,
+             inner xsep=5pt, inner ysep=5pt},
+  tag/.style={font=\tiny\bfseries, text=white, fill=cScoreL, rounded corners=1.5pt,
+              inner xsep=2.5pt, inner ysep=1pt},
+  a/.style={-{Latex[length=2mm,width=1.6mm]}, line width=0.8pt, gray!40!black},
+  b/.style={-{Latex[length=2mm,width=1.6mm]}, line width=0.9pt, cLoop,
+            dashed, dash pattern=on 2pt off 1.5pt},
+  hd/.style={font=\scriptsize\bfseries, text=gray!20!black, anchor=west},
+  nt/.style={font=\scriptsize, align=left, anchor=north west},
+]
+% ═══ luoi: cot x = 0 / 6.4 / 10.6 ; hang y cach deu 0.72 ═══
+\def\cL{0}      \def\cM{6.85}   \def\cR{10.45}
+
+% ── PASS 1 ───────────────────────────────────────────────
+\node[hd] at (\cL,2.72) {Pass 1 \ \textnormal{query $=q$}};
+\node[qq, anchor=north west] (q1) at (\cL,2.50)
+  {\emph{``\dots released on \textbf{what date}?''}};
+\node[sg, anchor=north west] (s1) at (\cL,1.72)
+  {\textbf{0.71} \ ``\dots the debut studio album''};
+\node[sg, anchor=north west] (s2) at (\cL,1.06)
+  {\textbf{0.68} \ ``Eilish co-wrote most tracks''};
+\node[dp, anchor=north west] (s3) at (\cL,0.40)
+  {\textbf{0.34} \ ``\dots released on \textbf{29 Mar 2019}''};
+% This label sits below the last box; \path reserves the strip it needs so
+% resizebox does not scale it off the bottom edge.
+\node[nt, text=gray!70!black, anchor=north] at (\cL,-0.52)
+  {below threshold - the answer is cut};
+\path (\cL,-0.95);
+
+% ── LLM ──────────────────────────────────────────────────
+\node[ai] (j1) at (\cM,1.55) {Answerability\\ judgement};
+\node[tag, anchor=north east] at ($(j1.north east)+(0.05,0.05)$) {LLM};
+\node[ai] (j2) at (\cM,0.25) {Missing information\\ identification};
+\node[tag, anchor=north east] at ($(j2.north east)+(0.05,0.05)$) {LLM};
+\draw[a] (s1.east) -- (j1.west);
+\draw[a] (j1) -- node[font=\scriptsize, right=2pt, text=gray!45!black]
+         {unanswerable} (j2);
+
+% ── PASS 2 ───────────────────────────────────────────────
+\node[hd] at (\cR,2.72) {Pass 2 \ \textnormal{query $=q'$}};
+\node[qq, anchor=north west] (q2) at (\cR,2.50)
+  {\emph{``\textbf{When We All Fall Asleep} released when?''}};
+\node[kp, anchor=north west] (t1) at (\cR,1.72)
+  {\textbf{0.89} \ ``\dots released on \textbf{29 Mar 2019}''};
+\node[sg, anchor=north west] (t2) at (\cR,1.06)
+  {\textbf{0.55} \ ``\dots the debut studio album''};
+\node[nt, text=cLLML] at (\cR,0.40) {same sentence, now rank 1 - kept};
+\node[ok, anchor=north west] (rd) at (\cR,0.02)
+  {answerable $\rightarrow$ $P_\text{comp}$, 19\% of tokens};
+
+% ── vong lap: di vong LEN TREN, khong cat qua hop nao ──
+\draw[b] (j2.east) -- ++(0.45,0) |- (9.15,3.30) -| ($(q2.north)+(0,0.02)$);
+\node[font=\scriptsize, text=cLoop, anchor=south] at (9.15,3.34)
+  {question update};
+
+\begin{scope}[on background layer]
+  \node[fit=(q1)(s1)(s2)(s3), draw=cDataL!35, dashed, line width=0.5pt,
+        dash pattern=on 2pt off 1.6pt, rounded corners=4pt, inner sep=6pt] {};
+  \node[fit=(q2)(t1)(t2)(rd), draw=cLLML!35, dashed, line width=0.5pt,
+        dash pattern=on 2pt off 1.6pt, rounded corners=4pt, inner sep=6pt] {};
+\end{scope}
+\end{tikzpicture}}
+\caption{One VimQA question through two IterCOMP passes. The sentence carrying the
+release date scores $0.34$ and is filtered out, so a single-pass compressor loses
+the answer; re-scored against the follow-up $q'$ it rises to $0.89$ and is kept.}
+\label{fig:arch}
+\end{figure}
+
 
 \subsubsection{Evidence Filtering.}
 The \emph{semantic} signal is the inner product of dense representations from a
@@ -571,6 +574,9 @@ MuSiQue \cite{trivedi2022musique} & En & 2,417  & 1,500 & 20 \\
 \end{tabular}
 \end{table}
 
+
+We adopt the original paper's hyperparameters (Table~\ref{tab:hyper}).
+
 \begin{table}[htbp]
 \centering
 \caption{Hyperparameters from the original paper, which used a LLaMA-3-8B
@@ -592,8 +598,6 @@ Reader & Qwen2.5-7B-4bit \\
 \bottomrule
 \end{tabular}
 \end{table}
-
-We adopt the original paper's hyperparameters (Table~\ref{tab:hyper}).
 
 \subsection{Baselines}
 Raw Documents concatenates everything with no compression. Oracle
@@ -670,13 +674,13 @@ also leads every one of them, by $+11.36$ F1 over LLMLingua-2, CI
 $[+4.93,+17.84]$.
 
 
-\begin{figure}[!htbp]
+\begin{figure}[htbp]
 \centering
 \begin{tikzpicture}
 \begin{groupplot}[
-  group style={group size=2 by 2, horizontal sep=26pt, vertical sep=24pt,
+  group style={group size=2 by 2, horizontal sep=20pt, vertical sep=16pt,
                y descriptions at=edge left, x descriptions at=edge bottom},
-  width=5.1cm, height=3.5cm,
+  width=4.9cm, height=2.0cm,
   xmin=-0.08, xmax=1.14, ymin=10, ymax=78,
   xtick={0,0.5,1}, ytick={20,40,60},
   axis lines*=left, tick align=outside, tick pos=left,
@@ -717,20 +721,24 @@ $[+4.93,+17.84]$.
   \addplot[only marks,mark=*,mark size=2.2pt,color=cLoop] coordinates {(0.194,54.58)};
   \addplot[only marks,mark=triangle*,mark size=2.4pt,color=cScoreL] coordinates {(0.237,36.00)};
 \end{groupplot}
-\node[below=22pt, font=\footnotesize] at ($(group c1r2.south east)!0.5!(group c2r2.south west)$)
+\node[below=15pt, font=\footnotesize] at ($(group c1r2.south east)!0.5!(group c2r2.south west)$)
   {Context retained (fraction of tokens)};
-\node[above=16pt, font=\scriptsize] at ($(group c1r1.north east)!0.5!(group c2r1.north west)$)
+\node[above=11pt, font=\scriptsize] at ($(group c1r1.north east)!0.5!(group c2r1.north west)$)
   {\raisebox{-0.3ex}{\tikz\node[star,star points=5,draw=cDataL,fill=cDataL,inner sep=1pt]{};}~Oracle\quad
    \raisebox{-0.3ex}{\tikz\node[rectangle,draw=black!62,fill=black!62,inner sep=1.4pt]{};}~Raw\quad
    \raisebox{-0.3ex}{\tikz\node[circle,draw=cLoop,fill=cLoop,inner sep=1.4pt]{};}~IterCOMP-X\quad
    \raisebox{-0.3ex}{\tikz\node[regular polygon,regular polygon sides=3,draw=cScoreL,fill=cScoreL,inner sep=1pt]{};}~LLMLingua-2};
 \end{tikzpicture}
-\caption{Accuracy against context retained, one panel per dataset. Up and to the
-left is better. The arrow runs from Raw to IterCOMP-X: it rises while moving left
-on VimQA and MuSiQue, so compression buys accuracy and tokens; on 2Wiki it is
-flat ($+1.00$, not separating); on HotpotQA (dashed) it falls, the reader
-handling the full context well enough that filtering costs $4.66$ F1 and only the
-token saving survives. Oracle marks what gold evidence reaches.}
+\caption{What compression buys, one panel per dataset. The horizontal axis is
+how much context a method keeps, the vertical axis how accurately the reader
+answers from it, so a method is better the further up and to the left it sits.
+The arrow runs from Raw, which keeps everything, to IterCOMP-X: pointing up-left
+means the compressed context is both smaller \emph{and} more accurate. That
+happens on VimQA and MuSiQue; on 2Wiki the arrow is flat ($+1.00$, not
+separating); on HotpotQA it points down (dashed), so there only the token saving
+survives. LLMLingua-2 sits below IterCOMP-X in every panel at comparable
+retention, and Oracle marks what the reader reaches when handed the gold
+evidence.}
 \label{fig:tradeoff}
 \end{figure}
 
