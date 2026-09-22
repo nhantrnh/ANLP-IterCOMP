@@ -94,8 +94,8 @@ and that the gap is large enough to reverse which method is the cheaper one.
 Measuring token fertility on parallel WMT24++ sentences across four writing
 systems, the same content costs $4.97\times$ more tokens in Hindi, $3.89\times$
 in Thai and $2.49\times$ in Vietnamese than in English under the commercial
-tokenisers that bill. A compressor reporting the same nominal ratio in two
-languages is therefore not delivering the same savings. We propose an
+tokenisers that bill. A compressor reporting the same nominal
+ratio in two languages is not delivering the same savings. We propose an
 \emph{effective ratio} that prices retention in English-equivalent tokens: it
 separates tokenisers a nominal ratio calls identical to within $1.02\times$ but
 which differ by $1.80\times$ in what they actually cost.
@@ -108,7 +108,8 @@ sentence-level compression beats token-level by $+10.72$ to $+18.58$ F1, though
 against the uncompressed baseline it wins on three of four. Two effects appear only outside English: a
 boolean-answer normalisation step worth $+8.67$ F1 in Vietnamese and exactly
 $0.0$ in English, and non-diacritic text - ubiquitous online - costing every
-branch about 20 F1, with no measurable extra loss to the compressed branch.
+branch about 20 F1, with no measurable extra loss to the compressed branch. Neither is
+visible to an English-only evaluation.
 
 \keywords{Prompt compression \and Multi-hop question answering \and
 Tokeniser fertility \and Vietnamese NLP \and Retrieval-augmented generation}
