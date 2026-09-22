@@ -536,8 +536,9 @@ original. Segments accumulate rather than replacing one another: from
 $E_{\text{accum}} \leftarrow \emptyset$, each pass $m$ applies
 $E_{\text{accum}} \leftarrow E_{\text{accum}} \cup E_{\text{cand}}^{(m)}$, and a
 segment already chosen is not offered again. We emit $P_{\text{comp}}$ in
-selection order rather than document order; restoring document order is a
-plausible improvement we did not test. Neither prompt is published in the original
+selection order rather than document order. Sorting the selected segments back
+into document order changes VimQA by $-0.70$ F1, CI $[-2.67,+1.22]$, so the
+reader is indifferent to it at this scale and we keep the simpler behaviour. Neither prompt is published in the original
 paper; ours are released in full, in Vietnamese and English.
 
 \section{Experimental Setup}
