@@ -103,9 +103,9 @@ which differ by $1.80\times$ in what they actually cost.
 To ground this we reimplement IterCOMP, a recent training-free compressor
 evaluated only on English, and give it its first evaluation on Vietnamese
 multi-hop QA, released as IterCOMP-X. Across the complete VimQA benchmark and
-three English datasets ($n\ge1{,}003$ each), sentence-level compression beats
-token-level by $+10.72$ to $+18.58$ F1, though against the uncompressed baseline
-it wins on three of four. Two effects appear only outside English: a
+three English datasets ($n\ge1{,}003$ each, read by Qwen2.5-7B at 4-bit),
+sentence-level compression beats token-level by $+10.72$ to $+18.58$ F1, though
+against the uncompressed baseline it wins on three of four. Two effects appear only outside English: a
 boolean-answer normalisation step worth $+8.67$ F1 in Vietnamese and exactly
 $0.0$ in English, and non-diacritic text - ubiquitous online - costing every
 branch about 20 F1, with no measurable extra loss to the compressed branch.
@@ -745,14 +745,14 @@ evidence.}
 
 
 \subsection{Reproduction of the Reported Ordering}
-The paper reports
-Oracle $>$ IterCOMP $>$ Raw $>$ LLMLingua-2. We reproduce it on VimQA (IterCOMP-X
-over Raw, $+4.42$, interval clear) and on MuSiQue ($+4.19$; at $n=500$ the same
-margin read $+3.31$ and crossed zero, so tripling the sample decided it); the
-order matches on 2Wiki, where $+1.00$ does not separate; and on HotpotQA
-Raw overtakes IterCOMP-X by $4.66$ F1, interval clear. The four gaps are
-therefore $+4.42$, $+4.19$, $+1.00$ and $-4.66$ F1; Section~\ref{sec:reader}
-accounts for the reversal.
+The paper reports Oracle $>$ IterCOMP $>$ Raw $>$ LLMLingua-2. We reproduce that
+ordering on VimQA, where IterCOMP-X leads Raw by $+4.42$ F1 with the interval
+clear of zero, and on MuSiQue at $+4.19$. The MuSiQue margin read only $+3.31$ at
+$n=500$ and crossed zero, so tripling the sample is what decided it. On 2Wiki the
+order matches but $+1.00$ does not separate, and on HotpotQA it inverts: Raw
+overtakes IterCOMP-X by $4.66$ F1, again with the interval clear. The four gaps
+are therefore $+4.42$, $+4.19$, $+1.00$ and $-4.66$ F1, and
+Section~\ref{sec:reader} accounts for the reversal.
 
 At $n=50$ those gaps sat inside the range this design can resolve, so we held the
 accuracy claim until the full runs settled it. The interpretation that the margin
