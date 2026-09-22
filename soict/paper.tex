@@ -818,7 +818,8 @@ documents by title, so diacritics must come off the annotations as well as the
 context. Strip one side only and the match breaks, leaving the gold branch
 empty.
 
-\begin{table}[htbp]
+
+\begin{table}[t]
 \centering
 \caption{Non-diacritic Vietnamese ($n=500$, 7B reader). Gold context leads in
 every setting and $^\dag$ every paired bootstrap interval clears zero:
@@ -852,8 +853,8 @@ error in ten is not a compression failure at all: a yes/no question answered
 correctly in substance but in the wrong surface form, scoring F1 of 0. A smaller reader does this far more often on the identical
 prompt - ``tức là yes'' for ``đúng'', the language confusion small models are
 prone to \cite{marchisio2024confusion} - so boolean answers need language-aware
-normalisation rather than a compression fix. The rest give a wrong but related entity inside a correctly
-retained segment, or are compositional, where the Raw-Oracle gap is widest.
+normalisation rather than a compression fix. The rest give a related but wrong
+entity, or are compositional.
 
 A further 9.8\% of VimQA is a single question template - \emph{``X lớn
 tuổi hơn Y phải không?''}, ``is $X$ older than $Y$?'', and its negation
