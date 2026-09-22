@@ -142,8 +142,8 @@ Yao, S., Zhao, J., Yu, D., Du, N., Shafran, I., Narasimhan, K., Cao, Y.:
 
 \bibitem{yoon2024compact}
 Yoon, C., Lee, T., Hwang, H., Jeong, M., Kang, J.: {CompAct}: Compressing
-  retrieved documents actively for question answering. In: Proceedings of the
-  2024 Conference on Empirical Methods in Natural Language Processing (2024)
+  retrieved documents actively for question answering. In: Proceedings of EMNLP
+  (2024)
 
 \bibitem{yun2026itercomp}
 Yun, J., Kim, Y.: {IterCOMP}: Reasoning-aware adaptive prompt compression for
