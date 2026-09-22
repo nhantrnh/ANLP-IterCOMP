@@ -767,15 +767,19 @@ confirming the premise the literature rests on: irrelevant passages do
 degrade accuracy. The size of that gap decides whether compression can exploit it. Oracle/Raw is 2.12 on MuSiQue, 1.61 on 2Wiki and 1.30 on VimQA, the three where
 IterCOMP-X holds its own. On HotpotQA it is only 1.21, and Raw wins outright.
 The premise is therefore reader-dependent: a reader that already copes with
-distractors leaves compression little to recover. Replacing the reader with Qwen2.5-0.5B on HotpotQA ($n=500$)
-moves IterCOMP-X from $-4.66$ to $+7.66$ F1 against Raw ($37.88$ against
-$30.22$), the ordering the original paper reports with its own weaker reader.
-The two runs are not a clean control, and we say so: following the original
-design, our answerability judge is the reader model, so the smaller model both
-reads and compresses, and it compresses far less (retention $0.532$ against
-$0.192$). The reversal is therefore consistent with a reader effect but
-does not isolate one; separating them needs a run with the judge pinned at 7B
-while the reader shrinks, which we did not have the budget for.
+distractors leaves compression little to recover. Replacing the reader with
+Qwen2.5-0.5B on HotpotQA ($n=500$) moves IterCOMP-X from $-4.66$ to $+7.66$ F1
+against Raw, the ordering the original paper reports with its own weaker reader.
+
+That swap alone does not isolate the reader, because the original design uses the
+reader as its own answerability judge, so the smaller model both reads and
+compresses - and it compresses far less, retaining $0.532$ of the context against
+$0.192$. We therefore ran the control: judge pinned at 7B, reader at 0.5B. The
+compressor returns to $0.192$ retention, identical to the 7B configuration, and
+IterCOMP-X still leads Raw by $+5.70$ F1, CI $[+1.90,+9.63]$. Holding compression
+fixed and changing only the reader reproduces the reversal, so it belongs to the
+reader rather than to the compressor. The remaining $+1.96$ F1 between the two
+0.5B runs is what the weaker judge's extra context buys.
 
 \subsection{Vietnamese-Specific Results}
 \label{sec:vnfindings}
@@ -870,12 +874,10 @@ against the uncompressed baseline. Neither Vietnamese nor the loss of its
 diacritics handicaps the compressor; the reader does, failing on ${\sim}30\%$ of
 questions even given gold evidence.
 
-Three limits bound these claims, and each names its own next step. Every headline
-number comes from one reader, and the check on that is confounded, since the
-answerability judge shares the reader model - pinning it at 7B while shrinking
-only the reader would separate the two effects and settle whether the HotpotQA
-reversal, where IterCOMP-X loses $4.66$ F1 to the uncompressed baseline, belongs
-to the reader. Fertility is measured on four writing systems while compression
+Three limits bound these claims. Every headline number comes from a single
+reader; the one control we ran against that, pinning the judge at 7B while the
+reader shrinks (Section~\ref{sec:reader}), settles the HotpotQA reversal but
+tests two reader sizes rather than a range. Fertility is measured on four writing systems while compression
 runs on two, so the effective ratio is argued generally and shown on one language
 pair; a Hindi or Thai multi-hop set with sentence-level supporting facts would
 test it where fertility is worst rather than mildest, and none exists today.
