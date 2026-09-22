@@ -585,7 +585,7 @@ class IterCompMethod:
                  percentile: float = DEFAULT_PERCENTILE, top_k: int | None = None,
                  llm_model: str | None = None, llm_4bit: bool = False,
                  adaptive_k: bool = False, k_min: float = AP_K_MIN,
-                 k_max: float = AP_K_MAX):
+                 k_max: float = AP_K_MAX, restore_order: bool = False):
         lkw = {}
         if llm_kind == "hf" and llm_model:
             lkw = {"model": llm_model, "load_4bit": llm_4bit}
@@ -593,6 +593,7 @@ class IterCompMethod:
         self.scorer = make_scorer(scorer_kind, encoder=encoder, lam=lam)
         self.max_iter, self.percentile, self.top_k = max_iter, percentile, top_k
         self.adaptive_k, self.k_min, self.k_max = adaptive_k, k_min, k_max
+        self.restore_order = restore_order
         #: k thực tế mỗi câu hỏi, để báo cáo AP có thật sự biến thiên hay không
         self.k_log: list[float] = []
 
@@ -601,7 +602,8 @@ class IterCompMethod:
                        max_iter=self.max_iter, scorer=self.scorer,
                        percentile=self.percentile, top_k_per_iter=self.top_k,
                        adaptive_k=self.adaptive_k,
-                       k_min=self.k_min, k_max=self.k_max)
+                       k_min=self.k_min, k_max=self.k_max,
+                       restore_order=self.restore_order)
         self.k_log.extend(res.k_per_iter)
         return res.to_prompt()
 
@@ -646,6 +648,13 @@ def main():
                          "hằng số. Đặt --k-min = --k-max để suy biến về paper gốc.")
     ap.add_argument("--k-min", type=float, default=AP_K_MIN)
     ap.add_argument("--k-max", type=float, default=AP_K_MAX)
+    ap.add_argument("--restore-order", action="store_true",
+                    help="sắp P_comp theo (doc_title, sent_id) thay vì theo thứ "
+                         "tự chọn, để reader đọc đúng mạch văn gốc")
+    ap.add_argument("--judge-model", default=None,
+                    help="model cho answerability judge + follow-up. Mặc định "
+                         "dùng chính --reader-model (như paper gốc); đặt khác đi "
+                         "để tách năng lực judge khỏi năng lực reader")
     ap.add_argument("--out", type=Path, default=None)
     args = ap.parse_args()
 
@@ -689,8 +698,10 @@ def main():
             methods[m] = IterCompMethod(
                 args.itercomp_llm, args.max_iter, args.scorer,
                 args.encoder, args.lam, pct, args.top_k,
-                llm_model=args.reader_model, llm_4bit=args.load_4bit,
-                adaptive_k=args.adaptive_k, k_min=args.k_min, k_max=args.k_max)
+                llm_model=(args.judge_model or args.reader_model),
+                llm_4bit=args.load_4bit,
+                adaptive_k=args.adaptive_k, k_min=args.k_min, k_max=args.k_max,
+                restore_order=args.restore_order)
         else:
             raise ValueError(f"method không biết: {m}")
 

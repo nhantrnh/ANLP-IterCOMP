@@ -149,6 +149,7 @@ def itercomp(
     token_budget: int | None = None,
     budget_ratio: float | None = None,
     split_max_tokens: int | None = None,
+    restore_order: bool = False,
 ) -> IterCompResult:
     """Vòng lặp IterCOMP đầy đủ.
 
@@ -270,5 +271,11 @@ def itercomp(
         query = fu
     else:
         res.stopped_because = "hết vòng lặp"
+
+    if restore_order:
+        # Các vòng chọn theo điểm, nên P_comp ra theo thứ tự liên quan chứ không
+        # theo mạch văn gốc. Sắp lại theo (tài liệu, vị trí câu) để reader đọc
+        # đúng trình tự — giả thuyết là multi-hop dễ nối hơn khi không đảo.
+        res.selected.sort(key=lambda sg: (sg.doc_title, sg.sent_id))
 
     return res
