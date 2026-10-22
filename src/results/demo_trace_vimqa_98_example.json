@@ -1,0 +1,67 @@
+{
+ "meta": {
+  "source": "ghi sẵn từ vimqa_full_7b.json",
+  "index": 98,
+  "dataset": "vimqa",
+  "reader": "hf",
+  "reader_model": "Qwen/Qwen2.5-7B-Instruct",
+  "itercomp_llm": "hf",
+  "scorer": "dual",
+  "k": 90.0,
+  "max_iter": 5,
+  "strip_diacritics": false
+ },
+ "question": "Đất nước của Johann Heinrich Lambert có bao nhiêu bang?",
+ "gold": "26",
+ "type": "bridge",
+ "passes": [],
+ "selected": [],
+ "iterations": null,
+ "methods": {
+  "raw": {
+   "pred": "26",
+   "pred_norm": "26",
+   "f1": 1.0,
+   "f1_norm": 1.0,
+   "words": 1068,
+   "cl100k": null
+  },
+  "oracle": {
+   "pred": "26",
+   "pred_norm": "26",
+   "f1": 1.0,
+   "f1_norm": 1.0,
+   "words": 61,
+   "cl100k": null
+  },
+  "llmlingua2": {
+   "pred": "unknown",
+   "pred_norm": "unknown",
+   "f1": 0.0,
+   "f1_norm": 0.0,
+   "words": 327,
+   "cl100k": null
+  },
+  "itercomp": {
+   "pred": "26",
+   "pred_norm": "26",
+   "f1": 1.0,
+   "f1_norm": 1.0,
+   "words": 265,
+   "cl100k": null
+  }
+ },
+ "ratio": {
+  "nominal": 0.24812734082397003,
+  "effective": 0.5926272245917069,
+  "fertility": 2.388399531562049,
+  "nominal_cl100k": null
+ },
+ "boolean": {
+  "polar": false,
+  "pred": "26",
+  "pred_norm": "26",
+  "f1": 1.0,
+  "f1_norm": 1.0
+ }
+}

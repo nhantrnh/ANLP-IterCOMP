@@ -1,0 +1,67 @@
+{
+ "meta": {
+  "source": "ghi sẵn từ vimqa_full_7b.json",
+  "index": 458,
+  "dataset": "vimqa",
+  "reader": "hf",
+  "reader_model": "Qwen/Qwen2.5-7B-Instruct",
+  "itercomp_llm": "hf",
+  "scorer": "dual",
+  "k": 90.0,
+  "max_iter": 5,
+  "strip_diacritics": false
+ },
+ "question": "Đội bóng bóng đá mà Javier Zanetti gia nhập năm 1995 sở hữu bao nhiêu danh hiệu ở đấu trường quốc tế?",
+ "gold": "9",
+ "type": "bridge",
+ "passes": [],
+ "selected": [],
+ "iterations": null,
+ "methods": {
+  "raw": {
+   "pred": "9",
+   "pred_norm": "9",
+   "f1": 1.0,
+   "f1_norm": 1.0,
+   "words": 1127,
+   "cl100k": null
+  },
+  "oracle": {
+   "pred": "9",
+   "pred_norm": "9",
+   "f1": 1.0,
+   "f1_norm": 1.0,
+   "words": 82,
+   "cl100k": null
+  },
+  "llmlingua2": {
+   "pred": "13",
+   "pred_norm": "13",
+   "f1": 0.0,
+   "f1_norm": 0.0,
+   "words": 363,
+   "cl100k": null
+  },
+  "itercomp": {
+   "pred": "9",
+   "pred_norm": "9",
+   "f1": 1.0,
+   "f1_norm": 1.0,
+   "words": 330,
+   "cl100k": null
+  }
+ },
+ "ratio": {
+  "nominal": 0.29281277728482696,
+  "effective": 0.6993539001024633,
+  "fertility": 2.388399531562049,
+  "nominal_cl100k": null
+ },
+ "boolean": {
+  "polar": false,
+  "pred": "9",
+  "pred_norm": "9",
+  "f1": 1.0,
+  "f1_norm": 1.0
+ }
+}

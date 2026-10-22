@@ -332,7 +332,9 @@ class Demo:
     CACHE_DIR = 'src/results/demo_cache'
     EXAMPLES = {('hotpotqa', 277): 'src/results/demo_trace_en_example.json',
                 ('vimqa', 320): 'src/results/demo_trace_example.json',
-                ('vimqa', 23): 'src/results/demo_trace_polar_example.json'}
+                ('vimqa', 23): 'src/results/demo_trace_polar_example.json',
+                ('vimqa', 98): 'src/results/demo_trace_vimqa_98_example.json',
+                ('vimqa', 458): 'src/results/demo_trace_vimqa_458_example.json'}
 
     def __init__(self, mode: str, cfg: Config):
         import scripts.demo_trace as dt
