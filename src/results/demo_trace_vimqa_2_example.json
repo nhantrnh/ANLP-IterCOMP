@@ -1,0 +1,67 @@
+{
+ "meta": {
+  "source": "ghi sẵn từ vimqa_full_7b.json",
+  "index": 2,
+  "dataset": "vimqa",
+  "reader": "hf",
+  "reader_model": "Qwen/Qwen2.5-7B-Instruct",
+  "itercomp_llm": "hf",
+  "scorer": "dual",
+  "k": 90.0,
+  "max_iter": 5,
+  "strip_diacritics": false
+ },
+ "question": "Album phòng thu đầu tay của Billie Eilish được phát hành vào ngày nào?",
+ "gold": "ngày 29 tháng 3 năm 2019 ",
+ "type": "bridge",
+ "passes": [],
+ "selected": [],
+ "iterations": null,
+ "methods": {
+  "raw": {
+   "pred": "29 tháng 3 năm 2019",
+   "pred_norm": "29 tháng 3 năm 2019",
+   "f1": 0.9090909090909091,
+   "f1_norm": 0.9090909090909091,
+   "words": 1848,
+   "cl100k": null
+  },
+  "oracle": {
+   "pred": "29 tháng 3 năm 2019",
+   "pred_norm": "29 tháng 3 năm 2019",
+   "f1": 0.9090909090909091,
+   "f1_norm": 0.9090909090909091,
+   "words": 53,
+   "cl100k": null
+  },
+  "llmlingua2": {
+   "pred": "29 tháng 3 2019",
+   "pred_norm": "29 tháng 3 2019",
+   "f1": 0.8,
+   "f1_norm": 0.8,
+   "words": 611,
+   "cl100k": null
+  },
+  "itercomp": {
+   "pred": "29 tháng 3 năm 2019",
+   "pred_norm": "29 tháng 3 năm 2019",
+   "f1": 0.9090909090909091,
+   "f1_norm": 0.9090909090909091,
+   "words": 409,
+   "cl100k": null
+  }
+ },
+ "ratio": {
+  "nominal": 0.22132034632034633,
+  "effective": 0.5286014114766657,
+  "fertility": 2.388399531562049,
+  "nominal_cl100k": null
+ },
+ "boolean": {
+  "polar": false,
+  "pred": "29 tháng 3 năm 2019",
+  "pred_norm": "29 tháng 3 năm 2019",
+  "f1": 0.9090909090909091,
+  "f1_norm": 0.9090909090909091
+ }
+}

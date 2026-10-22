@@ -333,6 +333,7 @@ class Demo:
     EXAMPLES = {('hotpotqa', 277): 'src/results/demo_trace_en_example.json',
                 ('vimqa', 320): 'src/results/demo_trace_example.json',
                 ('vimqa', 23): 'src/results/demo_trace_polar_example.json',
+                ('vimqa', 2): 'src/results/demo_trace_vimqa_2_example.json',
                 ('vimqa', 98): 'src/results/demo_trace_vimqa_98_example.json',
                 ('vimqa', 458): 'src/results/demo_trace_vimqa_458_example.json'}
 
