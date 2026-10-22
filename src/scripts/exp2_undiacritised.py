@@ -225,6 +225,19 @@ def main():
               f"Gold F1={out[mode]['f1_gold']:5.1f}   "
               f"tỉ lệ={out[mode]['ratio']*100:5.1f}%", flush=True)
 
+    # Chạy một chế độ (để chia việc giữa nhiều máy): chưa có cặp keep/strip
+    # nên chưa tách nguyên nhân được; ghi kết quả thô rồi ghép sau.
+    if not {"keep", "strip"} <= set(out):
+        if args.out:
+            args.out.parent.mkdir(parents=True, exist_ok=True)
+            json.dump({"config": vars(args) | {"out": str(args.out)},
+                       "results": {k: {kk: vv for kk, vv in v.items() if kk != "detail"}
+                                   for k, v in out.items()},
+                       "detail": {k: v["detail"] for k, v in out.items()}},
+                      open(args.out, "w", encoding="utf-8"), ensure_ascii=False, indent=2, default=str)
+            print(f"\n→ ghi {args.out}")
+        return
+
     # ── tách nguyên nhân ────────────────────────────────────────────
     d_ic = out["strip"]["f1_itercomp"] - out["keep"]["f1_itercomp"]
     d_gd = out["strip"]["f1_gold"] - out["keep"]["f1_gold"]
