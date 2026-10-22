@@ -395,23 +395,40 @@ class Demo:
     NEW_QUESTION = 'Thành phố lớn nhất Việt Nam về dân số trước năm 1976 tên là gì?'
     NEW_ANSWER = 'Sài Gòn'
 
-    def new_example(self) -> None:
-        """Câu hỏi + ngữ cảnh TỰ VIẾT, không có trong VimQA (cần MODE='live')."""
+    def new_example(self, question: str | None = None, documents: dict | None = None,
+                    answer: str = '') -> None:
+        """Chạy vòng lặp trên câu hỏi + ngữ cảnh TỰ VIẾT (cần MODE='live').
+
+        Không truyền gì: dùng ví dụ có sẵn. `documents` = {tiêu đề: đoạn văn}; mỗi
+        đoạn được tách thành câu theo dấu chấm. `answer` để trống thì không chấm F1.
+        """
         if self.mode != 'live':
             return print("MODE != 'live': bỏ qua demo dữ liệu mới (cần GPU).")
+        import re as _re
         from itercomp import itercomp
         from itercomp.metrics import f1_score, normalize_boolean
-        o, ctx, q, gold = self._objs(), self.NEW_CONTEXT, self.NEW_QUESTION, self.NEW_ANSWER
-        print(f'CÂU HỎI : {q}\nĐÁP ÁN  : {gold}\nNGỮ CẢNH: {sum(len(s) for s in ctx["sentences"])} câu\n')
+        if question is None:
+            ctx, q, gold = self.NEW_CONTEXT, self.NEW_QUESTION, self.NEW_ANSWER
+        else:
+            ctx = {'title': list(documents),
+                   'sentences': [[x.strip() for x in _re.split(r'(?<=[.!?])\s+', d) if x.strip()]
+                                 for d in documents.values()]}
+            q, gold = question, answer
+        o = self._objs()
+        print(f'CÂU HỎI : {q}\nĐÁP ÁN  : {gold or "(không cho)"}\nNGỮ CẢNH: {sum(len(s) for s in ctx["sentences"])} câu\n')
         res = itercomp(o['llm'], q, ctx, max_iter=5, scorer=o['scorer'], percentile=90)
         print(f'--- IterCOMP: {res.iterations} vòng, dừng vì "{res.stopped_because}" ---')
+        for k, fu in enumerate(res.followups, 2):
+            print(f"  câu hỏi phụ cho vòng {k}: {fu.strip()[:90]}")
         for s in res.selected:
             print(f'  giữ: {str(s)[:70]}')
         full = '\n'.join(f'{t}: {" ".join(s)}' for t, s in zip(ctx['title'], ctx['sentences']))
         for ten, c in (('raw (toàn bộ)', full), ('itercomp (đã nén)', res.to_prompt())):
             pred = o['reader'](c, q)
-            print(f'\n{ten:20s} -> {pred[:50]!r}  F1={f1_score(normalize_boolean(pred, gold), gold):.2f}')
-        print('\nCâu multi-hop: phải nối "thành phố lớn nhất" với "tên trước 1976".')
+            score = f'  F1={f1_score(normalize_boolean(pred, gold, q), gold):.2f}' if gold else ''
+            print(f'\n{ten:20s} -> {pred[:50]!r}{score}')
+        if question is None:
+            print('\nCâu multi-hop: phải nối "thành phố lớn nhất" với "tên trước 1976".')
 
 
 # ══════════════════════════════════════════════ phụ lục A: thí nghiệm mở rộng (RUN_EXTRAS)
