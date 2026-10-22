@@ -1,0 +1,67 @@
+{
+ "meta": {
+  "source": "ghi sẵn từ hotpotqa_1500_7b.json",
+  "index": 277,
+  "dataset": "hotpotqa",
+  "reader": "hf",
+  "reader_model": "Qwen/Qwen2.5-7B-Instruct",
+  "itercomp_llm": "hf",
+  "scorer": "dual",
+  "k": 90.0,
+  "max_iter": 5,
+  "strip_diacritics": false
+ },
+ "question": "In what city was the Italian Baroque composer who composed a set of sonatas, titled Op. 5, born?",
+ "gold": "Venice",
+ "type": "bridge",
+ "passes": [],
+ "selected": [],
+ "iterations": null,
+ "methods": {
+  "raw": {
+   "pred": "unknown",
+   "pred_norm": "unknown",
+   "f1": 0.0,
+   "f1_norm": 0.0,
+   "words": 595,
+   "cl100k": null
+  },
+  "oracle": {
+   "pred": "Venice",
+   "pred_norm": "Venice",
+   "f1": 1.0,
+   "f1_norm": 1.0,
+   "words": 63,
+   "cl100k": null
+  },
+  "llmlingua2": {
+   "pred": "unknown",
+   "pred_norm": "unknown",
+   "f1": 0.0,
+   "f1_norm": 0.0,
+   "words": 132,
+   "cl100k": null
+  },
+  "itercomp": {
+   "pred": "Venice",
+   "pred_norm": "Venice",
+   "f1": 1.0,
+   "f1_norm": 1.0,
+   "words": 57,
+   "cl100k": null
+  }
+ },
+ "ratio": {
+  "nominal": 0.0957983193277311,
+  "effective": 0.0957983193277311,
+  "fertility": 1.0,
+  "nominal_cl100k": null
+ },
+ "boolean": {
+  "polar": false,
+  "pred": "Venice",
+  "pred_norm": "Venice",
+  "f1": 1.0,
+  "f1_norm": 1.0
+ }
+}

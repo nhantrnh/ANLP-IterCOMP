@@ -1,0 +1,70 @@
+{
+ "meta": {
+  "source": "ghi sẵn từ vimqa_full_7b.json",
+  "index": 23,
+  "dataset": "vimqa",
+  "reader": "hf",
+  "reader_model": "Qwen/Qwen2.5-7B-Instruct",
+  "itercomp_llm": "hf",
+  "scorer": "dual",
+  "k": 90.0,
+  "max_iter": 5,
+  "strip_diacritics": false
+ },
+ "question": "Zbigniew Boniek lớn tuổi hơn Divock Origi phải không?",
+ "gold": "đúng",
+ "type": "bridge",
+ "passes": [],
+ "selected": [
+  "Divock Origi: Divock Okoth Origi (Kenyan English: [diˈvɔk ɔˈkɔθ oˈrigiː] (); sinh 18 tháng 4 năm 1995) là một cầu thủ bóng đá chuyên nghiệp người Bỉ gốc Kenya, chơi cho Liverpool và đội tuyển Bỉ ở vị trí tiền đạo.",
+  "Zbigniew Boniek: Zbigniew Kazimierz Boniek (IPA: ['zbigɲɛf 'bɔɲɛk]) (sinh 3 tháng 3 năm 1956 tại Bydgoszcz) là một cựu cầu thủ và huấn luyện viên bóng đá người Ba Lan."
+ ],
+ "iterations": null,
+ "methods": {
+  "raw": {
+   "pred": "是",
+   "pred_norm": "是",
+   "f1": 0.0,
+   "f1_norm": 0.0,
+   "words": 606,
+   "cl100k": null
+  },
+  "oracle": {
+   "pred": "yes",
+   "pred_norm": "đúng",
+   "f1": 0.0,
+   "f1_norm": 1.0,
+   "words": 70,
+   "cl100k": null
+  },
+  "llmlingua2": {
+   "pred": "yes",
+   "pred_norm": "đúng",
+   "f1": 0.0,
+   "f1_norm": 1.0,
+   "words": 188,
+   "cl100k": null
+  },
+  "itercomp": {
+   "pred": "yes",
+   "pred_norm": "đúng",
+   "f1": 0.0,
+   "f1_norm": 1.0,
+   "words": 70,
+   "cl100k": null
+  }
+ },
+ "ratio": {
+  "nominal": 0.11551155115511551,
+  "effective": 0.27588773466888356,
+  "fertility": 2.388399531562049,
+  "nominal_cl100k": null
+ },
+ "boolean": {
+  "polar": true,
+  "pred": "yes",
+  "pred_norm": "đúng",
+  "f1": 0.0,
+  "f1_norm": 1.0
+ }
+}

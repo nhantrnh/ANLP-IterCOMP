@@ -42,7 +42,7 @@ Báo cáo dùng định dạng ACL chính thức ([acl-org/acl-style-files](http
 │   ├── results/        Kết quả JSON backing mọi con số trong báo cáo
 │   ├── requirements.txt · run.sh
 ├── notebooks/
-│   ├── colab_reproduce.ipynb   notebook nộp (đủ 8 phần, Colab/Kaggle)
+│   ├── colab_reproduce.ipynb   notebook DUY NHẤT: đủ 8 phần + demo, ~25 phút trên T4 (Colab/Kaggle)
 │   └── kaggle/                 15 kernel GPU của từng thí nghiệm
 ```
 
@@ -51,7 +51,11 @@ Báo cáo dùng định dạng ACL chính thức ([acl-org/acl-style-files](http
 Notebook `notebooks/colab_reproduce.ipynb` tự tải mã nguồn, dữ liệu, mô hình —
 **không phụ thuộc đường dẫn cục bộ**, đủ 8 phần (cài đặt → tải dữ liệu → EDA →
 cấu hình mô hình → đánh giá → so mô hình cơ sở → phân tích lỗi → demo dữ liệu
-tiếng Việt mới). Đây là cách khuyến nghị.
+tiếng Việt mới). Đây là cách khuyến nghị. Mặc định (`SCALE='demo'`, VimQA n=30)
+chạy hết trong **~25 phút** trên T4 miễn phí; số ở quy mô báo cáo được đọc từ
+`src/results/*.json`, không chạy lại. Ba công tắc ở ô đầu: `MODE`
+(`live`/`cached`/`mock`, tự chọn theo GPU), `SCALE` (`demo`/`paper`/`max`),
+`RUN_EXTRAS` (ablation, EXP-1/2, quét λ/k — mặc định tắt).
 
 ### 3.1. Kaggle
 1. **Add → Upload Notebook** → chọn `notebooks/colab_reproduce.ipynb`.
@@ -124,6 +128,42 @@ F1$^*$ (chuẩn hoá boolean), reader Qwen2.5-7B 4-bit — bảng đầy đủ �
 - Greedy decoding → **kết quả tất định**; chạy lại cùng cấu hình cho cùng số.
 - Mọi con số trong báo cáo truy nguồn về `src/results/` (JSON đầy đủ per-row).
 - Thực nghiệm GPU chạy trên Kaggle T4; kernel lưu ở `notebooks/kaggle/`.
+
+## Demo
+
+Demo trực tiếp **một câu tiếng Anh (HotpotQA #277) và một câu tiếng Việt (VimQA #320)** qua cùng vòng lặp IterCOMP (điểm segment ở từng pass,
+phán đoán "đủ bằng chứng", câu hỏi phụ, `P_comp`, đáp án + token của Raw / Oracle /
+LLMLingua-2 / IterCOMP, tỉ lệ nén danh nghĩa so với hiệu dụng, chuẩn hoá boolean,
+văn bản không dấu; §8.3 đặt hai ngôn ngữ cạnh nhau) nằm ở §8 của **cùng một notebook**
+[`notebooks/colab_reproduce.ipynb`](notebooks/colab_reproduce.ipynb) (~5 phút sau khi
+mô hình đã nạp; `MODE='live'` chạy thật, `'cached'` phát lại vết đã lưu — tự chọn khi
+không có GPU, `'mock'` chỉ kiểm tra luồng). Nếu chạy thật lỗi, ô tự lùi về vết đã lưu.
+Mã vết: [`src/scripts/demo_trace.py`](src/scripts/demo_trace.py), cũng chạy được riêng:
+
+```bash
+# Phát lại vết ghi sẵn — tức thì, không cần GPU/mạng/mô hình (dự phòng khi demo)
+python src/scripts/demo_trace.py --from-cache src/results/demo_trace_en_example.json     # câu tiếng Anh HotpotQA #277, cầu nối 2 bước
+python src/scripts/demo_trace.py --from-cache src/results/demo_trace_example.json        # câu tiếng Việt VimQA #320, cầu nối 2 bước
+python src/scripts/demo_trace.py --from-cache src/results/demo_trace_polar_example.json  # câu #23, đúng/sai
+
+# Kiểm tra luồng bằng LLM/reader giả (CPU; đáp án "unknown", KHÔNG phải số liệu)
+python src/scripts/demo_trace.py --reader mock --itercomp-llm mock
+python src/scripts/demo_trace.py --dataset hotpotqa --reader mock --itercomp-llm mock   # cần data/hotpotqa (notebook §2 tải)
+python src/scripts/demo_trace.py --index 23 --reader mock --itercomp-llm mock --strip-diacritics
+
+# Chạy thật (GPU T4) và lưu vết đầy đủ để phát lại sau
+python src/scripts/demo_trace.py --index 320 --reader hf --itercomp-llm hf \
+    --reader-model Qwen/Qwen2.5-7B-Instruct --load-4bit --llmlingua2 \
+    --cache src/results/demo_cache/trace_320.json
+python src/scripts/demo_trace.py --from-cache src/results/demo_cache/trace_320.json
+# câu tiếng Anh: thêm --dataset hotpotqa --index 277
+```
+
+`demo_trace_example.json` / `demo_trace_en_example.json` dựng từ `src/results/vimqa_full_7b.json` /
+`hotpotqa_1500_7b.json` bằng `--from-results [--dataset hotpotqa] --index 320|277`: chỉ có đáp án, số từ, F1 từng phương pháp (đúng như
+file kết quả lưu). Điểm từng vòng và câu hỏi phụ **không** có trong file kết quả,
+nên chỉ xuất hiện khi chạy thật với `--cache`. Mặc định mock dùng BM25 thay bge-m3
+để khỏi tải mô hình.
 
 ## Prompts
 
