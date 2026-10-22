@@ -22,7 +22,7 @@ Nâng cao*, VNU-HCM University of Science.
 
 | Yêu cầu | Vị trí |
 |---|---|
-| Báo cáo PDF (ACL short paper) | [`report.pdf`](report.pdf) — §1–9 chiếm 5 trang, References từ trang 6, 6 phụ lục (A–F), tổng 12 trang |
+| Báo cáo PDF (ACL short paper) | [`report.pdf`](report.pdf) — §1–9 chiếm 5 trang, References từ trang 6, 6 phụ lục (A–F), tổng 13 trang; tiêu đề *Beyond the English Baseline: IterCOMP-X for Vietnamese Multi-Hop QA* |
 | Mã nguồn | [`src/`](src/) — `itercomp/` (cài đặt), `scripts/`, `requirements.txt`, `run.sh` |
 | Jupyter Notebook (Colab/Kaggle) | [`notebooks/`](notebooks/) — `colab_reproduce.ipynb` (nộp) + kernel GPU từng thí nghiệm |
 | README cách chạy | tệp này (Mục 3) |
@@ -101,27 +101,30 @@ python src\scripts\run_eval.py --dataset vimqa --limit 5 --reader mock --itercom
 
 ## 5. Kết quả chính
 
-F1$^*$ (chuẩn hoá boolean), reader Qwen2.5-7B 4-bit — bảng đầy đủ ở §6 báo cáo:
+F1$^*$ (chuẩn hoá boolean), reader Qwen2.5-7B 4-bit — bảng đầy đủ ở §5.1 báo cáo:
 
 | | VimQA (vi) | MuSiQue | 2Wiki | HotpotQA |
 |---|---|---|---|---|
-| | n=1003 | n=500 | n=1500 | n=1500 |
-| Oracle | 61.03 | 49.84 | 57.65 | 71.40 |
-| Raw | 46.87 | 23.43 | 35.72 | 59.24 |
-| **IterCOMP** | **51.29** | **26.74** | **36.72** | 54.58 |
-| LLMLingua-2 | 35.31 | 15.14 | 19.24 | 36.00 |
-| IterCOMP − Raw | +4.42† | +3.31 | +1.00 | −4.66† |
-| IterCOMP − LLMLingua-2 | +15.98† | +11.60† | +17.48† | +18.58† |
+| | n=1003 | n=1500 | n=1500 | n=1500 |
+| Oracle | 61.03 | 44.90 | 57.65 | 71.40 |
+| Raw | 46.87 | 21.16 | 35.72 | **59.24** |
+| **IterCOMP-X** | **51.29** | **25.35** | **36.72** | 54.58 |
+| LLMLingua-2 | 35.31 | 14.63 | 19.24 | 36.00 |
+| IterCOMP-X − Raw | +4.42† | +4.19† | +1.00 | −4.66† |
+| IterCOMP-X − LLMLingua-2 | +15.98† | +10.72† | +17.48† | +18.58† |
+| Ratio nominal / effective | 0.206 / 0.491 | 0.340 | 0.354 | 0.194 |
 
 † khoảng tin cậy 95% (paired bootstrap) không chứa 0.
 
-- **Khẳng định trung tâm (nén câu > nén token) đúng cả bốn** (+11.6 đến +18.6 F1,
-  mọi khoảng tách 0).
+- **Nén câu > nén token đúng cả bốn** (+10.72 đến +18.58 F1, mọi khoảng tách 0).
 - **Thứ tự đầy đủ phụ thuộc reader:** reproduces trên VimQA/MuSiQue, nhưng trên
-  HotpotQA **Raw vượt IterCOMP** (−4.66, có ý nghĩa) — reader mạnh đọc ngữ cảnh dài
+  HotpotQA **Raw vượt IterCOMP-X** (−4.66, có ý nghĩa) — reader mạnh đọc ngữ cảnh dài
   tốt nên lợi thế *chính xác* của nén mất, chỉ còn lợi thế *chi phí*.
-- **Tiếng Việt:** chuẩn hoá boolean +10.0 F1 (0.0 ở tiếng Anh); fertility làm tỉ lệ
-  nén đánh giá thấp chi phí token thật 2.39×; văn bản không dấu — nén thắng cả gold.
+- **Effective ratio (đóng góp chính):** tiếng Việt tốn 2.39× token của tiếng Anh
+  (`cl100k_base`), nên tỉ lệ nén danh nghĩa đánh giá thấp chi phí thật; 0.206 → 0.491.
+- **Tiếng Việt:** chuẩn hoá boolean +8.67 F1 (0.0 ở tiếng Anh); bỏ dấu làm mất khoảng
+  20 F1 ở cả gold lẫn ngữ cảnh nén (gold vẫn dẫn ở n=500); IterCOMP-X đạt 84% Oracle
+  trên VimQA, cao hơn mọi bộ tiếng Anh.
 
 ## 6. Tính tái lập
 
