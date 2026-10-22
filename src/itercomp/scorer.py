@@ -372,19 +372,35 @@ def adaptive_percentile_filter(scores: list[float],
 def budget_filter(scores: list[float], texts: list[str],
                   budget_ratio: float = 0.15,
                   total_tokens: int | None = None,
-                  min_keep: int = 1) -> list[int]:
+                  min_keep: int = 1,
+                  budget_encoding: str | None = None) -> list[int]:
     """Chọn đoạn theo điểm giảm dần cho tới khi đạt ngân sách token.
 
     budget_ratio  phần token muốn giữ lại so với toàn bộ ngữ cảnh
     total_tokens  tổng token của ngữ cảnh gốc; None thì tính từ `texts`
     min_keep      luôn giữ ít nhất ngần này đoạn, tránh câu lệnh rỗng
+    budget_encoding
+        None  -> đếm bằng regex \\w+ (mặc định cũ, giữ nguyên để tái lập
+                 được mọi số đã công bố).
+        tên encoding tiktoken -> đếm bằng CHÍNH bộ token API dùng để tính
+                 tiền. Đây là điểm mấu chốt: với ngôn ngữ fertility cao, một
+                 câu tốn gấp 2-5 lần token so với số từ của nó, nên ngân sách
+                 đếm bằng từ giữ lại nhiều bằng chứng hơn ngân sách chi phí
+                 thật cho phép. Đếm đúng đơn vị bị bill khiến cùng một
+                 budget_ratio nghĩa là cùng một khoản tiền ở MỌI ngôn ngữ,
+                 thay vì cùng một số từ.
 
     Trả về chỉ số các đoạn được giữ, theo đúng thứ tự xuất hiện ban đầu để
     mạch văn không bị đảo.
     """
     if not scores:
         return []
-    lens = [len(_tokenize(t)) for t in texts]
+    if budget_encoding:
+        from .fertility import _encoder
+        _enc = _encoder(budget_encoding)
+        lens = [len(_enc.encode(t)) for t in texts]
+    else:
+        lens = [len(_tokenize(t)) for t in texts]
     if total_tokens is None:
         total_tokens = sum(lens)
     budget = max(int(total_tokens * budget_ratio), 1)

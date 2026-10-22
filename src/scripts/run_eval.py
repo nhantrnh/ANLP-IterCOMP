@@ -585,7 +585,10 @@ class IterCompMethod:
                  percentile: float = DEFAULT_PERCENTILE, top_k: int | None = None,
                  llm_model: str | None = None, llm_4bit: bool = False,
                  adaptive_k: bool = False, k_min: float = AP_K_MIN,
-                 k_max: float = AP_K_MAX, restore_order: bool = False):
+                 k_max: float = AP_K_MAX, restore_order: bool = False,
+                 budget_ratio: float | None = None,
+                 budget_encoding: str | None = None, window: int = 0,
+                 followup_mode: str = "plain", title_anchor: bool = False):
         lkw = {}
         if llm_kind == "hf" and llm_model:
             lkw = {"model": llm_model, "load_4bit": llm_4bit}
@@ -594,6 +597,12 @@ class IterCompMethod:
         self.max_iter, self.percentile, self.top_k = max_iter, percentile, top_k
         self.adaptive_k, self.k_min, self.k_max = adaptive_k, k_min, k_max
         self.restore_order = restore_order
+        self.budget_ratio = budget_ratio
+        self.budget_encoding = budget_encoding
+        self.window, self.followup_mode, self.title_anchor = window, followup_mode, title_anchor
+        #: (doc_title, sent_id) của các câu được chọn ở câu hỏi gần nhất, để đo
+        #: tỉ lệ giữ bằng chứng vàng mà không phải lưu cả ngữ cảnh
+        self.last_selected: list[list] = []
         #: k thực tế mỗi câu hỏi, để báo cáo AP có thật sự biến thiên hay không
         self.k_log: list[float] = []
 
@@ -603,8 +612,14 @@ class IterCompMethod:
                        percentile=self.percentile, top_k_per_iter=self.top_k,
                        adaptive_k=self.adaptive_k,
                        k_min=self.k_min, k_max=self.k_max,
-                       restore_order=self.restore_order)
+                       restore_order=self.restore_order,
+                       budget_ratio=self.budget_ratio,
+                       budget_encoding=self.budget_encoding,
+                       window=self.window, followup_mode=self.followup_mode,
+                       title_anchor=self.title_anchor)
         self.k_log.extend(res.k_per_iter)
+        self.last_selected = [[s.doc_title, s.sent_id] for s in res.selected]
+        self.last_iterations = res.iterations
         return res.to_prompt()
 
 
@@ -651,6 +666,21 @@ def main():
     ap.add_argument("--restore-order", action="store_true",
                     help="sắp P_comp theo (doc_title, sent_id) thay vì theo thứ "
                          "tự chọn, để reader đọc đúng mạch văn gốc")
+    ap.add_argument("--budget-ratio", type=float, default=None,
+                    help="cắt theo ngân sách token thay vì percentile; giữ lại "
+                         "tối đa tỉ lệ này của ngữ cảnh gốc")
+    ap.add_argument("--budget-encoding", default=None,
+                    help="bộ token dùng để ĐẾM ngân sách, ví dụ cl100k_base. "
+                         "Mặc định đếm bằng regex \\w+. Đặt tên encoding thì "
+                         "ngân sách tính bằng đúng đơn vị API bill, nên cùng "
+                         "một --budget-ratio nghĩa là cùng một khoản tiền ở "
+                         "mọi ngôn ngữ thay vì cùng một số từ.")
+    ap.add_argument("--window", type=int, default=0,
+                    help="kéo theo các câu kề ±window cùng tài liệu của câu được chọn")
+    ap.add_argument("--followup-mode", default="plain", choices=["plain", "entity"],
+                    help="entity: câu hỏi phụ phải gọi đích danh thực thể cầu nối")
+    ap.add_argument("--title-anchor", action="store_true",
+                    help="từ vòng 2, thêm câu tốt nhất của tài liệu có tiêu đề nằm trong câu hỏi phụ")
     ap.add_argument("--judge-model", default=None,
                     help="model cho answerability judge + follow-up. Mặc định "
                          "dùng chính --reader-model (như paper gốc); đặt khác đi "
@@ -701,7 +731,11 @@ def main():
                 llm_model=(args.judge_model or args.reader_model),
                 llm_4bit=args.load_4bit,
                 adaptive_k=args.adaptive_k, k_min=args.k_min, k_max=args.k_max,
-                restore_order=args.restore_order)
+                restore_order=args.restore_order,
+                budget_ratio=args.budget_ratio,
+                budget_encoding=args.budget_encoding,
+                window=args.window, followup_mode=args.followup_mode,
+                title_anchor=args.title_anchor)
         else:
             raise ValueError(f"method không biết: {m}")
 
@@ -769,7 +803,7 @@ def main():
             em, f1 = exact_match(pred, gold), f1_score(pred, gold)
             # CẢI TIẾN CHO TIẾNG VIỆT: chuẩn hoá đáp án đúng/sai trước khi so.
             # Báo cáo cả hai để thấy rõ phần nào là lỗi thật, phần nào là lỗi định dạng.
-            pred_n = normalize_boolean(pred, gold)
+            pred_n = normalize_boolean(pred, gold, row["question"])
             em_n, f1_n = exact_match(pred_n, gold), f1_score(pred_n, gold)
             n_tok = len(tokenize(ctx))
 
@@ -781,6 +815,9 @@ def main():
             rec["methods"][name] = {"pred": pred, "em": em, "f1": f1,
                                     "pred_norm": pred_n, "em_norm": em_n,
                                     "f1_norm": f1_n, "tokens": n_tok}
+            if isinstance(fn, IterCompMethod):
+                rec["methods"][name]["selected"] = fn.last_selected
+                rec["methods"][name]["iterations"] = fn.last_iterations
 
         per_row.append(rec)
         if ckpt:

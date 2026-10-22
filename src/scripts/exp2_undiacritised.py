@@ -119,8 +119,8 @@ def gold_context(row) -> str:
     return "\n".join(keep)
 
 
-def run_itercomp(llm, row, scorer, pct, max_iter) -> str:
-    """Vòng lặp IterCOMP nguyên bản, không đổi gì."""
+def run_itercomp(llm, row, scorer, pct, max_iter):
+    """Vòng lặp IterCOMP nguyên bản, không đổi gì. Trả (ngữ cảnh, các segment đã chọn)."""
     segs = decompose(row["context"])
     remaining, selected, query = list(range(len(segs))), [], row["question"]
     for _ in range(max_iter):
@@ -133,7 +133,18 @@ def run_itercomp(llm, row, scorer, pct, max_iter) -> str:
         if is_answerable(llm, row["question"], selected):
             break
         query = make_followup(llm, row["question"], selected)
-    return "\n".join(f"{s.doc_title}: {s.text}" for s in selected)
+    return "\n".join(f"{s.doc_title}: {s.text}" for s in selected), selected
+
+
+def gold_recall(row, selected) -> float | None:
+    """Tỉ lệ câu bằng chứng vàng (title, sent_id) nằm trong ngữ cảnh nén."""
+    sf = row.get("supporting_facts") or {}
+    have = {(t, i) for t, sents in zip(row["context"]["title"], row["context"]["sentences"])
+            for i, x in enumerate(sents) if x.strip()}
+    want = set(zip(sf.get("title", []), sf.get("sent_id", []))) & have
+    if not want:
+        return None
+    return len(want & {(s.doc_title, s.sent_id) for s in selected}) / len(want)
 
 
 def main():
@@ -145,6 +156,8 @@ def main():
     ap.add_argument("--scorer", default="dual")
     ap.add_argument("--percentile", type=float, default=90.0)
     ap.add_argument("--max-iter", type=int, default=5)
+    ap.add_argument("--modes", default="keep,strip,both",
+                    help="chế độ chạy, phân cách bằng dấu phẩy")
     ap.add_argument("--out", type=Path, default=None)
     args = ap.parse_args()
 
@@ -164,7 +177,7 @@ def main():
     print(f"reader={args.reader}{'/' + args.reader_model if args.reader_model else ''}\n")
 
     out: dict[str, dict] = {}
-    for mode in ("keep", "strip", "both"):
+    for mode in args.modes.split(","):
         f1_ic, f1_gold, tok_ic, tok_full, dropped = [], [], [], [], 0
         # Giữ chi tiết từng câu để làm case study: reviewer sẽ đòi bằng chứng
         # cho giả thuyết "ngữ cảnh rộng giúp khử mơ hồ", và giả thuyết đó chỉ
@@ -175,7 +188,7 @@ def main():
             src = r if mode == "keep" else strip_row(r)
             gold = r["answer"] if mode != "both" else strip_diacritics(r["answer"])
 
-            ctx_ic = run_itercomp(llm, src, scorer, args.percentile, args.max_iter)
+            ctx_ic, sel_ic = run_itercomp(llm, src, scorer, args.percentile, args.max_iter)
             ctx_gd = gold_context(src)
             if not ctx_gd:
                 dropped += 1
@@ -196,6 +209,7 @@ def main():
                 "pred_gold": preds["gold"],
                 "f1_itercomp": f1_ic[-1],
                 "f1_gold": f1_gold[-1],
+                "gold_recall": gold_recall(src, sel_ic),
                 # ngữ cảnh cắt ngắn: đủ để đọc case study, không phình file
                 "ctx_itercomp": ctx_ic[:400],
                 "ctx_gold": ctx_gd[:400],
@@ -232,7 +246,8 @@ def main():
         print("=> Bộ nén CHỊU ĐƯỢC việc gỡ dấu; thiệt hại nằm ở reader.")
     else:
         print("=> Bộ nén cũng suy giảm — bước tính điểm bị ảnh hưởng bởi nhập nhằng.")
-    print(f"Chẩn đoán 'both' (nhãn vàng cũng gỡ dấu): "
+    if "both" in out:
+      print(f"Chẩn đoán 'both' (nhãn vàng cũng gỡ dấu): "
           f"IterCOMP F1={out['both']['f1_itercomp']:.1f} "
           f"so với strip {out['strip']['f1_itercomp']:.1f} — "
           f"chênh {out['both']['f1_itercomp'] - out['strip']['f1_itercomp']:+.1f} "

@@ -93,10 +93,67 @@ Hãy nêu MỘT câu hỏi phụ ngắn gọn, nhắm vào đúng thông tin cò
 FOLLOW-UP:"""
 
 
-def make_followup(llm: LLM, question: str, selected: list[Segment]) -> str:
+#: Biến thể bám thực thể: câu hỏi phụ phải gọi đích danh thực thể cầu nối đã
+#: tìm thấy, để vòng sau chấm điểm theo tên đó thay vì theo mô tả gián tiếp.
+FOLLOWUP_ENTITY_PROMPT = """Bạn đang giải một câu hỏi multi-hop nhưng bằng chứng chưa đủ.
+
+CÂU HỎI GỐC: {question}
+
+BẰNG CHỨNG ĐÃ CÓ:
+{evidence}
+
+Hãy nêu MỘT câu hỏi phụ ngắn gọn, nhắm vào đúng thông tin còn THIẾU.
+Câu hỏi phụ PHẢI gọi đích danh thực thể cầu nối (tên người, tác phẩm, tổ chức,
+địa danh...) đã xuất hiện trong bằng chứng, không dùng mô tả gián tiếp.
+Chỉ ghi câu hỏi phụ, không giải thích.
+
+FOLLOW-UP:"""
+
+
+def make_followup(llm: LLM, question: str, selected: list[Segment],
+                  mode: str = "plain") -> str:
     """Bước 3 — sinh câu hỏi phụ nhắm vào thông tin còn thiếu."""
     evidence = "\n".join(f"[SEG{i}] {s}" for i, s in enumerate(selected)) or "(chưa có)"
-    return llm(FOLLOWUP_PROMPT.format(question=question, evidence=evidence), max_tokens=64)
+    tpl = FOLLOWUP_ENTITY_PROMPT if mode == "entity" else FOLLOWUP_PROMPT
+    return llm(tpl.format(question=question, evidence=evidence), max_tokens=64)
+
+
+def expand_window(picked: list[int], remaining: list[int], segs: list[Segment],
+                  window: int) -> list[int]:
+    """Kéo theo các câu kề (±window, cùng tài liệu) của mỗi câu vừa chọn.
+
+    Bằng chứng cầu nối thường nằm ngay cạnh câu nêu tên thực thể, nhưng không
+    giống câu hỏi nên điểm thấp và bị lọc. Chỉ thêm câu còn trong `remaining`.
+    """
+    if window <= 0:
+        return picked
+    pos = {(segs[i].doc_title, segs[i].sent_id): i for i in remaining}
+    out, seen = [], set()
+    for i in picked:
+        t, k = segs[i].doc_title, segs[i].sent_id
+        for j in [i] + [pos.get((t, k + d)) for d in range(-window, window + 1) if d]:
+            if j is not None and j not in seen:
+                seen.add(j); out.append(j)
+    return out
+
+
+def anchor_titles(query: str, picked: list[int], remaining: list[int],
+                  segs: list[Segment], scores: list[float], per_doc: int = 2) -> list[int]:
+    """Thêm các câu điểm cao nhất của tài liệu có tiêu đề xuất hiện trong query.
+
+    Câu hỏi phụ thường nêu tên thực thể cầu nối, mà tên đó thường là tiêu đề
+    tài liệu chứa bằng chứng bước sau; khớp tiêu đề bắt được tài liệu đó ngay
+    cả khi từng câu của nó có điểm thấp.
+    """
+    q = query.lower()
+    score_of = {i: scores[j] for j, i in enumerate(remaining)}
+    out, seen = list(picked), set(picked)
+    for t in {segs[i].doc_title for i in remaining}:
+        if len(t) >= 3 and t.lower() in q:
+            cand = sorted((i for i in remaining if segs[i].doc_title == t and i not in seen),
+                          key=lambda i: -score_of[i])[:per_doc]
+            out += cand; seen.update(cand)
+    return out
 
 
 # ══════════════════════════════════════════ Bước 4: retrieve + iterate
@@ -150,6 +207,10 @@ def itercomp(
     budget_ratio: float | None = None,
     split_max_tokens: int | None = None,
     restore_order: bool = False,
+    budget_encoding: str | None = None,
+    window: int = 0,
+    followup_mode: str = "plain",
+    title_anchor: bool = False,
 ) -> IterCompResult:
     """Vòng lặp IterCOMP đầy đủ.
 
@@ -165,6 +226,11 @@ def itercomp(
                     thì suy biến về paper gốc, nên so sánh là CÓ KIỂM SOÁT.
     top_k_per_iter  nếu != None thì dùng top-k cố định thay percentile (ABLATION).
     token_budget    dừng sớm nếu vượt ngân sách token (None = không giới hạn)
+    window          > 0: kéo theo các câu kề ±window cùng tài liệu của câu được chọn
+    followup_mode   "entity": câu hỏi phụ phải gọi đích danh thực thể cầu nối
+    title_anchor    từ vòng 2: thêm câu điểm cao nhất của tài liệu có tiêu đề nằm
+                    trong câu hỏi phụ
+    Ba tham số cuối mặc định tắt, nên cấu hình mặc định giữ nguyên như paper.
     """
     segs = decompose(context)                      # bước 1
     # CẢI TIẾN: chia nhỏ đoạn dài để độ hạt phân rã đồng đều giữa các bộ dữ liệu
@@ -190,12 +256,22 @@ def itercomp(
         if budget_ratio is not None:
             # CẢI TIẾN: lọc theo ngân sách token -> tỉ lệ nén so sánh được giữa
             # các bộ dữ liệu, không phụ thuộc độ hạt phân rã
-            total = sum(tokenize(str(s)) .__len__() for s in segs)
-            already = len(tokenize(res.to_prompt()))
+            # budget_encoding: đếm tổng VÀ phần đã dùng bằng đúng bộ token sẽ
+            # bị bill. Phải đổi cả hai, nếu chỉ đổi một thì tỉ lệ left/total
+            # trộn hai đơn vị và ngân sách sai lệch theo fertility.
+            if budget_encoding:
+                from .fertility import _encoder
+                _benc = _encoder(budget_encoding)
+                _count = lambda t: len(_benc.encode(t))
+            else:
+                _count = lambda t: len(tokenize(t))
+            total = sum(_count(str(s)) for s in segs)
+            already = _count(res.to_prompt())
             left = max(total * budget_ratio - already, 0)
             local = budget_filter(scores, [str(segs[i]) for i in remaining],
                                   budget_ratio=left / max(total, 1),
-                                  total_tokens=total)
+                                  total_tokens=total,
+                                  budget_encoding=budget_encoding)
         elif top_k_per_iter is not None:
             # ablation: top-k cố định
             order = sorted(range(len(remaining)), key=lambda j: -scores[j])
@@ -210,6 +286,9 @@ def itercomp(
             local = percentile_filter(scores, percentile)
 
         picked = [remaining[j] for j in local]
+        if title_anchor and it > 1:
+            picked = anchor_titles(query, picked, remaining, segs, scores)
+        picked = expand_window(picked, remaining, segs, window)
 
         # Chặn an toàn TRƯỚC khi gom: nếu mô hình không bao giờ báo "đủ bằng
         # chứng" (mô hình nhỏ thường trả ANSWERABLE_NO ở mọi vòng), vòng lặp sẽ
@@ -266,7 +345,7 @@ def itercomp(
                 break
 
         # bước 3 — chưa đủ thì sinh follow-up làm query cho vòng sau
-        fu = make_followup(llm, question, res.selected)
+        fu = make_followup(llm, question, res.selected, mode=followup_mode)
         res.followups.append(fu)
         query = fu
     else:
