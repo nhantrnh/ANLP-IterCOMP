@@ -42,7 +42,7 @@ Báo cáo dùng định dạng ACL chính thức ([acl-org/acl-style-files](http
 │   ├── results/        Kết quả JSON backing mọi con số trong báo cáo
 │   ├── requirements.txt · run.sh
 ├── notebooks/
-│   ├── colab_reproduce.ipynb   notebook DUY NHẤT: đủ 8 phần + demo, ~25 phút trên T4 (Colab/Kaggle)
+│   ├── colab_reproduce.ipynb   notebook DUY NHẤT, dựng như slide (mục I-X theo thứ tự báo cáo) + demo, ~25 phút trên T4 (Colab/Kaggle)
 │   └── kaggle/                 15 kernel GPU của từng thí nghiệm
 ```
 
@@ -137,7 +137,7 @@ F1$^*$ (chuẩn hoá boolean), reader Qwen2.5-7B 4-bit — bảng đầy đủ �
 Demo trực tiếp **một câu tiếng Anh (HotpotQA #277) và một câu tiếng Việt (VimQA #320)** qua cùng vòng lặp IterCOMP (điểm segment ở từng pass,
 phán đoán "đủ bằng chứng", câu hỏi phụ, `P_comp`, đáp án + token của Raw / Oracle /
 LLMLingua-2 / IterCOMP, tỉ lệ nén danh nghĩa so với hiệu dụng, chuẩn hoá boolean,
-văn bản không dấu; §8.3 đặt hai ngôn ngữ cạnh nhau) nằm ở §8 của **cùng một notebook**
+văn bản không dấu; VI.3c đặt hai ngôn ngữ cạnh nhau) nằm ở mục **VI.5-VI.6** của **cùng một notebook**
 [`notebooks/colab_reproduce.ipynb`](notebooks/colab_reproduce.ipynb) (~5 phút sau khi
 mô hình đã nạp; `MODE='live'` chạy thật, `'cached'` phát lại vết đã lưu — tự chọn khi
 không có GPU, `'mock'` chỉ kiểm tra luồng). Nếu chạy thật lỗi, ô tự lùi về vết đã lưu.
@@ -151,7 +151,7 @@ python src/scripts/demo_trace.py --from-cache src/results/demo_trace_polar_examp
 
 # Kiểm tra luồng bằng LLM/reader giả (CPU; đáp án "unknown", KHÔNG phải số liệu)
 python src/scripts/demo_trace.py --reader mock --itercomp-llm mock
-python src/scripts/demo_trace.py --dataset hotpotqa --reader mock --itercomp-llm mock   # cần data/hotpotqa (notebook §2 tải)
+python src/scripts/demo_trace.py --dataset hotpotqa --reader mock --itercomp-llm mock   # cần data/hotpotqa (notebook mục 0.4 tải)
 python src/scripts/demo_trace.py --index 23 --reader mock --itercomp-llm mock --strip-diacritics
 
 # Chạy thật (GPU T4) và lưu vết đầy đủ để phát lại sau
