@@ -1,37 +1,37 @@
-"""Demo trực tiếp: lần theo vòng lặp IterCOMP trên MỘT câu hỏi (VimQA hoặc tiếng Anh).
+"""Live demo: trace the IterCOMP loop on ONE question (VimQA or English).
 
-In từng bước của Hình 1 trong báo cáo, bằng đúng mã của repo (không cài lại):
-    pass 1: điểm S_dual của các segment, segment nào qua ngưỡng percentile
-    đánh giá "đủ bằng chứng chưa?" -> câu hỏi phụ q'
-    pass 2: điểm theo q', câu mang đáp án nhảy hạng thế nào
-    P_comp cuối cùng, rồi đáp án + số token của Raw / Oracle / LLMLingua-2 / IterCOMP
-    tỉ lệ nén danh nghĩa so với tỉ lệ hiệu dụng (nhân fertility, Mục 3.1 của bài)
-    chuẩn hoá boolean trước/sau (câu hỏi đúng/sai)
-    --strip-diacritics: chạy lại trên văn bản KHÔNG DẤU (chỉ có nghĩa với VimQA)
-    --dataset hotpotqa|2wiki|musique: cùng vòng lặp trên câu tiếng Anh (φ = 1, boolean không kích hoạt)
+Prints every step of Figure 1 of the paper, using the repository's own code:
+    pass 1: S_dual score of each segment, and which ones clear the percentile threshold
+    answerability judgement ("is the evidence sufficient?") -> follow-up question q'
+    pass 2: scores against q', and how the answer-bearing sentence moves up
+    the final P_comp, then answer + length for Raw / Oracle / LLMLingua-2 / IterCOMP
+    nominal vs effective retention (multiplied by fertility, Section 3.3 of the paper)
+    boolean normalisation before/after (polar questions)
+    --strip-diacritics: rerun on text WITHOUT diacritics (VimQA only)
+    --dataset hotpotqa|2wiki|musique: the same loop on an English question (phi = 1, no boolean step)
 
-Cách chạy (từ thư mục gốc repo):
-    # không cần GPU, không cần mô hình — chỉ để kiểm tra luồng
+Usage (from the repository root):
+    # no GPU and no models - checks the control flow only
     python src/scripts/demo_trace.py --reader mock --itercomp-llm mock
 
-    # thật (GPU, ~15 GB T4), lưu lại để phát lại khi mất GPU/mạng
+    # real run (GPU, ~15 GB T4), saved for replay when GPU or network is unavailable
     python src/scripts/demo_trace.py --index 320 --reader hf --itercomp-llm hf \
         --reader-model Qwen/Qwen2.5-7B-Instruct --load-4bit \
         --cache src/results/demo_cache/trace_320.json
 
-    # một câu tiếng Anh (HotpotQA #277) chạy cùng vòng lặp
+    # an English question (HotpotQA #277) through the same loop
     python src/scripts/demo_trace.py --dataset hotpotqa --index 277 --reader hf --itercomp-llm hf \
         --reader-model Qwen/Qwen2.5-7B-Instruct --load-4bit --cache src/results/demo_cache/trace_en_277.json
 
-    # phát lại tức thì, không nạp mô hình
+    # instant replay, no model loading
     python src/scripts/demo_trace.py --from-cache src/results/demo_trace_example.json
     python src/scripts/demo_trace.py --from-cache src/results/demo_trace_en_example.json
 
-    # dựng lại vết ghi sẵn từ kết quả đầy đủ (chỉ đáp án/số từ, không có điểm từng vòng)
+    # rebuild a pre-recorded trace from the full results (answers and lengths only, no per-pass scores)
     python src/scripts/demo_trace.py --from-results --index 320 --cache src/results/demo_trace_example.json
 
-Với --reader mock, đáp án luôn là "unknown" và LLM giả trả lời "đủ" ngay vòng 1:
-đủ để thấy luồng chạy, KHÔNG phải số liệu. Số thật nằm ở src/results/*.json.
+With --reader mock the answer is always "unknown" and the fake judge says "sufficient" in pass 1:
+enough to see the control flow, NOT results. Real numbers live in src/results/*.json.
 """
 
 from __future__ import annotations
@@ -52,32 +52,55 @@ from itercomp.metrics import is_boolean_question
 from itercomp.scorer import DEFAULT_LAMBDA, PERCENTILE_BY_DATASET, percentile_filter
 
 RESULTS = Path(__file__).resolve().parents[1] / "results"
-#: Câu mặc định: cầu nối 2 bước ("Quê hương của Johann Heinrich Lambert có bao
-#: nhiêu bang?"). Trong vimqa_full_7b.json: Raw sai, LLMLingua-2 sai, IterCOMP
-#: đúng (855 -> 122 từ).
+#: Default question: a two-hop bridge ("Quê hương của Johann Heinrich Lambert có bao
+#: nhiêu bang?"). In vimqa_full_7b.json Raw and LLMLingua-2 are wrong and IterCOMP is
+#: right (855 -> 122 words).
 DEFAULT_INDEX = 320
-#: Câu tiếng Anh mặc định (HotpotQA #277, cầu nối 2 bước: nhà soạn nhạc Baroque Ý
-#: có tập sonata Op. 5 sinh ở thành phố nào?). Trong hotpotqa_1500_7b.json: Raw
-#: và LLMLingua-2 đều "unknown", IterCOMP đúng (595 -> 57 từ).
+#: Default English question (HotpotQA #277, two-hop bridge: in what city was the
+#: Italian Baroque composer of the Op. 5 sonatas born?). In hotpotqa_1500_7b.json Raw
+#: and LLMLingua-2 both answer "unknown" and IterCOMP is right (595 -> 57 words).
 DEFAULT_INDEX_BY_DATASET = {"vimqa": DEFAULT_INDEX, "hotpotqa": 277, "2wiki": 476, "musique": 0}
 RESULT_FILE = {"vimqa": "vimqa_full_7b.json", "hotpotqa": "hotpotqa_1500_7b.json",
                "2wiki": "2wiki_1500_7b.json", "musique": "musique_1500_7b.json"}
 DATASET_LABEL = {"vimqa": "VimQA", "hotpotqa": "HotpotQA", "2wiki": "2Wiki", "musique": "MuSiQue"}
-#: Câu đúng/sai: reader trả "yes", gold "đúng" -> chuẩn hoá cứu được.
+#: Polar question: the reader answers "yes", the gold answer is "đúng" -> normalisation fixes it.
 POLAR_INDEX = 23
+
+#: core.py records why the loop stopped in Vietnamese; print it in English.
+STOP_REASON = {"answerable": "the judge reported sufficient evidence",
+               "hết vòng lặp": "reached max_iter",
+               "hết segment": "no segments left"}
+
+
+def stop_reason(reason: str | None) -> str:
+    if not reason:
+        return "-"
+    if reason.startswith("đạt trần tỉ lệ"):
+        return "reached the 60% retention cap"
+    if reason.startswith("đạt token budget"):
+        return "reached the token budget"
+    return STOP_REASON.get(reason, reason)
+
+
+def source_label(source: str | None) -> str:
+    """Older cached traces store their provenance in Vietnamese ('ghi sẵn từ X')."""
+    if source and source.startswith("ghi sẵn từ "):
+        return "pre-recorded from " + source[len("ghi sẵn từ "):]
+    return source or "-"
+
 
 _DSTROKE = str.maketrans({"đ": "d", "Đ": "D"})
 
 
 def strip_diacritics(text: str) -> str:
-    """Gỡ dấu tiếng Việt; đ/Đ phải map tay vì NFD không tách được."""
+    """Remove Vietnamese diacritics; đ/Đ are mapped by hand because NFD does not split them."""
     s = unicodedata.normalize("NFD", text.translate(_DSTROKE))
     return unicodedata.normalize("NFC", "".join(c for c in s if not unicodedata.combining(c)))
 
 
 def strip_row(row: dict) -> dict:
-    """Gỡ dấu ngữ cảnh + câu hỏi (người gõ không dấu thì gõ không dấu cả câu hỏi).
-    Nhãn vàng giữ nguyên dấu, như chế độ `strip` của báo cáo."""
+    """Strip diacritics from context and question (someone typing without diacritics types the
+    question that way too). The gold answer keeps its diacritics, as in the paper's `strip` setting."""
     ctx, sf = row["context"], row.get("supporting_facts") or {}
     return row | {
         "question": strip_diacritics(row["question"]),
@@ -87,7 +110,7 @@ def strip_row(row: dict) -> dict:
     }
 
 
-# ─────────────────────────────────────────────── đếm token / fertility
+# ─────────────────────────────────────────────── token counting / fertility
 
 
 def _cl100k():
@@ -99,8 +122,8 @@ def _cl100k():
 
 
 def fertility_factor(dataset: str = "vimqa") -> float:
-    """φ (cl100k_base) đo trên 930 cặp WMT24++ — đọc từ file kết quả của repo.
-    Tiếng Anh là ngôn ngữ tham chiếu: φ = 1, Ratio_eff = Ratio_nom."""
+    """phi (cl100k_base) measured on 930 WMT24++ pairs, read from the repository's results.
+    English is the reference language: phi = 1, so Ratio_eff = Ratio_nom."""
     if dataset != "vimqa":
         return 1.0
     try:
@@ -111,11 +134,11 @@ def fertility_factor(dataset: str = "vimqa") -> float:
 
 
 def n_words(text: str) -> int:
-    """Đơn vị của cột "ratio" trong bài: \\w+ (âm tiết với tiếng Việt)."""
+    """The unit of the paper's retention column: \\w+ (syllables for Vietnamese)."""
     return len(tokenize(text))
 
 
-# ────────────────────────────────────────────── bọc scorer / LLM để ghi vết
+# ────────────────────────────────────────────── scorer / LLM wrappers that record calls
 
 
 class TraceScorer:
@@ -143,11 +166,11 @@ class TraceLLM:
         return getattr(self.inner, name)
 
 
-# ─────────────────────────────────────────────────────────── dựng vết
+# ─────────────────────────────────────────────────────────── building a trace
 
 
 def build_trace(args, row, index, reader, llm, scorer, k) -> dict:
-    from scripts.run_eval import ctx_full, ctx_oracle  # dùng lại đúng hàm baseline
+    from scripts.run_eval import ctx_full, ctx_oracle  # reuse the exact baseline functions
     segs = decompose(row["context"])
     by_text = {str(s): s for s in segs}
     sf = row.get("supporting_facts") or {}
@@ -157,7 +180,7 @@ def build_trace(args, row, index, reader, llm, scorer, k) -> dict:
     res = itercomp(tl, row["question"], row["context"], max_iter=args.max_iter,
                    scorer=ts, percentile=k)
 
-    # mỗi lần chấm điểm là một pass; sau pass là (đánh giá đủ?) rồi (câu hỏi phụ)
+    # each scoring call is one pass; after it come the answerability judgement and the follow-up
     passes, ptr = [], 0
     import numpy as np
     for call in ts.calls:
@@ -189,8 +212,8 @@ def build_trace(args, row, index, reader, llm, scorer, k) -> dict:
         try:
             from scripts.run_eval import LLMLingua2Method
             contexts["llmlingua2"] = LLMLingua2Method()(row)
-        except Exception as e:                     # llmlingua chưa cài / không có GPU
-            print(f"  (bỏ qua LLMLingua-2: {type(e).__name__}: {e})", file=sys.stderr)
+        except Exception as e:                     # llmlingua not installed / no GPU
+            print(f"  (skipping LLMLingua-2: {type(e).__name__}: {e})", file=sys.stderr)
     contexts["itercomp"] = res.to_prompt()
 
     enc, gold = _cl100k(), row["answer"]
@@ -224,11 +247,11 @@ def build_trace(args, row, index, reader, llm, scorer, k) -> dict:
 
 
 def trace_from_results(index: int, path: Path | None = None, dataset: str = "vimqa") -> dict:
-    """Vết "ghi sẵn" từ per_row của lần chạy đầy đủ (src/results/vimqa_full_7b.json).
+    """A pre-recorded trace built from the per_row data of a full run (e.g. vimqa_full_7b.json).
 
-    Chỉ chứa những gì file kết quả thật sự lưu: đáp án, số từ, F1 của từng
-    phương pháp. File kết quả KHÔNG lưu điểm từng vòng, câu hỏi phụ hay P_comp,
-    nên các phần đó vắng mặt — muốn có thì chạy live với --cache.
+    It holds only what the results file stores: each method's answer, length and F1. The
+    results file does NOT store per-pass scores, follow-up questions or P_comp, so those are
+    absent - run live with --cache to get them.
     """
     path = path or RESULTS / RESULT_FILE[dataset]
     d = json.load(open(path, encoding="utf-8"))
@@ -239,12 +262,12 @@ def trace_from_results(index: int, path: Path | None = None, dataset: str = "vim
                for name, v in r["methods"].items()}
     ic = methods["itercomp"]
     nominal = ic["words"] / r["orig_tokens"]
-    # P_comp có ở exp2_undiacritised_500_7b.json (chế độ keep, cùng cấu hình), nhưng
-    # chỉ dùng khi số từ khớp ĐÚNG với lần chạy chính: hai lần chạy có thể lệch nhau.
+    # exp2_undiacritised_500_7b.json (keep setting, same configuration) stores P_comp, but it is
+    # used only when its word count matches the main run EXACTLY: the two runs can differ.
     selected = []
     try:
         if dataset != "vimqa":
-            raise KeyError("P_comp chỉ có cho VimQA")
+            raise KeyError("P_comp is only available for VimQA")
         e = json.load(open(RESULTS / "exp2_undiacritised_500_7b.json", encoding="utf-8"))["detail"]["keep"]
         if index < len(e) and e[index]["question"] == r["question"] \
                 and n_words(e[index]["ctx_itercomp"]) == ic["words"]:
@@ -252,7 +275,7 @@ def trace_from_results(index: int, path: Path | None = None, dataset: str = "vim
     except Exception:
         pass
     return {
-        "meta": {"source": f"ghi sẵn từ {path.name}", "index": index, "dataset": dataset,
+        "meta": {"source": f"pre-recorded from {path.name}", "index": index, "dataset": dataset,
                  "reader": cfg["reader"], "reader_model": cfg["reader_model"],
                  "itercomp_llm": cfg["itercomp_llm"], "scorer": cfg["scorer"],
                  "k": 90.0, "max_iter": cfg["max_iter"], "strip_diacritics": False},
@@ -265,7 +288,7 @@ def trace_from_results(index: int, path: Path | None = None, dataset: str = "vim
     }
 
 
-# ───────────────────────────────────────────────────────────────── in
+# ───────────────────────────────────────────────────────────────── printing
 
 
 def _c(code, s, on):
@@ -285,41 +308,44 @@ def render(t: dict, color: bool = True, width: int = 110):
     m, bar = t["meta"], "═" * 78
     print(bar)
     ds = m.get("dataset", "vimqa")
-    print(b(f"{DATASET_LABEL.get(ds, ds)} #{m.get('index')}  [{t.get('type')}]"), dim(f"  nguồn: {m.get('source')}"
-          f"  reader={m.get('reader_model') or m.get('reader')}  scorer={m.get('scorer')}"
-          f"  k={m.get('k')}  max_iter={m.get('max_iter')}"))
+    print(b(f"{DATASET_LABEL.get(ds, ds)} #{m.get('index')}  [{t.get('type')}]"),
+          dim(f"  source: {source_label(m.get('source'))}"
+              f"  reader={m.get('reader_model') or m.get('reader')}  scorer={m.get('scorer')}"
+              f"  k={m.get('k')}  max_iter={m.get('max_iter')}"))
     if m.get("strip_diacritics"):
-        print(red("  >> CHẾ ĐỘ KHÔNG DẤU: ngữ cảnh + câu hỏi đã gỡ dấu, nhãn vàng giữ dấu"))
+        print(red("  >> NO-DIACRITICS MODE: context and question stripped, gold answer keeps its diacritics"))
     print(bar)
-    print(b("Câu hỏi q :"), t["question"])
-    print(b("Nhãn vàng :"), t["gold"], dim(f"   ({t['n_segments']} segment sau khi phân rã)" if t.get("n_segments") else ""))
+    print(b("Question q :"), t["question"])
+    print(b("Gold answer:"), t["gold"],
+          dim(f"   ({t['n_segments']} segments after decomposition)" if t.get("n_segments") else ""))
 
     passes = t.get("passes")
     if not passes:
-        print(dim("\n(vết bản ghi sẵn này không lưu điểm từng vòng — chạy live với --cache để có)"))
+        print(dim("\n(this pre-recorded trace has no per-pass scores - run live with --cache to get them)"))
     for i, p in enumerate(passes or [], 1):
-        print("\n" + b(f"── PASS {i}") + f"   truy vấn = {_clip(p['query'], 90)!r}")
-        print(dim(f"   {p['n_candidates']} ứng viên, ngưỡng percentile-{p['k']:g} = {p['threshold']:.4f}"
-                  f"   hạng của các câu vàng: {p['gold_ranks']}"))
+        print("\n" + b(f"── PASS {i}") + f"   query = {_clip(p['query'], 90)!r}")
+        print(dim(f"   {p['n_candidates']} candidates, percentile-{p['k']:g} threshold = {p['threshold']:.4f}"
+                  f"   ranks of the gold sentences: {p['gold_ranks']}"))
         for r in p["top"]:
-            mark = grn("✔ giữ  ") if r["passed"] else dim("✘ bỏ   ")
+            mark = grn("✔ keep ") if r["passed"] else dim("✘ drop ")
             star = grn("★") if r["gold"] else " "
             print(f"   #{r['rank']:<2} {r['score']:>7.4f} {mark}{star} {_clip(r['text'], width - 28)}")
         if p["answerable"] is not None:
-            print("   LLM: đủ bằng chứng? ->", grn("ANSWERABLE_YES") if p["answerable"] else red("ANSWERABLE_NO"))
+            print("   LLM: is the evidence sufficient? ->",
+                  grn("ANSWERABLE_YES") if p["answerable"] else red("ANSWERABLE_NO"))
         if p["followup"]:
-            print("   LLM: câu hỏi phụ q' ->", b(repr(p["followup"])))
+            print("   LLM: follow-up question q' ->", b(repr(p["followup"])))
     if passes:
-        print(dim(f"\n   (★ = câu vàng trong supporting_facts)  dừng vì: {t.get('stopped_because')}"
-                  f"  sau {t.get('iterations')} vòng"))
+        print(dim(f"\n   (★ = gold supporting sentence)  stopped because: {stop_reason(t.get('stopped_because'))}"
+                  f"  after {t.get('iterations')} pass(es)"))
     if t.get("selected"):
-        print("\n" + b("── P_comp (ngữ cảnh nén đưa cho reader)"))
+        print("\n" + b("── P_comp (compressed context given to the reader)"))
         for s in t["selected"]:
             print("   •", _clip(s, width - 6))
 
-    print("\n" + b("── Đáp án và chi phí") + dim("   (từ = \\w+, đơn vị của cột ratio)"))
+    print("\n" + b("── Answers and cost") + dim("   (words = \\w+, the unit of the retention column)"))
     names = {"raw": "Raw", "oracle": "Oracle", "llmlingua2": "LLMLingua-2", "itercomp": "IterCOMP"}
-    print(f"   {'':12}{'đáp án':34}{'F1*':>6}{'từ':>7}{'cl100k':>8}")
+    print(f"   {'':12}{'answer':34}{'F1*':>6}{'words':>7}{'cl100k':>8}")
     for k_, v in t["methods"].items():
         ok = v["f1_norm"] == 1.0
         ans = _clip(v["pred_norm"], 32)
@@ -327,26 +353,26 @@ def render(t: dict, color: bool = True, width: int = 110):
               f"{v['f1_norm'] * 100:>6.0f}{v['words']:>7}{(v['cl100k'] if v['cl100k'] is not None else '-'):>8}")
 
     r = t["ratio"]
-    print("\n" + b("── Tỉ lệ nén: danh nghĩa vs hiệu dụng"))
-    print(f"   Ratio_nom = {r['nominal']:.3f}   (số từ \\w+ còn lại / ban đầu)")
+    print("\n" + b("── Retention: nominal vs effective"))
+    print(f"   Ratio_nom = {r['nominal']:.3f}   (\\w+ words kept / original)")
     eff = "%.3f" % r["effective"]
-    print(f"   φ(cl100k_base) = {r['fertility']:.2f}   =>   Ratio_eff = Ratio_nom × φ = {b(eff)}")
+    print(f"   phi(cl100k_base) = {r['fertility']:.2f}   =>   Ratio_eff = Ratio_nom × phi = {b(eff)}")
     if r.get("nominal_cl100k") is not None:
-        print(dim(f"   đo trực tiếp bằng token cl100k_base trên chính ngữ cảnh này: {r['nominal_cl100k']:.3f}"))
+        print(dim(f"   measured directly in cl100k_base tokens on this context: {r['nominal_cl100k']:.3f}"))
     if ds == "vimqa":
-        print(dim("   cùng tỉ lệ danh nghĩa, tiếng Việt tốn nhiều token tính tiền hơn tiếng Anh nên tiết kiệm thật ít hơn"))
+        print(dim("   same nominal retention, but Vietnamese costs more billed tokens than English, so the real saving is smaller"))
     else:
-        print(dim("   tiếng Anh là ngôn ngữ tham chiếu (φ = 1): tỉ lệ hiệu dụng trùng tỉ lệ danh nghĩa"))
+        print(dim("   English is the reference language (phi = 1): effective retention equals nominal retention"))
 
     bo = t["boolean"]
-    print("\n" + b("── Chuẩn hoá boolean"))
+    print("\n" + b("── Boolean normalisation"))
     if bo["polar"]:
-        print(f"   câu hỏi đúng/sai: IterCOMP trả {bo['pred']!r} -> sau chuẩn hoá {bo['pred_norm']!r}"
-              f"   F1 {bo['f1'] * 100:.0f} -> {bo['f1_norm'] * 100:.0f}   (nhãn vàng: {t['gold']!r})")
+        print(f"   polar question: IterCOMP answered {bo['pred']!r} -> after normalisation {bo['pred_norm']!r}"
+              f"   F1 {bo['f1'] * 100:.0f} -> {bo['f1_norm'] * 100:.0f}   (gold: {t['gold']!r})")
     elif ds != "vimqa":
-        print(dim("   tiếng Anh: bước này không kích hoạt (+0.0 F1 trên cả ba bộ tiếng Anh; chỉ VimQA được +8.67)"))
+        print(dim("   English: the step never fires (+0.0 F1 on all three English sets; only VimQA gains +8.67)"))
     else:
-        print(dim("   không phải câu đúng/sai: bước này không kích hoạt (thử --index 23)"))
+        print(dim("   not a polar question: the step does not fire (try --index 23)"))
     print(bar)
 
 
@@ -354,32 +380,32 @@ def render(t: dict, color: bool = True, width: int = 110):
 
 
 def main():
-    ap = argparse.ArgumentParser(description="Vết một câu hỏi qua IterCOMP (VimQA hoặc tiếng Anh)")
+    ap = argparse.ArgumentParser(description="Trace one question through IterCOMP (VimQA or English)")
     ap.add_argument("--dataset", default="vimqa", choices=sorted(RESULT_FILE),
-                    help="mặc định vimqa; hotpotqa/2wiki/musique = câu tiếng Anh (φ = 1)")
+                    help="default vimqa; hotpotqa/2wiki/musique = an English question (phi = 1)")
     ap.add_argument("--index", type=int, default=None,
-                    help=f"chỉ số trong tập dev (mặc định theo dataset: {DEFAULT_INDEX_BY_DATASET}; VimQA câu đúng/sai: {POLAR_INDEX})")
+                    help=f"index in the dev set (default per dataset: {DEFAULT_INDEX_BY_DATASET}; VimQA polar question: {POLAR_INDEX})")
     ap.add_argument("--reader", choices=["mock", "hf"], default="mock")
     ap.add_argument("--reader-model", default=None)
     ap.add_argument("--load-4bit", action="store_true")
     ap.add_argument("--itercomp-llm", choices=["mock", "hf"], default="mock")
     ap.add_argument("--scorer", default=None, choices=["bm25", "dense", "lexical", "dual"],
-                    help="mặc định: dual (bge-m3) khi chạy hf, bm25 khi chạy mock (không cần tải mô hình)")
+                    help="default: dual (bge-m3) for hf runs, bm25 for mock runs (no model download)")
     ap.add_argument("--max-iter", type=int, default=5)
     ap.add_argument("--percentile", type=float, default=None)
-    ap.add_argument("--top", type=int, default=5, help="số segment điểm cao nhất in ra mỗi vòng")
-    ap.add_argument("--llmlingua2", action="store_true", help="chạy thêm LLMLingua-2 (cần llmlingua)")
-    ap.add_argument("--strip-diacritics", action="store_true", help="chạy trên văn bản không dấu")
-    ap.add_argument("--cache", type=Path, default=None, help="ghi vết JSON ra đây (phát lại bằng --from-cache)")
-    ap.add_argument("--from-cache", type=Path, default=None, help="phát lại vết đã lưu, không nạp mô hình")
+    ap.add_argument("--top", type=int, default=5, help="how many top-scoring segments to print per pass")
+    ap.add_argument("--llmlingua2", action="store_true", help="also run LLMLingua-2 (needs llmlingua)")
+    ap.add_argument("--strip-diacritics", action="store_true", help="run on text without diacritics")
+    ap.add_argument("--cache", type=Path, default=None, help="write the trace as JSON here (replay with --from-cache)")
+    ap.add_argument("--from-cache", type=Path, default=None, help="replay a saved trace, no model loading")
     ap.add_argument("--from-results", action="store_true",
-                    help="dựng vết ghi sẵn cho --index từ src/results/<dataset>_*.json (không cần mô hình)")
+                    help="build a pre-recorded trace for --index from src/results/<dataset>_*.json (no models)")
     ap.add_argument("--no-color", action="store_true")
     args = ap.parse_args()
     if args.index is None:
         args.index = DEFAULT_INDEX_BY_DATASET[args.dataset]
     if args.strip_diacritics and args.dataset != "vimqa":
-        ap.error("--strip-diacritics chỉ có nghĩa với --dataset vimqa")
+        ap.error("--strip-diacritics only makes sense with --dataset vimqa")
     color = not args.no_color and sys.stdout.isatty()
 
     if args.from_results:
@@ -388,14 +414,14 @@ def main():
         if args.cache:
             args.cache.parent.mkdir(parents=True, exist_ok=True)
             json.dump(trace, open(args.cache, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
-            print(f"đã lưu vết: {args.cache}")
+            print(f"trace saved: {args.cache}")
         return
     if args.from_cache:
         render(json.load(open(args.from_cache, encoding="utf-8")), color)
         return
 
     if "hf" in (args.reader, args.itercomp_llm) and not args.reader_model:
-        ap.error("--reader/--itercomp-llm hf cần --reader-model (ví dụ Qwen/Qwen2.5-7B-Instruct)")
+        ap.error("--reader/--itercomp-llm hf needs --reader-model (e.g. Qwen/Qwen2.5-7B-Instruct)")
     row = load_dataset(args.dataset)[args.index]
     if args.strip_diacritics:
         row = strip_row(row)
@@ -408,13 +434,13 @@ def main():
     scorer = make_scorer(scorer_kind, lam=DEFAULT_LAMBDA)
 
     if "mock" in (args.reader, args.itercomp_llm):
-        print("! mock: đáp án/phán đoán giả — chỉ kiểm tra luồng, KHÔNG phải số liệu\n", file=sys.stderr)
+        print("! mock: fake answers and judgements - checks the control flow only, NOT results\n", file=sys.stderr)
     trace = build_trace(args, row, args.index, reader, llm, scorer, k)
     render(trace, color)
     if args.cache:
         args.cache.parent.mkdir(parents=True, exist_ok=True)
         json.dump(trace, open(args.cache, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
-        print(f"đã lưu vết: {args.cache}")
+        print(f"trace saved: {args.cache}")
 
 
 if __name__ == "__main__":

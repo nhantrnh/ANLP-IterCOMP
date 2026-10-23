@@ -137,7 +137,7 @@ F1$^*$ (chuẩn hoá boolean), reader Qwen2.5-7B 4-bit — bảng đầy đủ �
 Demo trực tiếp **một câu tiếng Anh (HotpotQA #277) và một câu tiếng Việt (VimQA #320)** qua cùng vòng lặp IterCOMP (điểm segment ở từng pass,
 phán đoán "đủ bằng chứng", câu hỏi phụ, `P_comp`, đáp án + token của Raw / Oracle /
 LLMLingua-2 / IterCOMP, tỉ lệ nén danh nghĩa so với hiệu dụng, chuẩn hoá boolean,
-văn bản không dấu; VI.3c đặt hai ngôn ngữ cạnh nhau) nằm ở mục **VI.5-VI.6** của **cùng một notebook**
+văn bản không dấu; VI.3c đặt hai ngôn ngữ cạnh nhau) nằm ở mục **VI.5-VI.7** của **cùng một notebook** (notebook viết bằng tiếng Anh; VI.5·0 là ví dụ Hình 1 - VimQA #2, VI.5b là VimQA #98 cần hai vòng, VI.7 là form tự đặt câu hỏi)
 [`notebooks/colab_reproduce.ipynb`](notebooks/colab_reproduce.ipynb) (~5 phút sau khi
 mô hình đã nạp; `MODE='live'` chạy thật, `'cached'` phát lại vết đã lưu — tự chọn khi
 không có GPU, `'mock'` chỉ kiểm tra luồng). Nếu chạy thật lỗi, ô tự lùi về vết đã lưu.

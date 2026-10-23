@@ -1,8 +1,9 @@
-"""Hàm phụ cho notebooks/colab_reproduce.ipynb.
+"""Helpers for notebooks/colab_reproduce.ipynb.
 
-Notebook dùng như bộ slide nên mỗi ô chỉ gọi vài dòng; phần logic dài nằm ở đây.
-Mọi hàm chạy với thư mục làm việc là gốc repo (notebook đã `os.chdir(REPO)`) và
-đọc đường dẫn tương đối `data/`, `results/`, `src/results/`.
+The notebook doubles as the slide deck, so each cell calls only a few lines and the
+longer logic lives here. Every function runs with the repository root as the working
+directory (the notebook calls `os.chdir(REPO)`) and reads the relative paths `data/`,
+`results/` and `src/results/`.
 
     from itercomp import nbhelpers as nb
 """
@@ -20,7 +21,7 @@ import time
 import urllib.request
 from dataclasses import dataclass, field
 
-# ══════════════════════════════════════════════ dữ liệu
+# ══════════════════════════════════════════════ data
 DATA_FILES = {
     'vimqa/validation.parquet':    ('nguyenlab/vimqa', 'data/validation-00000-of-00001.parquet'),
     '2wiki/dev.parquet':           ('xanhho/2WikiMultihopQA', 'dev.parquet'),
@@ -30,7 +31,7 @@ DATA_FILES = {
 
 
 def download_data(all_sets: bool) -> None:
-    """Tải VimQA (+ HotpotQA cho câu tiếng Anh của demo); `all_sets` tải cả 2Wiki, MuSiQue."""
+    """Download VimQA (+ HotpotQA for the demo's English question); `all_sets` adds 2Wiki and MuSiQue."""
     for dst, (repo, src) in DATA_FILES.items():
         if not all_sets and not dst.startswith(('vimqa', 'hotpotqa')):
             continue
@@ -42,7 +43,7 @@ def download_data(all_sets: bool) -> None:
 
 
 def peek_datasets() -> None:
-    """Mỗi bộ đã tải: số đoạn văn và số câu bằng chứng vàng của câu đầu tiên."""
+    """For each downloaded set: passages and gold supporting sentences of the first question."""
     from itercomp import load_dataset
     paths = {'hotpotqa': 'data/hotpotqa/validation.parquet', '2wiki': 'data/2wiki/dev.parquet',
              'musique': 'data/musique/dev.jsonl', 'vimqa': 'data/vimqa/validation.parquet'}
@@ -50,11 +51,11 @@ def peek_datasets() -> None:
         if os.path.exists(path):
             r = load_dataset(ds, 1)[0]
             n = len(r.get('supporting_facts', {}).get('title', []))
-            print(f"{ds:9s} {len(r['context']['title']):2d} đoạn | supporting_facts={n}")
+            print(f"{ds:9s} {len(r['context']['title']):2d} passages | supporting_facts={n}")
 
 
 def eda_vimqa(n: int = 200) -> None:
-    """Thống kê mô tả VimQA, phân bố loại đáp án, phân rã segment, kiểm tra tokenizer."""
+    """Descriptive statistics of VimQA, answer types, sentence decomposition and a tokenizer check."""
     from itercomp import load_dataset
     from itercomp.core import decompose
     from itercomp.metrics import tokenize
@@ -63,33 +64,33 @@ def eda_vimqa(n: int = 200) -> None:
     n_para = [len(r['context']['title']) for r in rows]
     n_tok = [len(tokenize('\n'.join(' '.join(s) for s in r['context']['sentences']))) for r in rows]
     n_gold = [len(r.get('supporting_facts', {}).get('title', [])) for r in rows]
-    print(f'VimQA - {len(rows)} câu hỏi')
-    for lab, v in (('đoạn/câu', n_para), ('token/ngữ cảnh', n_tok), ('câu bằng chứng vàng/câu hỏi', n_gold)):
-        print(f'  {lab:28s}: trung vị {statistics.median(v):.0f}  (min {min(v)}, max {max(v)})')
+    print(f'VimQA - {len(rows)} questions')
+    for lab, v in (('passages / question', n_para), ('tokens / context', n_tok), ('gold sentences / question', n_gold)):
+        print(f'  {lab:28s}: median {statistics.median(v):.0f}  (min {min(v)}, max {max(v)})')
 
     boolean = {'đúng', 'không', 'sai', 'có'}
-    kind = collections.Counter('đúng/sai' if str(r['answer']).strip().lower() in boolean else 'trích xuất'
+    kind = collections.Counter('yes/no' if str(r['answer']).strip().lower() in boolean else 'extractive'
                                for r in rows)
-    print('\nloại đáp án:')
+    print('\nanswer type:')
     for k, v in kind.most_common():
         print(f'  {k:12s} {v:3d}  {v / len(rows):5.1%}')
 
     r = rows[0]
     segs = decompose(r['context'])
-    print(f"\nphân rã câu đầu: {len(r['context']['title'])} đoạn -> {len(segs)} segment câu")
+    print(f"\ndecomposing the first question: {len(r['context']['title'])} passages -> {len(segs)} sentence segments")
     for s in segs[:3]:
         print(f'  [{s.doc_title[:22]:24s}] {str(s)[:58]}…')
-    assert tokenize('vào') == ['vào'], 'tokenizer làm hỏng dấu tiếng Việt'
-    print('tokenizer giữ dấu:', tokenize('má mà mã'))
+    assert tokenize('vào') == ['vào'], 'the tokenizer breaks Vietnamese diacritics'
+    print('tokenizer keeps diacritics:', tokenize('má mà mã'))
 
 
-# ══════════════════════════════════════════════ cấu hình
+# ══════════════════════════════════════════════ configuration
 SCALES = {
     'demo':  {'vimqa': 30},
     'paper': {'vimqa': None, 'musique': 1500, 'hotpotqa': 1500, '2wiki': 1500},
     'max':   {'vimqa': None, 'musique': None},
 }
-SEC_PER_Q = {'vimqa': 9.6, 'musique': 15.0, 'hotpotqa': 6.5, '2wiki': 6.2}   # đo thật trên T4, 4 phương pháp/câu
+SEC_PER_Q = {'vimqa': 9.6, 'musique': 15.0, 'hotpotqa': 6.5, '2wiki': 6.2}   # measured on a T4, four methods per question
 FULL_N = {'vimqa': 1003, 'musique': 2417, 'hotpotqa': 7405, '2wiki': 12576}
 
 
@@ -99,7 +100,7 @@ def nlabel(n) -> str:
 
 @dataclass
 class Config:
-    """Cỡ mẫu và mô hình đọc. Hậu tố file lấy từ mô hình THẬT để số 1.5B không bị chép thành số 7B."""
+    """Sample size and reader. The file suffix comes from the ACTUAL reader so 1.5B results are never filed as 7B."""
     scale: str
     reader: str = 'Qwen/Qwen2.5-7B-Instruct'
     load_4bit: bool = True
@@ -108,7 +109,7 @@ class Config:
     mtag: str = field(init=False)
 
     def __post_init__(self):
-        assert self.scale in SCALES, f'SCALE phải thuộc {list(SCALES)}'
+        assert self.scale in SCALES, f'SCALE must be one of {list(SCALES)}'
         self.plan = SCALES[self.scale]
         self.mtag = self.reader.split('/')[-1].replace('Qwen2.5-', '').replace('-Instruct', '').lower()
         os.makedirs('results', exist_ok=True)
@@ -117,22 +118,22 @@ class Config:
         return f'results/{prefix}{ds}_{nlabel(n)}_{self.mtag}.json'
 
     def small_n(self, n_full: int = 200) -> int:
-        """Cỡ mẫu của các thí nghiệm phụ (ablation, EXP-1/2, quét λ/k)."""
+        """Sample size of the extra experiments (ablation, EXP-1/2, λ/k sweep)."""
         return n_full if self.scale != 'smoke' else 50
 
     def print_plan(self) -> None:
         print(f'reader = {self.reader} | 4-bit = {self.load_4bit} | SCALE = {self.scale!r}\n')
-        print(f"{'dataset':10s} {'n':>7s} {'ước tính':>10s}")
+        print(f"{'dataset':10s} {'n':>7s} {'estimate':>10s}")
         tot = 0.0
         for ds, n in self.plan.items():
             h = (FULL_N[ds] if n is None else n) * SEC_PER_Q[ds] / 3600
             tot += h
             print(f'{ds:10s} {nlabel(n):>7s} {h:9.2f}h')
-        print(f"{'TỔNG':10s} {'':>7s} {tot:9.2f}h" + ('  vượt một phiên Colab 12h' if tot > 12 else ''))
+        print(f"{'TOTAL':10s} {'':>7s} {tot:9.2f}h" + ('  exceeds one 12 h Colab session' if tot > 12 else ''))
 
 
 def run_stream(cmd: list, logfile: str):
-    """Chạy tiến trình con, in output NGAY (Colab hay ngắt khi ô im lặng quá lâu) và lưu log."""
+    """Run a subprocess, echo its output immediately (Colab may drop a silent cell) and keep a log."""
     tail = []
     with open(logfile, 'w') as f:
         pr = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, bufsize=1)
@@ -150,40 +151,40 @@ def _reader_args(cfg: Config) -> list:
 
 
 def _banner(title: str) -> None:
-    print('\n' + '=' * 70 + f'\n### {title}   bắt đầu {time.strftime("%H:%M")}\n' + '=' * 70, flush=True)
+    print('\n' + '=' * 70 + f'\n### {title}   started {time.strftime("%H:%M")}\n' + '=' * 70, flush=True)
 
 
 def _run_script(cfg: Config, script: str, extra: list, out: str, log: str, label: str) -> None:
-    """Chạy một script thí nghiệm nếu chưa có `out`; báo lỗi rõ ràng nếu thiếu file kết quả."""
+    """Run an experiment script unless `out` already exists; report clearly if the result file is missing."""
     if os.path.exists(out):
-        print(f'[bỏ qua] {label} đã có ({out})')
+        print(f'[skip] {label} already done ({out})')
         return
     _banner(label)
     t0 = time.time()
     rc, _ = run_stream([sys.executable, '-u', script, *extra, '--out', out], log)
     if rc:
-        print(f'!!! {label} LỖI (mã {rc}) - xem log')
+        print(f'!!! {label} FAILED (exit code {rc}) - see the log')
     elif not os.path.exists(out):
-        print(f'!!! {label} chạy xong nhưng KHÔNG có {out}')
-    print(f'--> {(time.time() - t0) / 60:.1f} phút', flush=True)
+        print(f'!!! {label} finished but {out} is MISSING')
+    print(f'--> {(time.time() - t0) / 60:.1f} min', flush=True)
 
 
 def run_main_eval(cfg: Config, gpu: bool) -> None:
-    """Đánh giá Raw / Oracle / LLMLingua-2 / IterCOMP-X theo `cfg.plan` (checkpoint sau MỖI câu)."""
+    """Evaluate Raw / Oracle / LLMLingua-2 / IterCOMP-X following `cfg.plan` (checkpointed after EVERY question)."""
     if not gpu:
-        print('Không có GPU: bỏ qua đánh giá thật. Số ở quy mô báo cáo xem VI.1 (đọc từ JSON đã commit).')
+        print('No GPU: skipping the live evaluation. Paper-scale numbers are in VI.1 (read from the committed JSON).')
         return
     for ds in [d for d in ('vimqa', 'musique', 'hotpotqa', '2wiki') if d in cfg.plan]:
         n = cfg.plan[ds]
         _run_script(cfg, 'src/scripts/run_eval.py',
                     ['--dataset', ds, *(['--limit', str(n)] if n is not None else []), *_reader_args(cfg),
                      '--methods', 'raw,oracle,llmlingua2,itercomp',
-                     '--itercomp-llm', cfg.tag, '--scorer', 'dual'],   # LLM thật cho mọi bước suy luận
+                     '--itercomp-llm', cfg.tag, '--scorer', 'dual'],   # a real LLM for every reasoning step
                     cfg.outfile(ds, n), f'results/log_{ds}_{nlabel(n)}_{cfg.mtag}.txt', f'{ds} n={nlabel(n)}')
-    print('\nXONG bảng chính.')
+    print('\nMain evaluation DONE.')
 
 
-# ══════════════════════════════════════════════ bảng kết quả (đọc JSON, không gõ tay)
+# ══════════════════════════════════════════════ result tables (read from JSON, never typed)
 FILES_T3 = {'VimQA': 'vimqa_full_7b.json', 'MuSiQue': 'musique_1500_7b.json',
             '2Wiki': '2wiki_1500_7b.json', 'HotpotQA': 'hotpotqa_1500_7b.json'}
 METHODS = (('oracle', 'Oracle'), ('raw', 'Raw'), ('itercomp', 'IterCOMP-X'), ('llmlingua2', 'LLMLingua-2'))
@@ -194,7 +195,7 @@ def _load(f: str) -> dict:
 
 
 def load_table3() -> dict:
-    """Tóm tắt của bốn lần chạy đầy đủ (VimQA n=1003; ba bộ tiếng Anh n=1500)."""
+    """Summaries of the four full runs (VimQA n=1003; the three English sets n=1500)."""
     S = {}
     for name, f in FILES_T3.items():
         d = _load(f)
@@ -208,7 +209,7 @@ def _row(S: dict, label: str, fn) -> None:
 
 
 def print_table3(S: dict) -> None:
-    print('Bảng chính của bài (Qwen2.5-7B 4-bit)')
+    print('Main results of the paper (Qwen2.5-7B, 4-bit)')
     print(f'{"F1*":16}' + ''.join(f'{k:>11}' for k in FILES_T3))
     _row(S, 'n', lambda s: s['n'])
     for m, lab in METHODS:
@@ -216,17 +217,17 @@ def print_table3(S: dict) -> None:
     _row(S, 'Δ vs Raw', lambda s: f"{s['itercomp']['f1_norm'] - s['raw']['f1_norm']:+.2f}")
     _row(S, 'Δ vs LLML-2', lambda s: f"{s['itercomp']['f1_norm'] - s['llmlingua2']['f1_norm']:+.2f}")
     _row(S, 'Ratio_nom', lambda s: f"{s['itercomp']['ratio']:.3f}")
-    print('Khoảng tin cậy (†) xem Bảng 3 của bài. HotpotQA: Raw thắng IterCOMP-X - kết quả âm được giữ nguyên.')
+    print('Confidence intervals (†) are in the paper\'s main table. HotpotQA: Raw beats IterCOMP-X - the negative result is kept.')
 
 
 def print_live_result(cfg: Config) -> None:
-    """Kết quả của lần chạy thật vừa rồi (n nhỏ: chỉ chứng tỏ pipeline chạy)."""
+    """Result of the live run above (small n: it only shows that the pipeline runs)."""
     path = cfg.outfile('vimqa', cfg.plan['vimqa'])
     if not os.path.exists(path):
-        print('Chưa có kết quả chạy thật (không GPU hoặc VI.4 bị bỏ qua) - xem bảng chính ở VI.1.')
+        print('No live result yet (no GPU, or VI.4 was skipped) - see the main table in VI.1.')
         return
     d = json.load(open(path, encoding='utf-8'))
-    print(f"VimQA vừa chạy - n={len(d['per_row'])}, reader {cfg.reader}  (dưới ngưỡng phát hiện: KHÔNG kết luận xếp hạng)")
+    print(f"VimQA live run - n={len(d['per_row'])}, reader {cfg.reader}  (below the detection threshold: do NOT read a ranking from it)")
     print(f"{'':14}{'EM':>7}{'F1':>8}{'F1*':>8}{'ratio':>8}")
     for m, lab in METHODS:
         r = d['summary'][m]
@@ -234,46 +235,47 @@ def print_live_result(cfg: Config) -> None:
 
 
 def print_effective_ratio(S: dict) -> None:
-    """Ratio_eff = Ratio_nom × φ (NHÂN với fertility; tiếng Anh φ = 1)."""
+    """Ratio_eff = Ratio_nom × φ (MULTIPLIED by fertility; φ = 1 for English)."""
     fw = _load('fertility_wmt24pp.json')
-    print(f"φ trên {fw['n_pairs']} cặp WMT24++ (Vi/En):")
+    print(f"φ over {fw['n_pairs']} WMT24++ pairs (Vi/En):")
     for k, v in fw['tokenizers'].items():
-        print(f"  {k:32} {v['fertility']:.2f}×   [{v['ci_lo']:.2f}, {v['ci_hi']:.2f}]")
+        label = k.replace('(ratio trong bảng)', '(retention unit)')   # the JSON label is in Vietnamese
+        print(f"  {label:32} {v['fertility']:.2f}×   [{v['ci_lo']:.2f}, {v['ci_hi']:.2f}]")
     phi = fw['tokenizers']['cl100k_base']['fertility']
     nom = S['VimQA']['itercomp']['ratio']
     print(f'\nVimQA: Ratio_nom = {nom:.3f}  →  Ratio_eff = {nom:.3f} × {phi:.2f} = {nom * phi:.3f}')
-    print('Tiếng Anh (φ = 1): ' + ', '.join(f"{k} {S[k]['itercomp']['ratio']:.3f} → {S[k]['itercomp']['ratio']:.3f}"
+    print('English (φ = 1): ' + ', '.join(f"{k} {S[k]['itercomp']['ratio']:.3f} → {S[k]['itercomp']['ratio']:.3f}"
                                            for k in ('MuSiQue', '2Wiki', 'HotpotQA')))
 
 
 def print_boolean_lift(S: dict) -> None:
-    """ΔF1 = F1* − F1 trên toàn bộ tập: tiếng Việt được cộng điểm, tiếng Anh đúng 0.0."""
-    print('Chuẩn hoá boolean (ΔF1 = F1* − F1):')
+    """ΔF1 = F1* − F1 over each full set: Vietnamese gains, English moves by exactly 0.0."""
+    print('Boolean normalisation (ΔF1 = F1* − F1):')
     print(f'{"":14}' + ''.join(f'{k:>11}' for k in FILES_T3))
     for m, lab in (('raw', 'Raw'), ('itercomp', 'IterCOMP-X')):
         print(f'{lab:14}' + ''.join(f"{S[k][m]['f1_norm'] - S[k][m]['f1']:>+11.2f}" for k in FILES_T3))
 
 
 def print_reader_dependence(S: dict) -> None:
-    """IterCOMP-X trừ Raw / LLMLingua-2 dưới các reader khác nhau, và % Oracle ở mỗi bộ."""
+    """IterCOMP-X minus Raw / LLMLingua-2 under different readers, and the share of Oracle on each set."""
     def delta(f, base):
         s = _load(f)['summary']
         return s['itercomp']['f1_norm'] - s[base]['f1_norm'], s['itercomp']['ratio']
 
-    print(f"{'reader / dữ liệu':34}{'n':>6}{'Ratio_nom':>11}{'Δ Raw':>9}{'Δ LLML-2':>10}")
+    print(f"{'reader / dataset':34}{'n':>6}{'Ratio_nom':>11}{'Δ Raw':>9}{'Δ LLML-2':>10}")
     for lab, f, n in (('Qwen2.5-7B   / HotpotQA', 'hotpotqa_1500_7b.json', 1500),
                       ('Qwen2.5-0.5B / HotpotQA', 'hotpotqa_500_05b.json', 500),
                       ('Mistral-7B  / VimQA', 'vimqa_200_mistral7b.json', 200)):
         dr, ratio = delta(f, 'raw')
         print(f'{lab:34}{n:>6}{ratio:>11.3f}{dr:>+9.2f}{delta(f, "llmlingua2")[0]:>+10.2f}')
     dj, rj = delta('hotpotqa_500_05b_judge7b.json', 'raw')
-    print(f"{'0.5B đọc, judge ghim 7B / HotpotQA':34}{500:>6}{rj:>11.3f}{dj:>+9.2f}{'-':>10}")
-    print('\nIterCOMP-X đạt bao nhiêu % Oracle:  ' + '  '.join(
+    print(f"{'0.5B reader, 7B judge / HotpotQA':34}{500:>6}{rj:>11.3f}{dj:>+9.2f}{'-':>10}")
+    print('\nIterCOMP-X as a share of Oracle:  ' + '  '.join(
         f"{k} {S[k]['itercomp']['f1_norm'] / S[k]['oracle']['f1_norm']:.0%}" for k in FILES_T3))
 
 
 def print_vi_vs_en(S: dict) -> None:
-    """Bảng đặt cạnh nhau: điều gì khác ở tiếng Việt (HotpotQA làm đại diện tiếng Anh)."""
+    """Side-by-side table: what changes in Vietnamese (HotpotQA stands in for English)."""
     phi = _load('fertility_wmt24pp.json')['tokenizers']['cl100k_base']['fertility']
     e = _load('exp2_undiacritised_500_7b.json')
 
@@ -283,51 +285,51 @@ def print_vi_vs_en(S: dict) -> None:
     rows = [('φ (cl100k_base)', '1.00', f'{phi:.2f}'),
             ('Ratio_nom (IterCOMP-X)', f"{S[en]['itercomp']['ratio']:.3f}", f"{S[vi]['itercomp']['ratio']:.3f}"),
             ('Ratio_eff = Ratio_nom × φ', f"{S[en]['itercomp']['ratio']:.3f}", f"{S[vi]['itercomp']['ratio'] * phi:.3f}"),
-            ('Chuẩn hoá boolean: ΔF1', *(f"{stat(k, lambda i, o: i['f1_norm'] - i['f1']):+.2f}" for k in (en, vi))),
+            ('Boolean normalisation: ΔF1', *(f"{stat(k, lambda i, o: i['f1_norm'] - i['f1']):+.2f}" for k in (en, vi))),
             ('IterCOMP-X / Oracle', *(f"{stat(k, lambda i, o: i['f1_norm'] / o['f1_norm']):.0%}" for k in (en, vi))),
-            ('Bỏ dấu: ΔF1 IterCOMP-X / gold', 'không áp dụng', f"{e['delta_itercomp']:+.1f} / {e['delta_gold']:+.1f}")]
-    print(f"{'':32}{'Tiếng Anh (HotpotQA)':>22}{'Tiếng Việt (VimQA)':>22}")
+            ('No diacritics: ΔF1 IterCOMP-X / gold', 'n/a', f"{e['delta_itercomp']:+.1f} / {e['delta_gold']:+.1f}")]
+    print(f"{'':32}{'English (HotpotQA)':>22}{'Vietnamese (VimQA)':>22}")
     for a, b, c in rows:
         print(f'{a:32}{b:>22}{c:>22}')
-    print('\nBỏ dấu (n=500): gold vẫn dẫn ở cả ba thiết lập, cả hai nhánh mất ~20 F1 → suy giảm nằm ở reader.')
+    print('\nNo diacritics (n=500): gold still leads in all three settings and both branches lose ~20 F1, so the loss is mainly the reader\'s.')
     print(f"{'':8}{'IterCOMP-X':>12}{'Gold':>8}{'Δ':>9}")
     for k, v in e['results'].items():
         print(f"{k:8}{v['f1_itercomp']:>12.2f}{v['f1_gold']:>8.2f}{v['f1_itercomp'] - v['f1_gold']:>+9.2f}")
 
 
 def error_analysis(cfg: Config) -> None:
-    """Phân loại lỗi IterCOMP-X trên VimQA từ `per_row` (không suy luận lại)."""
+    """Categorise IterCOMP-X errors on VimQA from `per_row` (no new inference)."""
     live = cfg.outfile('vimqa', cfg.plan['vimqa'])
     path = live if os.path.exists(live) else 'src/results/vimqa_full_7b.json'
     rows = json.load(open(path, encoding='utf-8'))['per_row']
     n = len(rows)
-    print(f'Phân tích {n} câu VimQA  ({path})\n')
+    print(f'Analysing {n} VimQA questions  ({path})\n')
     m = lambda r: r['methods']['itercomp']
-    buckets = collections.OrderedDict([('Đúng hoàn toàn (F1*=1)', 0), ('Đúng một phần (0<F1*<1)', 0),
-                                       ('Sai hoàn toàn (F1*=0)', 0)])
+    buckets = collections.OrderedDict([('Fully correct (F1*=1)', 0), ('Partially correct (0<F1*<1)', 0),
+                                       ('Fully wrong (F1*=0)', 0)])
     fmt = 0
     for r in rows:
         fn, fr = m(r)['f1_norm'], m(r)['f1']
         buckets[list(buckets)[0 if fn == 1 else 1 if fn > 0 else 2]] += 1
-        fmt += fr == 0 and fn == 1                      # thô sai, chuẩn hoá boolean cứu
+        fmt += fr == 0 and fn == 1                      # wrong raw, rescued by boolean normalisation
     for k, v in buckets.items():
         print(f'  {k:<26} {v:>4}  ({100 * v / n:4.0f}%)')
-    print(f'\nLỗi định dạng yes/no được boolean-norm cứu (F1 thô=0 → F1*=1): {fmt} ({100 * fmt / n:.0f}%)')
+    print(f'\nYes/no format errors rescued by boolean normalisation (raw F1=0 → F1*=1): {fmt} ({100 * fmt / n:.0f}%)')
     pats = ('tuổi hơn', 'già hơn', 'trẻ hơn', 'lớn tuổi', 'nhỏ tuổi')
     age = [r for r in rows if any(p in r['question'].lower() for p in pats)]
     if age:
         rest = [r for r in rows if r not in age]
         zero = lambda rs: 100 * sum(m(r)['f1_norm'] == 0 for r in rs) / max(len(rs), 1)
-        print(f'Mẫu so-sánh tuổi: {len(age)}/{n} câu ({100 * len(age) / n:.1f}%); {zero(age):.1f}% bị F1*=0 '
-              f'so với {zero(rest):.1f}% ở phần còn lại - câu hỏi số học, không phải truy hồi.')
+        print(f'Age-comparison template: {len(age)}/{n} questions ({100 * len(age) / n:.1f}%); {zero(age):.1f}% score F1*=0 '
+              f'against {zero(rest):.1f}% elsewhere - an arithmetic question, not a retrieval one.')
 
 
-# ══════════════════════════════════════════════ demo: vết từng bước
+# ══════════════════════════════════════════════ demo: step-by-step trace
 class Demo:
-    """Vết một câu hỏi qua vòng lặp IterCOMP-X, theo MODE ('live' | 'cached' | 'mock').
+    """Trace one question through the IterCOMP-X loop, following MODE ('live' | 'cached' | 'mock').
 
-    live: nạp reader/LLM/scorer MỘT lần rồi chạy thật (lưu vết vào src/results/demo_cache/);
-    luôn có đường lùi về vết đã lưu nếu chạy thật lỗi.
+    live: load reader/LLM/scorer ONCE and run for real (traces saved to src/results/demo_cache/);
+    a saved trace is always the fallback if the live run fails.
     """
     CACHE_DIR = 'src/results/demo_cache'
     EXAMPLES = {('hotpotqa', 277): 'src/results/demo_trace_en_example.json',
@@ -373,16 +375,16 @@ class Demo:
             try:
                 return self._live_trace(index, dataset, strip, cached)
             except Exception as e:
-                print(f'! chạy thật lỗi ({type(e).__name__}: {e}) - lùi về vết đã lưu\n')
+                print(f'! live run failed ({type(e).__name__}: {e}) - falling back to the saved trace\n')
         elif self.mode == 'mock':
             r = subprocess.run([sys.executable, 'src/scripts/demo_trace.py', '--no-color', '--dataset', dataset,
                                 '--index', str(index), '--reader', 'mock', '--itercomp-llm', 'mock',
                                 *(['--strip-diacritics'] if strip else [])], capture_output=True, text=True)
             return print(r.stdout + (r.stderr if r.returncode else ''))
         if fallback is None:
-            return print("(vết không dấu đầy đủ chỉ có khi chạy MODE='live' - số đo thật ở bảng VI.3)" if strip
-                         else "Chưa có vết đã lưu cho trường hợp này (chạy MODE='live' một lần để tạo).")
-        print(f'[phát lại vết đã lưu: {fallback}]')
+            return print("(a full no-diacritics trace needs MODE='live' - the measured numbers are in VI.3)" if strip
+                         else "No saved trace for this case yet (run once with MODE='live' to create it).")
+        print(f'[replaying saved trace: {fallback}]')
         self.dt.render(json.load(open(fallback, encoding='utf-8')), color=False)
 
     NEW_CONTEXT = {
@@ -397,13 +399,13 @@ class Demo:
 
     def new_example(self, question: str | None = None, documents: dict | None = None,
                     answer: str = '') -> None:
-        """Chạy vòng lặp trên câu hỏi + ngữ cảnh TỰ VIẾT (cần MODE='live').
+        """Run the loop on a SELF-WRITTEN question and context (needs MODE='live').
 
-        Không truyền gì: dùng ví dụ có sẵn. `documents` = {tiêu đề: đoạn văn}; mỗi
-        đoạn được tách thành câu theo dấu chấm. `answer` để trống thì không chấm F1.
+        With no arguments it uses the built-in example. `documents` = {title: passage}; each
+        passage is split into sentences at full stops. An empty `answer` skips F1.
         """
         if self.mode != 'live':
-            return print("MODE != 'live': bỏ qua demo dữ liệu mới (cần GPU).")
+            return print("MODE != 'live': skipping the new-data demo (needs a GPU).")
         import re as _re
         from itercomp import itercomp
         from itercomp.metrics import f1_score, normalize_boolean
@@ -415,23 +417,23 @@ class Demo:
                                  for d in documents.values()]}
             q, gold = question, answer
         o = self._objs()
-        print(f'CÂU HỎI : {q}\nĐÁP ÁN  : {gold or "(không cho)"}\nNGỮ CẢNH: {sum(len(s) for s in ctx["sentences"])} câu\n')
+        print(f'QUESTION: {q}\nANSWER  : {gold or "(not given)"}\nCONTEXT : {sum(len(s) for s in ctx["sentences"])} sentences\n')
         res = itercomp(o['llm'], q, ctx, max_iter=5, scorer=o['scorer'], percentile=90)
-        print(f'--- IterCOMP: {res.iterations} vòng, dừng vì "{res.stopped_because}" ---')
+        print(f'--- IterCOMP: {res.iterations} pass(es), stopped because: {self.dt.stop_reason(res.stopped_because)} ---')
         for k, fu in enumerate(res.followups, 2):
-            print(f"  câu hỏi phụ cho vòng {k}: {fu.strip()[:90]}")
+            print(f"  follow-up question for pass {k}: {fu.strip()[:90]}")
         for s in res.selected:
-            print(f'  giữ: {str(s)[:70]}')
+            print(f'  kept: {str(s)[:70]}')
         full = '\n'.join(f'{t}: {" ".join(s)}' for t, s in zip(ctx['title'], ctx['sentences']))
-        for ten, c in (('raw (toàn bộ)', full), ('itercomp (đã nén)', res.to_prompt())):
+        for ten, c in (('raw (everything)', full), ('itercomp (compressed)', res.to_prompt())):
             pred = o['reader'](c, q)
             score = f'  F1={f1_score(normalize_boolean(pred, gold, q), gold):.2f}' if gold else ''
             print(f'\n{ten:20s} -> {pred[:50]!r}{score}')
         if question is None:
-            print('\nCâu multi-hop: phải nối "thành phố lớn nhất" với "tên trước 1976".')
+            print('\nMulti-hop: it must link "the largest city" to "its name before 1976".')
 
 
-# ══════════════════════════════════════════════ phụ lục A: thí nghiệm mở rộng (RUN_EXTRAS)
+# ══════════════════════════════════════════════ appendix A: extra experiments (RUN_EXTRAS)
 _EVID = textwrap.dedent("""
     import json, sys
     sys.path.insert(0, 'src')
@@ -454,9 +456,9 @@ _EVID = textwrap.dedent("""
 
 
 def _loop_evidence(cfg: Config, gpu: bool) -> None:
-    """Vòng lặp có thật sự chạy không: mock luôn trả YES ở vòng 1 nên suy thoái thành lọc một lần.
+    """Does the loop really iterate? The mock judge always says YES in pass 1, so it degenerates to one-pass filtering.
 
-    Mỗi tag chạy trong TIẾN TRÌNH RIÊNG: buffer 4-bit của bitsandbytes chỉ trả VRAM khi tiến trình thoát.
+    Each tag runs in a SEPARATE PROCESS: bitsandbytes' 4-bit buffers release VRAM only when the process exits.
     """
     rows = []
     for tag in ('mock', 'hf'):
@@ -466,27 +468,27 @@ def _loop_evidence(cfg: Config, gpu: bool) -> None:
         line = next((l for l in p.stdout.splitlines() if l.startswith('RESULT ')), None)
         if line is None:
             print(p.stdout[-2000:], p.stderr[-2000:])
-            raise SystemExit(f'tag {tag} không trả kết quả')
+            raise SystemExit(f'tag {tag} returned no result')
         rows.append(json.loads(line[len('RESULT '):]))
-        print(f'  vòng={rows[-1][1]:.2f}  tỉ lệ={rows[-1][2]:.1f}%', flush=True)
+        print(f'  passes={rows[-1][1]:.2f}  retention={rows[-1][2]:.1f}%', flush=True)
     json.dump([{'tag': t, 'iters': i, 'ratio': z, 'stop_reason': w} for t, i, z, w in rows],
               open('results/loop_evidence.json', 'w'), ensure_ascii=False, indent=1)
-    print(f"\n{'backend':10s}{'vòng TB':>9s}{'tỉ lệ nén':>11s}  lý do dừng")
+    print(f"\n{'backend':10s}{'avg passes':>11s}{'retention':>11s}  stop reasons")
     for t, i, z, w in rows:
-        print(f'{t:10s}{i:9.2f}{z:10.1f}%  {w}')
-    assert rows[1][1] > rows[0][1], 'hf không lặp nhiều vòng hơn mock -> backend hf chưa hoạt động'
-    print('\nOK: backend hf lặp nhiều vòng hơn mock.')
+        print(f'{t:10s}{i:11.2f}{z:10.1f}%  {w}')
+    assert rows[1][1] > rows[0][1], 'hf does not iterate more than mock -> the hf backend is not working'
+    print('\nOK: the hf backend iterates more than mock.')
 
 
 def _k_sweep() -> None:
-    """Quét k để khớp tỉ lệ nén 0.14 của bài gốc trên MuSiQue. Chạy được trên CPU (không cần reader)."""
+    """Sweep k to match the original paper's 0.14 retention on MuSiQue. Runs on CPU (no reader needed)."""
     from itercomp import itercomp, load_dataset, make_llm, make_scorer
     from itercomp.metrics import tokenize
     sc, llm = make_scorer('dual'), make_llm('mock')
     for ds, target in (('musique', 0.14), ('vimqa', None)):
         rows = load_dataset(ds, 50)
-        print(f'\n{ds}  (n={len(rows)})' + (f'  - mục tiêu {target:.2f}' if target else ''))
-        print(f"  {'k':>5}{'tỉ lệ nén':>12}{'lệch':>9}")
+        print(f'\n{ds}  (n={len(rows)})' + (f'  - target {target:.2f}' if target else ''))
+        print(f"  {'k':>5}{'retention':>12}{'gap':>9}")
         best = None
         for k in (88, 90, 92, 94, 95, 96, 97):
             tot = 0.0
@@ -500,13 +502,13 @@ def _k_sweep() -> None:
             if target and (best is None or abs(ratio - target) < best[1]):
                 best = (k, abs(ratio - target))
         if target:
-            print(f'  -> k={best[0]} bám sát {target:.2f} nhất')
+            print(f'  -> k={best[0]} is closest to {target:.2f}')
 
 
 def extra(name: str, cfg: Config, run: bool, gpu: bool) -> None:
-    """Một thí nghiệm của phụ lục A: 'loop' | 'ksweep' | 'ablation' | 'exp1' | 'exp2' | 'lambda'."""
+    """One appendix-A experiment: 'loop' | 'ksweep' | 'ablation' | 'exp1' | 'exp2' | 'lambda'."""
     if not run or (name != 'ksweep' and not gpu):
-        return print(f'RUN_EXTRAS=False hoặc không GPU: bỏ qua {name}.')
+        return print(f'RUN_EXTRAS=False or no GPU: skipping {name}.')
     if name == 'loop':
         return _loop_evidence(cfg, gpu)
     if name == 'ksweep':
@@ -516,7 +518,7 @@ def extra(name: str, cfg: Config, run: bool, gpu: bool) -> None:
         out = f'results/ablation_vimqa_{n}_{mt}_{cfg.tag}.json'
         _run_script(cfg, 'src/scripts/run_ablation.py',
                     ['--dataset', 'vimqa', '--limit', str(n), '--llm', cfg.tag, *ra], out,
-                    f'results/log_ablation_vimqa_{n}_{mt}.txt', f'Ablation vimqa n={n} (26 cấu hình)')
+                    f'results/log_ablation_vimqa_{n}_{mt}.txt', f'Ablation vimqa n={n} (26 configurations)')
     elif name == 'exp1':
         for ds in ('vimqa', 'musique'):
             _run_script(cfg, 'src/scripts/exp1_oracle_stopping.py',
@@ -527,18 +529,18 @@ def extra(name: str, cfg: Config, run: bool, gpu: bool) -> None:
         _run_script(cfg, 'src/scripts/exp2_undiacritised.py',
                     ['--limit', str(n), *ra, '--scorer', 'dual', '--percentile', '90'],
                     f'results/exp2_undiacritised_{n}_{mt}.json', f'results/log_exp2_{n}_{mt}.txt',
-                    f'EXP-2 không dấu n={n}')
+                    f'EXP-2 no diacritics n={n}')
     elif name == 'lambda':
         _run_script(cfg, 'src/scripts/run_lambda_sweep.py', ['--dataset', 'vimqa', '--limit', str(n), *ra],
                     f'results/lambda_sweep_vimqa_{n}_{mt}.json', f'results/log_lambda_{n}_{mt}.txt',
-                    f'Quét λ,k vimqa n={n}')
+                    f'λ/k sweep vimqa n={n}')
     else:
         raise ValueError(name)
 
 
-# ══════════════════════════════════════════════ phụ lục B
+# ══════════════════════════════════════════════ appendix B
 def zip_results(base: str) -> None:
-    """Đóng gói results/ và tải về (Colab: files.download; Kaggle: file xuất hiện ở tab Output)."""
+    """Zip results/ and download it (Colab: files.download; Kaggle: the file appears under Output)."""
     import shutil
     path = shutil.make_archive(os.path.join(base, 'results'), 'zip', 'results')
     print(f'{path}  ({os.path.getsize(path) / 1e6:.1f} MB)')
@@ -546,4 +548,4 @@ def zip_results(base: str) -> None:
         from google.colab import files
         files.download(path)
     except ImportError:
-        print(f'Không phải Colab - lấy file ở:\n  {path}\nTrên Kaggle: Save Version → Output → tải results.zip')
+        print(f'Not on Colab - the file is at:\n  {path}\nOn Kaggle: Save Version → Output → download results.zip')
