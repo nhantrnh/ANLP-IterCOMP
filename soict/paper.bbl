@@ -4,20 +4,18 @@
 \providecommand{\doi}[1]{https://doi.org/#1}
 
 \bibitem{ahia2023allcost}
-Ahia, O., Kumar, S., Gonen, H., Kasai, J., Mortensen, D., Smith, N.A.,
-  Tsvetkov, Y.: Do all languages cost the same? {T}okenization in the era of
-  commercial language models. In: Proceedings of EMNLP (2023),
-  \url{https://aclanthology.org/2023.emnlp-main.614/}
+Ahia, O., Kumar, S., Gonen, H., et~al.: Do all languages cost the same?
+  {T}okenization in the era of commercial language models. In: Proceedings of
+  EMNLP (2023). \doi{10.18653/v1/2023.emnlp-main.614}
 
 \bibitem{chen2024bgem3}
 Chen, J., Xiao, S., Zhang, P., Luo, K., Lian, D., Liu, Z.: {M3-Embedding}:
   Multi-linguality, multi-functionality, multi-granularity text embeddings
-  through self-knowledge distillation. In: Findings of ACL (2024),
-  \url{https://aclanthology.org/2024.findings-acl.137/}
+  through self-knowledge distillation. In: Findings of ACL (2024).
+  \doi{10.18653/v1/2024.findings-acl.137}
 
 \bibitem{deutsch2025wmt24pp}
-Deutsch, D., Briakou, E., Caswell, I., Finkelstein, M., Galilee, R., Juraska,
-  J., Kovacs, G., Lee, A., Rudder, J., Freitag, M.: {WMT24++}: Expanding the
+Deutsch, D., Briakou, E., Caswell, I., et~al.: {WMT24++}: Expanding the
   language coverage of {WMT24} to 55 languages and dialects. In: Proceedings of
   WMT (2025), \url{https://huggingface.co/datasets/google/wmt24pp}
 
@@ -28,101 +26,102 @@ Grattafiori, A., Dubey, A., Jauhri, A., et~al.: The {Llama} 3 herd of models.
 \bibitem{gutierrez2024hipporag}
 Guti{\'e}rrez, B.J., Shu, Y., Gu, Y., Yasunaga, M., Su, Y.: {HippoRAG}:
   Neurobiologically inspired long-term memory for large language models. In:
-  Proceedings of NeurIPS (2024)
+  Advances in Neural Information Processing Systems (NeurIPS) (2024).
+  \doi{10.52202/079017-1902}
 
 \bibitem{ho2020constructing}
 Ho, X., Duong~Nguyen, A.K., Sugawara, S., Aizawa, A.: Constructing a multi-hop
   {QA} dataset for comprehensive evaluation of reasoning steps. In: Proceedings
-  of COLING (2020), \url{https://aclanthology.org/2020.coling-main.580/}
+  of COLING (2020). \doi{10.18653/v1/2020.coling-main.580}
 
 \bibitem{jiang2023llmlingua}
 Jiang, H., Wu, Q., Lin, C.Y., Yang, Y., Qiu, L.: {LLMLingua}: Compressing
   prompts for accelerated inference of large language models. In: Proceedings
-  of EMNLP (2023), \url{https://aclanthology.org/2023.emnlp-main.825/}
+  of EMNLP (2023). \doi{10.18653/v1/2023.emnlp-main.825}
 
 \bibitem{jiang2024longllmlingua}
 Jiang, H., Wu, Q., Luo, X., Li, D., Lin, C.Y., Yang, Y., Qiu, L.:
   {LongLLMLingua}: Accelerating and enhancing llms in long context scenarios
-  via prompt compression. In: Proceedings of ACL (2024),
-  \url{https://aclanthology.org/2024.acl-long.91/}
+  via prompt compression. In: Proceedings of ACL (2024).
+  \doi{10.18653/v1/2024.acl-long.91}
 
 \bibitem{le2022vimqa}
 Le, K., Nguyen, H., Le~Thanh, T., Nguyen, M.: {VIMQA}: A {Vietnamese} dataset
   for advanced reasoning and explainable multi-hop question answering. In:
-  Proceedings of LREC (2022), \url{https://aclanthology.org/2022.lrec-1.700/}
+  Proceedings of LREC (2022). \doi{10.63317/5mxe6qw8qo8o}
 
 \bibitem{lewis2020rag}
-Lewis, P., Perez, E., Piktus, A., Petroni, F., Karpukhin, V., Goyal, N.,
-  K{\"u}ttler, H., Lewis, M., Yih, W.t., Rockt{\"a}schel, T., Riedel, S.,
-  Kiela, D.: Retrieval-augmented generation for knowledge-intensive {NLP}
-  tasks. In: Proceedings of NeurIPS (2020)
+Lewis, P., Perez, E., Piktus, A., et~al.: Retrieval-augmented generation for
+  knowledge-intensive {NLP} tasks. In: Advances in Neural Information
+  Processing Systems (NeurIPS) (2020)
 
 \bibitem{li2023selectivecontext}
 Li, Y., Dong, B., Guerin, F., Lin, C.: Compressing context to enhance inference
-  efficiency of large language models. In: Proceedings of EMNLP (2023),
-  \url{https://aclanthology.org/2023.emnlp-main.391/}
+  efficiency of large language models. In: Proceedings of EMNLP (2023).
+  \doi{10.18653/v1/2023.emnlp-main.391}
 
 \bibitem{li2025promptcompression}
 Li, Z., Liu, Y., Su, Y., Collier, N.: Prompt compression for large language
-  models: A survey. In: Proceedings of NAACL (2025),
-  \url{https://aclanthology.org/2025.naacl-long.368/}
+  models: A survey. In: Proceedings of NAACL (2025).
+  \doi{10.18653/v1/2025.naacl-long.368}
 
-\bibitem{marchisio2024confusion}
-Marchisio, K., Ko, W.Y., Bérard, A., Dehaze, T., Ruder, S.: Understanding and
-  mitigating language confusion in {LLM}s. In: Proceedings of EMNLP (2024),
-  \url{https://aclanthology.org/2024.emnlp-main.380/}
+\bibitem{lukauskas2026lost}
+Lukauskas, M.: Lost in compression: A controlled cross-lingual audit of
+  extractive prompt compressors. Preprint (2026)
 
 \bibitem{mohamed2026xprovence}
 Mohamed, Y., Elhoseiny, M., Formal, T., Chirkova, N.: {XProvence}:
   {Z}ero-{C}ost {M}ultilingual {C}ontext {P}runing for {R}etrieval-{A}ugmented
   {G}eneration. In: Proceedings of ECIR. Lecture Notes in Computer Science,
-  vol. 16484. Springer (2026)
+  vol. 16484. Springer (2026). \doi{10.1007/978-3-032-21300-6_38}
 
 \bibitem{nguyen2020phobert}
 Nguyen, D.Q., Nguyen, A.T.: {PhoBERT}: Pre-trained language models for
-  {Vietnamese}. In: Findings of EMNLP (2020),
-  \url{https://aclanthology.org/2020.findings-emnlp.92/}
+  {Vietnamese}. In: Findings of EMNLP (2020).
+  \doi{10.18653/v1/2020.findings-emnlp.92}
 
 \bibitem{openai2024tiktoken}
 {OpenAI}: tiktoken: A fast {BPE} tokeniser for use with {OpenAI}'s models.
   \url{https://github.com/openai/tiktoken} (2024)
 
 \bibitem{pan2024llmlingua2}
-Pan, Z., Wu, Q., Jiang, H., Xia, M., Luo, X., Zhang, J., Lin, Q., R{\"u}hle,
-  V., Yang, Y., Lin, C.Y., Zhao, H.V., Qiu, L., Zhang, D.: {LLMLingua-2}: Data
-  distillation for efficient and faithful task-agnostic prompt compression. In:
-  Findings of ACL (2024), \url{https://aclanthology.org/2024.findings-acl.57/}
+Pan, Z., Wu, Q., Jiang, H., et~al.: {LLMLingua-2}: Data distillation for
+  efficient and faithful task-agnostic prompt compression. In: Findings of ACL
+  (2024). \doi{10.18653/v1/2024.findings-acl.57}
 
 \bibitem{petrov2023tokenizers}
 Petrov, A., La~Malfa, E., Torr, P., Bibi, A.: Language model tokenizers
   introduce unfairness between languages. In: Advances in Neural Information
-  Processing Systems (NeurIPS) (2023)
+  Processing Systems (NeurIPS) (2023). \doi{10.52202/075280-1608}
 
 \bibitem{phan2022vit5}
 Phan, L., Tran, H., Nguyen, H., Trinh, T.H.: {ViT5}: Pretrained text-to-text
   transformer for {Vietnamese} language generation. In: Proceedings of NAACL
-  Student Research Workshop (2022),
-  \url{https://aclanthology.org/2022.naacl-srw.18/}
+  Student Research Workshop (2022). \doi{10.18653/v1/2022.naacl-srw.18}
 
 \bibitem{press2023selfask}
 Press, O., Zhang, M., Min, S., Schmidt, L., Smith, N.A., Lewis, M.: Measuring
   and narrowing the compositionality gap in language models. In: Findings of
-  EMNLP (2023), \url{https://aclanthology.org/2023.findings-emnlp.378/}
+  EMNLP (2023). \doi{10.18653/v1/2023.findings-emnlp.378}
 
 \bibitem{qwen2025qwen25}
 {Qwen Team}: {Qwen2.5} technical report. Technical report, Alibaba Group (2025)
 
+\bibitem{somide2026african}
+Somide, O.A.: The {A}frican language tax: Quantifying the cost, latency, and
+  context penalty of tokenizing {A}frican languages in frontier {LLM}s.
+  Preprint (2026)
+
 \bibitem{trivedi2022musique}
 Trivedi, H., Balasubramanian, N., Khot, T., Sabharwal, A.: {MuSiQue}: Multihop
   questions via single-hop question composition. Transactions of the
-  Association for Computational Linguistics  \textbf{10} (2022),
-  \url{https://aclanthology.org/2022.tacl-1.31/}
+  Association for Computational Linguistics  \textbf{10} (2022).
+  \doi{10.1162/tacl_a_00475}
 
 \bibitem{trivedi2023ircot}
 Trivedi, H., Balasubramanian, N., Khot, T., Sabharwal, A.: Interleaving
   retrieval with chain-of-thought reasoning for knowledge-intensive multi-step
-  questions. In: Proceedings of ACL (2023),
-  \url{https://aclanthology.org/2023.acl-long.557/}
+  questions. In: Proceedings of ACL (2023). \doi{10.18653/v1/2023.acl-long.557}
 
 \bibitem{xu2024recomp}
 Xu, F., Shi, W., Choi, E.: {RECOMP}: Improving retrieval-augmented lms with
@@ -130,25 +129,22 @@ Xu, F., Shi, W., Choi, E.: {RECOMP}: Improving retrieval-augmented lms with
   (2024), \url{https://openreview.net/forum?id=mlJLVigNHp}
 
 \bibitem{yang2018hotpotqa}
-Yang, Z., Qi, P., Zhang, S., Bengio, Y., Cohen, W.W., Salakhutdinov, R.,
-  Manning, C.D.: {HotpotQA}: A dataset for diverse, explainable multi-hop
-  question answering. In: Proceedings of EMNLP (2018),
-  \url{https://aclanthology.org/D18-1259/}
+Yang, Z., Qi, P., Zhang, S., et~al.: {HotpotQA}: A dataset for diverse,
+  explainable multi-hop question answering. In: Proceedings of EMNLP (2018).
+  \doi{10.18653/v1/D18-1259}
 
 \bibitem{yao2023react}
-Yao, S., Zhao, J., Yu, D., Du, N., Shafran, I., Narasimhan, K., Cao, Y.:
-  {ReAct}: Synergizing reasoning and acting in language models. In: Proceedings
-  of ICLR (2023)
+Yao, S., Zhao, J., Yu, D., et~al.: {ReAct}: Synergizing reasoning and acting in
+  language models. In: Proceedings of ICLR (2023)
 
 \bibitem{yoon2024compact}
-Yoon, C., Lee, T., Hwang, H., Jeong, M., Kang, J.: {CompAct}: Compressing
-  retrieved documents actively for question answering. In: Proceedings of EMNLP
-  (2024)
+Yoon, C., Lee, T., Hwang, H., et~al.: {CompAct}: Compressing retrieved
+  documents actively for question answering. In: Proceedings of EMNLP (2024).
+  \doi{10.18653/v1/2024.emnlp-main.1194}
 
 \bibitem{yun2026itercomp}
 Yun, J., Kim, Y.: {IterCOMP}: Reasoning-aware adaptive prompt compression for
-  multi-hop question answering. In: Proceedings of ACL (Volume 1: Long Papers).
-  San Diego, California (2026),
-  \url{https://aclanthology.org/2026.acl-long.1559/}
+  multi-hop question answering. In: Proceedings of ACL (2026).
+  \doi{10.18653/v1/2026.acl-long.1559}
 
 \end{thebibliography}
