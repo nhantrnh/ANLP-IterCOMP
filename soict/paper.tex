@@ -5,6 +5,8 @@
 % Camera-ready: the llncs class is used unmodified (A4, default text block),
 % as the Springer author instructions require.
 \documentclass[runningheads]{llncs}
+% llncs sets no paper size, so pdfTeX falls back to Letter; Springer works in A4.
+\setlength\paperwidth{210mm}\setlength\paperheight{297mm}
 
 \usepackage[T1,T5]{fontenc}      % T5 for Vietnamese examples
 \usepackage[utf8]{inputenc}
@@ -30,6 +32,9 @@
 % ORCID ids use the class's own \orcidID; Springer typesets the logo.
 \newcommand{\envelopeicon}{\ding{41}}
 \newcommand{\envelope}{\textsuperscript{\footnotesize\ding{41}}}
+% The keyword separator is TS1's \textperiodcentered, which this TeX install has
+% only as a bitmap (Type 3) font; Springer asks for outline fonts.
+\DeclareTextCommandDefault{\textperiodcentered}{\ensuremath{\cdot}}
 
 % Muted palette; distinguishable in greyscale (brightness differs).
 \definecolor{cData}{HTML}{E8EEF7}
@@ -61,7 +66,7 @@ Nhat-Minh Tran\inst{1,2}\orcidID{0009-0005-8677-1897}}
 
 \institute{Faculty of Information Technology, University of Science,
 Ho Chi Minh City, Vietnam\\
-\email{\{25C1505320, 25C1506947, 24C11055\}@student.hcmus.edu.vn}
+\email{$\{$25C1505320, 25C1506947, 24C11055$\}$@student.hcmus.edu.vn}
 \and
 Vietnam National University, Ho Chi Minh City, Vietnam}
 
@@ -387,7 +392,7 @@ MuSiQue, CI $[+2.59,+13.99]$, and $+16.79$ on 2Wiki, CI $[+9.90,+23.78]$
 ($n=200$). On VimQA at $n=200$ it also leads the six further baselines ($50.08$
 against $31.22$ down to $7.06$).
 
-\begin{table}[H]
+\begin{table}[t]
 \centering
 \caption{Main results, Qwen2.5-7B at 4-bit. F1$^*$ applies the boolean
 normalisation of Section~\ref{sec:vnfindings} to every row; it is inert on English.
@@ -486,7 +491,15 @@ persists under perfect retrieval; one error in ten is a yes/no answer right in
 substance and wrong in surface form (\emph{tức là yes} for \emph{đúng}), and the
 age-comparison template (``is $X$ older than $Y$?'', $9.8\%$ of VimQA) fails as
 arithmetic rather than retrieval. Other surface misses: \emph{3} for the gold
-\emph{ba} (three), \emph{Spain} for \emph{Tây Ban Nha}. With recall already high, recovering the rest buys little. Pulling in each
+\emph{ba} (three), \emph{Spain} for \emph{Tây Ban Nha}. When evidence is lost, an
+early stop loses it: $77$ of the $85$ questions missing a gold sentence ended
+after one pass. Asked how many Oscars the film in which Dustin Hoffman played a
+criminal won, the first pass keeps the sentence naming \emph{Midnight Cowboy},
+the judge declares the evidence sufficient, and the answer sentence (``the film
+won 3 Oscars''), which names neither film nor actor, is never reached; the
+reader answers \emph{unknown}. Asked for the role that made Carole Lombard's
+husband famous, the loop again stops at the bridge and the reader returns the
+husband. With recall already high, recovering the rest buys little. Pulling in each
 kept sentence's neighbours ($\pm1$ in the same document) raises recall by $2.1$
 points, CI $[+1.0,+3.3]$, and coverage by $3.4$, CI $[+1.4,+5.4]$, but retention
 grows from $0.193$ to $0.276$ and F1$^*$ moves by only $+1.15$, CI
