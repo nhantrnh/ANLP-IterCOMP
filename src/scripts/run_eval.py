@@ -677,8 +677,9 @@ def main():
                          "mọi ngôn ngữ thay vì cùng một số từ.")
     ap.add_argument("--window", type=int, default=0,
                     help="kéo theo các câu kề ±window cùng tài liệu của câu được chọn")
-    ap.add_argument("--followup-mode", default="plain", choices=["plain", "entity"],
-                    help="entity: câu hỏi phụ phải gọi đích danh thực thể cầu nối")
+    ap.add_argument("--followup-mode", default="plain", choices=["plain", "entity", "none"],
+                    help="entity: câu hỏi phụ phải gọi đích danh thực thể cầu nối; "
+                         "none (ABLATION): bỏ câu hỏi phụ, mọi vòng dùng câu hỏi gốc")
     ap.add_argument("--title-anchor", action="store_true",
                     help="từ vòng 2, thêm câu tốt nhất của tài liệu có tiêu đề nằm trong câu hỏi phụ")
     ap.add_argument("--judge-model", default=None,

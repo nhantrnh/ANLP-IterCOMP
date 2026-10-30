@@ -228,6 +228,7 @@ def itercomp(
     token_budget    dừng sớm nếu vượt ngân sách token (None = không giới hạn)
     window          > 0: kéo theo các câu kề ±window cùng tài liệu của câu được chọn
     followup_mode   "entity": câu hỏi phụ phải gọi đích danh thực thể cầu nối
+                    "none" (ABLATION): không sinh câu hỏi phụ, giữ câu hỏi gốc
     title_anchor    từ vòng 2: thêm câu điểm cao nhất của tài liệu có tiêu đề nằm
                     trong câu hỏi phụ
     Ba tham số cuối mặc định tắt, nên cấu hình mặc định giữ nguyên như paper.
@@ -345,9 +346,11 @@ def itercomp(
                 break
 
         # bước 3 — chưa đủ thì sinh follow-up làm query cho vòng sau
-        fu = make_followup(llm, question, res.selected, mode=followup_mode)
-        res.followups.append(fu)
-        query = fu
+        # "none" (ABLATION): bỏ bước 3, mọi vòng dùng lại câu hỏi gốc
+        if followup_mode != "none":
+            fu = make_followup(llm, question, res.selected, mode=followup_mode)
+            res.followups.append(fu)
+            query = fu
     else:
         res.stopped_because = "hết vòng lặp"
 
